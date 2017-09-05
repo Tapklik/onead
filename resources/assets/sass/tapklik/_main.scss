@@ -1,0 +1,51 @@
+html, body {
+    font-family: Open Sans, Roboto, Trebuchet, sans-serif !important;
+}
+
+h1, h2, h3, h4, h5 {
+	color: color("orange", "darken-4");
+}
+
+
+
+.application .theme--dark.navigation-drawer {
+	background: #f76c06; /* Old browsers */
+	background: -moz-linear-gradient(-45deg, #f76c06 0%, #f76c06 57%, #f99e36 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(-45deg, #f76c06 0%,#f76c06 57%,#f99e36 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(135deg, #f76c06 0%,#f76c06 57%,#f99e36 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+
+	& .list {
+		background: transparent;
+	}
+}
+
+.header {
+	background: #f3f3f3;
+	margin-top: -15px;
+	margin-left: -15px;
+	margin-right: -15px;
+	margin-bottom: 20px;
+	padding-top: 40px;
+	padding-left: 12px;
+	border-bottom: 1px solid #dddddd;
+	& h4 {
+		color: color("grey", "base");
+	}
+}
+
+.tapklik-drawer {
+	margin-top: 0 !important;
+	height: 100% !important;
+	max-height: 100% !important;
+
+	& .icon {
+		color: color("orange", "lighten-4");
+		font-size: 30px;
+	}
+
+	& .item-title {
+		color: white;
+		font-size:20px;
+		margin-left: 13px;
+	}
+}
