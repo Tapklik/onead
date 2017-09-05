@@ -12,7 +12,7 @@ Route::group(
     ['prefix' => 'admin', 'middleware' => Authenticate::class],
     function () {
 
-       /** AUTH **/
+        /** AUTH **/
         Route::get(
             'auth',
             [
@@ -28,6 +28,97 @@ Route::group(
                 'as'   => 'dashboard.index',
                 'uses' => 'DashboardController@index',
             ]
+        );
+
+        /** REPORTS **/
+        Route::get(
+            'reports',
+            [
+                'as'   => 'reports.index',
+                'uses' => 'ReportsController@index',
+            ]
+        );
+
+        /** PROFILE **/
+        Route::get(
+            'profile',
+            [
+                'as'   => 'profile.index',
+                'uses' => 'ProfileController@index',
+            ]
+        );
+
+        Route::get(
+            'settings',
+            [
+                'as'   => 'settings.index',
+                'uses' => 'SettingsController@index',
+            ]
+        );
+
+        Route::get(
+            'billing',
+            [
+                'as'   => 'billing.index',
+                'uses' => 'BillingController@index',
+            ]
+        );
+
+        /** CAMPAIGNS */
+        Route::group(
+            ['prefix' => 'campaigns'],
+            function () {
+
+                Route::get(
+                    '/',
+                    [
+                        'as'   => 'campaigns.index',
+                        'uses' => 'CampaignsController@index',
+                    ]
+                );
+
+                Route::get(
+                    '/create',
+                    [
+                        'as'   => 'campaigns.create',
+                        'uses' => 'CampaignsController@create',
+                    ]
+                );
+
+                Route::get(
+                    '/edit/{id}',
+                    [
+                        'as'   => 'campaigns.edit',
+                        'uses' => 'CampaignsController@show',
+                    ]
+                );
+   }
+        );
+
+        /** CREATIVES */
+        Route::group(
+            ['prefix' => 'creatives'],
+            function () {
+
+                Route::get(
+                    '/',
+                    [
+                        'as'   => 'creatives.index',
+                        'uses' => 'CreativesController@index',
+                    ]
+                );
+            }
+        );
+
+        /** LOGOUT */
+        Route::get(
+            '/logout',
+            function (Request $request) {
+
+                $request->session()->flush();
+
+                return redirect('/admin/auth');
+            }
         );
     }
 );
