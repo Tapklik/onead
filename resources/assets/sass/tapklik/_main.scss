@@ -63,3 +63,7 @@ h1, h2, h3, h4, h5 {
 		display: none;
 	}
 }
+
+.dialog__content {
+	z-index: 5000;
+}
