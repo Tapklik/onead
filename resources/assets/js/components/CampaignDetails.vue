@@ -157,18 +157,75 @@
                     <span class="caption grey-text text-ldarken-1">Default pacing is between 7:00AM and 1:00AM every day</span>
                 </v-flex>
                 <v-flex xs12 md9>
-                    <v-dialog v-model="showModal" lazy absolute>
+                    <v-dialog v-model="showModal" width="1000px" lazy absolute>
                         <v-btn slot="activator" small class="grey lighten-2 mt-3">Set Budget Pacing</v-btn>
                         <v-card>
                             <v-card-title>
-                                <div class="headline">Use Google's location service?</div>
+                                <div class="headline">Current Pacing Plan</div>
                             </v-card-title>
-                        <v-card-text>Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.</v-card-text>
-                        <v-card-actions>
-                            <v-spacer></v-spacer>
-                            <v-btn class="green--text darken-1" flat="flat" @click.native="showModal = false">Disagree</v-btn>
-                            <v-btn class="green--text darken-1" flat="flat" @click.native="showModal = false">Agree</v-btn>
-                        </v-card-actions>
+                        <div class="row form-group form-group-height">
+                <div class="col-sm-12">
+                    <table class="table table-sm table-responsive table-striped">
+                        <thead class="thead-inverse">
+                            <tr>
+                                <th>Time</th>
+                                <th>Sun</th>
+                                <th>Mon</th>
+                                <th>Tue</th>
+                                <th>wed</th>
+                                <th>Thu</th>
+                                <th>Fri</th>
+                                <th>Sat</th>
+                            </tr>
+                         </thead>
+                         <tbody>
+                            <tr v-for="time in timesOfDay">
+                                <th>{{ time }}</th>
+                                <td v-for="day in days"><i :class="getTimeActiveClass(days.indexOf(day), timesOfDay.indexOf(time))"></i></td>
+                            </tr>
+                         </tbody>
+                    </table>
+                </div>  
+            </div>
+            <div class="row form-group form-group-height">
+                <div class="col-sm-12">
+                        <legend><i class="fa fa-fw fa-pencil"></i> Edit Plan</legend>
+                </div>
+                <div class="form-group">    
+                    <div class="col-sm-4">
+                        <label class=" control-label" for="campaign-daily-budget">Active Days of Week</label>
+                    </div>
+                    <div class="col-sm-12">
+                        <ul class="checkbox-list">
+                            <li v-for="day in days" class="checkbox">
+                                <label>
+                                    <input type="checkbox" :value="days.indexOf(day)" v-model="selectedDays" @change="applyPlan()" class="checkbox style-orange" >
+                                    <span>{{ day }}</span> 
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-4">
+                        <label class=" control-label" for="campaign-daily-budget">Active Hours of Day</label>
+                        <p class="help-block">Hours will be only edited for active days</p>
+                    </div>
+                    <div class="col-sm-12">
+                        <ul class="checkbox-list">
+                            <li v-for="time in timesOfDay" class="checkbox">
+                                <label>
+                                    <input type="checkbox" :value="timesOfDay.indexOf(time)" v-model="selectedTimes" @change="applyPlan()" class="checkbox style-orange" >
+                                    <span>{{ time }}</span> 
+                                </label>
+                            </li>
+                        </ul>
+                     </div>
+                 </div>
+            </div>
+            <div class="row">
+
+            </div>
                         </v-card>
                     </v-dialog>
                 </v-flex>
