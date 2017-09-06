@@ -24,6 +24,7 @@ Vue.use(Vuetify)
 Vue.component('dashboard', require('./components/Dashboard.vue'));
 Vue.component('sidebar', require('./components/Sidebar.vue'));
 Vue.component('auth', require('./components/Auth.vue'));
+Vue.component('creatives', require('./components/Creatives.vue'));
 
 // CREATE
 Vue.component('campaign', require('./components/Campaign.vue'));

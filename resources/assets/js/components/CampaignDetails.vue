@@ -50,7 +50,7 @@
                 </v-flex>
                  <v-flex xs12 md5>
                     <v-dialog
-                      persistent
+                      
                       :v-model="false"
                       lazy
                       full-width

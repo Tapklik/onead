@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-stepper class="elevation-0" v-model="e1">
+        <v-stepper class="elevation-0" v-model="e1" alt-labels>
             <v-stepper-header class="elevation-0">
                 <v-stepper-step step="1" :complete="e1 > 1" editable>Details</v-stepper-step>
                 <v-divider></v-divider>

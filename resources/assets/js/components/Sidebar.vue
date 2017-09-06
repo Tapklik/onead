@@ -5,9 +5,9 @@
 		</div>
 		<v-list three-line class="pt-5">
 			<template v-for="item in items">
-				<v-list-tile v-bind:key="item.title" tag="a" @click="">
+				<v-list-tile v-bind:key="item.title" tag="a" v-bind:href="item.link" @click="">
 					<v-list-tile-content>
-						<v-list-tile-title class="text-xs-center">
+						<v-list-tile-title href="item.link" class="text-xs-center">
 							<v-icon>{{ item.icon }}</v-icon>
 						</v-list-tile-title>
 						<v-list-tile-title class="text-xs-center">
@@ -26,11 +26,11 @@
 			return {
 				drawer: true,
 				items: [
-				{ title: 'Dashboard', icon: 'apps' },
-				{ title: 'Campaigns', icon: 'add_to_queue' },
-				{ title: 'Creatives', icon: 'crop_original' },
-				{ title: 'Reports', icon: 'show_chart' },
-				{ title: 'Billing', icon: 'monetization_on' },
+				{ title: 'Dashboard', icon: 'apps', link: '/admin/dashboard' },
+				{ title: 'Campaigns', icon: 'add_to_queue', link: '/admin/campaigns/create' },
+				{ title: 'Creatives', icon: 'crop_original', link: '/admin/creatives' },
+				{ title: 'Reports', icon: 'show_chart', link: '/admin/reports' },
+				{ title: 'Billing', icon: 'monetization_on', link: '/admin/billing' },
 				],
 			}
 		},
