@@ -83,17 +83,7 @@
                     hint="At least 8 characters"
                     prepend-icon="mode_edit"
                     single-line
-                    ><v-flex xs12 md6>
-        <v-subheader>Row</v-subheader>
-        <v-card class="elevation-0">
-          <v-card-text>
-            <v-radio-group v-model="row" row>
-              <v-radio label="Option 1" value="radio-1" ></v-radio>
-              <v-radio label="Option 2" value="radio-2"></v-radio>
-            </v-radio-group>
-          </v-card-text>
-        </v-card>
-      </v-flex></v-text-field>
+                    ></v-text-field>
                 </v-flex>
             </v-layout>
     </v-flex>
