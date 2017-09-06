@@ -1,0 +1,86 @@
+  {
+  
+  "browsers": [ 
+    
+    {
+      "type":"Firefox",
+      "icon":"fa fa-3x fa-firefox",
+      "device_id": "1"
+    },
+    
+    {
+      "type": "Chrome",
+      "icon": "fa fa-3x fa-chrome",
+      "device_id": "2"
+    },
+
+    {
+      "type": "Safari",
+      "icon": "fa fa-3x fa-safari",
+      "device_id": "3"
+    },
+    {
+      "type":"IE",
+      "icon": "fa fa-3x fa-internet-explorer",
+      "device_id": "4"
+    },
+    {
+      "type": "Opera",
+      "icon": "fa fa-3x fa-opera",
+      "device_id": "5"
+    }
+  ],
+
+  "operatingsystems": [
+
+    {
+      "type":"Windows",
+      "icon": "fa fa-3x fa-windows",
+      "device_id": "6"
+    }, 
+    {
+      "type":"Linux",
+      "icon": "fa fa-3x fa-linux",
+      "device_id": "5" 
+    },
+    {
+      "type":"Mac",
+      "icon":"fa fa-3x fa-apple",
+      "device_id": "4"
+    },
+    {
+      "type":"Android",
+      "icon":"fa fa-3x fa-android",
+      "device_id": "1"
+    },
+    {
+      "type":"iOS",
+      "icon":"fa fa-3x fa-apple",
+      "device_id": "3"
+    },
+    {
+      "device_id": "2",
+      "type":"Blackberry",
+      "icon":"blackberry-icon"
+    }
+  ],
+
+  "devices" : [
+    {
+      "type":"Desktop",
+      "icon": "fa fa-3x fa-desktop",
+      "device_id": "2"
+    },
+
+    {
+      "type": "Mobile",
+      "icon": "fa fa-3x fa-windows",
+      "device_id": "4"
+    },
+    {
+      "type":"Tablet",
+      "icon":"fa fa-3x fa-tablet",
+      "device_id":"5"
+    }
+  ]
+}

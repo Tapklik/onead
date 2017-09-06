@@ -1,0 +1,40 @@
+{
+    "table": "wins",
+    "dim": [{
+            "name": "cmp",
+            "list": "selectedCampaigns",
+            "required": true
+        },
+        {
+            "name": "crid",
+            "list": "selectedCreatives",
+            "required": true
+        }
+
+    ],
+    "filters": [{
+        "name": "device",
+        "required": false,
+        "sub_filters": [{
+                "name": "type",
+                "list": "selectedDevicesTypes",
+                "required": true
+            },
+            {
+                "name": "os",
+                "list": "selectedDevicesOs",
+                "required": false
+            },
+            {
+                "name": "ua",
+                "list": "selectedDevicesUa",
+                "required": false
+            }
+        ]
+    }],
+    "queries": {
+        "queries_list": ["clicks","imps","spend"],
+        "op": "sum"
+    }
+
+}

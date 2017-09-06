@@ -30,6 +30,10 @@ Vue.component('campaign', require('./components/Campaign.vue'));
 Vue.component('campaign-details', require('./components/CampaignDetails.vue'));
 Vue.component('campaign-categories', require('./components/CampaignCategories.vue'));
 
+//Tapklik elements
+Vue.component('tk-select-list', require('./components/elements/tk-select-list.vue'));           // tk-select-list
+Vue.component('tk-select', require('./components/elements/tk-select.vue'));                     // tk-select
+Vue.component('tk-filter', require('./components/elements/tk-filter.vue')); 
 
 //var envUri = (window.location.hostname.search('local') == -1) ? '//api.tapklik.com/v1' : '//local.api.tapklik.com/v1';
 var envUri = '//api.tapklik.com/v1';

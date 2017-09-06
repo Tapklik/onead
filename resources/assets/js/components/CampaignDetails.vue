@@ -42,16 +42,9 @@
                         single-line
                         readonly
                         slot="activator"
-                        v-model="date1"
+                        v-model="date_from"
                         ></v-text-field>
-                        <v-date-picker v-model="date1" no-title scrollable actions>
-                            <template scope="{ save, cancel }">
-                                <v-card-actions>
-                                    <v-btn flat primary @click.native="cancel()">Cancel</v-btn>
-                                    <v-btn flat primary @click.native="save()">Save</v-btn>
-                                </v-card-actions>
-                            </template>
-                        </v-date-picker>
+                        <v-date-picker v-model="date_from" scrollable autosave></v-date-picker>
                     </v-dialog>
                 </v-flex>
                  <v-flex xs12 md5>
@@ -68,7 +61,7 @@
                         single-line
                         readonly
                         slot="activator"
-                        v-model="date_from"
+                        v-model="date_to"
                         ></v-text-field>
                         <v-date-picker v-model="date_to" scrollable autosave></v-date-picker>
                     </v-dialog>
@@ -146,8 +139,8 @@
                 column: 'clicks',
                 line: 'imps',
                 overallList: false,
-                date1,
-                date2,
+                date1: '',
+                date2: '',
                 menu: false
             }
         },

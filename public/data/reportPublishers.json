@@ -1,0 +1,30 @@
+{
+    "table": "wins",
+    "dim": [{
+            "name": "cmp",
+            "list": "selectedCampaigns",
+            "required": true
+        },
+        {
+            "name": "crid",
+            "list": "selectedCreatives",
+            "required": true
+        }
+
+    ],
+    "filters": [{
+        "name": "publisher",
+        "required": false,
+        "sub_filters": [{
+            "name": "site",
+            "list": "selectedPublishers",
+            "required": true
+        }]
+
+    }],
+    "queries": {
+        "queries_list": ["clicks","imps","spend"],
+        "op": "sum"
+    }
+
+}

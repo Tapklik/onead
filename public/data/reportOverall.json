@@ -1,0 +1,21 @@
+{
+    "table": "wins",
+    "dim": [{
+            "name": "cmp",
+            "list": "selectedCampaigns",
+            "required": true
+        },
+        {
+            "name": "crid",
+            "list": "selectedCreatives",
+            "required": true
+        }
+
+    ],
+    "filters": [],
+    "queries": {
+        "queries_list": ["clicks","imps","spend"],
+        "op": "sum"
+    }
+
+}
