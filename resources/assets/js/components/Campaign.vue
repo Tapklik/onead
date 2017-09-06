@@ -16,13 +16,9 @@
                 <campaign-details :campaign="campaign" :state="stateReady"
                 :startTime="campaign.start_time"
                 :endTime="campaign.end_time"></campaign-details>
-                <v-btn primary @click.native="e1 = 2">Continue</v-btn>
-                <v-btn flat>Cancel</v-btn>
             </v-stepper-content>
             <v-stepper-content step="2">
                 <campaign-categories :campaign="campaign" :state="stateReady"></campaign-categories>
-                <v-btn primary @click.native="e1 = 3">Continue</v-btn>
-                <v-btn flat>Cancel</v-btn>
             </v-stepper-content>
             <v-stepper-content step="3">
                 <campaign-creatives :campaign="campaign" :state="stateReady" :folder="currentFolder"
@@ -31,15 +27,10 @@
         
             <v-stepper-content step="4">
                 <campaign-targeting :campaign="campaign" :state="stateReady"></campaign-targeting>
-                <v-btn primary @click.native="e1 = 2">Continue</v-btn>
-                <v-btn flat>Cancel</v-btn>
             </v-stepper-content>
             <v-stepper-content step="5">
-                <campaign-details :campaign="campaign" :state="stateReady"
-                :startTime="campaign.start_time"
-                :endTime="campaign.end_time"></campaign-details>
-                <v-btn primary @click.native="e1 = 2">Continue</v-btn>
-                <v-btn flat>Cancel</v-btn>
+                <campaign-review :campaign="campaign" :state="stateReady" :folder="currentFolder"
+                                 :gender="selectedGender()"></campaign-review>
             </v-stepper-content>
         </v-stepper>
     </div>         

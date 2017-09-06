@@ -85,7 +85,7 @@
                                     <p class="text-center">
                                         <button class="btn btn-lg btn-success"
                                                 @click="updateCampaign()"
-                                                onclick="return false;">Edit {{ $parent.campaign.name }}
+                                                onclick="return false;">Edit {{ campaign.name }}
                                         </button>
                                     </p>
                                 </div>

@@ -18,6 +18,7 @@
                     label="Campaign Name"
                     hint="At least 8 characters"
                     prepend-icon="mode_edit"
+                    v-model="campaign.name"
                     single-line
                     ></v-text-field>
                 </v-flex>
@@ -42,9 +43,9 @@
                         single-line
                         readonly
                         slot="activator"
-                        v-model="date_from"
+                        v-model="campaign.start_time"
                         ></v-text-field>
-                        <v-date-picker v-model="date_from" scrollable autosave></v-date-picker>
+                        <v-date-picker v-model="campaign.start_time" no-title scrollable autosave></v-date-picker>
                     </v-dialog>
                 </v-flex>
                  <v-flex xs12 md5>
@@ -61,12 +62,11 @@
                         single-line
                         readonly
                         slot="activator"
-                        v-model="date_to"
+                        v-model="campaign.end_time"
                         ></v-text-field>
-                        <v-date-picker v-model="date_to" scrollable autosave></v-date-picker>
+                        <v-date-picker v-model="campaign.end_time" no-title scrollable autosave></v-date-picker>
                     </v-dialog>
                 </v-flex>
-
             </v-layout>
             <v-layout row wrap>
                 <v-flex xs12 md9 class="valign-wrapper mt-3">
@@ -79,6 +79,7 @@
                     label="advertiser.com"
                     prepend-icon="language"
                     single-line
+                    v-model="campaign.adomain"
                     ></v-text-field>
                 </v-flex>
             </v-layout>
@@ -93,6 +94,7 @@
                     label="http://advertiser.com/landing"
                     prepend-icon="language"
                     single-line
+                    v-model="campaign.ctrurl"
                     ></v-text-field>
                 </v-flex>
             </v-layout>
@@ -112,208 +114,145 @@
             </v-layout>
             <v-layout>
                 <v-flex xs12 md9 class="valign-wrapper">
-                    <v-radio-group v-model="campaign.budget.data.type" row class="pa-0">
+                    <v-radio-group v-model="campaign.budget.data.type" row class="pa-3">
                         <v-radio label="Daily" value="daily" ></v-radio>
                         <v-radio label="Campaign" value="campaign"></v-radio>
                     </v-radio-group>
+                </v-flex>
+            </v-layout>
+            <v-layout row wrap>
+                <v-flex xs12 md9 class="valign-wrapper mt-3">
+                    <span class="title">Budget</span>
+                    <span class="title orange-text text-darken-4"> . </span>
+                    <span class="caption grey-text text-ldarken-1">Set budget for your campaign</span>
+                </v-flex>
+                <v-flex xs12 md9>
+                    <v-text-field
+                    label="0.00"
+                    prepend-icon="attach_money"
+                    v-model="campaign.budget.data.amount"
+                    single-line
+                    ></v-text-field>
+                </v-flex>
+            </v-layout>
+            <v-layout row wrap>
+                <v-flex xs12 md9 class="valign-wrapper mt-3">
+                    <span class="title">Target Bid (CPM)</span>
+                    <span class="title orange-text text-darken-4"> . </span>
+                    <span class="caption grey-text text-ldarken-1">Allocate the target bid price per 1000 impressions</span>
+                </v-flex>
+                <v-flex xs12 md9>
+                    <v-text-field
+                    label="0.00"
+                    prepend-icon="attach_money"
+                    v-model="campaign.bid"
+                    single-line
+                    ></v-text-field>
+                </v-flex>
+            </v-layout>
+            <v-layout row wrap>
+                <v-flex xs12 md9 class="valign-wrapper mt-3">
+                    <span class="title">Daily Budget Pacing</span>
+                    <span class="title orange-text text-darken-4"> . </span>
+                    <span class="caption grey-text text-ldarken-1">Default pacing is between 7:00AM and 1:00AM every day</span>
+                </v-flex>
+                <v-flex xs12 md9>
+                    <v-dialog v-model="showModal" lazy absolute>
+                        <v-btn slot="activator" small class="grey lighten-2 mt-3">Set Budget Pacing</v-btn>
+                        <v-card>
+                            <v-card-title>
+                                <div class="headline">Use Google's location service?</div>
+                            </v-card-title>
+                        <v-card-text>Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.</v-card-text>
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn class="green--text darken-1" flat="flat" @click.native="showModal = false">Disagree</v-btn>
+                            <v-btn class="green--text darken-1" flat="flat" @click.native="showModal = false">Agree</v-btn>
+                        </v-card-actions>
+                        </v-card>
+                    </v-dialog>
                 </v-flex>
             </v-layout>
         </v-flex>
     </v-layout>
 </v-container>
 </template>
-
 <script>
     export default {
+        
         mounted() {
+            console.log('Details component mounted.')
         },
+        props: ['campaign'],
         data() {
             return {
-                password: '',
-                row: '',
-                campaignList: [],
-                creativeList: [],
-                token: this.token,
-                date_from: this.getDate(-7),
-                date_to: this.getDate(0),
-                column: 'clicks',
-                line: 'imps',
-                overallList: false,
-                date1: '',
-                date2: '',
-                menu: false
+                showModal: false,
+                dateFormat: 'yyyy-MM-dd',
+                isActive: true,
+                days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+                timesOfDay: ['12:00AM - 7:00AM', '7:00AM - 10:00AM', '10:00AM - 1:00PM', '1:00PM - 4:00PM', '4:00PM - 7:00PM', 
+                    '7:00PM - 10:00PM', '10:00PM - 12:00AM'],
+                selectedDays: [0, 1, 2, 3, 4, 5, 6],
+                selectedTimes: [1, 2, 3, 4, 5, 6]
             }
         },
-        
-        props: ['campaign'],
-
+        computed: {
+            bidUsd: {
+                // getter
+                get: function () {
+                    return this.campaign.bid / 1000000 
+                },
+                // setter
+                set: function (usd) {
+                    this.campaign.bid = usd * 1000000
+                }
+            },
+            budgetUsd: {
+                // getter
+                get: function () {
+                    return this.campaign.budget.data.amount / 1000000
+                },
+                // setter
+                set: function (usd) {
+                    this.campaign.budget.data.amount = usd * 1000000
+                }
+            }
+        },
         methods: {
-            loadCampaignsAndCreatives() {
-                axios.get(this.$root.uri + '/campaigns', this.$root.config).then(response => {
-                    this.campaignList = response.data.data;
-
-                    var listOfCreatives = []
-                    var campaigns = this.campaignList
-                    for (var c in campaigns) {
-                        var campaignId = campaigns[c].value
-                        var campaignObj = this.findCampaignById(campaignId)
-                        
-                        var creatives = campaigns[c].creatives.data
-                        for (var cr in creatives) {
-                            listOfCreatives.push(creatives[cr])
+            openModal() {
+                this.$root.modalIsOpen = true;
+                return false;
+            },
+            getTimeActiveClass(d, t) {
+                var timeActiveClass = ""
+                var hPlan = this.campaign.budget.data.pacing
+                var timeOfWeek = d * 7 + t + d
+                var activeT = hPlan.charAt(timeOfWeek)
+                if(activeT == "1") {
+                    timeActiveClass = "fa fa-fw fa-check-circle fa-active"
+                } else {
+                    timeActiveClass = "fa fa-fw fa-circle fa-inactive"
+                }
+                return timeActiveClass   
+            },
+            applyPlan() {
+                var plan = ""
+                for (var d = 0; d < 7; d++) {
+                    if (d > 0) {plan += " "}
+                    if (this.selectedDays.indexOf(d) >= 0 ) {
+                        for( var t = 0; t < 7; t++) {
+                            if(this.selectedTimes.indexOf(t) >= 0) {
+                                plan += "1"
+                            } else {
+                                plan += "0"
+                            }
                         }
+                    } else {
+                        plan += "0000000"
                     }
-                    this.creativeList = listOfCreatives;
-                }, error => {
-                    swal('Error', 'error', 'error');
-                })
-            },
-
-            getDate(days) {
-                const toTwoDigits = num => num < 10 ? '0' + num : num;
-                let today = new Date();
-                let date = new Date();
-                date.setDate(today.getDate() + days);
-                let year = date.getFullYear();
-                let month = toTwoDigits(date.getMonth() + 1);
-                let day = toTwoDigits(date.getDate()); 
-                return `${year}-${month}-${day}`;
-            },
-
-            loadMainGraph() {
-
-                axios.get(this.$root.reportUri + '?table=wins&acc=' + this.user.accountUuId + '&field=clicks,imps,spend&op=sum&from=' + this.date_from + ' 00:00:00&to=' + this.date_to + ' 00:00:00&scale=1h', this.$root.config).then(response => {
-                    this.overallList = response.data.data;
-                    this.createChart('chart_main', this.overallList, this.column, this.line);
-                    this.createChart('chart_clicks', this.overallList, 'clicks');
-                    this.createChart('chart_imps', this.overallList, 'imps');
-                    this.createChart('chart_spend', this.overallList, 'spend');
-                    this.createChart('chart_ctr', this.overallList, 'ctr');
-                    this.createChart('chart_ecpc', this.overallList, 'ecpc');
-                    this.createChart('chart_ecpm', this.overallList, 'ecpm');
-                }, error => {
-                    swal('Error', 'Could not load main graph', 'error');
-                })
-            },
-
-            findCampaignById(id) {
-                var campaignList = this.campaignList
-                for (var c in campaignList) {
-                    if (campaignList[c].id == id) return campaignList[c] 
                 }
-        },
-
-        createChart(target, dataset, column, line) {
-
-            var chart = AmCharts.makeChart(target, {
-                "type": "serial",
-                "theme": "light",
-                "marginRight": 40,
-                "marginLeft": 40,
-                "marginTop": 40,
-                "autoMarginOffset": 20,
-                "mouseWheelZoomEnabled":false,
-                "dataDateFormat": "YYYY-MM-DD HH",
-                "valueAxes": [{
-                    "id": "v1",
-                    "axisAlpha": 0,
-                    "position": "left",
-                    "ignoreAxisWidth":true
-                },
-                {
-                    "id": "v2",
-                    "axisAlpha": 0,
-                    "position": "right",
-                    "ignoreAxisWidth":true
-                }
-                ],
-                "balloon": {
-                    "borderThickness": 1,
-                    "shadowAlpha": 0
-                },
-                "graphs": [{
-                    "valueAxis": "v1",
-                    "id": "g1",
-                    "type" : "column",
-                    "fillAlphas": 0.8,
-                    "fillColors":"#f76c06",
-                    "lineColor":"#f76c06",
-                    "balloonColor":"#444",
-                    "balloon":{
-                        "drop":true,
-                        "adjustBorderColor":false,
-                        "color":"#ffffff"
-                    },
-                    "bullet": "round",
-                    "bulletBorderAlpha": 1,
-                    "bulletColor": "#FFFFFF",
-                    "bulletSize": 5,
-                    "hideBulletsCount": 50,
-                    "lineThickness": 2,
-                    "title": "red line",
-                    "useLineColorForBulletBorder": true,
-                    "valueField": column,
-                    "balloonText": "<span style='font-size:18px;'>[[value]]</span>"
-                },
-                {   
-                    "valueAxis": "v2",
-                    "id": "g2",
-                    "type" : "line",
-                    "fillColors":"#f76c06",
-                    "lineColor":"magenta",
-                    "balloonColor":"#444",
-                    "balloon":{
-                        "drop":true,
-                        "adjustBorderColor":false,
-                        "color":"#ffffff"
-                    },
-                    "bullet": "round",
-                    "bulletBorderAlpha": 1,
-                    "bulletColor": "#FFFFFF",
-                    "bulletSize": 5,
-                    "hideBulletsCount": 50,
-                    "lineThickness": 2,
-                    "title": "red line",
-                    "useLineColorForBulletBorder": true,
-                    "valueField": line,
-                    "balloonText": "<span style='font-size:18px;'>[[value]]</span>"
-                    
-                }],
-                "chartCursor": {
-                    "pan": true,
-                    "valueLineEnabled": true,
-                    "valueLineBalloonEnabled": true,
-                    "cursorAlpha":1,
-                    "cursorColor":"#444",
-                    "limitToGraph":"g1",
-                    "valueLineAlpha":0.2,
-                    "valueZoomable":true
-                },
-                "categoryField": "date",
-                "categoryAxis": {
-                    "parseDates": true,
-                    "dashLength": 1,
-                    "minPeriod" : "hh",
-                    "minorGridEnabled": true
-                },
-                "export": {
-                    "enabled": true
-                },
-                "dataProvider": dataset, // Here you need to add the dataset
-            });
-
-            chart.addListener("rendered", zoomChart);
-
-            zoomChart(dataset);
-            function zoomChart(dataset) {
-                    //chart.zoomToIndexes(dataset.length, dataset.length);
-                }
-            },
-        },
-
-
-        watch: {
-
+                this.campaign.budget.data.pacing = plan
+            }
         }
     }
 </script>
