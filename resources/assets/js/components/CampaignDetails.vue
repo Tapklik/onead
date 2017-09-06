@@ -28,13 +28,52 @@
                     <span class="title orange-text text-darken-4"> . </span>
                     <span class="caption grey-text text-ldarken-1">Define campaign start and end dates</span>
                 </v-flex>
-                <v-flex xs12 md9>
-                    <v-text-field
-                    label="Enter your password"
-                    prepend-icon="flight_takeoff"
-                    single-line
-                    ></v-text-field>
+                <v-flex xs12 md5>
+                    <v-dialog
+                      persistent
+                      :v-model="false"
+                      lazy
+                      full-width
+                    >
+                        <v-text-field
+                        label="From"
+                        prepend-icon="flight_takeoff"
+                        append-icon="date_range"
+                        single-line
+                        readonly
+                        slot="activator"
+                        v-model="date1"
+                        ></v-text-field>
+                        <v-date-picker v-model="date1" no-title scrollable actions>
+                            <template scope="{ save, cancel }">
+                                <v-card-actions>
+                                    <v-btn flat primary @click.native="cancel()">Cancel</v-btn>
+                                    <v-btn flat primary @click.native="save()">Save</v-btn>
+                                </v-card-actions>
+                            </template>
+                        </v-date-picker>
+                    </v-dialog>
                 </v-flex>
+                 <v-flex xs12 md5>
+                    <v-dialog
+                      persistent
+                      :v-model="false"
+                      lazy
+                      full-width
+                    >
+                        <v-text-field
+                        label="From"
+                        prepend-icon="flight_takeoff"
+                        append-icon="date_range"
+                        single-line
+                        readonly
+                        slot="activator"
+                        v-model="date_from"
+                        ></v-text-field>
+                        <v-date-picker v-model="date_to" scrollable autosave></v-date-picker>
+                    </v-dialog>
+                </v-flex>
+
             </v-layout>
             <v-layout row wrap>
                 <v-flex xs12 md9 class="valign-wrapper mt-3">
@@ -45,7 +84,7 @@
                 <v-flex xs12 md9>
                     <v-text-field
                     label="advertiser.com"
-                    prepend-icon="phone"
+                    prepend-icon="language"
                     single-line
                     ></v-text-field>
                 </v-flex>
@@ -59,7 +98,7 @@
                 <v-flex xs12 md9>
                     <v-text-field
                     label="http://advertiser.com/landing"
-                    prepend-icon="phone"
+                    prepend-icon="language"
                     single-line
                     ></v-text-field>
                 </v-flex>
@@ -79,10 +118,12 @@
                 </v-flex>
             </v-layout>
             <v-layout>
-                <v-radio-group v-model="campaign.budget.data.type" row>
-                    <v-radio label="Daily" value="daily" ></v-radio>
-                    <v-radio label="Campaign 2" value="campaign"></v-radio>
-                </v-radio-group>
+                <v-flex xs12 md9 class="valign-wrapper">
+                    <v-radio-group v-model="campaign.budget.data.type" row class="pa-0">
+                        <v-radio label="Daily" value="daily" ></v-radio>
+                        <v-radio label="Campaign" value="campaign"></v-radio>
+                    </v-radio-group>
+                </v-flex>
             </v-layout>
         </v-flex>
     </v-layout>
@@ -104,7 +145,10 @@
                 date_to: this.getDate(0),
                 column: 'clicks',
                 line: 'imps',
-                overallList: false
+                overallList: false,
+                date1,
+                date2,
+                menu: false
             }
         },
         

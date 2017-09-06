@@ -13,7 +13,6 @@
                 <v-stepper-step step="5" editable>Review</v-stepper-step>
             </v-stepper-header>
             <v-stepper-content step="1">
-                <h3>&nbsp;</h3>
                 <campaign-details :campaign="campaign" :state="stateReady"
                 :startTime="campaign.start_time"
                 :endTime="campaign.end_time"></campaign-details>
@@ -21,20 +20,17 @@
                 <v-btn flat>Cancel</v-btn>
             </v-stepper-content>
             <v-stepper-content step="2">
-                <h3>&nbsp;</h3>
                 <!--<campaign-categories :campaign="campaign" :state="stateReady"></campaign-categories>
                 <v-btn primary @click.native="e1 = 3">Continue</v-btn>
                 <v-btn flat>Cancel</v-btn>-->
             </v-stepper-content>
             <v-stepper-content step="3">
-                <h3>&nbsp;</h3>
                 <campaign-details :campaign="campaign" :state="stateReady"
                 :startTime="campaign.start_time"
                 :endTime="campaign.end_time"></campaign-details>
             </v-stepper-content>
         
             <v-stepper-content step="4">
-                <h3>&nbsp;</h3>
                 <campaign-details :campaign="campaign" :state="stateReady"
                 :startTime="campaign.start_time"
                 :endTime="campaign.end_time"></campaign-details>
@@ -42,7 +38,6 @@
                 <v-btn flat>Cancel</v-btn>
             </v-stepper-content>
             <v-stepper-content step="5">
-                <h3>&nbsp;</h3>
                 <campaign-details :campaign="campaign" :state="stateReady"
                 :startTime="campaign.start_time"
                 :endTime="campaign.end_time"></campaign-details>

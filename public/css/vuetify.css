@@ -329,7 +329,7 @@
   color: rgba(0,0,0,0.54);
 }
 .application--light .input-group.input-group--selection-controls.switch .input-group--selection-controls__container {
-  color: #009688;
+  color: #e65100;
 }
 .application--light .input-group.input-group--selection-controls.switch .input-group--selection-controls__ripple:after {
   background-color: #fafafa;
@@ -338,7 +338,7 @@
   color: rgba(0,0,0,0.38);
 }
 .application--light .input-group.input-group--selection-controls.switch .input-group--selection-controls__ripple--active:after {
-  background-color: #009688;
+  background-color: #e65100;
 }
 .application--light .input-group.input-group--selection-controls.switch .input-group--selection-controls__toggle {
   color: rgba(0,0,0,0.38);
@@ -354,7 +354,7 @@
 }
 .application--light .input-group.input-group--selection-controls.radio,
 .application--light .input-group.input-group--selection-controls.checkbox {
-  color: #009688;
+  color: #e65100;
 }
 .application--light .input-group.input-group--selection-controls.radio .icon,
 .application--light .input-group.input-group--selection-controls.checkbox .icon,
@@ -718,7 +718,7 @@
   color: rgba(255,255,255,0.7);
 }
 .application--dark .input-group.input-group--selection-controls.switch .input-group--selection-controls__container {
-  color: #80cbc4;
+  color: #ffcc80;
 }
 .application--dark .input-group.input-group--selection-controls.switch .input-group--selection-controls__ripple:after {
   background-color: #bdbdbd;
@@ -727,7 +727,7 @@
   color: rgba(255,255,255,0.3);
 }
 .application--dark .input-group.input-group--selection-controls.switch .input-group--selection-controls__ripple--active:after {
-  background-color: #80cbc4;
+  background-color: #ffcc80;
 }
 .application--dark .input-group.input-group--selection-controls.switch .input-group--selection-controls__toggle {
   color: rgba(255,255,255,0.3);
@@ -743,7 +743,7 @@
 }
 .application--dark .input-group.input-group--selection-controls.radio,
 .application--dark .input-group.input-group--selection-controls.checkbox {
-  color: #80cbc4;
+  color: #ffcc80;
 }
 .application--dark .input-group.input-group--selection-controls.radio .icon,
 .application--dark .input-group.input-group--selection-controls.checkbox .icon,
@@ -1097,7 +1097,7 @@
   color: rgba(0,0,0,0.54);
 }
 .application .theme--light.input-group.input-group--selection-controls.switch .input-group--selection-controls__container {
-  color: #009688;
+  color: #e65100;
 }
 .application .theme--light.input-group.input-group--selection-controls.switch .input-group--selection-controls__ripple:after {
   background-color: #fafafa;
@@ -1106,7 +1106,7 @@
   color: rgba(0,0,0,0.38);
 }
 .application .theme--light.input-group.input-group--selection-controls.switch .input-group--selection-controls__ripple--active:after {
-  background-color: #009688;
+  background-color: #e65100;
 }
 .application .theme--light.input-group.input-group--selection-controls.switch .input-group--selection-controls__toggle {
   color: rgba(0,0,0,0.38);
@@ -1122,7 +1122,7 @@
 }
 .application .theme--light.input-group.input-group--selection-controls.radio,
 .application .theme--light.input-group.input-group--selection-controls.checkbox {
-  color: #009688;
+  color: #e65100;
 }
 .application .theme--light.input-group.input-group--selection-controls.radio .icon,
 .application .theme--light.input-group.input-group--selection-controls.checkbox .icon,
@@ -1479,7 +1479,7 @@
   color: rgba(255,255,255,0.7);
 }
 .application .theme--dark.input-group.input-group--selection-controls.switch .input-group--selection-controls__container {
-  color: #80cbc4;
+  color: #ffcc80;
 }
 .application .theme--dark.input-group.input-group--selection-controls.switch .input-group--selection-controls__ripple:after {
   background-color: #bdbdbd;
@@ -1488,7 +1488,7 @@
   color: rgba(255,255,255,0.3);
 }
 .application .theme--dark.input-group.input-group--selection-controls.switch .input-group--selection-controls__ripple--active:after {
-  background-color: #80cbc4;
+  background-color: #ffcc80;
 }
 .application .theme--dark.input-group.input-group--selection-controls.switch .input-group--selection-controls__toggle {
   color: rgba(255,255,255,0.3);
@@ -1504,7 +1504,7 @@
 }
 .application .theme--dark.input-group.input-group--selection-controls.radio,
 .application .theme--dark.input-group.input-group--selection-controls.checkbox {
-  color: #80cbc4;
+  color: #ffcc80;
 }
 .application .theme--dark.input-group.input-group--selection-controls.radio .icon,
 .application .theme--dark.input-group.input-group--selection-controls.checkbox .icon,

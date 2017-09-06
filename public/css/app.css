@@ -2223,3 +2223,9 @@ h5 {
   font-weight: bold;
 }
 
+/*** FIXES ***/
+
+.radio-group .input-group__details {
+  display: none;
+}
+
