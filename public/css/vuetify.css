@@ -8019,7 +8019,7 @@ a.list__tile:hover,
   position: fixed;
   -webkit-transition: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   transition: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  width: 300px;
+  width: 110px;
   top: 0;
   left: 0;
   will-change: transform;
@@ -8051,12 +8051,12 @@ a.list__tile:hover,
   }
 }
 .navigation-drawer--close:not(.navigation--permanent).navigation-drawer:not(.navigation-drawer--right) {
-  -webkit-transform: translate3d(-300px, 0, 0);
-          transform: translate3d(-300px, 0, 0);
+  -webkit-transform: translate3d(-110px, 0, 0);
+          transform: translate3d(-110px, 0, 0);
 }
 .navigation-drawer--close:not(.navigation--permanent).navigation-drawer--right {
-  -webkit-transform: translate3d(300px, 0, 0);
-          transform: translate3d(300px, 0, 0);
+  -webkit-transform: translate3d(110px, 0, 0);
+          transform: translate3d(110px, 0, 0);
 }
 .navigation-drawer--right {
   left: auto;
@@ -8098,23 +8098,23 @@ a.list__tile:hover,
 }
 .navigation-drawer--persistent:not(.navigation-drawer--is-mobile).navigation-drawer--open:not(.navigation-drawer--right):not(.navigation-drawer--clipped):not(.navigation-drawer--floating) ~ .toolbar,
 .navigation-drawer--permanent.navigation-drawer--open:not(.navigation-drawer--right):not(.navigation-drawer--clipped):not(.navigation-drawer--floating) ~ .toolbar {
-  padding-left: 300px;
+  padding-left: 110px;
 }
 .navigation-drawer--persistent:not(.navigation-drawer--is-mobile).navigation-drawer--open:not(.navigation-drawer--right) ~ main,
 .navigation-drawer--permanent.navigation-drawer--open:not(.navigation-drawer--right) ~ main,
 .navigation-drawer--persistent:not(.navigation-drawer--is-mobile).navigation-drawer--open:not(.navigation-drawer--right) ~ .footer:not(.footer--fixed):not(.footer--absolute),
 .navigation-drawer--permanent.navigation-drawer--open:not(.navigation-drawer--right) ~ .footer:not(.footer--fixed):not(.footer--absolute) {
-  padding-left: 300px;
+  padding-left: 110px;
 }
 .navigation-drawer--persistent:not(.navigation-drawer--is-mobile).navigation-drawer--open.navigation-drawer--right:not(.navigation-drawer--clipped):not(.navigation-drawer--floating) + .toolbar,
 .navigation-drawer--permanent.navigation-drawer--open.navigation-drawer--right:not(.navigation-drawer--clipped):not(.navigation-drawer--floating) + .toolbar {
-  padding-right: 300px;
+  padding-right: 110px;
 }
 .navigation-drawer--persistent:not(.navigation-drawer--is-mobile).navigation-drawer--open.navigation-drawer--right ~ main,
 .navigation-drawer--permanent.navigation-drawer--open.navigation-drawer--right ~ main,
 .navigation-drawer--persistent:not(.navigation-drawer--is-mobile).navigation-drawer--open.navigation-drawer--right ~ .footer:not(.footer--fixed):not(.footer--absolute),
 .navigation-drawer--permanent.navigation-drawer--open.navigation-drawer--right ~ .footer:not(.footer--fixed):not(.footer--absolute) {
-  padding-right: 300px;
+  padding-right: 110px;
 }
 .navigation-drawer--floating:after {
   display: none;
@@ -8171,7 +8171,7 @@ a.list__tile:hover,
 > .list .list__tile {
   -webkit-transition: none;
   transition: none;
-  font-weight: 500;
+  font-weight: 700;
 }
 > .list .list__tile--active .list__tile__title {
   color: inherit;
@@ -8192,7 +8192,7 @@ a.list__tile:hover,
   color: #ef6c00;
 }
 > .list:not(.list--dense) .list__tile {
-  font-size: 14px;
+  font-size: 13px;
 }
 .overlay {
   position: fixed;

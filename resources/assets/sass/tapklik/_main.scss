@@ -6,7 +6,13 @@ h1, h2, h3, h4, h5 {
 	color: color("orange", "darken-4");
 }
 
-
+.logo {
+	& > img {
+		width: 50px;
+		margin-top: 30px;
+		margin-left: 25px;
+	}
+}
 
 .application .theme--dark.navigation-drawer {
 	background: #f76c06; /* Old browsers */
@@ -40,12 +46,11 @@ h1, h2, h3, h4, h5 {
 
 	& .icon {
 		color: color("orange", "lighten-4");
-		font-size: 30px;
 	}
 
 	& .item-title {
-		color: white;
-		font-size:20px;
-		margin-left: 13px;
+		color: color("orange", "lighten-4");
+		font-size: 13px;
+		font-weight: bold;	
 	}
 }

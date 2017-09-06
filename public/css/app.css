@@ -2173,6 +2173,12 @@ h5 {
   color: #e65100;
 }
 
+.logo > img {
+  width: 50px;
+  margin-top: 30px;
+  margin-left: 25px;
+}
+
 .application .theme--dark.navigation-drawer {
   background: #f76c06;
   /* Old browsers */
@@ -2209,12 +2215,11 @@ h5 {
 
 .tapklik-drawer .icon {
   color: #ffe0b2;
-  font-size: 30px;
 }
 
 .tapklik-drawer .item-title {
-  color: white;
-  font-size: 20px;
-  margin-left: 13px;
+  color: #ffe0b2;
+  font-size: 13px;
+  font-weight: bold;
 }
 
