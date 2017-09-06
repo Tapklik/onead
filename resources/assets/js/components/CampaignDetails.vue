@@ -1,5 +1,5 @@
 <template>
-   <v-container fluid grid-list-md>
+ <v-container fluid grid-list-md>
     <v-layout row wrap>
         <v-flex xs12 md6>
             <v-layout row wrap>
@@ -65,7 +65,7 @@
                 </v-flex>
             </v-layout>
         </v-flex>
-    <v-flex xs12 md6>
+        <v-flex xs12 md6>
             <v-layout row wrap>
                 <v-flex xs12 class="valign-wrapper mb-3 mt-4">
                     <h5><i class="material-icons">attach_money</i> Budget Details</h5>
@@ -77,17 +77,15 @@
                     <span class="title orange-text text-darken-4"> . </span>
                     <span class="caption grey-text text-ldarken-1">Set budget to "daily" or "campaign"</span>
                 </v-flex>
-                <v-flex xs12 md9>
-                    <v-text-field
-                    label="Campaign Name"
-                    hint="At least 8 characters"
-                    prepend-icon="mode_edit"
-                    single-line
-                    ></v-text-field>
-                </v-flex>
             </v-layout>
-    </v-flex>
-</v-layout>
+            <v-layout>
+                <v-radio-group v-model="campaign.budget.data.type" row>
+                    <v-radio label="Daily" value="daily" ></v-radio>
+                    <v-radio label="Campaign 2" value="campaign"></v-radio>
+                </v-radio-group>
+            </v-layout>
+        </v-flex>
+    </v-layout>
 </v-container>
 </template>
 
@@ -98,6 +96,7 @@
         data() {
             return {
                 password: '',
+                row: '',
                 campaignList: [],
                 creativeList: [],
                 token: this.token,
@@ -109,7 +108,7 @@
             }
         },
         
-        props: ['user'],
+        props: ['campaign'],
 
         methods: {
             loadCampaignsAndCreatives() {

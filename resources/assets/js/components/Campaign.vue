@@ -1,34 +1,56 @@
 <template>
-<div>
-    <v-stepper class="elevation-0" v-model="e1">
-      <v-stepper-header class="elevation-0">
-        <v-stepper-step step="1" :complete="e1 > 1" editable>Name of step 1</v-stepper-step>
-        <v-divider></v-divider>
-        <v-stepper-step step="2" :complete="e1 > 2" editable>Name of step 2</v-stepper-step>
-        <v-divider></v-divider>
-        <v-stepper-step step="3" editable>Name of step 3</v-stepper-step>
-      </v-stepper-header>
-      <v-stepper-content step="1">
-      <h3>&nbsp;</h3>
-          <campaign-details :campaign="campaign" :state="stateReady"
-          :startTime="campaign.start_time"
-          :endTime="campaign.end_time"></campaign-details>
-        <v-btn primary @click.native="e1 = 2">Continue</v-btn>
-        <v-btn flat>Cancel</v-btn>
-      </v-stepper-content>
-      <v-stepper-content step="2">
-        <v-card class="grey lighten-1 z-depth-1 mb-5" height="200px"></v-card>
-        <v-btn primary @click.native="e1 = 3">Continue</v-btn>
-        <v-btn flat>Cancel</v-btn>
-      </v-stepper-content>
-      <v-stepper-content step="3">
-        <h3>&nbsp;</h3>
-          <campaign-details :campaign="campaign" :state="stateReady"
-          :startTime="campaign.start_time"
-          :endTime="campaign.end_time"></campaign-details>
-      </v-stepper-content>
-    </v-stepper>
- </div>         
+    <div>
+        <v-stepper class="elevation-0" v-model="e1">
+            <v-stepper-header class="elevation-0">
+                <v-stepper-step step="1" :complete="e1 > 1" editable>Details</v-stepper-step>
+                <v-divider></v-divider>
+                <v-stepper-step step="2" :complete="e1 > 2" editable>Categories</v-stepper-step>
+                <v-divider></v-divider>
+                <v-stepper-step step="3" :complete="e1 > 3" editable>Creatives</v-stepper-step>
+                <v-divider></v-divider>
+                <v-stepper-step step="4" :complete="e1 > 4" editable>Targeting</v-stepper-step>
+                <v-divider></v-divider>
+                <v-stepper-step step="5" editable>Review</v-stepper-step>
+            </v-stepper-header>
+            <v-stepper-content step="1">
+                <h3>&nbsp;</h3>
+                <campaign-details :campaign="campaign" :state="stateReady"
+                :startTime="campaign.start_time"
+                :endTime="campaign.end_time"></campaign-details>
+                <v-btn primary @click.native="e1 = 2">Continue</v-btn>
+                <v-btn flat>Cancel</v-btn>
+            </v-stepper-content>
+            <v-stepper-content step="2">
+                <h3>&nbsp;</h3>
+                <!--<campaign-categories :campaign="campaign" :state="stateReady"></campaign-categories>
+                <v-btn primary @click.native="e1 = 3">Continue</v-btn>
+                <v-btn flat>Cancel</v-btn>-->
+            </v-stepper-content>
+            <v-stepper-content step="3">
+                <h3>&nbsp;</h3>
+                <campaign-details :campaign="campaign" :state="stateReady"
+                :startTime="campaign.start_time"
+                :endTime="campaign.end_time"></campaign-details>
+            </v-stepper-content>
+        
+            <v-stepper-content step="4">
+                <h3>&nbsp;</h3>
+                <campaign-details :campaign="campaign" :state="stateReady"
+                :startTime="campaign.start_time"
+                :endTime="campaign.end_time"></campaign-details>
+                <v-btn primary @click.native="e1 = 2">Continue</v-btn>
+                <v-btn flat>Cancel</v-btn>
+            </v-stepper-content>
+            <v-stepper-content step="5">
+                <h3>&nbsp;</h3>
+                <campaign-details :campaign="campaign" :state="stateReady"
+                :startTime="campaign.start_time"
+                :endTime="campaign.end_time"></campaign-details>
+                <v-btn primary @click.native="e1 = 2">Continue</v-btn>
+                <v-btn flat>Cancel</v-btn>
+            </v-stepper-content>
+        </v-stepper>
+    </div>         
 </template>
 
 <script>

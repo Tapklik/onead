@@ -28,7 +28,7 @@ Vue.component('auth', require('./components/Auth.vue'));
 // CREATE
 Vue.component('campaign', require('./components/Campaign.vue'));
 Vue.component('campaign-details', require('./components/CampaignDetails.vue'));
-
+Vue.component('campaign-categories', require('./components/CampaignCategories.vue'));
 
 
 //var envUri = (window.location.hostname.search('local') == -1) ? '//api.tapklik.com/v1' : '//local.api.tapklik.com/v1';
