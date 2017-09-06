@@ -114,6 +114,7 @@
 
         data() {
             return {
+                search:'',
                 folders: {},
                 creatives: {}
             }

@@ -20,20 +20,17 @@
                 <v-btn flat>Cancel</v-btn>
             </v-stepper-content>
             <v-stepper-content step="2">
-                <!--<campaign-categories :campaign="campaign" :state="stateReady"></campaign-categories>
+                <campaign-categories :campaign="campaign" :state="stateReady"></campaign-categories>
                 <v-btn primary @click.native="e1 = 3">Continue</v-btn>
-                <v-btn flat>Cancel</v-btn>-->
+                <v-btn flat>Cancel</v-btn>
             </v-stepper-content>
             <v-stepper-content step="3">
-                <campaign-details :campaign="campaign" :state="stateReady"
-                :startTime="campaign.start_time"
-                :endTime="campaign.end_time"></campaign-details>
+                <campaign-creatives :campaign="campaign" :state="stateReady" :folder="currentFolder"
+                                    @folderChanged="updateCurrentFolder($event.folder)"></campaign-creatives>
             </v-stepper-content>
         
             <v-stepper-content step="4">
-                <campaign-details :campaign="campaign" :state="stateReady"
-                :startTime="campaign.start_time"
-                :endTime="campaign.end_time"></campaign-details>
+                <campaign-targeting :campaign="campaign" :state="stateReady"></campaign-targeting>
                 <v-btn primary @click.native="e1 = 2">Continue</v-btn>
                 <v-btn flat>Cancel</v-btn>
             </v-stepper-content>
