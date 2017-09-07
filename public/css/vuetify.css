@@ -5974,7 +5974,7 @@ h5 {
 h6 {
   color: #424242;
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 700;
   line-height: 1;
   letter-spacing: 0.02em;
   margin-bottom: 16px;
@@ -6085,7 +6085,7 @@ ol {
 }
 .title {
   font-size: 16px !important;
-  font-weight: 500 !important;
+  font-weight: 700 !important;
   line-height: 1 !important;
   letter-spacing: 0.02em !important;
 }
@@ -7519,7 +7519,7 @@ p {
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
   min-width: 24px;
-  padding: 18px 0;
+  padding: 8px 0;
   position: relative;
   width: 100%;
   outline: none;
@@ -10045,7 +10045,7 @@ table.table tfoot tr {
 }
 .input-group--text-field label {
   position: absolute;
-  top: 18px;
+  top: 8px;
   left: 0;
 }
 .input-group--text-field input,
@@ -10572,7 +10572,7 @@ table.table tfoot tr {
 }
 .toolbar__title {
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 700;
   letter-spacing: 0.02em;
   margin-left: 16px;
   white-space: nowrap;

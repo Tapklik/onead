@@ -4,7 +4,7 @@
                 checked, hovered: hovering }">         
                 <v-icon large :class="textColor">{{ icon }}</v-icon>  
                 <v-checkbox v-model="checked" class="tk-select-checkbox"></v-checkbox>
-                <h6 :class="textColor"><slot></slot></h6>
+                <p class="body-1" :class="textColor"><slot></slot></p>
             </div>      
         </v-card>
 </template>
@@ -145,7 +145,7 @@ export default {
 .tk-select-wrapper .tk-select-checkbox {
     position: absolute;
     left: 1px;
-    top: -17px;
+    top: -7px;
 }
 
 .tk-select-wrapper:hover, .tk-select-wrapper:hover input[type=checkbox].checkbox+span:before {
