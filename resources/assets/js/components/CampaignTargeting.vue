@@ -4,7 +4,7 @@
             <v-flex xs12 md6>
                 <v-layout row wrap>
                     <v-flex xs12 class="valign-wrapper mb-3 mt-4">
-                        <h5>Device Targeting</h5>
+                        <h4>Device Targeting</h4>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap xs12>
@@ -68,7 +68,7 @@
             <v-flex xs12 md6>
                 <v-layout row wrap>
                     <v-flex xs12 class="valign-wrapper mb-3 mt-4">
-                        <h5>Audience Targeting</h5>
+                        <h4>Audience Targeting</h4>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap xs12>
@@ -123,7 +123,7 @@
                 </v-layout>
                 <v-layout row wrap>
                     <v-flex xs12 class="valign-wrapper mb-3 mt-4">
-                        <h5>Geo Location Targeting</h5>
+                        <h4>Geo Location Targeting</h4>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap xs12>

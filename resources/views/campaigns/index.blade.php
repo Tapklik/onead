@@ -23,24 +23,10 @@
 								</div>
 							</div>
                         </div>
-                        <div class="col-sm-6">
-                            <div class="icon-addon addon-sm pull-right">
-                                <label class="glyphicon glyphicon-search"></label>                        
-                                <input id="campaigns-search-1"
-                                       name="campaigns-search-1"
-                                       class="form-control"
-                                       placeholder="Search"
-                                       type="text"
-                                v-model="search">
-                            </div>
-                            <div class="btn-group btn-group-sm pull-right">
-                               
-                            </div>
-                        </div>
                     </div>
 
                     <div id="dt_basic_wrapper" class="dataTables_wrapper form-inline no-footer">
-                        <campaigns></campaigns>
+                        <campaigns :token="token" ></campaigns>
                     </div>
                 </div>
             </div>
