@@ -164,7 +164,7 @@
                                 <div class="headline">Current Pacing Plan</div>
                             </v-card-title>
                             <v-layout row wrap>
-                              <v-flex xs12 md2 v-for="day in days">
+                              <v-flex xs12 md2 v-for="day in days" :key="day.index">
                                 <v-card class="elevation-0">
                                   <v-card-text>
                                     <v-checkbox :label="day" v-model="selectedDays" :value="days.indexOf(day)"></v-checkbox>
@@ -173,7 +173,7 @@
                                 </v-flex>
                                 </v-layout>
                                 <v-layout>
-                                <v-flex xs12 md2 v-for="time in timesOfDay">
+                                <v-flex xs12 md2 v-for="time in timesOfDay" :key="time.index">
                                 <v-card class="elevation-0">
                                   <v-card-text>
                                     <v-checkbox :label="time" v-model="selectedTimes" :value="timesOfDay.indexOf(time)"></v-checkbox>

@@ -21,16 +21,14 @@
                 <campaign-categories :campaign="campaign" :state="stateReady"></campaign-categories>
             </v-stepper-content>
             <v-stepper-content step="3">
-                <campaign-creatives :campaign="campaign" :state="stateReady" :folder="currentFolder"
-                                    @folderChanged="updateCurrentFolder($event.folder)"></campaign-creatives>
+               
             </v-stepper-content>
         
             <v-stepper-content step="4">
-                <campaign-targeting :campaign="campaign" :state="stateReady"></campaign-targeting>
+              
             </v-stepper-content>
             <v-stepper-content step="5">
-                <campaign-review :campaign="campaign" :state="stateReady" :folder="currentFolder"
-                                 :gender="selectedGender()"></campaign-review>
+                
             </v-stepper-content>
         </v-stepper>
     </div>         
@@ -68,7 +66,7 @@
                         data: []
                     },
                     cat: {
-                        data: {}
+                        data: []
                     },
                     creatives: {
                         data: []

@@ -8,11 +8,7 @@
             
             <i :class="icon"></i>
             
-            <label class="tk-select-checkbox">
-            
-                <input type="checkbox" class="checkbox style-0" v-model="checked"> <span>&nbsp;</span>
-            
-            </label>
+            <v-checkbox v-model="checked" class="tk-select-checkbox"></v-checkbox>
         
         </div>
         
@@ -172,7 +168,7 @@ export default {
 .tk-select-wrapper .tk-select-checkbox {
     position: absolute;
     left: 3px;
-    top: 0px;
+    top: -10px;
 }
 
 .tk-select-wrapper:hover, .tk-select-wrapper:hover input[type=checkbox].checkbox+span:before {

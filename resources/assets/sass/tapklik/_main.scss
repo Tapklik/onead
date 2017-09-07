@@ -3,7 +3,7 @@ html, body {
 }
 
 h1, h2, h3, h4, h5 {
-	color: color("orange", "darken-4");
+	//color: color("orange", "darken-4");
 }
 
 .logo {
@@ -35,7 +35,7 @@ h1, h2, h3, h4, h5 {
 	padding-left: 12px;
 	border-bottom: 1px solid #dddddd;
 	& h4 {
-		color: color("grey", "base");
+		//color: color("grey", "base");
 	}
 }
 
@@ -45,11 +45,11 @@ h1, h2, h3, h4, h5 {
 	max-height: 100% !important;
 
 	& .icon {
-		color: color("orange", "lighten-4");
+		//color: color("orange", "lighten-4");
 	}
 
 	& .item-title {
-		color: color("orange", "lighten-4");
+		//color: color("orange", "lighten-4");
 		font-size: 13px;
 		font-weight: bold;	
 	}
