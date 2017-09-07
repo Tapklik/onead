@@ -20,7 +20,7 @@
                 <v-layout row wrap xs12>
                     <v-flex xs12>
                         <tk-select-list v-model="campaign.device.data.os">
-                            <tk-select v-for="technology in technologiesList.operatingsystems" icon="mdi-newspaper" :trueValue="technology.device_id">
+                            <tk-select v-for="technology in technologiesList.operatingsystems" icon="mdi-newspaper" :trueValue="technology.device_id" :key="technology.type">
                                 {{ technology.type }}
                             </tk-select>
                         </tk-select-list>
@@ -39,7 +39,7 @@
                 <v-layout row wrap xs12>
                     <v-flex xs12>
                         <tk-select-list v-model="campaign.device.data.type">
-                            <tk-select v-for="technology in technologiesList.devices" icon="mdi-newspaper" :trueValue="technology.device_id">
+                            <tk-select v-for="technology in technologiesList.devices" icon="mdi-newspaper" :trueValue="technology.device_id" :key="technology.type">
                                 {{ technology.type }}
                             </tk-select>
                         </tk-select-list>
@@ -58,7 +58,7 @@
                 <v-layout row wrap xs12>
                     <v-flex xs12>
                         <tk-select-list v-model="campaign.device.data.ua">
-                            <tk-select v-for="technology in technologiesList.browsers" icon="mdi-newspaper" :trueValue="technology.device_id">
+                            <tk-select v-for="technology in technologiesList.browsers" icon="mdi-newspaper" :trueValue="technology.device_id" :key="technology.type">
                                 {{ technology.type }}
                             </tk-select>
                         </tk-select-list>
@@ -137,8 +137,13 @@
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap xs12>
-                    <v-flex xs12>
-                        <v-select v-bind:items="geo" v-model="campaign.geo.data" label="Select" single-line auto prepend-icon="map" hide-details autocomplete multiple></v-select>
+                    <v-flex xs12><v-select
+              v-bind:items="geo"
+              v-model="campaign.geo.data"
+              label="Select"
+              multiple
+              autocomplete
+            ></v-select>
                     </v-flex>
                 </v-layout>
             </v-flex>
