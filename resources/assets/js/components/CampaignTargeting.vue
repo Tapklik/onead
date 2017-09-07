@@ -111,6 +111,11 @@
                         <v-slider min="1" max="120" v-model="campaign.user.data.age.max"></v-slider>
                     </v-flex>
                 </v-layout>
+                <v-layout row wrap xs12>
+                    <v-flex xs12>
+                        <v-select v-bind:items="geo" v-model="campaign.geo.data" label="Select" single-line auto prepend-icon="map" hide-details autocomplete persistent-hint multiple></v-select>
+                    </v-flex>
+                </v-layout>
             </v-flex>
         </v-layout>
     </v-container>
@@ -135,7 +140,7 @@
                 type: [],
                 os: [],
                 browser: [],
-                geo: [],
+                geo: ['Belgium', 'Croatia', 'Belarus', 'Bulgaria'],
                 geoTemplate: '<div class="geo-dropdown"><flag :iso2="item.country_iso2"></flag><div class="text"><span class="key">{{ item.key }}</span><br><span class="comment">{{ item.comment }}</span></div></div>',
                 technologiesList: false,
                 age: [1, 12, 18, 26, 40, 55, 65, 120]
