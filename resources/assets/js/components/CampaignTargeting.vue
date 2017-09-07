@@ -4,7 +4,7 @@
             <v-flex xs12 md6>
                 <v-layout row wrap>
                     <v-flex xs12 class="valign-wrapper mb-3 mt-4">
-                        <h5><i class="material-icons">add_box</i> Device Targeting</h5>
+                        <h5>Device Targeting</h5>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap xs12>
@@ -68,7 +68,7 @@
             <v-flex xs12 md6>
                 <v-layout row wrap>
                     <v-flex xs12 class="valign-wrapper mb-3 mt-4">
-                        <h5><i class="material-icons">add_box</i> Audience Targeting</h5>
+                        <h5>Audience Targeting</h5>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap xs12>
@@ -123,7 +123,7 @@
                 </v-layout>
                 <v-layout row wrap>
                     <v-flex xs12 class="valign-wrapper mb-3 mt-4">
-                        <h5><i class="material-icons">add_box</i> Geo Location Targeting</h5>
+                        <h5>Geo Location Targeting</h5>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap xs12>
@@ -139,6 +139,7 @@
                 <v-layout row wrap xs12>
                     <v-flex xs12><v-select
               v-bind:items="geo"
+              chips
               v-model="campaign.geo.data"
               label="Select"
               multiple

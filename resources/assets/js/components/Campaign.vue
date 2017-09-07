@@ -25,7 +25,6 @@
             </v-stepper-content>
         
             <v-stepper-content step="4">
-                <h3>&nbsp;</h3>
                 <campaign-targeting :campaign="campaign" :state="stateReady"></campaign-targeting>
             </v-stepper-content>
             <v-stepper-content step="5">

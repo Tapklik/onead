@@ -26,6 +26,9 @@ Vue.component('sidebar', require('./components/Sidebar.vue'));
 Vue.component('auth', require('./components/Auth.vue'));
 Vue.component('creatives', require('./components/Creatives.vue'));
 
+
+Vue.component('campaigns', require('./components/Campaigns.vue'));
+
 // CREATE
 Vue.component('campaign', require('./components/Campaign.vue'));
 Vue.component('campaign-details', require('./components/CampaignDetails.vue'));
