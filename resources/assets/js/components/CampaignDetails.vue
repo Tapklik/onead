@@ -10,12 +10,11 @@
             <v-layout row wrap>
                 <v-flex xs12 md9 class="valign-wrapper mt-4">
                     <span class="title">Campaign Name</span>
-                    
+                    <p class="ma-0">Set a name for your campaign to be identified with</p>
                 </v-flex>
                 <v-flex xs12 md8>
                     <v-text-field
                     label="Campaign Name"
-                    hint="Set a name for your campaign to be identified with"
                     prepend-icon="mode_edit"
                     v-model="campaign.name"
                     single-line
@@ -25,7 +24,7 @@
             <v-layout row wrap>
                 <v-flex xs12 md12 class="valign-wrapper mt-4">
                     <span class="title">Campaign Flight</span>
-                    
+                    <p class="ma-0">Define campaign start and end dates</p>
                 </v-flex>
                 <v-flex xs6 md5 lg4>
                     <v-dialog
@@ -69,13 +68,12 @@
     <v-layout row wrap>
         <v-flex xs12 md9 class="valign-wrapper mt-4">
             <span class="title">Advertiser Domain</span>
-            
+            <p class="ma-0">Insert advertiser’s TLD (company.com)</p>
         </v-flex>
         <v-flex xs12 md8>
             <v-text-field
             label="advertiser.com"
             prepend-icon="language"
-            hint="Insert advertiser’s TLD (company.com)"
             single-line
             v-model="campaign.adomain"
             ></v-text-field>
@@ -84,12 +82,11 @@
     <v-layout row wrap>
         <v-flex xs12 md9 class="valign-wrapper mt-4">
             <span class="title">Click-through URL</span>
-            
+            <p class="ma-0">Set the default click through URL for your creatives</p>
         </v-flex>
         <v-flex xs12 md8>
             <v-text-field
             label="http://advertiser.com/landing"
-            hint="Set the default click through URL for your creatives"
             prepend-icon="language"
             single-line
             v-model="campaign.ctrurl"
@@ -106,12 +103,12 @@
     <v-layout row wrap>
         <v-flex xs12 md9 class="valign-wrapper mt-4">
             <span class="title">Budget Type</span>
-            
+            <p class="ma-0">Set budget to "daily" or "campaign"; "campaign" budget spans the budget across the lifetime of the campaign</p>
         </v-flex>
     </v-layout>
     <v-layout>
         <v-flex xs12 md9 class="valign-wrapper">
-            <v-radio-group v-model="campaign.budget.data.type" row class="pa-3">
+            <v-radio-group v-model="campaign.budget.data.type" row class="pa-1">
                 <v-radio label="Daily" value="daily" ></v-radio>
                 <v-radio label="Campaign" value="campaign"></v-radio>
             </v-radio-group>
@@ -120,12 +117,11 @@
     <v-layout row wrap>
         <v-flex xs12 md9 class="valign-wrapper mt-4">
             <span class="title">Budget</span>
-            
+            <p class="ma-0">Set budget for your campaign</p>
         </v-flex>
         <v-flex xs12 md8>
             <v-text-field
             label="0.00"
-            hint="Set budget for your campaign"
             prepend-icon="attach_money"
             v-model="campaign.budget.data.amount"
             single-line
@@ -135,13 +131,12 @@
     <v-layout row wrap>
         <v-flex xs12 md9 class="valign-wrapper mt-4">
             <span class="title">Target Bid (CPM)</span>
-            
+            <p class="ma-0">Allocate the target bid price per 1000 impressions</p>
         </v-flex>
         <v-flex xs12 md8>
             <v-text-field
             label="0.00"
             prepend-icon="attach_money"
-            hint="Allocate the target bid price per 1000 impressions"
             v-model="campaign.bid"
             single-line
             ></v-text-field>
@@ -150,7 +145,7 @@
     <v-layout row wrap>
         <v-flex xs12 md9 class="valign-wrapper mt-4">
             <span class="title">Daily Budget Pacing</span>
-
+            <p class="ma-0">Default pacing is enabled every day between 7:00AM and 1:00AM next day</p>
         </v-flex>
         <v-flex xs12 md9>
             <v-dialog v-model="showModal" width="1500px" lazy absolute>
