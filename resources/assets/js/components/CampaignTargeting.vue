@@ -112,8 +112,33 @@
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap xs12>
+                    <v-flex>
+                        <label class="control-label" for="device-type">Gender</label>
+                    </v-flex>
+                </v-layout>
+                <v-layout row wrap xs12>
+                    <v-flex>
+                        <p class="help-block">Set gender for target audience</p>
+                    </v-flex>
+                </v-layout>
+                <v-layout row wrap>
+                    <v-flex xs12 class="valign-wrapper mb-3 mt-4">
+                        <h5><i class="material-icons">add_box</i> Geo Location Targeting</h5>
+                    </v-flex>
+                </v-layout>
+                <v-layout row wrap xs12>
+                    <v-flex>
+                        <label class="control-label" for="device-type">Geo Location</label>
+                    </v-flex>
+                </v-layout>
+                <v-layout row wrap xs12>
+                    <v-flex>
+                        <p class="help-block">Choose the countries you want to target</p>
+                    </v-flex>
+                </v-layout>
+                <v-layout row wrap xs12>
                     <v-flex xs12>
-                        <v-select v-bind:items="geo" v-model="campaign.geo.data" label="Select" single-line auto prepend-icon="map" hide-details autocomplete persistent-hint multiple></v-select>
+                        <v-select v-bind:items="geo" v-model="campaign.geo.data" label="Select" single-line auto prepend-icon="map" hide-details autocomplete multiple></v-select>
                     </v-flex>
                 </v-layout>
             </v-flex>
