@@ -9,12 +9,12 @@
                 </v-layout>
                 <v-layout row wrap xs12>
                     <v-flex>
-                        <label class="control-label" for="device-type">Devices</label>
+                        <span class="title">Devices</span>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap xs12>
                     <v-flex>
-                        <p class="help-block">Select device types</p>
+                        <p>Select device types</p>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap xs12>
@@ -28,12 +28,12 @@
                 </v-layout>
                 <v-layout row wrap xs12>
                     <v-flex>
-                        <label class="control-label" for="device-type">Operating Systems</label>
+                        <span class="title">Operating Systems</span>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap xs12>
                     <v-flex>
-                        <p class="help-block">Select operating systems</p>
+                        <p>Select operating systems</p>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap xs12>
@@ -47,12 +47,12 @@
                 </v-layout>
                 <v-layout row wrap xs12>
                     <v-flex>
-                        <label class="control-label" for="device-type">Browsers</label>
+                        <span class="title">Browsers</span>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap xs12>
                     <v-flex>
-                        <p class="help-block">Select browsers</p>
+                        <p>Select browsers</p>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap xs12>
@@ -73,12 +73,12 @@
                 </v-layout>
                 <v-layout row wrap xs12>
                     <v-flex>
-                        <label class="control-label" for="device-type">Gender</label>
+                        <span class="title">Gender</span>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap xs12>
                     <v-flex>
-                        <p class="help-block">Set gender for target audience</p>
+                        <p>Set gender for target audience</p>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap xs12>
@@ -95,12 +95,12 @@
                 </v-layout>
                 <v-layout row wrap xs12>
                     <v-flex>
-                        <label class="control-label" for="device-type">Age Group</label>
+                        <span class="title">Age Group</span>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap xs12>
                     <v-flex>
-                        <p class="help-block">Set age group in which your target audience fits</p>
+                        <p>Set age group in which your target audience fits</p>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap xs12>
@@ -113,12 +113,12 @@
                 </v-layout>
                 <v-layout row wrap xs12>
                     <v-flex>
-                        <label class="control-label" for="device-type">Gender</label>
+                        <span class="title">Gender</span>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap xs12>
                     <v-flex>
-                        <p class="help-block">Set gender for target audience</p>
+                        <p>Set gender for target audience</p>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap>
@@ -128,12 +128,12 @@
                 </v-layout>
                 <v-layout row wrap xs12>
                     <v-flex>
-                        <label class="control-label" for="device-type">Geo Location</label>
+                        <span class="title">Geo Location</span>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap xs12>
                     <v-flex>
-                        <p class="help-block">Choose the countries you want to target</p>
+                        <p>Choose the countries you want to target</p>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap xs12>
