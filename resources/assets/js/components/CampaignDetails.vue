@@ -1,5 +1,5 @@
 <template>
- <v-container fluid grid-list-md>
+   <v-container fluid grid-list-md>
     <v-layout row wrap>
         <v-flex xs12 md6>
             <v-layout row wrap>
@@ -31,162 +31,162 @@
                 </v-flex>
                 <v-flex xs12 md5>
                     <v-dialog
-                      persistent
-                      :v-model="false"
-                      lazy
-                      full-width
+                    persistent
+                    :v-model="false"
+                    lazy
+                    full-width
                     >
-                        <v-text-field
-                        label="From"
-                        prepend-icon="flight_takeoff"
-                        append-icon="date_range"
-                        single-line
-                        readonly
-                        slot="activator"
-                        v-model="campaign.start_time"
-                        ></v-text-field>
-                        <v-date-picker v-model="campaign.start_time" no-title scrollable autosave></v-date-picker>
-                    </v-dialog>
-                </v-flex>
-                 <v-flex xs12 md5>
-                    <v-dialog
-                      
-                      :v-model="false"
-                      lazy
-                      full-width
-                    >
-                        <v-text-field
-                        label="From"
-                        prepend-icon="flight_takeoff"
-                        append-icon="date_range"
-                        single-line
-                        readonly
-                        slot="activator"
-                        v-model="campaign.end_time"
-                        ></v-text-field>
-                        <v-date-picker v-model="campaign.end_time" no-title scrollable autosave></v-date-picker>
-                    </v-dialog>
-                </v-flex>
-            </v-layout>
-            <v-layout row wrap>
-                <v-flex xs12 md9 class="valign-wrapper mt-3">
-                    <span class="title">Advertiser Domain</span>
-                    <span class="title orange-text text-darken-4"> . </span>
-                    <span class="caption grey-text text-ldarken-1">Insert advertiser’s TLD (company.com)</span>
-                </v-flex>
-                <v-flex xs12 md9>
                     <v-text-field
-                    label="advertiser.com"
-                    prepend-icon="language"
+                    label="From"
+                    prepend-icon="flight_takeoff"
+                    append-icon="date_range"
                     single-line
-                    v-model="campaign.adomain"
+                    readonly
+                    slot="activator"
+                    v-model="campaign.start_time"
                     ></v-text-field>
-                </v-flex>
-            </v-layout>
-            <v-layout row wrap>
-                <v-flex xs12 md9 class="valign-wrapper mt-3">
-                    <span class="title">Click-through URL</span>
-                    <span class="title orange-text text-darken-4"> . </span>
-                    <span class="caption grey-text text-ldarken-1">Set the default click through URL for your creatives</span>
-                </v-flex>
-                <v-flex xs12 md9>
-                    <v-text-field
-                    label="http://advertiser.com/landing"
-                    prepend-icon="language"
-                    single-line
-                    v-model="campaign.ctrurl"
-                    ></v-text-field>
-                </v-flex>
-            </v-layout>
+                    <v-date-picker v-model="campaign.start_time" no-title scrollable autosave></v-date-picker>
+                </v-dialog>
+            </v-flex>
+            <v-flex xs12 md5>
+                <v-dialog
+                
+                :v-model="false"
+                lazy
+                full-width
+                >
+                <v-text-field
+                label="From"
+                prepend-icon="flight_takeoff"
+                append-icon="date_range"
+                single-line
+                readonly
+                slot="activator"
+                v-model="campaign.end_time"
+                ></v-text-field>
+                <v-date-picker v-model="campaign.end_time" no-title scrollable autosave></v-date-picker>
+            </v-dialog>
         </v-flex>
-        <v-flex xs12 md6>
-            <v-layout row wrap>
-                <v-flex xs12 class="valign-wrapper mb-3 mt-4">
-                    <h5><i class="material-icons">attach_money</i> Budget Details</h5>
-                </v-flex>
-            </v-layout>
-            <v-layout row wrap>
-                <v-flex xs12 md9 class="valign-wrapper mt-3">
-                    <span class="title">Budget Type</span>
-                    <span class="title orange-text text-darken-4"> . </span>
-                    <span class="caption grey-text text-ldarken-1">Set budget to "daily" or "campaign"</span>
+    </v-layout>
+    <v-layout row wrap>
+        <v-flex xs12 md9 class="valign-wrapper mt-3">
+            <span class="title">Advertiser Domain</span>
+            <span class="title orange-text text-darken-4"> . </span>
+            <span class="caption grey-text text-ldarken-1">Insert advertiser’s TLD (company.com)</span>
+        </v-flex>
+        <v-flex xs12 md9>
+            <v-text-field
+            label="advertiser.com"
+            prepend-icon="language"
+            single-line
+            v-model="campaign.adomain"
+            ></v-text-field>
+        </v-flex>
+    </v-layout>
+    <v-layout row wrap>
+        <v-flex xs12 md9 class="valign-wrapper mt-3">
+            <span class="title">Click-through URL</span>
+            <span class="title orange-text text-darken-4"> . </span>
+            <span class="caption grey-text text-ldarken-1">Set the default click through URL for your creatives</span>
+        </v-flex>
+        <v-flex xs12 md9>
+            <v-text-field
+            label="http://advertiser.com/landing"
+            prepend-icon="language"
+            single-line
+            v-model="campaign.ctrurl"
+            ></v-text-field>
+        </v-flex>
+    </v-layout>
+</v-flex>
+<v-flex xs12 md6>
+    <v-layout row wrap>
+        <v-flex xs12 class="valign-wrapper mb-3 mt-4">
+            <h5><i class="material-icons">attach_money</i> Budget Details</h5>
+        </v-flex>
+    </v-layout>
+    <v-layout row wrap>
+        <v-flex xs12 md9 class="valign-wrapper mt-3">
+            <span class="title">Budget Type</span>
+            <span class="title orange-text text-darken-4"> . </span>
+            <span class="caption grey-text text-ldarken-1">Set budget to "daily" or "campaign"</span>
+        </v-flex>
+    </v-layout>
+    <v-layout>
+        <v-flex xs12 md9 class="valign-wrapper">
+            <v-radio-group v-model="campaign.budget.data.type" row class="pa-3">
+                <v-radio label="Daily" value="daily" ></v-radio>
+                <v-radio label="Campaign" value="campaign"></v-radio>
+            </v-radio-group>
+        </v-flex>
+    </v-layout>
+    <v-layout row wrap>
+        <v-flex xs12 md9 class="valign-wrapper mt-3">
+            <span class="title">Budget</span>
+            <span class="title orange-text text-darken-4"> . </span>
+            <span class="caption grey-text text-ldarken-1">Set budget for your campaign</span>
+        </v-flex>
+        <v-flex xs12 md9>
+            <v-text-field
+            label="0.00"
+            prepend-icon="attach_money"
+            v-model="campaign.budget.data.amount"
+            single-line
+            ></v-text-field>
+        </v-flex>
+    </v-layout>
+    <v-layout row wrap>
+        <v-flex xs12 md9 class="valign-wrapper mt-3">
+            <span class="title">Target Bid (CPM)</span>
+            <span class="title orange-text text-darken-4"> . </span>
+            <span class="caption grey-text text-ldarken-1">Allocate the target bid price per 1000 impressions</span>
+        </v-flex>
+        <v-flex xs12 md9>
+            <v-text-field
+            label="0.00"
+            prepend-icon="attach_money"
+            v-model="campaign.bid"
+            single-line
+            ></v-text-field>
+        </v-flex>
+    </v-layout>
+    <v-layout row wrap>
+        <v-flex xs12 md9 class="valign-wrapper mt-3">
+            <span class="title">Daily Budget Pacing</span>
+            <span class="title orange-text text-darken-4"> . </span>
+            <span class="caption grey-text text-ldarken-1">Default pacing is between 7:00AM and 1:00AM every day</span>
+        </v-flex>
+        <v-flex xs12 md9>
+            <v-dialog v-model="showModal" width="1500px" lazy absolute>
+                <v-btn slot="activator" small class="grey lighten-2 mt-3">Set Budget Pacing</v-btn>
+                <v-card>
+                    <v-card-title>
+                        <div class="headline">Current Pacing Plan</div>
+                    </v-card-title>
+                    <v-layout row wrap>
+                      <v-flex xs12 md2 v-for="day in days" :key="day.index">
+                        <v-card class="elevation-0">
+                          <v-card-text>
+                            <v-checkbox :label="day" v-model="selectedDays" :value="days.indexOf(day)"></v-checkbox>
+                        </v-card-text>
+                    </v-card>
                 </v-flex>
             </v-layout>
             <v-layout>
-                <v-flex xs12 md9 class="valign-wrapper">
-                    <v-radio-group v-model="campaign.budget.data.type" row class="pa-3">
-                        <v-radio label="Daily" value="daily" ></v-radio>
-                        <v-radio label="Campaign" value="campaign"></v-radio>
-                    </v-radio-group>
-                </v-flex>
-            </v-layout>
-            <v-layout row wrap>
-                <v-flex xs12 md9 class="valign-wrapper mt-3">
-                    <span class="title">Budget</span>
-                    <span class="title orange-text text-darken-4"> . </span>
-                    <span class="caption grey-text text-ldarken-1">Set budget for your campaign</span>
-                </v-flex>
-                <v-flex xs12 md9>
-                    <v-text-field
-                    label="0.00"
-                    prepend-icon="attach_money"
-                    v-model="campaign.budget.data.amount"
-                    single-line
-                    ></v-text-field>
-                </v-flex>
-            </v-layout>
-            <v-layout row wrap>
-                <v-flex xs12 md9 class="valign-wrapper mt-3">
-                    <span class="title">Target Bid (CPM)</span>
-                    <span class="title orange-text text-darken-4"> . </span>
-                    <span class="caption grey-text text-ldarken-1">Allocate the target bid price per 1000 impressions</span>
-                </v-flex>
-                <v-flex xs12 md9>
-                    <v-text-field
-                    label="0.00"
-                    prepend-icon="attach_money"
-                    v-model="campaign.bid"
-                    single-line
-                    ></v-text-field>
-                </v-flex>
-            </v-layout>
-            <v-layout row wrap>
-                <v-flex xs12 md9 class="valign-wrapper mt-3">
-                    <span class="title">Daily Budget Pacing</span>
-                    <span class="title orange-text text-darken-4"> . </span>
-                    <span class="caption grey-text text-ldarken-1">Default pacing is between 7:00AM and 1:00AM every day</span>
-                </v-flex>
-                <v-flex xs12 md9>
-                    <v-dialog v-model="showModal" width="1500px" lazy absolute>
-                        <v-btn slot="activator" small class="grey lighten-2 mt-3">Set Budget Pacing</v-btn>
-                        <v-card>
-                            <v-card-title>
-                                <div class="headline">Current Pacing Plan</div>
-                            </v-card-title>
-                            <v-layout row wrap>
-                              <v-flex xs12 md2 v-for="day in days" :key="day.index">
-                                <v-card class="elevation-0">
-                                  <v-card-text>
-                                    <v-checkbox :label="day" v-model="selectedDays" :value="days.indexOf(day)"></v-checkbox>
-                                  </v-card-text>
-                                </v-card>
-                                </v-flex>
-                                </v-layout>
-                                <v-layout>
-                                <v-flex xs12 md2 v-for="time in timesOfDay" :key="time.index">
-                                <v-card class="elevation-0">
-                                  <v-card-text>
-                                    <v-checkbox :label="time" v-model="selectedTimes" :value="timesOfDay.indexOf(time)"></v-checkbox>
-                                  </v-card-text>
-                                </v-card>
-                              </v-flex>
-                            </v-layout>
-                        </v-card>
-                    </v-dialog>
-                </v-flex>
-            </v-layout>
-        </v-flex>
-    </v-layout>
+                <v-flex xs12 md2 v-for="time in timesOfDay" :key="time.index">
+                    <v-card class="elevation-0">
+                      <v-card-text>
+                        <v-checkbox :label="time" v-model="selectedTimes" :value="timesOfDay.indexOf(time)"></v-checkbox>
+                    </v-card-text>
+                </v-card>
+            </v-flex>
+        </v-layout>
+    </v-card>
+</v-dialog>
+</v-flex>
+</v-layout>
+</v-flex>
+</v-layout>
 </v-container>
 </template>
 <script>
@@ -203,7 +203,7 @@
                 isActive: true,
                 days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
                 timesOfDay: ['12:00AM - 7:00AM', '7:00AM - 10:00AM', '10:00AM - 1:00PM', '1:00PM - 4:00PM', '4:00PM - 7:00PM', 
-                    '7:00PM - 10:00PM', '10:00PM - 12:00AM'],
+                '7:00PM - 10:00PM', '10:00PM - 12:00AM'],
                 selectedDays: [0, 1, 2, 3, 4, 5, 6],
                 selectedTimes: [1, 2, 3, 4, 5, 6]
             }
@@ -251,20 +251,20 @@
                 var plan = ""
                 for (var d = 0; d < 7; d++) {
                     if (d > 0) {plan += " "}
-                    if (this.selectedDays.indexOf(d) >= 0 ) {
-                        for( var t = 0; t < 7; t++) {
-                            if(this.selectedTimes.indexOf(t) >= 0) {
-                                plan += "1"
-                            } else {
-                                plan += "0"
+                        if (this.selectedDays.indexOf(d) >= 0 ) {
+                            for( var t = 0; t < 7; t++) {
+                                if(this.selectedTimes.indexOf(t) >= 0) {
+                                    plan += "1"
+                                } else {
+                                    plan += "0"
+                                }
                             }
+                        } else {
+                            plan += "0000000"
                         }
-                    } else {
-                        plan += "0000000"
                     }
+                    this.campaign.budget.data.pacing = plan
                 }
-                this.campaign.budget.data.pacing = plan
             }
         }
-    }
-</script>
+    </script>

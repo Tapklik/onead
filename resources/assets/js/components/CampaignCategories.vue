@@ -9,7 +9,7 @@
             <v-flex xs12>
                 <tk-select-list v-model="campaign.cat.data">
                 <tk-select v-for="category in $parent.$parent.$parent.categoriesList" 
-                :key="category.code" :icon="'iabicon iabicon-' + category.code | lowercase" 
+                :key="category.code" icon="mdi-newspaper" 
                 :trueValue="category.code" 
                 :subtitle="category.code">
                     {{ category.type }}

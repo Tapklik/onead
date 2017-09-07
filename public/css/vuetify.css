@@ -5877,7 +5877,7 @@ body {
   width: 100%;
 }
 html {
-  font-size: 15px;
+  font-size: 14px;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -5908,7 +5908,7 @@ a {
 }
 h1 {
   color: #424242;
-  font-size: 112px;
+  font-size: 72px;
   font-weight: 300;
   line-height: 1;
   letter-spacing: -0.04em;
@@ -5916,12 +5916,12 @@ h1 {
 }
 @media screen and (max-width: 600px) {
   h1 {
-    font-size: 67.2px;
+    font-size: 43.199999999999996px;
   }
 }
 h2 {
   color: #424242;
-  font-size: 56px;
+  font-size: 40px;
   font-weight: 400;
   line-height: 1.35;
   letter-spacing: -0.02em;
@@ -5929,51 +5929,51 @@ h2 {
 }
 @media screen and (max-width: 600px) {
   h2 {
-    font-size: 33.6px;
+    font-size: 24px;
   }
 }
 h3 {
   color: #424242;
-  font-size: 45px;
+  font-size: 32px;
   font-weight: 400;
-  line-height: 48px;
+  line-height: 36px;
   letter-spacing: normal;
   margin-bottom: 16px;
 }
 @media screen and (max-width: 600px) {
   h3 {
-    font-size: 27px;
+    font-size: 19.2px;
   }
 }
 h4 {
   color: #424242;
-  font-size: 34px;
+  font-size: 24px;
   font-weight: 400;
-  line-height: 40px;
+  line-height: 28px;
   letter-spacing: normal;
   margin-bottom: 16px;
 }
 @media screen and (max-width: 600px) {
   h4 {
-    font-size: 20.4px;
+    font-size: 14.399999999999999px;
   }
 }
 h5 {
   color: #424242;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 400;
-  line-height: 32px;
+  line-height: 22px;
   letter-spacing: normal;
   margin-bottom: 16px;
 }
 @media screen and (max-width: 600px) {
   h5 {
-    font-size: 14.399999999999999px;
+    font-size: 12px;
   }
 }
 h6 {
   color: #424242;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 500;
   line-height: 1;
   letter-spacing: 0.02em;
@@ -5981,12 +5981,12 @@ h6 {
 }
 @media screen and (max-width: 600px) {
   h6 {
-    font-size: 12px;
+    font-size: 9.6px;
   }
 }
 subheading {
   color: #424242;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 400;
   line-height: ;
   letter-spacing: ;
@@ -5994,12 +5994,12 @@ subheading {
 }
 @media screen and (max-width: 600px) {
   subheading {
-    font-size: 9.6px;
+    font-size: 8.4px;
   }
 }
 body-2 {
   color: #424242;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 500;
   line-height: ;
   letter-spacing: ;
@@ -6007,23 +6007,10 @@ body-2 {
 }
 @media screen and (max-width: 600px) {
   body-2 {
-    font-size: 8.4px;
+    font-size: 7.199999999999999px;
   }
 }
 body-1 {
-  color: #424242;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: ;
-  letter-spacing: ;
-  margin-bottom: 16px;
-}
-@media screen and (max-width: 600px) {
-  body-1 {
-    font-size: 8.4px;
-  }
-}
-caption {
   color: #424242;
   font-size: 12px;
   font-weight: 400;
@@ -6032,13 +6019,26 @@ caption {
   margin-bottom: 16px;
 }
 @media screen and (max-width: 600px) {
-  caption {
+  body-1 {
     font-size: 7.199999999999999px;
+  }
+}
+caption {
+  color: #424242;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: ;
+  letter-spacing: ;
+  margin-bottom: 16px;
+}
+@media screen and (max-width: 600px) {
+  caption {
+    font-size: 6px;
   }
 }
 button {
   color: #424242;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 500;
   line-height: ;
   letter-spacing: ;
@@ -6046,7 +6046,7 @@ button {
 }
 @media screen and (max-width: 600px) {
   button {
-    font-size: 8.4px;
+    font-size: 7.199999999999999px;
   }
 }
 ul,
@@ -6054,55 +6054,55 @@ ol {
   padding-left: 24px;
 }
 .display-4 {
-  font-size: 112px !important;
+  font-size: 72px !important;
   font-weight: 300 !important;
   line-height: 1 !important;
   letter-spacing: -0.04em !important;
 }
 .display-3 {
-  font-size: 56px !important;
+  font-size: 40px !important;
   font-weight: 400 !important;
   line-height: 1.35 !important;
   letter-spacing: -0.02em !important;
 }
 .display-2 {
-  font-size: 45px !important;
+  font-size: 32px !important;
   font-weight: 400 !important;
-  line-height: 48px !important;
+  line-height: 36px !important;
   letter-spacing: normal !important;
 }
 .display-1 {
-  font-size: 34px !important;
+  font-size: 24px !important;
   font-weight: 400 !important;
-  line-height: 40px !important;
+  line-height: 28px !important;
   letter-spacing: normal !important;
 }
 .headline {
-  font-size: 24px !important;
+  font-size: 20px !important;
   font-weight: 400 !important;
-  line-height: 32px !important;
+  line-height: 22px !important;
   letter-spacing: normal !important;
 }
 .title {
-  font-size: 20px !important;
+  font-size: 16px !important;
   font-weight: 500 !important;
   line-height: 1 !important;
   letter-spacing: 0.02em !important;
 }
 .subheading {
-  font-size: 16px !important;
+  font-size: 14px !important;
   font-weight: 400 !important;
 }
 .body-2 {
-  font-size: 14px !important;
+  font-size: 12px !important;
   font-weight: 500 !important;
 }
 .body-1 {
-  font-size: 14px !important;
+  font-size: 12px !important;
   font-weight: 400 !important;
 }
 .caption {
-  font-size: 12px !important;
+  font-size: 10px !important;
   font-weight: 400 !important;
 }
 p {
@@ -6117,7 +6117,7 @@ p {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  font-size: 15px;
+  font-size: 14px;
   margin: 4px auto;
   padding: 16px;
   position: relative;
@@ -7685,7 +7685,7 @@ p {
   margin-top: 0;
 }
 .list__tile {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 400;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -7736,7 +7736,7 @@ a.list__tile:hover,
   text-align: left;
 }
 .list__tile__sub-title {
-  font-size: 14px;
+  font-size: 12px;
 }
 .list__tile .avatar {
   -webkit-box-pack: start;
@@ -7839,14 +7839,14 @@ a.list__tile:hover,
   padding-top: 4px;
 }
 .list--dense .subheader {
-  font-size: 13px;
+  font-size: 11px;
   height: 40px;
 }
 .list--dense .list--group .subheader {
   height: 40px;
 }
 .list--dense .list__tile {
-  font-size: 13px;
+  font-size: 11px;
 }
 .list--dense .list__tile--avatar {
   height: 48px;
@@ -7863,7 +7863,7 @@ a.list__tile:hover,
   font-size: 21px;
 }
 .list--dense .list__tile__sub-title {
-  font-size: 13px;
+  font-size: 11px;
 }
 .list--two-line .list__tile {
   height: 72px;
@@ -9692,7 +9692,7 @@ a.list__tile:hover,
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 500;
   padding: 0 16px 0 16px;
 }
@@ -9763,11 +9763,11 @@ a.list__tile:hover,
   display: -ms-flexbox;
   display: flex;
   padding: 0 8px;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 500;
 }
 .system-bar .icon {
-  font-size: 16px;
+  font-size: 14px;
 }
 .system-bar--status {
   height: 24px;
@@ -9779,7 +9779,7 @@ a.list__tile:hover,
   height: 32px;
 }
 .system-bar--window .icon {
-  font-size: 20px;
+  font-size: 16px;
   margin-right: 8px;
 }
 .system-bar--status + .navigation-drawer {
@@ -10571,7 +10571,7 @@ table.table tfoot tr {
   display: none;
 }
 .toolbar__title {
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 500;
   letter-spacing: 0.02em;
   margin-left: 16px;

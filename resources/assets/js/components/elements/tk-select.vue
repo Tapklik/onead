@@ -1,29 +1,12 @@
 <template>
-
-    <li class="tk-select" @click="toggleClick()">
-
-        <div class="tk-select-wrapper" @mouseenter="toggleHover()" @mouseleave="toggleHover()" v-bind:class="{active: 
-
-            checked, hovered: hovering }">
-            
-            <i :class="icon"></i>
-            
-            <v-checkbox v-model="checked" class="tk-select-checkbox"></v-checkbox>
-        
-        </div>
-        
-        <span class="title">
-        
-            <slot></slot>
-        
-        </span>
-        
-        <br>
-        
-        <span class="subtitle">{{ this.subtitle }}</span>
-    
-    </li>
-
+        <v-card class="tk-select pa-1" height="100px" @click="toggleClick()">
+            <div class="tk-select-wrapper" @mouseenter="toggleHover()" @mouseleave="toggleHover()" v-bind:class="{active: 
+                checked, hovered: hovering }">         
+                <v-icon large :class="textColor">{{ icon }}</v-icon>  
+                <v-checkbox v-model="checked" class="tk-select-checkbox"></v-checkbox>
+                <h6 :class="textColor"><slot></slot></h6>
+            </div>      
+        </v-card>
 </template>
 
 <script>
@@ -72,6 +55,11 @@ export default {
         },
         parentValue() {
             return this.$parent.val
+        },
+        textColor() {
+            if (this.checked || this.hovering) {
+                return "orange--text text--darken-4"
+            }
         }
     },
 
@@ -145,30 +133,19 @@ export default {
 
 <style>
 .tk-select {
-    margin: 0 10px 20px 10px;
+    margin: 0 20px 40px 20px;
     text-align: center;
-    width: 90px;
-    list-style: none;
+    width: 120px;
 }
 
 .tk-select-wrapper {
-    height: 60px;
-    width: 60px;
-    display: block;
-    color: #CCC;
-    background: #eeeeee;
-    border: dashed 1px rgba(0, 0, 0, 0.2);
-    padding: 11px !important;
-    vertical-align: top;
-    margin: 0 15px 5px 15px;
-    text-align: center;
-    position: relative;
+   
 }
 
 .tk-select-wrapper .tk-select-checkbox {
     position: absolute;
-    left: 3px;
-    top: -10px;
+    left: 1px;
+    top: -17px;
 }
 
 .tk-select-wrapper:hover, .tk-select-wrapper:hover input[type=checkbox].checkbox+span:before {

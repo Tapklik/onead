@@ -1,7 +1,9 @@
 <template>
-    <ul class="tk-select-list">
-        <slot></slot>
-    </ul>
+    <v-container fluid>
+        <v-layout row wrap>
+            <slot></slot>
+        </v-layout>
+    </v-container>
 </template>
 <script>
 export default {
@@ -39,15 +41,5 @@ export default {
 </script>
 
 <style>
-.tk-select-list {
-    display: block;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
 
-.tk-select-list > li {
-    display: inline-block;
-    vertical-align: top;
-}
 </style>
