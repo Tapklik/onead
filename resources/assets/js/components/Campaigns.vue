@@ -1,5 +1,8 @@
 <template>
-    <v-container>
+
+    <v-container fluid grid-list-md>
+        <v-layout>
+            <v-flex xs12>
         <v-card>
             <v-toolbar class="elevation-0 grey lighten-3">
                 <v-btn primary dark class="elevation-0" :href="createCampaignRouter">
@@ -11,6 +14,10 @@
                 </v-text-field>
             </v-card-title>
             <v-data-table v-bind:items="campaigns" v-bind:search="search">
+
+                                        <template slot="headers" scope="props">
+                                            &nbsp;
+                                        </template>
                 <template slot="items" scope="props">
                     <td>
                         <span class="title">{{ props.item.name }}</span> <br>
@@ -27,9 +34,12 @@
                        <small>DECLINED</small>
                    </v-chip>
                    </td>
-                   <td class="text-xs-right">{{ props.item.budget.data.amount }} <br>{{ props.item.budget.data.type }}</td>
+                   <td class="text-xs-center">
+                        <span class="title"> {{  $root.fromMicroDollars(props.item.budget.data.amount) }} </span><br>
+                        <span class="caption"> {{ props.item.budget.data.type  | uppercase }}</span>
+                    </td>
                    <td class="text-xs-center">{{ props.item.start_time }} <br>to<br>{{ props.item.end_time }}</td>
-                   <td class="text-xs-right">
+                   <td class="text-xs-center">
 
                     <v-btn icon class="grey--text">
                         <v-icon>play_circle_outline</v-icon>
@@ -47,6 +57,8 @@
             </template>
         </v-data-table>
     </v-card>
+    </v-flex>
+    </v-layout>
 </v-container>
 </template>
 
@@ -138,6 +150,12 @@
                 return this.campaigns.filter(function (campaign) {
                     return campaign.name.toLowerCase().indexOf(obj.$root.search.toLowerCase())>=0;
                 });
+            }
+        },
+
+        filters: {
+            uppercase: function(v) {
+              return v.toUpperCase();
             }
         },
 
