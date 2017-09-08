@@ -30,6 +30,15 @@ h5 {
   background: transparent;
 }
 
+.tapklik-gradient {
+  background: #f76c06;
+  /* Old browsers */
+  /* FF3.6-15 */
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(135deg, #f76c06 0%, #f76c06 57%, #f99e36 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
 .header {
   background: #f3f3f3;
   margin-top: -15px;

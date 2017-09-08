@@ -1,5 +1,5 @@
 <template>
-    <v-container fluid grid-list-md>
+    <v-container fluid grid-list-lg>
         <v-layout row wrap>
             <v-flex d-flex xs12 md6>
                 <v-card height="400px">
@@ -9,12 +9,25 @@
             <v-flex d-flex xs6 md2>
                 <v-layout row wrap>
                     <v-flex d-flex xs12>
-                        <v-card height="200px">
-
+                        <v-card height="192px">
+                            <v-card-title class="orange--text text--darken-4">
+                                <v-flex xs12>
+                                    <v-layout row>
+                                        <v-flex xs12 class="pa-0">
+                                            <span class="subheading right">CLICKS</span>
+                                        </v-flex>
+                                    </v-layout>
+                                    <v-layout row>
+                                        <v-flex xs12 class="pa-0">
+                                            <span class="display-4 right">430</span>
+                                        </v-flex>
+                                    </v-layout>    
+                                </v-flex>
+                            </v-card-title>
                         </v-card>
                     </v-flex>
                     <v-flex d-flex xs12>
-                        <v-card height="200px">
+                        <v-card height="192px" class="orange--text text--darken-4">
 
                         </v-card>
                     </v-flex>
@@ -23,12 +36,12 @@
             <v-flex d-flex xs6 md2>
                 <v-layout row wrap>
                     <v-flex d-flex xs12>
-                        <v-card height="200px">
+                        <v-card height="192px" class="orange--text text--darken-4">
 
                         </v-card>
                     </v-flex>
                     <v-flex d-flex xs12>
-                        <v-card height="200px">
+                        <v-card height="192px" class="orange--text text--darken-4">
 
                         </v-card>
                     </v-flex>
@@ -37,12 +50,12 @@
             <v-flex d-flex xs6 md2>
                 <v-layout row wrap>
                     <v-flex d-flex xs12>
-                        <v-card height="200px">
+                        <v-card height="192px" class="orange--text text--darken-4">
 
                         </v-card>
                     </v-flex>
                     <v-flex d-flex xs12>
-                        <v-card height="200px">
+                        <v-card height="192px" class="orange--text text--darken-4">
 
                         </v-card>
                     </v-flex>
