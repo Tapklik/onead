@@ -1,67 +1,84 @@
 <template>
-
-    <v-container fluid grid-list-md>
+    <v-container fluid grid-list-xs>
         <v-layout>
             <v-flex xs12>
-        <v-card>
-            <v-toolbar class="elevation-0 grey lighten-3">
-                <v-btn primary dark class="elevation-0" :href="createCampaignRouter">
-                    <v-icon>add</v-icon> Add campaign
-                </v-btn> 
-            </v-toolbar>
-            <v-card-title>
-                <v-text-field append-icon="search" label="Search" single-line hide-details v-model="search">
-                </v-text-field>
-            </v-card-title>
-            <v-data-table v-bind:items="campaigns" v-bind:search="search">
+                <v-card class="elevation-0">    
+                    <v-card-title>
+                        <v-flex xs12 md6 lg9>
+                            <v-btn primary dark class="elevation-0" :href="createCampaignRouter">
+                                <v-icon>add</v-icon> Add campaign
+                            </v-btn> 
+                        </v-flex>
+                        <v-flex xs12 md6 lg3>
+                            <v-text-field 
+                                append-icon="search" 
+                                label="Search" 
+                                single-line 
+                                hide-details 
+                                class="right"
+                                v-model="search">
+                            </v-text-field>
+                        </v-flex>
+                    </v-card-title>
+                    <v-card-text>
+                        <v-layout row wrap>
+                            <v-flex xs12>
+                                <v-data-table 
+                                v-bind:items="campaigns" 
+                                v-bind:search="search"
+                                v-bind:rows-per-page-items="[10, 25, { text: 'All', value: -1 }]"
+                                >
+                                    <template slot="headers" scope="props">
+                                        &nbsp;
+                                    </template>
+                                    <template slot="items" scope="props">
+                                        <td>
+                                            <span class="title">{{ props.item.name }}</span> <br>
+                                            <span class="caption">{{props.item.id}}</span>
+                                        </td>
+                                        <td>
+                                            <v-chip v-if="props.item.status == 'active'" small class="green white--text">
+                                                <small>APPROVED</small>
+                                            </v-chip>
+                                            <v-chip v-else-if="props.item.status == 'archived'" small class="yellow darken-2 white--text">
+                                                <small>PENDING</small>
+                                            </v-chip>   
+                                            <v-chip v-else small class="red white--text">
+                                                <small>DECLINED</small>
+                                            </v-chip>
+                                        </td>
+                                        <td class="text-xs-right">
+                                            <span class="title"> $ {{$root.fromMicroDollars(props.item.budget.data.amount) }}</span><br>
+                                            <span class="caption"> {{ props.item.budget.data.type  | uppercase }}</span>
+                                        </td>
+                                        <td class="text-xs-right">
+                                            <span class="caption">FROM</span>&nbsp; <span class="title">{{ props.item.start_time }}</span><br>
+                                            <span class="caption">TO</span>&nbsp; <span class="title">{{ props.item.end_time }}</span>
+                                        </td>
+                                         <td class="text-xs-center">
 
-                                        <template slot="headers" scope="props">
-                                            &nbsp;
-                                        </template>
-                <template slot="items" scope="props">
-                    <td>
-                        <span class="title">{{ props.item.name }}</span> <br>
-                        <span class="caption">{{props.item.id}}</span>
-                    </td>
-                    <td>
-                    <v-chip v-if="props.item.status == 'active'" small class="green white--text">
-                        <small>APPROVED</small>
-                    </v-chip>
-                    <v-chip v-else-if="props.item.status == 'archived'" small class="yellow darken-2 white--text">
-                        <small>PENDING</small>
-                    </v-chip>   
-                    <v-chip v-else small class="red white--text">
-                       <small>DECLINED</small>
-                   </v-chip>
-                   </td>
-                   <td class="text-xs-center">
-                        <span class="title"> $ {{$root.fromMicroDollars(props.item.budget.data.amount) }}</span><br>
-                        <span class="caption"> {{ props.item.budget.data.type  | uppercase }}</span>
-                    </td>
-                   <td class="text-xs-right">
-                       FROM <span class="title">{{ props.item.start_time }}</span><br>
-                       TO <span class="title">{{ props.item.end_time }}</span></td>
-                   <td class="text-xs-center">
-
-                    <v-btn icon class="grey--text">
-                        <v-icon>play_circle_outline</v-icon>
-                    </v-btn>
-                    <v-btn icon class="grey--text">
-                        <v-icon>delete</v-icon>
-                    </v-btn>
-                    <v-btn icon class="grey--text">
-                        <v-icon>edit</v-icon>
-                    </v-btn>
-                </td>
-            </template>
-            <template slot="pageText" scope="{ pageStart, pageStop }">
-                From {{ pageStart }} to {{ pageStop }}
-            </template>
-        </v-data-table>
-    </v-card>
-    </v-flex>
-    </v-layout>
-</v-container>
+                                            <v-btn icon class="grey--text">
+                                                <v-icon>play_circle_outline</v-icon>
+                                            </v-btn>
+                                            <v-btn icon class="grey--text">
+                                                <v-icon>delete</v-icon>
+                                            </v-btn>
+                                            <v-btn icon class="grey--text">
+                                                <v-icon>edit</v-icon>
+                                            </v-btn>
+                                        </td>
+                                    </template>
+                                    <template slot="pageText" scope="{ pageStart, pageStop }">
+                                        From {{ pageStart }} to {{ pageStop }}
+                                    </template>
+                                </v-data-table>
+                            </v-flex>
+                        </v-layout>
+                    </v-card-text>
+                </v-card>
+            </v-flex>
+        </v-layout>
+    </v-container>
 </template>
 
 <script>
@@ -158,13 +175,13 @@
         filters: {
             uppercase: function(v) {
               return v.toUpperCase();
-            }
-        },
+          }
+      },
 
-        watch: {
-            token(value) {
-                this.fetchCampaigns();
-            }
+      watch: {
+        token(value) {
+            this.fetchCampaigns();
         }
     }
+}
 </script>

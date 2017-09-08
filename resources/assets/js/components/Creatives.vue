@@ -1,100 +1,111 @@
 <template>
-    <v-container fluid grid-list-md>
+    <v-container fluid grid-list-xs>
         <v-layout>
             <v-flex xs12>
-                <v-card height="700px">
-                    <v-toolbar class="elevation-0 grey lighten-3">
-                        <v-btn v-if="!currentFolder.id" primary dark class="elevation-0" href="">
-                            <v-icon>add</v-icon> Add Folder
-                        </v-btn>
-                        <v-btn v-else primary dark class="elevation-0" href="">
-                            <v-icon>add</v-icon> Add Creative
-                        </v-btn> 
-                    </v-toolbar>
-                    <v-card-text>
-                        <v-container fluid grid-list-md v-if="!currentFolder.id">
-                            <v-layout row wrap>
-                                <v-flex xs12 md4 >
-                                    <v-data-table 
-                                      :items="folders.data"
-                                      hide-actions
-                                      class="creatives-explorer"
-                                    >
-                                        <template slot="headers" scope="props">
-                                            &nbsp;
-                                        </template>
-                                        <template slot="items" scope="props">
-                                            <tr :active="props.selected" @click="openFolder(props.item)">
-                                                <td width="40" class="text-xs-right"><v-icon>folder</v-icon></td>
-                                                <td class="text-xs-left"><span class="title">{{ props.item.name }}</span></td>
-                                            </tr>
-                                        </template>
-                                    </v-data-table>
-                                </v-flex>
-                            </v-layout>
-                        </v-container>
-                        <v-container fluid grid-list-md v-else>
-                            <v-layout row wrap>
-                                <v-flex xs12>
-                                    <v-breadcrumbs divider="/" class="left pa-0">
-                                        <v-breadcrumbs-item >
-                                            <span @click="closeFolder()">ROOT</span>
-                                        </v-breadcrumbs-item>
-                                        <v-breadcrumbs-item>
-                                            {{ currentFolder.name | uppercase}}
-                                        </v-breadcrumbs-item>
-                                    </v-breadcrumbs>
-                                </v-flex>
-                            </v-layout>
-                            <v-layout row wrap>
-                                <v-flex xs12 md8 >
-                                    <v-data-table                                        
-                                      :items="creatives.data"
-                                      hide-actions
-                                      class="creatives-explorer"
-                                    >
-                                        <template slot="headers" scope="props">
-                                            &nbsp;
-                                        </template>
-                                        <template slot="items" scope="props">
-                                            <tr :active="props.selected" @click="props.selected = !props.selected">
-                                                <td width="40" class="text-xs-right">
-                                                    <v-checkbox
-                                                        primary
-                                                        hide-details
-                                                        @click.native="toggleAll"
-                                                        :input-value="props.selected"
-                                                        :indeterminate="props.indeterminate"
-                                                      ></v-checkbox>
-                                                </td>
-                                                <td class="text-xs-left">
-                                                    <span class="title">{{ props.item.name }}</span><br>
-                                                    <span class="caption">{{ props.item.id }}</span>
-                                                </td>
-                                                <td>
-                                                    <v-chip v-if="props.item.approved == 'approved'" small class="green white--text">
-                                                        <small>APPROVED</small>
-                                                    </v-chip>
-                                                    <v-chip v-else-if="props.item.approved == 'pending'" small class="yellow darken-2 white--text">
-                                                        <small>PENDING</small>
-                                                    </v-chip>   
-                                                    <v-chip v-else small class="red white--text">
-                                                         <small>DECLINED</small>
-                                                    </v-chip>   
-                                                </td>
-                                                <td>{{ props.item.class | uppercase }}</td>
-                                                <td>{{ props.item.w }} x {{ props.item.h }}</td>
-                                                <td>
-                                                    <v-btn icon class="grey--text">
-                                                        <v-icon>delete</v-icon>
-                                                    </v-btn>
-                                                </td>
-                                            </tr>
-                                        </template>
-                                    </v-data-table>
-                                </v-flex>
-                            </v-layout>
-                        </v-container>
+                <v-card class="elevation-0">
+                    <v-card-title>
+                        <v-flex xs12 md6 lg9>
+                            <v-btn primary dark class="elevation-0">
+                                <v-icon>add</v-icon> Add Creatives
+                            </v-btn> 
+                        </v-flex>
+                        <v-flex xs12 md6 lg3>
+                            <v-text-field 
+                                append-icon="search" 
+                                label="Search" 
+                                single-line 
+                                hide-details 
+                                class="right"
+                                v-model="search">
+                            </v-text-field>
+                        </v-flex>
+                    </v-card-title>
+                    <v-card-text v-if="!currentFolder.id">
+                        <v-layout row wrap>
+                            <v-flex xs12>
+                                <v-data-table 
+                                :items="folders.data"
+                                hide-actions
+                                class="creatives-explorer"
+                                >
+                                    <template slot="headers" scope="props">
+                                        &nbsp;
+                                    </template>
+                                    <template slot="items" scope="props">
+                                        <tr :active="props.selected" @click="openFolder(props.item)">
+                                            <td width="40" class="text-xs-right"><v-icon>folder</v-icon></td>
+                                            <td class="text-xs-left"><span class="title">{{ props.item.name }}</span></td>
+                                        </tr>
+                                    </template>
+                                </v-data-table>
+                            </v-flex>
+                        </v-layout>
+                    </v-card-text>
+                    <v-card-text v-else>
+                        <v-layout row wrap>
+                            <v-flex xs12>
+                                <v-breadcrumbs divider="/" class="left pa-0">
+                                    <v-breadcrumbs-item >
+                                        <span @click="closeFolder()">ROOT</span>
+                                    </v-breadcrumbs-item>
+                                    <v-breadcrumbs-item>
+                                        {{ currentFolder.name | uppercase}}
+                                    </v-breadcrumbs-item>
+                                </v-breadcrumbs>
+                            </v-flex>
+                        </v-layout>
+                        <v-layout row wrap>
+                            <v-flex xs12 md8 >
+                                <v-data-table                                        
+                                :items="creatives.data"
+                                hide-actions
+                                class="creatives-explorer"
+                                v-bind:rows-per-page-items="[10, 25, { text: 'All', value: -1 }]"
+                                >
+                                    <template slot="headers" scope="props">
+                                        &nbsp;
+                                    </template>
+                                    <template slot="items" scope="props">
+                                        <tr :active="props.selected" @click="props.selected = !props.selected">
+                                            <td width="40" class="text-xs-right">
+                                                <v-checkbox
+                                                primary
+                                                hide-details
+                                                @click.native="toggleAll"
+                                                :input-value="props.selected"
+                                                :indeterminate="props.indeterminate"
+                                                ></v-checkbox>
+                                            </td>
+                                            <td class="text-xs-left">
+                                                <span class="title">{{ props.item.name }}</span><br>
+                                                <span class="caption">{{ props.item.id }}</span>
+                                            </td>
+                                            <td>
+                                                <v-chip v-if="props.item.approved == 'approved'" small class="green white--text">
+                                                    <small>APPROVED</small>
+                                                </v-chip>
+                                                <v-chip v-else-if="props.item.approved == 'pending'" small class="yellow darken-2 white--text">
+                                                    <small>PENDING</small>
+                                                </v-chip>   
+                                                <v-chip v-else small class="red white--text">
+                                                 <small>DECLINED</small>
+                                             </v-chip>   
+                                             </td>
+                                             <td>{{ props.item.class | uppercase }}</td>
+                                             <td>{{ props.item.w }} x {{ props.item.h }}</td>
+                                             <td>
+                                                <v-btn icon class="grey--text">
+                                                    <v-icon>delete</v-icon>
+                                                </v-btn>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                    <template slot="pageText" scope="{ pageStart, pageStop }">
+                                        From {{ pageStart }} to {{ pageStop }}
+                                    </template>
+                                </v-data-table>
+                            </v-flex>
+                        </v-layout>
                     </v-card-text>
                 </v-card>   
             </v-flex>
@@ -230,8 +241,8 @@
 
             toggleAll () {
                 if (this.selected.length) this.selected = []
-                else this.selected = this.items.slice()
-            }
+                    else this.selected = this.items.slice()
+                }
         },
 
         computed: {
@@ -250,16 +261,16 @@
         filters: {
             uppercase: function(v) {
               return v.toUpperCase();
-            }
-        },
+          }
+      },
 
-        watch: {
-            token(value) {
+      watch: {
+        token(value) {
 
-                if(typeof value != 'undefined') {
-                    this.getFolders();
-                }
+            if(typeof value != 'undefined') {
+                this.getFolders();
             }
         }
     }
+}
 </script>

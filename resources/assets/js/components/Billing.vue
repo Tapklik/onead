@@ -1,54 +1,73 @@
 <template>
-
     <v-container fluid grid-list-md>
         <v-layout>
             <v-flex xs12>
-        <v-card>
-            <v-toolbar class="elevation-0 grey lighten-3">
-                <v-btn primary dark class="elevation-0">
-                    <v-icon>add</v-icon> New Payment
-                </v-btn> 
-            </v-toolbar>
-            <v-card-title>
-                <v-text-field append-icon="search" label="Search" single-line hide-details v-model="search">
-                </v-text-field>
-            </v-card-title>
-            <v-data-table v-bind:items="bills" v-bind:search="search">
-                <template slot="headers" scope="props">
-                    &nbsp;
-                </template>
-                <template slot="items" scope="props">
-                    <td width="40px">
-                        <v-btn v-if="props.item.debit == 0" icon class="green--text">
-                            <v-icon>add_circle_outline</v-icon>
-                        </v-btn>
-                        <v-btn v-if="props.item.credit == 0" icon class="red--text">
-                            <v-icon>remove_circle_outline</v-icon>
-                        </v-btn>
-                    </td> 
-                    <td>
-                        <span class="title">{{ props.item.id }}</span> <br>
-                        <span class="caption">{{props.item.description | uppercase}}</span>
-                    </td>
-                    
-                   <td class="text-xs-center">
-                        <span v-if="props.item.debit == 0" class="title"> $ {{$root.fromMicroDollars(props.item.credit) }}</span><br>
-                        <span v-if="props.item.credit == 0" class="title"> $ {{$root.fromMicroDollars(props.item.debit) }}</span>
-                    </td>
-                    <td>
-                        <v-btn icon class="grey--text">
-                            <v-icon>search</v-icon>
-                        </v-btn>
-                    </td>
-            </template>
-            <template slot="pageText" scope="{ pageStart, pageStop }">
-                From {{ pageStart }} to {{ pageStop }}
-            </template>
-        </v-data-table>
-    </v-card>
-    </v-flex>
-    </v-layout>
-</v-container>
+                <v-card class="elevation-0">
+                    <v-card-title>
+                        <v-flex xs12 md6 lg9>
+                            <v-btn primary dark class="elevation-0">
+                                <v-icon>add</v-icon> New Payment
+                            </v-btn> 
+                        </v-flex>
+                        <v-flex xs12 md6 lg3>
+                            <v-text-field 
+                                append-icon="search" 
+                                label="Search" 
+                                single-line 
+                                hide-details 
+                                class="right"
+                                v-model="search">
+                            </v-text-field>
+                        </v-flex>
+                    </v-card-title>
+                    <v-card-text>
+                        <v-layout row wrap>
+                            <v-flex xs12>
+                                <v-data-table 
+                                v-bind:items="bills" 
+                                v-bind:search="search" 
+                                v-bind:rows-per-page-items="[10, 25, { text: 'All', value: -1 }]"
+                                >
+                                    <template slot="headers" scope="props">
+                                        &nbsp;
+                                    </template>
+                                    <template slot="items" scope="props">
+                                        <td width="40px">
+                                            <v-chip v-if="props.item.debit == 0" small class="green white--text">
+                                                <v-icon>add</v-icon>
+                                            </v-chip>
+                                            <v-chip v-if="props.item.credit == 0" small class="red white--text">
+                                                <v-icon>remove</v-icon>
+                                            </v-chip>
+                                        </td> 
+                                        <td>
+                                            <span class="title">{{ props.item.id }}</span> <br>
+                                            <span class="caption">{{props.item.description | uppercase}}</span>
+                                        </td>
+                                        <td class="text-xs-left">
+                                            <span class="title">{{ props.item.timestamp }}</span>
+                                        </td>
+                                        <td class="text-xs-right">
+                                            <span v-if="props.item.debit == 0" class="title"> $ {{$root.fromMicroDollars(props.item.credit) }}</span><br>
+                                            <span v-if="props.item.credit == 0" class="title"> $ {{$root.fromMicroDollars(props.item.debit) }}</span>
+                                        </td>
+                                        <td>
+                                            <v-btn icon class="grey--text">
+                                                <v-icon>search</v-icon>
+                                            </v-btn>
+                                        </td>
+                                    </template>
+                                    <template slot="pageText" scope="{ pageStart, pageStop }">
+                                        From {{ pageStart }} to {{ pageStop }}
+                                    </template>
+                                </v-data-table>
+                            </v-flex>
+                        </v-layout>
+                    </v-card-text>
+                </v-card>
+            </v-flex>
+        </v-layout>
+    </v-container>
 </template>
 
 <script>
