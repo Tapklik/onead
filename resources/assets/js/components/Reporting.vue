@@ -126,6 +126,9 @@
                                     </v-flex>
                                 </v-layout>
                             </v-container>
+                            <v-select :items="technologiesList.devices" item-text="type" item-value="device_id" chips v-model="selectedDevicesTypes" label="Select" multiple autocomplete></v-select>
+                            <v-select :items="technologiesList.operatingsystems" item-text="type" item-value="device_id" chips v-model="selectedDevicesOs" label="Select" multiple autocomplete></v-select>
+                            <v-select :items="technologiesList.browsers" item-text="type" item-value="device_id" chips v-model="selectedDevicesUa" label="Select" multiple autocomplete></v-select>
                             <v-container id="chart_devices" style="height: 500px;"></v-container>
                         </v-card-text>
                     </v-card>
@@ -161,6 +164,7 @@
                                     </v-flex>
                                 </v-layout>
                             </v-container>
+                            <v-select :items="countriesList" item-text="country_name" item-value="country" chips v-model="selectedGeoCountries" label="Select" multiple autocomplete></v-select>
                             <v-container id="chart_geo" style="height: 500px;"></v-container>
                         </v-card-text>
                     </v-card>
