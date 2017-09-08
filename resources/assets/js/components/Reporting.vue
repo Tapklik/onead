@@ -1,38 +1,175 @@
 <template>
     <v-container fluid grid-list-md>
-        <v-tabs dark fixed icons centered>
-    <v-tabs-bar class="grey">
-      <v-tabs-slider class="yellow"></v-tabs-slider>
-      <v-tabs-item href="#tab-1">
-        <v-icon>present_to_all</v-icon>
-        Overall
-      </v-tabs-item>
-      <v-tabs-item href="#tab-2">
-        <v-icon>mdi-newspaper</v-icon>
-        Publishers
-      </v-tabs-item>
-      <v-tabs-item href="#tab-3">
-        <v-icon>devices</v-icon>
-        Technologies
-      </v-tabs-item>
-      <v-tabs-item href="#tab-4">
-        <v-icon>public</v-icon>
-        Geo
-      </v-tabs-item>
-    </v-tabs-bar>
-    <v-tabs-items>
-      <v-tabs-content v-for="i in 3" :key="i" :id="'tab-' + i">
-        <v-card flat>
-          <v-card-text>{{ text }}</v-card-text>
-        </v-card>
-      </v-tabs-content>
-    </v-tabs-items>
-  </v-tabs>
+        <v-tabs dark fixed icons>
+            <v-tabs-bar class="grey">
+                <v-tabs-slider class="yellow"></v-tabs-slider>
+                <v-tabs-item href="#tab-1" @click="tabIndex == 0">
+                    <v-icon>present_to_all</v-icon>
+                    Overall
+                </v-tabs-item>
+                <v-tabs-item href="#tab-2" @click="tabIndex == 1">
+                    <v-icon>mdi-newspaper</v-icon>
+                    Publishers
+                </v-tabs-item>
+                <v-tabs-item href="#tab-3" @click="tabIndex == 2">
+                    <v-icon>devices</v-icon>
+                    Technologies
+                </v-tabs-item>
+                <v-tabs-item href="#tab-4" @click="tabIndex == 3">
+                    <v-icon>public</v-icon>
+                    Geo
+                </v-tabs-item>
+                <v-btn @click="generateCharts()">
+                    Generate
+                </v-btn>
+            </v-tabs-bar>
+            <v-tabs-items>
+                <v-tabs-content id="tab-1">
+                    <v-card flat>
+                        <v-card-text>
+                            <v-container>
+                                <v-layout>
+                                    <v-flex>
+                                        <h5> Impressions </h5>
+                                        <span>{{ responseOverallSummary.imps }}</span>
+                                    </v-flex>
+                                    <v-flex>
+                                        <h5> Clicks </h5>
+                                        <span>{{ responseOverallSummary.clicks }}</span>
+                                    </v-flex>
+                                    <v-flex>
+                                        <h5> CTR </h5>
+                                        <span>{{ responseOverallSummary.ctr }}</span>
+                                    </v-flex>
+                                    <v-flex>
+                                        <h5> eCPM </h5>
+                                        <span>{{ responseOverallSummary.ecpm }}</span>
+                                    </v-flex>
+                                    <v-flex>
+                                        <h5> eCPC </h5>
+                                        <span>{{ responseOverallSummary.ecpc }}</span>
+                                    </v-flex>
+                                    <v-flex>
+                                        <h5> Spend </h5>
+                                        <span>{{ responseOverallSummary.spend }}</span>
+                                    </v-flex>
+                                </v-layout>
+                            </v-container>
+                            <v-container id="chart_overall" style="height: 500px;"></v-container>
+                        </v-card-text>
+                    </v-card>
+                </v-tabs-content>
+                <v-tabs-content id="tab-2">
+                    <v-card flat>
+                        <v-card-text>
+                            <v-container>
+                                <v-layout>
+                                    <v-flex>
+                                        <h5 class="title"> Impressions </h5>
+                                        <span>{{ responsePublishersSummary.imps }}</span>
+                                    </v-flex>
+                                    <v-flex>
+                                        <h5> Clicks </h5>
+                                        <span>{{ responsePublishersSummary.clicks }}</span>
+                                    </v-flex>
+                                    <v-flex>
+                                        <h5> CTR </h5>
+                                        <span>{{ responsePublishersSummary.ctr }}</span>
+                                    </v-flex>
+                                    <v-flex>
+                                        <h5> eCPM </h5>
+                                        <span>{{ responsePublishersSummary.ecpm }}</span>
+                                    </v-flex>
+                                    <v-flex>
+                                        <h5> eCPC </h5>
+                                        <span>{{ responsePublishersSummary.ecpc }}</span>
+                                    </v-flex>
+                                    <v-flex>
+                                        <h5> Spend </h5>
+                                        <span>{{ responsePublishersSummary.spend }}</span>
+                                    </v-flex>
+                                </v-layout>
+                            </v-container>
+                            <v-container id="chart_publisher" style="height: 500px;"></v-container>
+                        </v-card-text>
+                    </v-card>
+                </v-tabs-content>
+                <v-tabs-content id="tab-3">
+                    <v-card flat>
+                        <v-card-text>
+                            <v-container>
+                                <v-layout>
+                                    <v-flex>
+                                        <h5> Impressions </h5>
+                                        <span>{{ responseDevicesSummary.imps }}</span>
+                                    </v-flex>
+                                    <v-flex>
+                                        <h5> Clicks </h5>
+                                        <span>{{ responseDevicesSummary.clicks }}</span>
+                                    </v-flex>
+                                    <v-flex>
+                                        <h5> CTR </h5>
+                                        <span>{{ responseDevicesSummary.ctr }}</span>
+                                    </v-flex>
+                                    <v-flex>
+                                        <h5> eCPM </h5>
+                                        <span>{{ responseDevicesSummary.ecpm }}</span>
+                                    </v-flex>
+                                    <v-flex>
+                                        <h5> eCPC </h5>
+                                        <span>{{ responseDevicesSummary.ecpc }}</span>
+                                    </v-flex>
+                                    <v-flex>
+                                        <h5> Spend </h5>
+                                        <span>{{ responseDevicesSummary.spend }}</span>
+                                    </v-flex>
+                                </v-layout>
+                            </v-container>
+                            <v-container id="chart_devices" style="height: 500px;"></v-container>
+                        </v-card-text>
+                    </v-card>
+                </v-tabs-content>
+                <v-tabs-content id="tab-4">
+                    <v-card flat>
+                        <v-card-text>
+                            <v-container>
+                                <v-layout>
+                                    <v-flex>
+                                        <h5> Impressions </h5>
+                                        <span>{{ responseOverallSummary.imps }}</span>
+                                    </v-flex>
+                                    <v-flex>
+                                        <h5> Clicks </h5>
+                                        <span>{{ responseGeoSummary.clicks }}</span>
+                                    </v-flex>
+                                    <v-flex>
+                                        <h5> CTR </h5>
+                                        <span>{{ responseGeoSummary.ctr }}</span>
+                                    </v-flex>
+                                    <v-flex>
+                                        <h5> eCPM </h5>
+                                        <span>{{ responseGeoSummary.ecpm }}</span>
+                                    </v-flex>
+                                    <v-flex>
+                                        <h5> eCPC </h5>
+                                        <span>{{ responseGeoSummary.ecpc }}</span>
+                                    </v-flex>
+                                    <v-flex>
+                                        <h5> Spend </h5>
+                                        <span>{{ responseGeoSummary.spend }}</span>
+                                    </v-flex>
+                                </v-layout>
+                            </v-container>
+                            <v-container id="chart_geo" style="height: 500px;"></v-container>
+                        </v-card-text>
+                    </v-card>
+                </v-tabs-content>
+            </v-tabs-items>
+        </v-tabs>
     </v-container>
 </template>
 
 <script>
-
 
     export default {
 
@@ -60,7 +197,7 @@
                 dateFormat: 'yyyy-MM-dd',
                 showModal1: false,
                 showModal2: false,
-                date_from: this.getDate(-7),
+                date_from: this.getDate(-100),
                 date_to: this.getDate(0),
                 selectedCampaigns: [],
                 selectedCreatives: [],
@@ -367,172 +504,172 @@
                 "dataProvider": dataset, // Here you need to add the dataset
             });
 
-            chart.addListener("rendered", removeLogo);
+chart.addListener("rendered", removeLogo);
 
-            function removeLogo() {
-                $('.amcharts-chart-div').find('a').each(function(index, item) {
-                    $(item).hide();
-                });
+function removeLogo() {
+    $('.amcharts-chart-div').find('a').each(function(index, item) {
+        $(item).hide();
+    });
+}
+
+},
+
+getDate(days) {
+    const toTwoDigits = num => num < 10 ? '0' + num : num;
+    let today = new Date();
+    let date = new Date();
+    date.setDate(today.getDate() + days);
+    let year = date.getFullYear();
+    let month = toTwoDigits(date.getMonth() + 1);
+    let day = toTwoDigits(date.getDate()); 
+    return `${year}-${month}-${day}`;
+},
+
+generateQuery(queryList, scale, chartOrSum) {
+
+    var queries = queryList.queries;
+    var table = queryList.table;
+    var account = this.user.accountUuId;
+    var dims = this.getQueryDims(queryList);
+    var filters = this.getQueryFilters(queryList);
+
+    var request = ''
+    for (var dim in dims) {
+        request += '&' + dims[dim].name + '=' + dims[dim].value
+        table += '_' + dims[dim].name
+    }
+    for (var filter in filters) {
+        table  += '_' + filters[filter].name
+        for(var sub_filter in filters[filter].sub_filters) {
+            request += '&' + filters[filter].name + '_' + filters[filter].sub_filters[sub_filter].name + '=' 
+            request += filters[filter].sub_filters[sub_filter].value
+            table +=  '_' + filters[filter].sub_filters[sub_filter].name
+        }
+    }
+
+    var queriesString = '&field=' + queries.queries_list.join(',') + '&op=' + chartOrSum
+
+    scale = scale != '' ? '&scale=' + scale : ''
+
+    request = '?table=' + table + '&acc=' + account + request + queriesString + this.range() + scale
+    console.log(request);
+    return request;
+},
+
+getQueryDims(queryList) {
+    var dims = []
+    queryList.dim.forEach((dim, index) => {
+        var valueString = ''
+        var dimObj = {
+            name: '',
+            value: ''
+        }
+        this[dim.list].forEach((dimVal) => {
+           if (dimVal && dimVal.value != '') {
+            valueString += dimVal.value + ','
+            dimObj = {
+                name: dim.name,
+                value: valueString.slice(0,-1)
             }
+            if (dimObj && dimObj.value != '') dims.push(dimObj);
+        }
+    })
+    })
+    return dims
+},
 
-        },
-
-            getDate(days) {
-                const toTwoDigits = num => num < 10 ? '0' + num : num;
-                let today = new Date();
-                let date = new Date();
-                date.setDate(today.getDate() + days);
-                let year = date.getFullYear();
-                let month = toTwoDigits(date.getMonth() + 1);
-                let day = toTwoDigits(date.getDate()); 
-                return `${year}-${month}-${day}`;
-            },
-
-            generateQuery(queryList, scale, chartOrSum) {
-
-                var queries = queryList.queries;
-                var table = queryList.table;
-                var account = this.user.accountUuId;
-                var dims = this.getQueryDims(queryList);
-                var filters = this.getQueryFilters(queryList);
-
-                var request = ''
-                for (var dim in dims) {
-                    request += '&' + dims[dim].name + '=' + dims[dim].value
-                    table += '_' + dims[dim].name
-                }
-                for (var filter in filters) {
-                    table  += '_' + filters[filter].name
-                    for(var sub_filter in filters[filter].sub_filters) {
-                        request += '&' + filters[filter].name + '_' + filters[filter].sub_filters[sub_filter].name + '=' 
-                        request += filters[filter].sub_filters[sub_filter].value
-                        table +=  '_' + filters[filter].sub_filters[sub_filter].name
-                    }
-                }
-                
-                var queriesString = '&field=' + queries.queries_list.join(',') + '&op=' + chartOrSum
-
-                scale = scale != '' ? '&scale=' + scale : ''
-
-                request = '?table=' + table + '&acc=' + account + request + queriesString + this.range() + scale
-                console.log(request);
-                return request;
-            },
-
-            getQueryDims(queryList) {
-                var dims = []
-                queryList.dim.forEach((dim, index) => {
-                    var valueString = ''
-                    var dimObj = {
-                        name: '',
-                        value: ''
-                    }
-                    this[dim.list].forEach((dimVal) => {
-                     if (dimVal && dimVal.value != '') {
-                        valueString += dimVal.value + ','
-                        dimObj = {
-                            name: dim.name,
-                            value: valueString.slice(0,-1)
-                        }
-                        if (dimObj && dimObj.value != '') dims.push(dimObj);
-                    }
-                })
-                })
-                return dims
-            },
-
-            getQueryFilters(queryList) {
-                var filters = []
-                queryList.filters.forEach((filter, index) => {
-                    var sub_filters = []
-                    var s = filter.sub_filters
-                    s.forEach((sub, index) => {
-                        var valueString = ''
-                        var subObj = {
-                            name: '',
-                            value: ''
-                        }
-                        this[sub.list].forEach((subVal) => {
-                            if (subVal && subVal.value != '') {
-                                valueString += subVal.value + ','
-                                subObj = {
-                                    name: sub.name,
-                                    value: valueString.slice(0,-1)
-                                }
-                            }
-                        })
-                        if (subObj && subObj.value != '') sub_filters.push(subObj)
-                    })
-                    if (filter) {
-                        var filterObj = {
-                            name: '',
-                            sub_filters: []
-                        }
-                        filterObj.name = filter.name
-                        filterObj.sub_filters = sub_filters
-                        filters.push(filterObj)
-                    }
-                })
-                return filters
-            },
-
-            generateCharts() {
-                if (this.tabIndex == 0) {
-                    this.dataCall(this.reportOverall, 'responseOverallList', 'responseOverallSummary','chart_overall')
-                }
-                else if(this.tabIndex == 1) {
-                    this.dataCall(this.reportPublishers, 'responsePublishersList', 'responsePublishersSummary', 'chart_publisher')
-                }
-                else if(this.tabIndex == 2) {
-                    this.dataCall(this.reportDevices, 'responseDevicesList', 'responseDevicesSummary', 'chart_devices')
-                }
-                else if(this.tabIndex == 3) {
-                    this.dataCall(this.reportGeo, 'responseGeoList', 'responseGeoSummary', 'chart_geo')
-                }
-            },
-
-            range() {
-                var range = '&from=' + this.date_from + ' 00:00:00&to=' + this.date_to + ' 00:00:00';
-
-                return range;
-            },
-
-            dataCall(report, responseList, responseListSummary, chart) {
-                axios.get(this.$root.reportUri + this.generateQuery(report, '1h', 'sum'))
-                .then(response => {
-                    this[responseList] = response.data.data;
-                    
-                    if(this[responseList] == undefined) {
-                        this.createChart(chart, this.startingData.data[0].clicks, this.column, this.line);
-                    }
-                    else {
-                        this.createChart(chart, this[responseList], this.column, this.line);
-                    }
-                }, error => {
-                    this.createChart(chart, this.startingData.data[0].clicks);
-                    swal('Error', 'Your search was unsuccesfull','error');
-                });
-                axios.get(this.$root.reportUri + this.generateQuery(report, '1h', 'summary'))
-                .then(response => {
-                    this[responseListSummary] = response.data.data;
-                }, error => {
-                    swal('Error', 'Your search was unsuccesfull','error');
-                });
+getQueryFilters(queryList) {
+    var filters = []
+    queryList.filters.forEach((filter, index) => {
+        var sub_filters = []
+        var s = filter.sub_filters
+        s.forEach((sub, index) => {
+            var valueString = ''
+            var subObj = {
+                name: '',
+                value: ''
             }
-        },
+            this[sub.list].forEach((subVal) => {
+                if (subVal && subVal.value != '') {
+                    valueString += subVal.value + ','
+                    subObj = {
+                        name: sub.name,
+                        value: valueString.slice(0,-1)
+                    }
+                }
+            })
+            if (subObj && subObj.value != '') sub_filters.push(subObj)
+        })
+        if (filter) {
+            var filterObj = {
+                name: '',
+                sub_filters: []
+            }
+            filterObj.name = filter.name
+            filterObj.sub_filters = sub_filters
+            filters.push(filterObj)
+        }
+    })
+    return filters
+},
 
-        watch: {
-            token(value) {
-                this.fetchCampaigns()
-            },
-            user(value) {
-            },
+generateCharts() {
+    if (this.tabIndex == 0) {
+        this.dataCall(this.reportOverall, 'responseOverallList', 'responseOverallSummary','chart_overall')
+    }
+    else if(this.tabIndex == 1) {
+        this.dataCall(this.reportPublishers, 'responsePublishersList', 'responsePublishersSummary', 'chart_publisher')
+    }
+    else if(this.tabIndex == 2) {
+        this.dataCall(this.reportDevices, 'responseDevicesList', 'responseDevicesSummary', 'chart_devices')
+    }
+    else if(this.tabIndex == 3) {
+        this.dataCall(this.reportGeo, 'responseGeoList', 'responseGeoSummary', 'chart_geo')
+    }
+},
 
-            selectedCampaigns(value) {
-                this.getCreatives()
-            },
+range() {
+    var range = '&from=' + this.date_from + ' 00:00:00&to=' + this.date_to + ' 00:00:00';
 
-            reportLoaded(value) {
+    return range;
+},
+
+dataCall(report, responseList, responseListSummary, chart) {
+    axios.get(this.$root.reportUri + this.generateQuery(report, '1h', 'sum'))
+    .then(response => {
+        this[responseList] = response.data.data;
+
+        if(this[responseList] == undefined) {
+            this.createChart(chart, this.startingData.data[0].clicks, this.column, this.line);
+        }
+        else {
+            this.createChart(chart, this[responseList], this.column, this.line);
+        }
+    }, error => {
+        this.createChart(chart, this.startingData.data[0].clicks);
+        swal('Error', 'Your search was unsuccesfull','error');
+    });
+    axios.get(this.$root.reportUri + this.generateQuery(report, '1h', 'summary'))
+    .then(response => {
+        this[responseListSummary] = response.data.data;
+    }, error => {
+        swal('Error', 'Your search was unsuccesfull','error');
+    });
+}
+},
+
+watch: {
+    token(value) {
+        this.fetchCampaigns()
+    },
+    user(value) {
+    },
+
+    selectedCampaigns(value) {
+        this.getCreatives()
+    },
+
+    reportLoaded(value) {
                 // HERE YOU CREATE FIRST VERSION OF THE CHART ONCE THE DATA IS LOADED
                 this.generateCharts()
             },
