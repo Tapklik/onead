@@ -41,6 +41,8 @@ Vue.component('campaign-targeting', require('./components/CampaignTargeting.vue'
 Vue.component('tk-select-list', require('./components/elements/tk-select-list.vue'));           // tk-select-list
 Vue.component('tk-select', require('./components/elements/tk-select.vue'));                     // tk-select
 Vue.component('tk-filter', require('./components/elements/tk-filter.vue')); 
+Vue.component('tk-widget', require('./components/elements/tk-widget.vue'));                     // tk-widget
+
 
 //var envUri = (window.location.hostname.search('local') == -1) ? '//api.tapklik.com/v1' : '//local.api.tapklik.com/v1';
 var envUri = '//api.tapklik.com/v1';

@@ -1,66 +1,137 @@
 <template>
     <v-container fluid grid-list-lg>
         <v-layout row wrap>
-            <v-flex d-flex xs12 md6>
-                <v-card height="400px">
+            <v-flex d-flex md12 lg6>
+                <v-card height="300px" class="elevation-1">
 
                 </v-card>
             </v-flex>
-            <v-flex d-flex xs6 md2>
+            <v-flex d-flex xs6 md4 lg2>
                 <v-layout row wrap>
                     <v-flex d-flex xs12>
-                        <v-card height="192px">
-                            <v-card-title class="orange--text text--darken-4">
-                                <v-flex xs12>
-                                    <v-layout row>
-                                        <v-flex xs12 class="pa-0">
-                                            <span class="subheading right">CLICKS</span>
-                                        </v-flex>
-                                    </v-layout>
-                                    <v-layout row>
-                                        <v-flex xs12 class="pa-0">
-                                            <span class="display-4 right">430</span>
-                                        </v-flex>
-                                    </v-layout>    
-                                </v-flex>
-                            </v-card-title>
-                        </v-card>
+                        <tk-widget
+                            icon="photo"
+                            title="IMPRESSIONS"
+                            value="1,234,111"
+                            defaultValue="0"
+                            size="lg"
+                        ></tk-widget>
                     </v-flex>
                     <v-flex d-flex xs12>
-                        <v-card height="192px" class="orange--text text--darken-4">
-
-                        </v-card>
+                        <tk-widget
+                            icon="monetization_on"
+                            title="SPEND"
+                            value="$823.92"
+                            defaultValue="$0.00"
+                            size="lg"
+                        ></tk-widget>
                     </v-flex>
                 </v-layout>
             </v-flex>
-            <v-flex d-flex xs6 md2>
+            <v-flex d-flex xs6 md4 lg2>
                 <v-layout row wrap>
                     <v-flex d-flex xs12>
-                        <v-card height="192px" class="orange--text text--darken-4">
-
-                        </v-card>
+                        <tk-widget
+                            icon="mouse"
+                            title="CLICKS"
+                            value="430"
+                            defaultValue="0"
+                            size="lg"
+                        ></tk-widget>
                     </v-flex>
                     <v-flex d-flex xs12>
-                        <v-card height="192px" class="orange--text text--darken-4">
-
-                        </v-card>
+                        <tk-widget
+                            icon="monetization_on"
+                            title="eCPM"
+                            value="$2.23"
+                            defaultValue="$0.00"
+                            size="lg"
+                        ></tk-widget>
                     </v-flex>
                 </v-layout>
             </v-flex>
-            <v-flex d-flex xs6 md2>
+            <v-flex d-flex xs6 md4 lg2>
                 <v-layout row wrap>
                     <v-flex d-flex xs12>
-                        <v-card height="192px" class="orange--text text--darken-4">
-
-                        </v-card>
+                        <tk-widget
+                            icon="star_half"
+                            title="CTR"
+                            value="0.82%"
+                            defaultValue="0.00%"
+                            size="lg"
+                        ></tk-widget>
                     </v-flex>
                     <v-flex d-flex xs12>
-                        <v-card height="192px" class="orange--text text--darken-4">
-
-                        </v-card>
+                        <tk-widget
+                            icon="monetization_on"
+                            title="eCPC"
+                            value="$1.52"
+                            defaultValue="$0.00"
+                            size="lg"
+                        ></tk-widget>
                     </v-flex>
                 </v-layout>
             </v-flex> 
+        </v-layout>
+        <v-layout row wrap>
+            <v-flex d-flex xs12 md4>
+                <v-card height="300px" class="elevation-1">
+                    <v-card-title>
+                        <span class="subheading orange--text text--darken-4">ACTIVE CAMPAIGNS</span>
+                        <v-spacer></v-spacer>
+                        <v-btn icon class="orange--text text--darken-3 ma-0">
+                            <v-icon>edit</v-icon>
+                        </v-btn>
+                        <v-btn icon class="orange--text text--darken-3 ma-0">
+                            <v-icon>search</v-icon>
+                        </v-btn>
+                    </v-card-title>
+                        <v-data-table 
+                        v-bind:items="campaignList" 
+                        hide-actions
+                        :total-items=5
+                        >
+                            <template slot="headers" scope="props">
+                                &nbsp;
+                            </template>
+                            <template slot="items" scope="props">
+                                <td>
+                                    <span class="title">{{ props.item.name }}</span> <br>
+                                    <span class="caption">{{props.item.id}}</span>
+                                </td>
+                                <td>
+                                    <v-chip v-if="props.item.status == 'active'" small class="green white--text">
+                                        <small>STOPPED</small>
+                                    </v-chip>
+                                    <v-chip v-else-if="props.item.status == 'archived'" small class="yellow darken-2 white--text">
+                                        <small>ARCHIVED</small>
+                                    </v-chip>   
+                                    <v-chip v-else small class="red white--text">
+                                        <small>STOPPED</small>
+                                    </v-chip>
+                                </td>
+                                <td class="text-xs-right">
+                                    <span class="title"> $ {{$root.fromMicroDollars(props.item.budget.data.amount) }}</span><br>
+                                    <span class="caption"> {{ props.item.budget.data.type  | uppercase }}</span>
+                                </td>
+                                <td class="text-xs-right">
+                                    <span class="caption">FROM</span>&nbsp; <span class="title">{{ props.item.start_time }}</span><br>
+                                    <span class="caption">TO</span>&nbsp; <span class="title">{{ props.item.end_time }}</span>
+                                </td>
+                            </template>
+                        </v-data-table>
+                </v-card>
+            </v-flex>
+            <v-flex d-flex xs12 md4>
+                <v-card height="300px" class="elevation-1">
+
+                </v-card>
+            </v-flex>
+            <v-flex d-flex xs12 md4>
+                <v-card height="300px" class="elevation-1">
+
+                </v-card>
+            </v-flex>
         </v-layout>
     </v-container>
 </template>
@@ -74,7 +145,6 @@
                 password: '',
                 campaignList: [],
                 creativeList: [],
-                token: this.token,
                 date_from: this.getDate(-7),
                 date_to: this.getDate(0),
                 column: 'clicks',
@@ -83,7 +153,7 @@
             }
         },
         
-        props: ['user'],
+        props: ['user', 'token'],
 
         methods: {
             loadCampaignsAndCreatives() {
@@ -251,7 +321,9 @@
 
 
         watch: {
-
+            token(value) {
+                this.loadCampaignsAndCreatives();
+            }
         }
     }
 </script>
