@@ -3,7 +3,7 @@
         <v-card>
             <v-toolbar class="elevation-0 grey lighten-3">
                 <v-btn primary dark class="elevation-0" :href="createCampaignRouter">
-                <v-icon>add</v-icon> Add campaign
+                    <v-icon>add</v-icon> Add campaign
                 </v-btn> 
             </v-toolbar>
             <v-card-title>
@@ -12,29 +12,42 @@
             </v-card-title>
             <v-data-table v-bind:items="campaigns" v-bind:search="search">
                 <template slot="items" scope="props">
-                    <td>{{props.item.status}}</td>
-                    <td class="text-xs-right">{{ props.item.name }} <br> {{props.item.id}}</td>
-                    <td class="text-xs-right">{{ props.item.budget.data.amount }} <br>{{ props.item.budget.data.type }}</td>
-                    <td class="text-xs-right">{{ props.item.start_time }} <br>to<br>{{ props.item.end_time }}</td>
-                    <td class="text-xs-right">
-
-                        <v-btn icon class="grey--text">
-                            <v-icon>play_circle_outline</v-icon>
-                        </v-btn>
-                        <v-btn icon class="grey--text">
-                            <v-icon>delete</v-icon>
-                        </v-btn>
-                        <v-btn icon class="grey--text">
-                            <v-icon>edit</v-icon>
-                        </v-btn>
+                    <td>
+                        <span class="title">{{ props.item.name }}</span> <br>
+                        <span class="caption">{{props.item.id}}</span>
                     </td>
-                </template>
-                <template slot="pageText" scope="{ pageStart, pageStop }">
-                    From {{ pageStart }} to {{ pageStop }}
-                </template>
-            </v-data-table>
-        </v-card>
-    </v-container>
+                    <td>
+                    <v-chip v-if="props.item.status == 'active'" small class="green white--text">
+                        <small>APPROVED</small>
+                    </v-chip>
+                    <v-chip v-else-if="props.item.status == 'archived'" small class="yellow darken-2 white--text">
+                        <small>PENDING</small>
+                    </v-chip>   
+                    <v-chip v-else small class="red white--text">
+                       <small>DECLINED</small>
+                   </v-chip>
+                   </td>
+                   <td class="text-xs-right">{{ props.item.budget.data.amount }} <br>{{ props.item.budget.data.type }}</td>
+                   <td class="text-xs-center">{{ props.item.start_time }} <br>to<br>{{ props.item.end_time }}</td>
+                   <td class="text-xs-right">
+
+                    <v-btn icon class="grey--text">
+                        <v-icon>play_circle_outline</v-icon>
+                    </v-btn>
+                    <v-btn icon class="grey--text">
+                        <v-icon>delete</v-icon>
+                    </v-btn>
+                    <v-btn icon class="grey--text">
+                        <v-icon>edit</v-icon>
+                    </v-btn>
+                </td>
+            </template>
+            <template slot="pageText" scope="{ pageStart, pageStop }">
+                From {{ pageStart }} to {{ pageStop }}
+            </template>
+        </v-data-table>
+    </v-card>
+</v-container>
 </template>
 
 <script>

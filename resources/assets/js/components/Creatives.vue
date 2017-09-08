@@ -4,8 +4,11 @@
             <v-flex xs12>
                 <v-card height="700px">
                     <v-toolbar class="elevation-0 grey lighten-3">
-                        <v-btn primary dark class="elevation-0" href="/admin/campaigns/create">
-                            <v-icon>add</v-icon> Add creatives
+                        <v-btn v-if="!currentFolder.id" primary dark class="elevation-0" href="">
+                            <v-icon>add</v-icon> Add Folder
+                        </v-btn>
+                        <v-btn v-else primary dark class="elevation-0" href="">
+                            <v-icon>add</v-icon> Add Creative
                         </v-btn> 
                     </v-toolbar>
                     <v-card-text>
