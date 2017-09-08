@@ -1,21 +1,21 @@
 <template>
     <v-container fluid grid-list-md>
-        <v-tabs dark fixed icons>
+        <v-tabs dark fixed icons v-model="tabIndex">
             <v-tabs-bar class="grey">
                 <v-tabs-slider class="yellow"></v-tabs-slider>
-                <v-tabs-item href="#tab-1" @click="tabIndex == 0">
+                <v-tabs-item href="#overall-tab">
                     <v-icon>present_to_all</v-icon>
                     Overall
                 </v-tabs-item>
-                <v-tabs-item href="#tab-2" @click="tabIndex == 1">
+                <v-tabs-item href="#publisher-tab">
                     <v-icon>mdi-newspaper</v-icon>
                     Publishers
                 </v-tabs-item>
-                <v-tabs-item href="#tab-3" @click="tabIndex == 2">
+                <v-tabs-item href="#devices-tab">
                     <v-icon>devices</v-icon>
                     Technologies
                 </v-tabs-item>
-                <v-tabs-item href="#tab-4" @click="tabIndex == 3">
+                <v-tabs-item href="#geo-tab">
                     <v-icon>public</v-icon>
                     Geo
                 </v-tabs-item>
@@ -24,34 +24,34 @@
                 </v-btn>
             </v-tabs-bar>
             <v-tabs-items>
-                <v-tabs-content id="tab-1">
-                    <v-card flat>
+                <v-tabs-content id="overall-tab">
+                    <v-card>
                         <v-card-text>
                             <v-container>
                                 <v-layout>
                                     <v-flex>
-                                        <h5> Impressions </h5>
-                                        <span>{{ responseOverallSummary.imps }}</span>
+                                        <span> Impressions </span>
+                                        <h5>{{ responseOverallSummary.imps }}</h5>
                                     </v-flex>
                                     <v-flex>
-                                        <h5> Clicks </h5>
-                                        <span>{{ responseOverallSummary.clicks }}</span>
+                                        <span> Clicks </span>
+                                        <h5>{{ responseOverallSummary.clicks }}</h5>
                                     </v-flex>
                                     <v-flex>
-                                        <h5> CTR </h5>
-                                        <span>{{ responseOverallSummary.ctr }}</span>
+                                        <span> CTR </span>
+                                        <h5>{{ responseOverallSummary.ctr }}</h5>
                                     </v-flex>
                                     <v-flex>
-                                        <h5> eCPM </h5>
-                                        <span>{{ responseOverallSummary.ecpm }}</span>
+                                        <span> eCPM </span>
+                                        <h5>{{ responseOverallSummary.ecpm }}</h5>
                                     </v-flex>
                                     <v-flex>
-                                        <h5> eCPC </h5>
-                                        <span>{{ responseOverallSummary.ecpc }}</span>
+                                        <span> eCPC </span>
+                                        <h5>{{ responseOverallSummary.ecpc }}</h5>
                                     </v-flex>
                                     <v-flex>
-                                        <h5> Spend </h5>
-                                        <span>{{ responseOverallSummary.spend }}</span>
+                                        <span> Spend </span>
+                                        <h5>{{ responseOverallSummary.spend }}</h5>
                                     </v-flex>
                                 </v-layout>
                             </v-container>
@@ -59,69 +59,70 @@
                         </v-card-text>
                     </v-card>
                 </v-tabs-content>
-                <v-tabs-content id="tab-2">
+                <v-tabs-content id="publisher-tab">
                     <v-card flat>
                         <v-card-text>
                             <v-container>
                                 <v-layout>
                                     <v-flex>
-                                        <h5 class="title"> Impressions </h5>
-                                        <span>{{ responsePublishersSummary.imps }}</span>
+                                        <span> Impressions </span>
+                                        <h5>{{ responsePublishersSummary.imps }}</h5>
                                     </v-flex>
                                     <v-flex>
-                                        <h5> Clicks </h5>
-                                        <span>{{ responsePublishersSummary.clicks }}</span>
+                                        <span> Clicks </span>
+                                        <h5>{{ responsePublishersSummary.clicks }}</h5>
                                     </v-flex>
                                     <v-flex>
-                                        <h5> CTR </h5>
-                                        <span>{{ responsePublishersSummary.ctr }}</span>
+                                        <span> CTR </span>
+                                        <h5>{{ responsePublishersSummary.ctr }}</h5>
                                     </v-flex>
                                     <v-flex>
-                                        <h5> eCPM </h5>
-                                        <span>{{ responsePublishersSummary.ecpm }}</span>
+                                        <span> eCPM </span>
+                                        <h5>{{ responsePublishersSummary.ecpm }}</h5>
                                     </v-flex>
                                     <v-flex>
-                                        <h5> eCPC </h5>
-                                        <span>{{ responsePublishersSummary.ecpc }}</span>
+                                        <span> eCPC </span>
+                                        <h5>{{ responsePublishersSummary.ecpc }}</h5>
                                     </v-flex>
                                     <v-flex>
-                                        <h5> Spend </h5>
-                                        <span>{{ responsePublishersSummary.spend }}</span>
+                                        <span> Spend </span>
+                                        <h5>{{ responsePublishersSummary.spend }}</h5>
                                     </v-flex>
                                 </v-layout>
                             </v-container>
+                            <v-select :items="publisherList" item-text="site" item-value="site" chips v-model="selectedPublishers" label="Select" multiple autocomplete></v-select>
                             <v-container id="chart_publisher" style="height: 500px;"></v-container>
                         </v-card-text>
                     </v-card>
                 </v-tabs-content>
-                <v-tabs-content id="tab-3">
+                <v-tabs-content id="devices-tab">
                     <v-card flat>
                         <v-card-text>
                             <v-container>
                                 <v-layout>
                                     <v-flex>
-                                        <h5> Impressions </h5>
-                                        <span>{{ responseDevicesSummary.imps }}</span>
+                                        <span> Impressions </span>
+                                        <h5>{{ responseDevicesSummary.imps }}</h5>
                                     </v-flex>
                                     <v-flex>
-                                        <h5> Clicks </h5>
-                                        <span>{{ responseDevicesSummary.clicks }}</span>
+                                        <span> Clicks </span>
+                                        <h5>{{ responseDevicesSummary.clicks }}</h5>
                                     </v-flex>
                                     <v-flex>
-                                        <h5> CTR </h5>
-                                        <span>{{ responseDevicesSummary.ctr }}</span>
+                                        <span> CTR </span>
+                                        <h5>{{ responseDevicesSummary.ctr }}</h5>
                                     </v-flex>
                                     <v-flex>
-                                        <h5> eCPM </h5>
-                                        <span>{{ responseDevicesSummary.ecpm }}</span>
+                                        <span> eCPM </span>
+                                        <h5>{{ responseDevicesSummary.ecpm }}</h5>
                                     </v-flex>
                                     <v-flex>
-                                        <h5> eCPC </h5>
-                                        <span>{{ responseDevicesSummary.ecpc }}</span>
+                                        <span> eCPC </span>
+                                        <h5>{{ responseDevicesSummary.ecpc }}</h5>
                                     </v-flex>
                                     <v-flex>
-                                        <h5> Spend </h5>
-                                        <span>{{ responseDevicesSummary.spend }}</span>
+                                        <span> Spend </span>
+                                        <h5>{{ responseDevicesSummary.spend }}</h5>
                                     </v-flex>
                                 </v-layout>
                             </v-container>
@@ -129,34 +130,34 @@
                         </v-card-text>
                     </v-card>
                 </v-tabs-content>
-                <v-tabs-content id="tab-4">
+                <v-tabs-content id="geo-tab">
                     <v-card flat>
                         <v-card-text>
                             <v-container>
                                 <v-layout>
                                     <v-flex>
-                                        <h5> Impressions </h5>
-                                        <span>{{ responseOverallSummary.imps }}</span>
+                                        <span> Impressions </span>
+                                        <h5>{{ responseGeoSummary.imps }}</h5>
                                     </v-flex>
                                     <v-flex>
-                                        <h5> Clicks </h5>
-                                        <span>{{ responseGeoSummary.clicks }}</span>
+                                        <span> Clicks </span>
+                                        <h5>{{ responseGeoSummary.clicks }}</h5>
                                     </v-flex>
                                     <v-flex>
-                                        <h5> CTR </h5>
-                                        <span>{{ responseGeoSummary.ctr }}</span>
+                                        <span> CTR </span>
+                                        <h5>{{ responseGeoSummary.ctr }}</h5>
                                     </v-flex>
                                     <v-flex>
-                                        <h5> eCPM </h5>
-                                        <span>{{ responseGeoSummary.ecpm }}</span>
+                                        <span> eCPM </span>
+                                        <h5>{{ responseGeoSummary.ecpm }}</h5>
                                     </v-flex>
                                     <v-flex>
-                                        <h5> eCPC </h5>
-                                        <span>{{ responseGeoSummary.ecpc }}</span>
+                                        <span> eCPC </span>
+                                        <h5>{{ responseGeoSummary.ecpc }}</h5>
                                     </v-flex>
                                     <v-flex>
-                                        <h5> Spend </h5>
-                                        <span>{{ responseGeoSummary.spend }}</span>
+                                        <span> Spend </span>
+                                        <h5>{{ responseGeoSummary.spend }}</h5>
                                     </v-flex>
                                 </v-layout>
                             </v-container>
@@ -187,11 +188,11 @@
 
         },
 
-        props: ['user'],
+        props: ['user', 'token'],
 
         data() {
             return {
-                tabIndex: 0,
+                tabIndex: 'overall-tab',
                 line: 'imps',
                 column: 'clicks',
                 dateFormat: 'yyyy-MM-dd',
@@ -206,19 +207,18 @@
                 selectedDevicesUa: [],
                 selectedPublishers: [],
                 selectedGeoCountries: [],
-                categoriesList: false,
-                technologiesList: false,
-                campaignList: false,
-                responseOverallList: false,
-                responsePublishersList: false,
-                responseDevicesList: false,
-                responseGeoList: false,
+                categoriesList: [],
+                technologiesList: [],
+                campaignList: [],
+                responseOverallList: [],
+                responsePublishersList: [],
+                responseDevicesList: [],
+                responseGeoList: [],
                 responseDevicesSummary: {clicks: 0, imps: 0, spend: 0, ctr: 0, ecpm: 0, ecpc:0},
                 responsePublishersSummary: {clicks: 0, imps: 0, spend: 0, ctr: 0, ecpm: 0, ecpc:0},
                 responseOverallSummary: {clicks: 0, imps: 0, spend: 0, ctr: 0, ecpm: 0, ecpc:0},
                 responseGeoSummary: {clicks: 0, imps: 0, spend: 0, ctr: 0, ecpm: 0, ecpc:0},
                 reportLoaded: false,
-                token: this.token,
                 countriesList: [],
                 publisherList: [],
                 reportDevices: [],
@@ -614,16 +614,16 @@ getQueryFilters(queryList) {
 },
 
 generateCharts() {
-    if (this.tabIndex == 0) {
+    if (this.tabIndex == 'overall-tab') {
         this.dataCall(this.reportOverall, 'responseOverallList', 'responseOverallSummary','chart_overall')
     }
-    else if(this.tabIndex == 1) {
+    else if(this.tabIndex == 'publisher-tab') {
         this.dataCall(this.reportPublishers, 'responsePublishersList', 'responsePublishersSummary', 'chart_publisher')
     }
-    else if(this.tabIndex == 2) {
+    else if(this.tabIndex == 'devices-tab') {
         this.dataCall(this.reportDevices, 'responseDevicesList', 'responseDevicesSummary', 'chart_devices')
     }
-    else if(this.tabIndex == 3) {
+    else if(this.tabIndex == 'geo-tab') {
         this.dataCall(this.reportGeo, 'responseGeoList', 'responseGeoSummary', 'chart_geo')
     }
 },
