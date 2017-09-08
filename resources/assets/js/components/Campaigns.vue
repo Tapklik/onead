@@ -35,7 +35,7 @@
                    </v-chip>
                    </td>
                    <td class="text-xs-center">
-                        <span class="title"> {{  $root.fromMicroDollars(props.item.budget.data.amount) }} </span><br>
+                        <span class="title"> $ {{$root.fromMicroDollars(props.item.budget.data.amount) }}</span><br>
                         <span class="caption"> {{ props.item.budget.data.type  | uppercase }}</span>
                     </td>
                    <td class="text-xs-center">{{ props.item.start_time }} <br>to<br>{{ props.item.end_time }}</td>
