@@ -1,6 +1,11 @@
 <template>
     <v-container>
         <v-card>
+            <v-toolbar class="elevation-0 grey lighten-3">
+                <v-btn primary dark class="elevation-0" :href="createCampaignRouter">
+                <v-icon>add</v-icon> Add campaign
+                </v-btn> 
+            </v-toolbar>
             <v-card-title>
                 <v-text-field append-icon="search" label="Search" single-line hide-details v-model="search">
                 </v-text-field>
@@ -13,15 +18,15 @@
                     <td class="text-xs-right">{{ props.item.start_time }} <br>to<br>{{ props.item.end_time }}</td>
                     <td class="text-xs-right">
 
-                    <v-btn icon class="grey--text">
-                        <v-icon>play_circle_outline</v-icon>
-                    </v-btn>
-                    <v-btn icon class="grey--text">
-                        <v-icon>delete</v-icon>
-                    </v-btn>
-                    <v-btn icon class="grey--text">
-                        <v-icon>edit</v-icon>
-                    </v-btn>
+                        <v-btn icon class="grey--text">
+                            <v-icon>play_circle_outline</v-icon>
+                        </v-btn>
+                        <v-btn icon class="grey--text">
+                            <v-icon>delete</v-icon>
+                        </v-btn>
+                        <v-btn icon class="grey--text">
+                            <v-icon>edit</v-icon>
+                        </v-btn>
                     </td>
                 </template>
                 <template slot="pageText" scope="{ pageStart, pageStop }">
@@ -47,6 +52,7 @@
                 tmp: '',
                 search: '',
                 pagination: {},
+                createCampaignRouter: "/admin/campaigns/create"
                 
             }
         },

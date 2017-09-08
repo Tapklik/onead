@@ -1,19 +1,10 @@
 <template>
     <v-container fluid grid-list-md>
-        <v-layout row wrap>
-            <v-flex xs12 md6>
-                <v-layout row wrap>
-                    <v-flex xs12 class="mb-3 mt-4">
-                       <h4>Creatives Explorer</h4>
-                    </v-flex>
-                </v-layout>
-            </v-flex>
-        </v-layout>
         <v-layout>
             <v-flex xs12>
                 <v-card height="700px">
                     <v-toolbar class="elevation-0 grey lighten-3">
-                        <v-btn primary dark class="elevation-0">
+                        <v-btn primary dark class="elevation-0" href="/admin/campaigns/create">
                             <v-icon>add</v-icon> Add creatives
                         </v-btn> 
                     </v-toolbar>
