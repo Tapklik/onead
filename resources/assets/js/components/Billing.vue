@@ -34,10 +34,10 @@
                                     <template slot="items" scope="props">
                                         <td width="40px">
                                             <v-chip v-if="props.item.debit == 0" small class="green white--text">
-                                                <v-icon>add</v-icon>
+                                                <v-icon class="white--text">add</v-icon>
                                             </v-chip>
                                             <v-chip v-if="props.item.credit == 0" small class="red white--text">
-                                                <v-icon>remove</v-icon>
+                                                <v-icon class="white--text">remove</v-icon>
                                             </v-chip>
                                         </td> 
                                         <td>
