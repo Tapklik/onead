@@ -38,7 +38,9 @@
                         <span class="title"> $ {{$root.fromMicroDollars(props.item.budget.data.amount) }}</span><br>
                         <span class="caption"> {{ props.item.budget.data.type  | uppercase }}</span>
                     </td>
-                   <td class="text-xs-center">{{ props.item.start_time }} <br>to<br>{{ props.item.end_time }}</td>
+                   <td class="text-xs-right">
+                       FROM <span class="title">{{ props.item.start_time }}</span><br>
+                       TO <span class="title">{{ props.item.end_time }}</span></td>
                    <td class="text-xs-center">
 
                     <v-btn icon class="grey--text">
