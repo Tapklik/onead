@@ -61,6 +61,10 @@ h5 {
   font-weight: bold;
 }
 
+.creatives-explorer > thead[style] {
+  display: none !important;
+}
+
 /*** FIXES ***/
 
 .radio-group .input-group__details {

@@ -1,18 +1,12 @@
 @extends('layouts.default')
 
 @section('content')
-<div id="widget-grid">
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="jarviswidget">
-                <header>
-                    <span class="widget-icon"> <i class="glyphicon glyphicon-stats"></i> </span>
-                    <h2>YOUR CREATIVES VAULT</h2>
-                </header>
 
-                <creatives></creatives>
-            </div>
-        </div>
-    </div>
-</div>
+        <v-layout class="header">
+            <v-flex xs12>
+                <h4>Your Creatives Vault</h4>
+            </v-flex>
+         </v-layout>
+
+        <creatives :user="user" :token="token"></creatives>
 @stop
