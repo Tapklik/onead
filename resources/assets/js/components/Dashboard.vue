@@ -1,94 +1,55 @@
 <template>
-   <v-container fluid grid-list-md>
-    <v-layout row wrap>
-        <v-flex xs12 md6>
-            <v-layout row wrap>
-                <v-flex xs12 class="valign-wrapper mb-3 mt-4">
-                    <h5><i class="material-icons">flight_takeoff</i> Basic Campaign Details</h5>
-                </v-flex>
-            </v-layout>
-            <v-layout row wrap>
-                <v-flex xs12 md9 class="valign-wrapper mt-3">
-                    <span class="title">Campaign Name</span>
-                    <span class="title orange-text text-darken-4"> . </span>
-                    <span class="caption grey-text text-ldarken-1">Set a name for your campaign to be identified with</span>
-                </v-flex>
-                <v-flex xs12 md9>
-                    <v-text-field
-                    label="Campaign Name"
-                    hint="At least 8 characters"
-                    prepend-icon="mode_edit"
-                    single-line
-                    ></v-text-field>
-                </v-flex>
-            </v-layout>
-            <v-layout row wrap>
-                <v-flex xs12 md9 class="valign-wrapper mt-3">
-                    <span class="title">Campaign Flight</span>
-                    <span class="title orange-text text-darken-4"> . </span>
-                    <span class="caption grey-text text-ldarken-1">Define campaign start and end dates</span>
-                </v-flex>
-                <v-flex xs12 md9>
-                    <v-text-field
-                    label="Enter your password"
-                    prepend-icon="flight_takeoff"
-                    single-line
-                    ></v-text-field>
-                </v-flex>
-            </v-layout>
-            <v-layout row wrap>
-                <v-flex xs12 md9 class="valign-wrapper mt-3">
-                    <span class="title">Advertiser Domain</span>
-                    <span class="title orange-text text-darken-4"> . </span>
-                    <span class="caption grey-text text-ldarken-1">Insert advertiser’s TLD (company.com)</span>
-                </v-flex>
-                <v-flex xs12 md9>
-                    <v-text-field
-                    label="advertiser.com"
-                    prepend-icon="phone"
-                    single-line
-                    ></v-text-field>
-                </v-flex>
-            </v-layout>
-            <v-layout row wrap>
-                <v-flex xs12 md9 class="valign-wrapper mt-3">
-                    <span class="title">Click-through URL</span>
-                    <span class="title orange-text text-darken-4"> . </span>
-                    <span class="caption grey-text text-ldarken-1">Set the default click through URL for your creatives</span>
-                </v-flex>
-                <v-flex xs12 md9>
-                    <v-text-field
-                    label="http://advertiser.com/landing"
-                    prepend-icon="phone"
-                    single-line
-                    ></v-text-field>
-                </v-flex>
-            </v-layout>
-        </v-flex>
-    <v-flex xs12 md6>
-            <v-layout row wrap>
-                <v-flex xs12 class="valign-wrapper mb-3 mt-4">
-                    <h5><i class="material-icons">attach_money</i> Budget Details</h5>
-                </v-flex>
-            </v-layout>
-            <v-layout row wrap>
-                <v-flex xs12 md9 class="valign-wrapper mt-3">
-                    <span class="title">Budget Type</span>
-                    <span class="title orange-text text-darken-4"> . </span>
-                    <span class="caption grey-text text-ldarken-1">Set budget to "daily" or "campaign"</span>
-                </v-flex>
-                <v-flex xs12 md9>
-                    <v-text-field
-                    label="Campaign Name"
-                    hint="At least 8 characters"
-                    prepend-icon="mode_edit"
-                    single-line
-                    ></v-text-field>
-                </v-flex>
-            </v-layout>
-    </v-flex>
-</v-layout>
-</v-container>
+    <v-container fluid grid-list-md>
+        <v-layout row wrap>
+            <v-flex d-flex xs12 md6>
+                <v-card height="400px">
+
+                </v-card>
+            </v-flex>
+            <v-flex d-flex xs6 md2>
+                <v-layout row wrap>
+                    <v-flex d-flex xs12>
+                        <v-card height="200px">
+
+                        </v-card>
+                    </v-flex>
+                    <v-flex d-flex xs12>
+                        <v-card height="200px">
+
+                        </v-card>
+                    </v-flex>
+                </v-layout>
+            </v-flex>
+            <v-flex d-flex xs6 md2>
+                <v-layout row wrap>
+                    <v-flex d-flex xs12>
+                        <v-card height="200px">
+
+                        </v-card>
+                    </v-flex>
+                    <v-flex d-flex xs12>
+                        <v-card height="200px">
+
+                        </v-card>
+                    </v-flex>
+                </v-layout>
+            </v-flex>
+            <v-flex d-flex xs6 md2>
+                <v-layout row wrap>
+                    <v-flex d-flex xs12>
+                        <v-card height="200px">
+
+                        </v-card>
+                    </v-flex>
+                    <v-flex d-flex xs12>
+                        <v-card height="200px">
+
+                        </v-card>
+                    </v-flex>
+                </v-layout>
+            </v-flex> 
+        </v-layout>
+    </v-container>
 </template>
 
 <script>
