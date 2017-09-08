@@ -6,7 +6,7 @@
         <v-card>
             <v-toolbar class="elevation-0 grey lighten-3">
                 <v-btn primary dark class="elevation-0">
-                    <v-icon>add</v-icon> Add campaign
+                    <v-icon>add</v-icon> New Payment
                 </v-btn> 
             </v-toolbar>
             <v-card-title>
@@ -18,13 +18,27 @@
                     &nbsp;
                 </template>
                 <template slot="items" scope="props">
+                    <td width="40px">
+                        <v-btn v-if="props.item.debit == 0" icon class="green--text">
+                            <v-icon>add_circle_outline</v-icon>
+                        </v-btn>
+                        <v-btn v-if="props.item.credit == 0" icon class="red--text">
+                            <v-icon>remove_circle_outline</v-icon>
+                        </v-btn>
+                    </td> 
                     <td>
                         <span class="title">{{ props.item.id }}</span> <br>
                         <span class="caption">{{props.item.description | uppercase}}</span>
                     </td>
                     
                    <td class="text-xs-center">
-                        <span class="title"> $ {{$root.fromMicroDollars(props.item.credit) }}</span><br>
+                        <span v-if="props.item.debit == 0" class="title"> $ {{$root.fromMicroDollars(props.item.credit) }}</span><br>
+                        <span v-if="props.item.credit == 0" class="title"> $ {{$root.fromMicroDollars(props.item.debit) }}</span>
+                    </td>
+                    <td>
+                        <v-btn icon class="grey--text">
+                            <v-icon>search</v-icon>
+                        </v-btn>
                     </td>
             </template>
             <template slot="pageText" scope="{ pageStart, pageStop }">
