@@ -1,27 +1,25 @@
 @extends('layouts.master')
 
 @section('body-class')
-    smart-style-tapklik menu-on-side fixed-navigation
+
 @stop
 
 @section('master-content')
+<div id="app">
+<v-app>
+    <main>
+        <v-container fluid class="tapklik-gradient fill-height"> 
 
-    <div id="main" role="main">
-        <div id="app">
             <!-- MAIN CONTENT -->
-            <div id="content">
                 @yield('content')
-            </div>
             <!-- END MAIN CONTENT -->
-        </div>
-    </div>
 
-    <div class="page-footer">
-        @include('layouts.partials.footer')
-    </div>
+        </v-container>
+    </main>
+</v-app>
+</div>
 
-    @include('layouts.partials.modal')
+@yield('footer-js-header')
 
-    <script src="/js/app.js"></script>
-    <!--script src="/js/all.js"></script-->
+<script src="/js/app.js"></script>
 @stop

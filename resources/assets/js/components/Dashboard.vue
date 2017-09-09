@@ -111,12 +111,8 @@
                                     </v-chip>
                                 </td>
                                 <td class="text-xs-right">
-                                    <span class="title"> $ {{$root.fromMicroDollars(props.item.budget.data.amount) }}</span><br>
-                                    <span class="caption"> {{ props.item.budget.data.type  | uppercase }}</span>
-                                </td>
-                                <td class="text-xs-right">
-                                    <span class="caption">FROM</span>&nbsp; <span class="title">{{ props.item.start_time }}</span><br>
-                                    <span class="caption">TO</span>&nbsp; <span class="title">{{ props.item.end_time }}</span>
+                                    <span class="caption">{{ props.item.start_time }}</span> 
+                                    <span class="caption">-</span>&nbsp;<span class="caption">{{ props.item.end_time }}</span>
                                 </td>
                             </template>
                         </v-data-table>
