@@ -30,7 +30,11 @@ Vue.component('creatives', require('./components/Creatives.vue'));
 Vue.component('campaigns', require('./components/Campaigns.vue'));
 Vue.component('billing', require('./components/Billing.vue'));
 Vue.component('reporting', require('./components/Reporting.vue'));
+
 Vue.component('settings', require('./components/Settings.vue'));
+Vue.component('settings-account', require('./components/SettingsAccount.vue'));
+Vue.component('settings-user', require('./components/SettingsUser.vue'));
+
 
 // CREATE
 Vue.component('campaign', require('./components/Campaign.vue'));
