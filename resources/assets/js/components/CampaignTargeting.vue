@@ -137,14 +137,14 @@
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap xs12>
-                    <v-flex xs12><v-select
-              v-bind:items="geo"
-              chips
-              v-model="campaign.geo.data"
-              label="Select"
-              multiple
-              autocomplete
-            ></v-select>
+                    <v-flex xs12>
+                        <v-select
+                          v-bind:items="geo"
+                          chips
+                          v-model="campaign.geo.data"
+                          label="Select"
+                          multiple
+                          autocomplete></v-select>
                     </v-flex>
                 </v-layout>
             </v-flex>

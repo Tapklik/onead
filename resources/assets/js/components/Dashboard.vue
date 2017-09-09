@@ -319,6 +319,12 @@
             },
         },
 
+        filters: {
+            uppercase: function(v) {
+              return v.toUpperCase();
+          }
+      },
+
 
         watch: {
             token(value) {
