@@ -29,8 +29,9 @@
 				{ title: 'Dashboard', icon: 'apps', link: '/admin/dashboard' },
 				{ title: 'Campaigns', icon: 'add_to_queue', link: '/admin/campaigns' },
 				{ title: 'Creatives', icon: 'crop_original', link: '/admin/creatives' },
-				{ title: 'Reports', icon: 'show_chart', link: '/admin/reports' },
+				{ title: 'Reports', icon: 'insert_chart', link: '/admin/reports' },
 				{ title: 'Billing', icon: 'monetization_on', link: '/admin/billing' },
+				{ title: 'Settings', icon: 'settings', link: '/admin/settings' },
 				],
 			}
 		},
