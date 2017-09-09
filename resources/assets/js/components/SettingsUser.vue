@@ -1,70 +1,113 @@
 <template>
     <v-container fluid grid-list-md>
-        <v-layout>
-            <v-flex xs12>
-                <v-card class="elevation-0">
-                    <v-card-title>
-                        <v-flex xs12 md6 lg9>
-                            <v-btn primary dark class="elevation-0">
-                                <v-icon>add</v-icon> New Payment
-                            </v-btn> 
-                        </v-flex>
-                        <v-flex xs12 md6 lg3>
-                            <v-text-field 
-                                append-icon="search" 
-                                label="Search" 
-                                single-line 
-                                hide-details 
-                                class="right"
-                                v-model="search">
-                            </v-text-field>
-                        </v-flex>
-                    </v-card-title>
-                    <v-card-text>
-                        <v-layout row wrap>
-                            <v-flex xs12>
-                                <v-data-table 
-                                v-bind:items="bills" 
-                                v-bind:search="search" 
-                                v-bind:rows-per-page-items="[10, 25, { text: 'All', value: -1 }]"
-                                >
-                                    <template slot="headers" scope="props">
-                                        &nbsp;
-                                    </template>
-                                    <template slot="items" scope="props">
-                                        <td width="40px">
-                                            <v-chip v-if="props.item.debit == 0" small class="green white--text">
-                                                <v-icon class="white--text">add</v-icon>
-                                            </v-chip>
-                                            <v-chip v-if="props.item.credit == 0" small class="red white--text">
-                                                <v-icon class="white--text">remove</v-icon>
-                                            </v-chip>
-                                        </td> 
-                                        <td>
-                                            <span class="title">{{ props.item.id }}</span> <br>
-                                            <span class="caption">{{props.item.description | uppercase}}</span>
-                                        </td>
-                                        <td class="text-xs-left">
-                                            <span class="title">{{ props.item.timestamp }}</span>
-                                        </td>
-                                        <td class="text-xs-right">
-                                            <span v-if="props.item.debit == 0" class="title"> $ {{$root.fromMicroDollars(props.item.credit) }}</span><br>
-                                            <span v-if="props.item.credit == 0" class="title"> $ {{$root.fromMicroDollars(props.item.debit) }}</span>
-                                        </td>
-                                        <td>
-                                            <v-btn icon class="grey--text">
-                                                <v-icon>search</v-icon>
-                                            </v-btn>
-                                        </td>
-                                    </template>
-                                    <template slot="pageText" scope="{ pageStart, pageStop }">
-                                        From {{ pageStart }} to {{ pageStop }}
-                                    </template>
-                                </v-data-table>
-                            </v-flex>
-                        </v-layout>
-                    </v-card-text>
-                </v-card>
+        <v-layout row wrap>
+            <v-flex xs12 md6>
+                <v-layout row wrap>
+                    <v-flex xs12 class="mb-3 mt-4">
+                        <h4>User Details</h4>
+                    </v-flex>
+                </v-layout>
+                <v-layout row wrap>
+                    <v-flex xs12 md9 class="valign-wrapper mt-4">
+                        <span class="title">User ID</span>
+                        <p class="ma-0">This is your ID</p>
+                    </v-flex>
+                    <v-flex xs12 md8>
+                        <v-icon>perm_identity</v-icon>
+                        <span>{{$root.getFirstUuidSegment}}</span>
+                    </v-flex>
+                </v-layout>
+                <v-layout row wrap>
+                    <v-flex xs12 md12 class="valign-wrapper mt-4">
+                        <span class="title">First Name</span>
+                        <p class="ma-0">This is your first name</p>
+                    </v-flex>
+                    <v-flex xs12 md8>
+                        <v-text-field
+                        label="Your first name"
+                        prepend-icon="person"
+                        single-line
+                        v-model="userDet.first_name"
+                        ></v-text-field>
+                    </v-flex>
+                </v-layout>
+                <v-layout row wrap>
+                    <v-flex xs12 md12 class="valign-wrapper mt-4">
+                        <span class="title">Last Name</span>
+                        <p class="ma-0">This is your last name</p>
+                    </v-flex>
+                    <v-flex xs12 md8>
+                        <v-text-field
+                        label="Your first name"
+                        prepend-icon="person"
+                        single-line
+                        v-model="userDet.last_name"
+                        ></v-text-field>
+                    </v-flex>
+                </v-layout>
+                <v-layout row wrap>
+                    <v-flex xs12 md12 class="valign-wrapper mt-4">
+                        <span class="title">Email</span>
+                        <p class="ma-0">Your email address</p>
+                    </v-flex>
+                    <v-flex xs12 md8>
+                        <v-icon>email</v-icon>
+                        <span>{{userDet.email}}</span>
+                    </v-flex>
+                </v-layout>
+            </v-flex>
+            <v-flex xs12 md6>
+            <v-layout row wrap>
+                    <v-flex xs12 class="mb-3 mt-4">
+                        <h4>.</h4>
+                    </v-flex>
+                </v-layout>
+                <v-layout row wrap>
+                    <v-flex xs12 md12 class="valign-wrapper mt-4">
+                        <span class="title">Phone number</span>
+                        <p class="ma-0">Your phone number, where we can contact you</p>
+                    </v-flex>
+                    <v-flex xs12 md8>
+                        <v-text-field
+                        label="Your phone number..."
+                        prepend-icon="phone"
+                        single-line
+                        v-model="userDet.phone"
+                        ></v-text-field>
+                    </v-flex>
+                </v-layout>
+                <v-layout row wrap>
+                    <v-flex xs12 md12 class="valign-wrapper mt-4">
+                        <span class="title">Password</span>
+                        <p class="ma-0">This is the password for your profile</p>
+                    </v-flex>
+                    <v-flex xs12 md8>
+                        <v-text-field
+                        label="Type here if you want to change your password..."
+                        prepend-icon="lock"
+                        single-line
+                        type="password"
+                        v-model="password"
+                        ></v-text-field>
+                    </v-flex>
+                </v-layout>
+                <v-layout row wrap>
+                    <v-flex xs12 md12 class="valign-wrapper mt-4">
+                        <span class="title">Status</span>
+                        <p class="ma-0">This is your status (active or inactive)</p>
+                    </v-flex>
+                    <v-flex xs12 md8 v-if="userDet.status == 0">
+                        <v-icon class="red--text">keyboard_arrow_down</v-icon>
+                        <span>Inactive</span>
+                    </v-flex>
+                    <v-flex xs12 md8 v-else>
+                        <v-icon class="green--text">keyboard_arrow_up</v-icon>
+                        <span>Active</span>
+                    </v-flex>
+                </v-layout><br><br>
+                <v-layout row wrap>
+                    <v-btn @click="updateUser()">Update you details</v-btn>
+                </v-layout>
             </v-flex>
         </v-layout>
     </v-container>
@@ -73,87 +116,81 @@
 <script>
 
     export default {
+
+
         mounted() {
-            console.log('Campaigns mounted.');
         },
+
+        props:['user', 'token'],
 
         data() {
             return {
-                bills: [],
-                showModal:false,
-                paymentMethods: false,
-                credit: 1,
-                paypal: 1,
-                tabIndex: 0,
-                search: ''
+                account: false,
+                userDet: {},
+                password: '',
+                ajax: false
             }
         },
 
-        props: ['token', 'user'],
-
         methods: {
 
-            processPayment() {
-                axios.post(this.$root.uri + '/accounts/' + this.user.accountUuId + '/banker/main' , this.collectBill(), this.$root.config).then(response => {
-                    swal('Success', 'Bill created successfully', 'success');
+            fetchUsersDet() {
+                var self = this;
 
+                axios.get(this.$root.uri + '/accounts/' + this.user.accountUuId + '/users/' + this.user.uuid, this.$root.config).then( response => {
+                    this.userDet = response.data.data;
                 }, error => {
-                    swal('Error', error, 'error');
+                    alert(error);
+                });
+            },            
+
+            updateUser(){
+                this.ajax = true;
+
+                this.updateUserDetails();
+            },
+
+            updateUserDetails() {
+                var payload = this.collectUser();
+
+                axios.put(this.$root.uri + '/accounts/' + this.user.accountUuId + '/users/' + this.user.uuid, payload, this.$root.config).then(response => {
+                }, error => {
+                    alert(error);
                 });
             },
 
-            collectBill() {
-                if (this.tabIndex == 0) {
-                    return {
-                        credit: this.$root.toMicroDollars(this.paypal),
-                        description: "paypal payment",
-                        type: "billing"
-                    }
-                }
-                else {
-                    return {
-                        credit: this.$root.toMicroDollars(this.credit),
-                        description: "cc payment",
-                        type: "billing"
-                    }
-                }
+            collectUser() {
+                return {
+                    id: this.userDet.uuid,
+                    first_name: this.userDet.first_name,
+                    last_name: this.userDet.last_name,
+                    email: this.userDet.email,
+                    phone: this.userDet.phone,
+                    status: this.userDet.status,
+                    password: this.password
+                };
             },
 
-            fetchBills() {
+            fetchAccount() {
+                var self = this;
 
-            axios.get(this.$root.uri + '/accounts/' + this.user.accountUuId + '/banker/main?type=billing', this.$root.config).then(response => {
-                this.bills = response.data.data;
-            }, error => {
-                swal('Error', error, 'error');
-            })
-        }
-    },
+                axios.get(this.$root.uri + '/accounts/' + this.user.accountUuId, this.$root.config).then( response => {
+                    this.account = response.data.data;
+                }, error => {
+                    alert(error);
+                });
+            },
+        },
 
-    computed: {
-        filteredBills() {
+        watch: {
 
-            if(!this.bills) return this.bills;
+            user(value) {
 
-            var obj = this;
+                if(!value) return;
+                this.fetchAccount();
+                this.fetchUsersDet();
+            }
 
-            return this.bills.filter(function (bill) {
-                return bill.id.toLowerCase().indexOf(obj.search.toLowerCase())>=0;
-            });
-        }
-    },
-
-    filters: {
-        uppercase: function(v) {
-          return v.toUpperCase();
-        }
-    },
-
-    watch: {
-        user(value) {
-            if(!value) return;
-
-            this.fetchBills();
         }
     }
-}
 </script>

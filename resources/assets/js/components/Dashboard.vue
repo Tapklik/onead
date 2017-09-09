@@ -2,9 +2,7 @@
     <v-container fluid grid-list-lg>
         <v-layout row wrap>
             <v-flex d-flex md12 lg6>
-                <v-card height="300px" class="elevation-1">
-
-                </v-card>
+                <v-card height="300px" class="elevation-1"></v-card>
             </v-flex>
             <v-flex d-flex xs6 md4 lg2>
                 <v-layout row wrap>
