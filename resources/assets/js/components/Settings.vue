@@ -29,7 +29,7 @@
         mounted() {
         
         },
-        props: ['user','token'],
+        props: ['user', 'token'],
 
         data() {
             return {
