@@ -30,7 +30,7 @@
                 <v-layout row wrap>
                     <v-flex xs12 md12 class="valign-wrapper mt-4">
                         <span class="title">Country</span>
-                        <p class="ma-0">This is your last name</p>
+                        <p class="ma-0">This is the country your account is located in</p>
                     </v-flex>
                     <v-flex xs12 md8>
                         <v-select
@@ -39,13 +39,14 @@
                           label="Select" item-text="country_name" item-value="country"
                           single-line
                           bottom
+                          autocomplete
                         ></v-select>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap>
                     <v-flex xs12 md12 class="valign-wrapper mt-4">
                         <span class="title">City</span>
-                        <p class="ma-0">Your email address</p>
+                        <p class="ma-0">This is the city your account is located in</p>
                     </v-flex>
                     <v-flex xs12 md8>
                         <v-text-field
@@ -59,7 +60,7 @@
                 <v-layout row wrap>
                     <v-flex xs12 md12 class="valign-wrapper mt-4">
                         <span class="title">Timezone</span>
-                        <p class="ma-0">This is your last name</p>
+                        <p class="ma-0">This is the timezone your account is located in</p>
                     </v-flex>
                     <v-flex xs12 md8>
                         <v-select
@@ -68,18 +69,22 @@
                           label="Select" item-text="text" item-value="text"
                           single-line
                           bottom
+                          autocomplete
                         ></v-select>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap>
                     <v-flex xs12 md12 class="valign-wrapper mt-4">
                         <span class="title">Language</span>
-                        <p class="ma-0">This is your last name</p>
+                        <p class="ma-0">This is the language your account operates with</p>
                     </v-flex>
                     <v-flex xs12 md8>
                         <v-icon>perm_identity</v-icon>
                         <span>{{account.localization.language}}</span>
                     </v-flex>
+                </v-layout>
+                <v-layout row wrap>
+                    <v-btn @click="updateAccount()">Update you details</v-btn>
                 </v-layout>
             </v-flex>
             <v-flex xs12 md6>
@@ -128,7 +133,7 @@
 
         data() {
             return {
-                campaigns: false,
+                campaigns: [],
                 account: {  
                     localization: {
                         country: '',
@@ -137,16 +142,14 @@
                         language: ''
                     }
                 },
-                countriesList: false,
+                countriesList: [],
                 selectedCountries: [],
-                usersList: false,
+                usersList: [],
                 countryReadonly: true,
                 cityReadonly: true,
                 timezoneReadonly: true,
                 ajax: false,
-                account: false,
-                timezoneList: [],
-                timezoneTextList: false
+                timezoneList: []
             }
         },
 
@@ -259,24 +262,23 @@
        }
    },
 
-   computed: {
-       token() {
-          return this.$parent.token;
-      }
-  },
+    computed: {
+        token() {
+            return this.$parent.token;
+        }
+    },
 
-  watch: {
+    watch: {
 
-    user(value) {
+        user(value) {
 
-        if(!value) return;
-        this.fetchAccount();
-        this.loadTimezones();
-        this.loadCountries();
-        this.fetchUsers();
-        this.fetchUsersDet();
-    }
+            if(!value) return;
+            this.fetchAccount();
+            this.loadTimezones();
+            this.loadCountries();
+            this.fetchUsers();
+        }
 
-}
+    }   
 }
 </script>

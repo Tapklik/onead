@@ -126,10 +126,15 @@
                                     </v-flex>
                                 </v-layout>
                             </v-container>
-                            <v-select :items="technologiesList.devices" item-text="type" item-value="device_id" chips v-model="selectedDevicesTypes" label="Select" multiple autocomplete></v-select>
-                            <v-select :items="technologiesList.operatingsystems" item-text="type" item-value="device_id" chips v-model="selectedDevicesOs" label="Select" multiple autocomplete></v-select>
-                            <v-select :items="technologiesList.browsers" item-text="type" item-value="device_id" chips v-model="selectedDevicesUa" label="Select" multiple autocomplete></v-select>
+                        
+                            <v-select :items="technologiesList.devices" item-text="type" item-value="device_id" chips v-model="selectedDevicesTypes1" label="Select" multiple autocomplete></v-select>
+                            
+                            <v-select :items="technologiesList.operatingsystems" item-text="type" item-value="type" chips v-model="selectedDevicesOs1" label="Select" multiple autocomplete></v-select>
+                            
+                            <v-select :items="technologiesList.browsers" item-text="type" item-value="type" chips v-model="selectedDevicesUa1" label="Select" multiple autocomplete></v-select>
+                            
                             <v-container id="chart_devices" style="height: 500px;"></v-container>
+                        
                         </v-card-text>
                     </v-card>
                 </v-tabs-content>
@@ -164,7 +169,7 @@
                                     </v-flex>
                                 </v-layout>
                             </v-container>
-                            <v-select :items="countriesList" item-text="country_name" item-value="country" chips v-model="selectedGeoCountries" label="Select" multiple autocomplete></v-select>
+                            <v-select :items="countriesList" item-text="country_name" item-value="country" chips v-model="selectedGeoCountries1" label="Select" multiple autocomplete></v-select>
                             <v-container id="chart_geo" style="height: 500px;"></v-container>
                         </v-card-text>
                     </v-card>
@@ -204,13 +209,13 @@
                 showModal2: false,
                 date_from: this.getDate(-100),
                 date_to: this.getDate(0),
-                selectedCampaigns: [],
-                selectedCreatives: [],
-                selectedDevicesTypes: [],
-                selectedDevicesOs: [],
-                selectedDevicesUa: [],
+                selectedCampaigns1: [],
+                selectedCreatives1: [],
+                selectedDevicesTypes1: [],
+                selectedDevicesOs1: [],
+                selectedDevicesUa1: [],
                 selectedPublishers1: [],
-                selectedGeoCountries: [],
+                selectedGeoCountries1: [],
                 categoriesList: [],
                 technologiesList: [],
                 campaignList: [],
@@ -240,11 +245,88 @@
                 var selections = this.selectedPublishers1;
 
                 for (var s in selections) {
-                    var object = {name: 'cmp', value: selections[s]}
+                    var object = {name: 'publisher_site', value: selections[s]}
                     publishers.push(object)
                 }
 
                 return publishers
+            },
+
+            selectedGeoCountries() {
+                var countries = [];
+                var selections = this.selectedGeoCountries1;
+
+                for (var s in selections) {
+                    var object = {name: 'geo_country', value: selections[s]}
+                    countries.push(object)
+                }
+
+                return countries
+            },
+
+            selectedDevicesUa() {
+                var devices = [];
+                var selections = this.selectedDevicesUa1;
+
+                for (var s in selections) {
+                    var object = {name: 'device_ua', value: selections[s]}
+                    devices.push(object)
+                }
+
+                return devices
+
+            },
+
+            selectedDevicesOs() {
+                var devices = [];
+                var selections = this.selectedDevicesOs1;
+
+                for (var s in selections) {
+                    var object = {name: 'device_os', value: selections[s]}
+                    devices.push(object)
+                }
+
+                return devices
+
+            },
+
+            selectedDevicesTypes() {
+                var devices = [];
+                var selections = this.selectedDevicesTypes1;
+
+                for (var s in selections) {
+                    var object = {name: 'device_type', value: selections[s]}
+                    devices.push(object)
+                }
+
+                return devices
+
+            },
+
+            selectedCampaigns() {
+                var campaigns = [];
+                var selections = this.selectedCampaigns1;
+
+                for (var s in selections) {
+                    var object = {name: 'cmp', value: selections[s]}
+                    campaigns.push(object)
+                }
+
+                return campaigns
+
+            },
+
+            selectedCreatives() {
+                var creatives = [];
+                var selections = this.selectedCreatives1;
+
+                for (var s in selections) {
+                    var object = {name: 'crid', value: selections[s]}
+                    creatives.push(object)
+                }
+
+                return creatives
+
             },
 
             dateChosen() {
@@ -305,6 +387,19 @@
                 this.createChart('chart_publisher', this.startingData.data[0].clicks)
 
             },
+
+            // getSelections(selectionList, variableName) {
+            //    var result = [];
+            //    var selections = selectionList;
+
+            //    for (var s in selections) {
+            //        var object = {name: variableName, value: selections[s]};
+            //        result.push(object);
+            //    }
+
+            //    return result;
+            //}, 
+
             getCreatives() {
                 var listOfCreatives = []
                 var campaigns = this.selectedCampaigns
