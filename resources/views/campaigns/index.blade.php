@@ -6,5 +6,5 @@
         <h4>Your Campaigns List</h4>
     </v-flex>
 </v-layout>
-<campaigns :token="token" ></campaigns>
+<campaigns :token="token" :user="user"></campaigns>
 @stop

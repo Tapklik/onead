@@ -57,13 +57,16 @@
                                         </td>
                                          <td class="text-xs-center">
 
-                                            <v-btn icon class="grey--text">
+                                            <v-btn icon class="grey--text" v-if="props.item.status == 'active'">
+                                                <v-icon>pause_circle_outline</v-icon>
+                                            </v-btn>
+                                            <v-btn icon class="grey--text" v-else>
                                                 <v-icon>play_circle_outline</v-icon>
                                             </v-btn>
-                                            <v-btn icon class="grey--text">
+                                            <v-btn icon class="grey--text" @click="deleteCampaign(props.item.id)">
                                                 <v-icon>delete</v-icon>
                                             </v-btn>
-                                            <v-btn icon class="grey--text">
+                                            <v-btn icon class="grey--text" :href="editCampaignRouter + props.item.id">
                                                 <v-icon>edit</v-icon>
                                             </v-btn>
                                         </td>
@@ -96,7 +99,8 @@
                 tmp: '',
                 search: '',
                 pagination: {},
-                createCampaignRouter: "/admin/campaigns/create"
+                createCampaignRouter: "/admin/campaigns/create",
+                editCampaignRouter: "/admin/campaigns/edit/"
                 
             }
         },

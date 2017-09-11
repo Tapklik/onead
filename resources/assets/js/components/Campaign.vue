@@ -43,11 +43,12 @@
             this.loadCategories();
         },
 
+        props: ['token', 'user'],
+
         data() {
             return {
                 e1: 1,
                 campaignId: null,
-                token: this.token,
                 campaign: {
                     name: '',
                     start: '',

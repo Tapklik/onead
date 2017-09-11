@@ -106,7 +106,7 @@
                                 <span class="title">{{ props.item.name }}</span>
                             </td>
                             <td class="text-xs-right">
-                                <v-chip v-if="props.item.status == 'active'" small class="green white--text">
+                                <v-chip v-if="props.item.status == true" small class="green white--text">
                                     <small>Active</small>
                                 </v-chip>
                                 <v-chip v-else small class="red white--text">

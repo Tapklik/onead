@@ -123,7 +123,7 @@
                         <v-text-field
                         label="0.00"
                         prepend-icon="attach_money"
-                        v-model="campaign.budget.data.amount"
+                        v-model="budgetUsd"
                         single-line
                         ></v-text-field>
                     </v-flex>
@@ -137,7 +137,7 @@
                         <v-text-field
                         label="0.00"
                         prepend-icon="attach_money"
-                        v-model="campaign.bid"
+                        v-model="bidUsd"
                         single-line
                         ></v-text-field>
                     </v-flex>

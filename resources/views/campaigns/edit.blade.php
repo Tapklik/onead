@@ -17,7 +17,7 @@ var _data = {id: '{!! $id !!}' };
                     <div class="widget-body">
                         <div class="row">
                             <form action="" novalidate>
-                                <campaign-edit></campaign-edit>
+                                <campaign-edit :token="token" :user="user"></campaign-edit>
                             </form>
                         </div>
                     </div>

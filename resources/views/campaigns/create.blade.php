@@ -8,5 +8,5 @@
             </v-flex>
          </v-layout>
 
-        <campaign :user="user"></campaign>
+        <campaign :user="user" :token="token"></campaign>
 @stop

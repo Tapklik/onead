@@ -5,9 +5,41 @@
                 <v-card class="elevation-0">
                     <v-card-title>
                         <v-flex xs12 md6 lg9>
-                            <v-btn primary dark class="elevation-0">
+                        <v-dialog v-model="showModal" width="1500px" lazy absolute>
+                            <v-btn primary dark class="elevation-0" slot="activator">
                                 <v-icon>add</v-icon> New Payment
                             </v-btn> 
+                            <v-card>
+                                <v-card-title>
+                                    <div class="headline">Method of payment</div>
+                                </v-card-title>
+                                <v-layout row wrap> 
+                                    <v-container fluid grid-list-md>
+                                        <v-layout>
+                                            <v-flex xs12 md6 class="valign-wrapper">
+                                                <v-text-field
+                                                label="0.00"
+                                                prepend-icon="attach_money"
+                                                v-model="payment"
+                                                single-line
+                                                ></v-text-field>
+                                            </v-flex>
+                                            <v-flex xs12 md6 class="valign-wrapper">
+                                                <v-radio-group v-model="paymentMethod" row class="pa-1">
+                                                    <v-radio label="Credit Card" value="cc payment" ></v-radio>
+                                                    <v-radio label="Paypal" value="paypal payment"></v-radio>
+                                                </v-radio-group>
+                                            </v-flex>
+                                        </v-layout>
+                                        <v-layout>
+                                            <v-flex class="text-xs-center">
+                                                <v-btn @click="processPayment()">Create a Bill</v-btn>
+                                            </v-flex>
+                                        </v-layout>
+                                    </v-container>                                    
+                                </v-layout>
+                            </v-card>
+                        </v-dialog>
                         </v-flex>
                         <v-flex xs12 md6 lg3>
                             <v-text-field 
@@ -36,7 +68,7 @@
                                             <v-chip v-if="props.item.debit == 0" small class="green white--text">
                                                 <v-icon class="white--text">add</v-icon>
                                             </v-chip>
-                                            <v-chip v-if="props.item.credit == 0" small class="red white--text">
+                                            <v-chip v-else small class="red white--text">
                                                 <v-icon class="white--text">remove</v-icon>
                                             </v-chip>
                                         </td> 
@@ -48,8 +80,8 @@
                                             <span class="title">{{ props.item.timestamp }}</span>
                                         </td>
                                         <td class="text-xs-right">
-                                            <span v-if="props.item.debit == 0" class="title"> $ {{$root.fromMicroDollars(props.item.credit) }}</span><br>
-                                            <span v-if="props.item.credit == 0" class="title"> $ {{$root.fromMicroDollars(props.item.debit) }}</span>
+                                            <span v-if="props.item.debit == 0" class="title"> $ {{$root.fromMicroDollars(props.item.credit) }}</span>
+                                            <span v-else class="title"> $ {{$root.fromMicroDollars(props.item.debit) }}</span>
                                         </td>
                                         <td>
                                             <v-btn icon class="grey--text">
@@ -81,9 +113,8 @@
             return {
                 bills: [],
                 showModal:false,
-                paymentMethods: false,
-                credit: 1,
-                paypal: 1,
+                paymentMethod: 'cc payment',
+                payment: '',
                 tabIndex: 0,
                 search: ''
             }
@@ -103,20 +134,12 @@
             },
 
             collectBill() {
-                if (this.tabIndex == 0) {
-                    return {
-                        credit: this.$root.toMicroDollars(this.paypal),
-                        description: "paypal payment",
-                        type: "billing"
-                    }
+                return {
+                    credit: this.$root.toMicroDollars(this.payment),
+                    description: this.paymentMethod,
+                    type: "billing"
                 }
-                else {
-                    return {
-                        credit: this.$root.toMicroDollars(this.credit),
-                        description: "cc payment",
-                        type: "billing"
-                    }
-                }
+                
             },
 
             fetchBills() {
