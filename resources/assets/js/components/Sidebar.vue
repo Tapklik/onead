@@ -1,5 +1,5 @@
 <template>
-	<v-navigation-drawer dark persistent :enable-resize-watcher="true" v-model="drawer" :clipped="false" class="tapklik-drawer elevation-9">
+	<v-navigation-drawer dark persistent :enable-resize-watcher="true" v-model="drawer" :clipped="false" class="tapklik-drawer elevation-9" style="overflow-y:hidden">
 		<div class="logo">
 			<img width="50" src="/images/tapklik-logo-square-inner.png">
 		</div>
@@ -32,6 +32,7 @@
 				{ title: 'Reports', icon: 'insert_chart', link: '/admin/reports' },
 				{ title: 'Billing', icon: 'monetization_on', link: '/admin/billing' },
 				{ title: 'Settings', icon: 'settings', link: '/admin/settings' },
+				{ title: 'Log Out', icon: 'keyboard_arrow_left', link: '/admin/logout' },
 				],
 			}
 		},

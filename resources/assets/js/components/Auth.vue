@@ -33,7 +33,7 @@
 		                        <v-text-field
 		                        label="Password"
 		                        hint="At least 8 characters"
-		                        password
+		                        type="password"
 		                        v-model="password"
 		                        ></v-text-field>
 		                    </v-flex>
@@ -106,11 +106,11 @@
 		data() {
 
 	        return {
-	            'token': false,
-	            'email': '',
-				'password': '',
-				'isLoading': false,
-				'error': ''
+	            token: false,
+	            email: '',
+				password: '',
+				isLoading: false,
+				error: ''
 			}
 		},
 
