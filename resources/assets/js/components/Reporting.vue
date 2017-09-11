@@ -90,7 +90,7 @@
                                     </v-flex>
                                 </v-layout>
                             </v-container>
-                            <v-select :items="publisherList" item-text="site" item-value="site" chips v-model="selectedPublishers" label="Select" multiple autocomplete></v-select>
+                            <v-select :items="publisherList" item-text="site" item-value="site" chips v-model="selectedPublishers1" label="Select" multiple autocomplete></v-select>
                             <v-container id="chart_publisher" style="height: 500px;"></v-container>
                         </v-card-text>
                     </v-card>
@@ -209,7 +209,7 @@
                 selectedDevicesTypes: [],
                 selectedDevicesOs: [],
                 selectedDevicesUa: [],
-                selectedPublishers: [],
+                selectedPublishers1: [],
                 selectedGeoCountries: [],
                 categoriesList: [],
                 technologiesList: [],
@@ -234,6 +234,19 @@
         },
         
         computed: {
+
+            selectedPublishers() {
+                var publishers = [];
+                var selections = this.selectedPublishers1;
+
+                for (var s in selections) {
+                    var object = {name: 'cmp', value: selections[s]}
+                    publishers.push(object)
+                }
+
+                return publishers
+            },
+
             dateChosen() {
                 return this.date_from + ' to ' + this.date_to
             },
