@@ -1,159 +1,282 @@
 <template>
     <v-container fluid grid-list-md>
-        <v-layout>
-            <v-flex xs12>
-                <v-card class="elevation-0">
+        <v-layout row wrap>
+            <v-flex xs12 md6>
+                <v-layout row wrap>
+                    <v-flex xs12 class="mb-3 mt-4">
+                        <h4>Account Details</h4>
+                    </v-flex>
+                </v-layout>
+                <v-layout row wrap>
+                    <v-flex xs12 md9 class="valign-wrapper mt-4">
+                        <span class="title">Account Name</span>
+                        <p class="ma-0">This is the name of your account</p>
+                    </v-flex>
+                    <v-flex xs12 md8>
+                        <v-icon>perm_identity</v-icon>
+                        <span>{{account.name}}</span>
+                    </v-flex>
+                </v-layout>
+                <v-layout row wrap>
+                    <v-flex xs12 md12 class="valign-wrapper mt-4">
+                        <span class="title">Account ID</span>
+                        <p class="ma-0">This is the unique ID of your account</p>
+                    </v-flex>
+                    <v-flex xs12 md8>
+                        <v-icon>perm_identity</v-icon>
+                        <span>{{$root.getFirstUuidSegment}}</span>
+                    </v-flex>
+                </v-layout>
+                <v-layout row wrap>
+                    <v-flex xs12 md12 class="valign-wrapper mt-4">
+                        <span class="title">Country</span>
+                        <p class="ma-0">This is your last name</p>
+                    </v-flex>
+                    <v-flex xs12 md8>
+                        <v-select
+                          v-bind:items="countriesList"
+                          v-model="account.localization.country"
+                          label="Select" item-text="country_name" item-value="country"
+                          single-line
+                          bottom
+                        ></v-select>
+                    </v-flex>
+                </v-layout>
+                <v-layout row wrap>
+                    <v-flex xs12 md12 class="valign-wrapper mt-4">
+                        <span class="title">City</span>
+                        <p class="ma-0">Your email address</p>
+                    </v-flex>
+                    <v-flex xs12 md8>
+                        <v-text-field
+                        label="Your first name"
+                        prepend-icon="person"
+                        single-line
+                        v-model="account.localization.city"
+                        ></v-text-field>
+                    </v-flex>
+                </v-layout>
+                <v-layout row wrap>
+                    <v-flex xs12 md12 class="valign-wrapper mt-4">
+                        <span class="title">Timezone</span>
+                        <p class="ma-0">This is your last name</p>
+                    </v-flex>
+                    <v-flex xs12 md8>
+                        <v-select
+                          v-bind:items="timezoneList"
+                          v-model="account.localization.timezone"
+                          label="Select" item-text="text" item-value="text"
+                          single-line
+                          bottom
+                        ></v-select>
+                    </v-flex>
+                </v-layout>
+                <v-layout row wrap>
+                    <v-flex xs12 md12 class="valign-wrapper mt-4">
+                        <span class="title">Language</span>
+                        <p class="ma-0">This is your last name</p>
+                    </v-flex>
+                    <v-flex xs12 md8>
+                        <v-icon>perm_identity</v-icon>
+                        <span>{{account.localization.language}}</span>
+                    </v-flex>
+                </v-layout>
+            </v-flex>
+            <v-flex xs12 md6>
+                <v-layout row wrap>
+                    <v-flex xs12 class="mb-3 mt-4">
+                        <h4>User List</h4>
+                    </v-flex>
+                </v-layout>
+                <v-card height="300px" class="elevation-1">
                     <v-card-title>
-                        <v-flex xs12 md6 lg9>
-                            <v-btn primary dark class="elevation-0">
-                                <v-icon>add</v-icon> New Payment
-                            </v-btn> 
-                        </v-flex>
-                        <v-flex xs12 md6 lg3>
-                            <v-text-field 
-                                append-icon="search" 
-                                label="Search" 
-                                single-line 
-                                hide-details 
-                                class="right"
-                                v-model="search">
-                            </v-text-field>
-                        </v-flex>
+                        <span class="subheading orange--text text--darken-4">USERS</span>
                     </v-card-title>
-                    <v-card-text>
-                        <v-layout row wrap>
-                            <v-flex xs12>
-                                <v-data-table 
-                                v-bind:items="bills" 
-                                v-bind:search="search" 
-                                v-bind:rows-per-page-items="[10, 25, { text: 'All', value: -1 }]"
-                                >
-                                    <template slot="headers" scope="props">
-                                        &nbsp;
-                                    </template>
-                                    <template slot="items" scope="props">
-                                        <td width="40px">
-                                            <v-chip v-if="props.item.debit == 0" small class="green white--text">
-                                                <v-icon class="white--text">add</v-icon>
-                                            </v-chip>
-                                            <v-chip v-if="props.item.credit == 0" small class="red white--text">
-                                                <v-icon class="white--text">remove</v-icon>
-                                            </v-chip>
-                                        </td> 
-                                        <td>
-                                            <span class="title">{{ props.item.id }}</span> <br>
-                                            <span class="caption">{{props.item.description | uppercase}}</span>
-                                        </td>
-                                        <td class="text-xs-left">
-                                            <span class="title">{{ props.item.timestamp }}</span>
-                                        </td>
-                                        <td class="text-xs-right">
-                                            <span v-if="props.item.debit == 0" class="title"> $ {{$root.fromMicroDollars(props.item.credit) }}</span><br>
-                                            <span v-if="props.item.credit == 0" class="title"> $ {{$root.fromMicroDollars(props.item.debit) }}</span>
-                                        </td>
-                                        <td>
-                                            <v-btn icon class="grey--text">
-                                                <v-icon>search</v-icon>
-                                            </v-btn>
-                                        </td>
-                                    </template>
-                                    <template slot="pageText" scope="{ pageStart, pageStop }">
-                                        From {{ pageStart }} to {{ pageStop }}
-                                    </template>
-                                </v-data-table>
-                            </v-flex>
-                        </v-layout>
-                    </v-card-text>
+                    <v-data-table v-bind:items="usersList" hide-actions > 
+                        <template slot="headers" scope="props">
+                            &nbsp;
+                        </template>
+                        <template slot="items" scope="props">
+                            <td>
+                                <span class="title">{{ props.item.name }}</span>
+                            </td>
+                            <td class="text-xs-right">
+                                <v-chip v-if="props.item.status == 'active'" small class="green white--text">
+                                    <small>Active</small>
+                                </v-chip>
+                                <v-chip v-else small class="red white--text">
+                                    <small>Inactive</small>
+                                </v-chip>
+                            </td>
+                        </template>
+                    </v-data-table>
                 </v-card>
             </v-flex>
         </v-layout>
     </v-container>
 </template>
 
+
 <script>
 
     export default {
+
         mounted() {
-            console.log('Campaigns mounted.');
         },
+
+        props:['user'],
 
         data() {
             return {
-                bills: [],
-                showModal:false,
-                paymentMethods: false,
-                credit: 1,
-                paypal: 1,
-                tabIndex: 0,
-                search: ''
+                campaigns: false,
+                account: {  
+                    localization: {
+                        country: '',
+                        city: '',
+                        timezone:'',
+                        language: ''
+                    }
+                },
+                countriesList: false,
+                selectedCountries: [],
+                usersList: false,
+                countryReadonly: true,
+                cityReadonly: true,
+                timezoneReadonly: true,
+                ajax: false,
+                account: false,
+                timezoneList: [],
+                timezoneTextList: false
             }
         },
 
-        props: ['token', 'user'],
-
         methods: {
 
-            processPayment() {
-                axios.post(this.$root.uri + '/accounts/' + this.user.accountUuId + '/banker/main' , this.collectBill(), this.$root.config).then(response => {
-                    swal('Success', 'Bill created successfully', 'success');
+            loadTimezones() {
 
+                axios.get('/data/timezones.json').then(response => {
+                    this.timezoneList = response.data;
                 }, error => {
-                    swal('Error', error, 'error');
+                    console.log(error);
                 });
             },
 
-            collectBill() {
-                if (this.tabIndex == 0) {
-                    return {
-                        credit: this.$root.toMicroDollars(this.paypal),
-                        description: "paypal payment",
-                        type: "billing"
-                    }
-                }
-                else {
-                    return {
-                        credit: this.$root.toMicroDollars(this.credit),
-                        description: "cc payment",
-                        type: "billing"
-                    }
-                }
+            fetchUsers: function () {
+                var self = this;
+
+                axios.get(this.$root.uri + '/accounts/' + this.user.accountUuId + '/users', this.$root.config).then( response => {
+                    this.usersList = response.data.data;
+                }, error => {
+                    alert(error);
+                });
             },
 
-            fetchBills() {
+            fetchUsersDet: function () {
+                var self = this;
 
-            axios.get(this.$root.uri + '/accounts/' + this.user.accountUuId + '/banker/main?type=billing', this.$root.config).then(response => {
-                this.bills = response.data.data;
+                axios.get(this.$root.uri + '/accounts/' + this.user.accountUuId + '/users/' + this.user.uuid, this.$root.config).then( response => {
+                    this.account = response.data.data;
+                }, error => {
+                    alert(error);
+                });
+            },
+
+            updateAccount(){
+                this.ajax = true;
+
+                this.updateAccountDetails();
+            },
+
+            updateUser(){
+                this.ajax = true;
+
+                this.updateaccountails();
+            },
+
+            updateaccountails() {
+                var payload = this.collectUser();
+
+                axios.put(this.$root.uri + '/accounts/' + this.user.accountUuId + '/users/' + this.user.uuid, payload, this.$root.config).then(response => {
+                }, error => {
+                    swal('Error', 'Something went wrong', 'error');
+                });
+            },
+            updateAccountDetails() {
+                var payload = this.collectAccount();
+
+                axios.put(this.$root.uri + '/accounts/' + this.user.accountUuId, payload, this.$root.config).then(response => {
+                    swal('Success', 'Account updated successfully', 'success');
+                }, error => {
+                    swal('Error', 'Something went wrong', 'error');
+                });
+            },
+
+            collectAccount() {
+                return {
+                    id: this.account.id,
+                    name: this.account.name,
+                    country: this.account.localization.country,
+                    city: this.account.localization.city,
+                    timezone: this.account.localization.timezone,
+                    language: this.account.localization.language,
+                    status: this.account.status
+                };
+            },
+
+            collectUser() {
+                return {
+                    id: this.account.uuid,
+                    first_name: this.account.first_name,
+                    last_name: this.account.last_name,
+                    email: this.account.email,
+                    phone: this.account.phone,
+                    status: this.account.status,
+                    password: this.account.password
+                };
+            },
+
+            fetchAccount() {
+              var self = this;
+
+              axios.get(this.$root.uri + '/accounts/' + this.user.accountUuId, this.$root.config).then( response => {
+                this.account = response.data.data;
             }, error => {
-                swal('Error', error, 'error');
-            })
-        }
-    },
-
-    computed: {
-        filteredBills() {
-
-            if(!this.bills) return this.bills;
-
-            var obj = this;
-
-            return this.bills.filter(function (bill) {
-                return bill.id.toLowerCase().indexOf(obj.search.toLowerCase())>=0;
+                console.log(error);
             });
-        }
-    },
+          },
 
-    filters: {
-        uppercase: function(v) {
-          return v.toUpperCase();
-        }
-    },
+          loadCountries() {
 
-    watch: {
-        user(value) {
-            if(!value) return;
+            axios.get('/data/countries.json').then(response => {
+                this.countriesList = response.data;
+            }, error => {
+                console.log(error);
+            });
+        },
 
-            this.fetchBills();
-        }
+        confirmEdit(){
+           if (this.countryReadonly == false) this.countryReadonly = true;
+       }
+   },
+
+   computed: {
+       token() {
+          return this.$parent.token;
+      }
+  },
+
+  watch: {
+
+    user(value) {
+
+        if(!value) return;
+        this.fetchAccount();
+        this.loadTimezones();
+        this.loadCountries();
+        this.fetchUsers();
+        this.fetchUsersDet();
     }
+
+}
 }
 </script>

@@ -14,7 +14,7 @@
                     </v-flex>
                     <v-flex xs12 md8>
                         <v-icon>perm_identity</v-icon>
-                        <span>{{$root.getFirstUuidSegment}}</span>
+                        <span>{{$root.getFirstUserUuidSegment}}</span>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap>
