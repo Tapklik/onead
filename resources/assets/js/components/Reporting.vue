@@ -1,27 +1,27 @@
 <template>
     <v-container fluid grid-list-md>
-        <v-tabs dark fixed icons v-model="tabIndex">
-            <v-tabs-bar class="grey">
-                <v-tabs-slider class="yellow"></v-tabs-slider>
+        <v-tabs dark fixed icons v-modal="tabIndex">
+            <v-tabs-bar class="white">
+                <v-tabs-slider class="orange text--darken-3"></v-tabs-slider>
                 <v-tabs-item href="#overall-tab">
-                    <v-icon>present_to_all</v-icon>
-                    Overall
+                    <v-icon class="orange--text text--darken-3">present_to_all</v-icon>
+                    <span class="orange--text text--darken-3"> Overall</span>
                 </v-tabs-item>
                 <v-tabs-item href="#publisher-tab">
-                    <v-icon>mdi-newspaper</v-icon>
-                    Publishers
+                    <v-icon class="orange--text text--darken-3">mdi-newspaper</v-icon>
+                    <span class="orange--text text--darken-3">Publishers</span>
                 </v-tabs-item>
                 <v-tabs-item href="#devices-tab">
-                    <v-icon>devices</v-icon>
-                    Technologies
+                    <v-icon class="orange--text text--darken-3">devices</v-icon>
+                    <span class="orange--text text--darken-3">Technologies</span>
                 </v-tabs-item>
                 <v-tabs-item href="#geo-tab">
-                    <v-icon>public</v-icon>
-                    Geo
+                    <v-icon class="orange--text text--darken-3">public</v-icon>
+                    <span class="orange--text text--darken-3">Geo</span>
                 </v-tabs-item>
-                <v-btn @click="generateCharts()">
+                <!-- <v-btn @click="generateCharts()">
                     Generate
-                </v-btn>
+                </v-btn>-->
             </v-tabs-bar>
             <v-tabs-items>
                 <v-tabs-content id="overall-tab">
