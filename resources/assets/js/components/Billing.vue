@@ -5,7 +5,7 @@
                 <v-card class="elevation-0">
                     <v-card-title>
                         <v-flex xs12 md6 lg9>
-                        <v-dialog v-model="showModal" width="1500px" lazy absolute>
+                        <v-dialog v-model="showModal" width="750px" lazy absolute>
                             <v-btn primary dark class="elevation-0" slot="activator">
                                 <v-icon>add</v-icon> New Payment
                             </v-btn> 
@@ -13,31 +13,41 @@
                                 <v-card-title>
                                     <div class="headline">Method of payment</div>
                                 </v-card-title>
-                                <v-layout row wrap> 
-                                    <v-container fluid grid-list-md>
-                                        <v-layout>
-                                            <v-flex xs12 md6 class="valign-wrapper">
-                                                <v-text-field
-                                                label="0.00"
-                                                prepend-icon="attach_money"
-                                                v-model="payment"
-                                                single-line
-                                                ></v-text-field>
-                                            </v-flex>
-                                            <v-flex xs12 md6 class="valign-wrapper">
-                                                <v-radio-group v-model="paymentMethod" row class="pa-1">
-                                                    <v-radio label="Credit Card" value="cc payment" ></v-radio>
-                                                    <v-radio label="Paypal" value="paypal payment"></v-radio>
-                                                </v-radio-group>
-                                            </v-flex>
-                                        </v-layout>
-                                        <v-layout>
-                                            <v-flex class="text-xs-center">
-                                                <v-btn @click="processPayment()">Create a Bill</v-btn>
-                                            </v-flex>
-                                        </v-layout>
-                                    </v-container>                                    
-                                </v-layout>
+                                <v-container fluid grid-list-md>
+                                    <v-layout row wrap> 
+                                        <v-container fluid grid-list-md>
+                                            <v-layout>
+                                                <v-flex xs12 md3>
+                                                    <span class="title">Amount:</span>
+                                                </v-flex>
+                                                <v-flex xs12 md6 class="valign-wrapper">
+                                                    <v-text-field
+                                                    label="0.00"
+                                                    prepend-icon="attach_money"
+                                                    v-model="payment"
+                                                    single-line
+                                                    ></v-text-field>
+                                                </v-flex>
+                                            </v-layout>
+                                            <v-layout>
+                                                <v-flex xs12 md3>
+                                                    <span class="title">Method:</span>
+                                                </v-flex>
+                                                <v-flex xs12 md6 class="valign-wrapper">
+                                                    <v-radio-group v-model="paymentMethod" row class="pa-1">
+                                                        <v-radio label="Credit Card" value="cc payment" ></v-radio>
+                                                        <v-radio label="Paypal" value="paypal payment"></v-radio>
+                                                    </v-radio-group>
+                                                </v-flex>
+                                            </v-layout>
+                                            <v-layout>
+                                                <v-flex class="text-xs-center">
+                                                    <v-btn @click="processPayment()">Create a Bill</v-btn>
+                                                </v-flex>
+                                            </v-layout>
+                                        </v-container>                                    
+                                    </v-layout>
+                                </v-container>
                             </v-card>
                         </v-dialog>
                         </v-flex>
