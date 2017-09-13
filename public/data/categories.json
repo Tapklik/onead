@@ -1,94 +1,117 @@
  {
     "IAB1": {
       "type": "Arts & Culture",
-      "code": "IAB1"
+      "code": "IAB1",
+      "img": "mdi-brush"
     },
     "IAB2": {
       "type": "Automative",
-      "code": "IAB2"
+      "code": "IAB2",
+      "img": "mdi-car"
     },
     "IAB3": {
       "type": "Business",
-      "code": "IAB3"
+      "code": "IAB3",
+      "img": "mdi-tie"
     },
     "IAB4": {
       "type": "Careers",
-      "code": "IAB4"
+      "code": "IAB4",
+      "img": "mdi-worker"
     },
     "IAB5": {
       "type": "Education",
-      "code": "IAB5"
+      "code": "IAB5",
+      "img": "mdi-book-open-page-variant"
     },
     "IAB6": {
       "type": "Family & Parenting",
-      "code": "IAB6"
+      "code": "IAB6",
+      "img": "mdi-human-male-female"
     },
     "IAB7": {
       "type": "Health & Fitness",
-      "code": "IAB7"
+      "code": "IAB7",
+      "img": "mdi-run"
     },
     "IAB8": {
       "type": "Food & Drink",
-      "code": "IAB8"
+      "code": "IAB8",
+      "img": "mdi-food"
     },
     "IAB9": {
       "type": "Hobbies",
-      "code": "IAB9"
+      "code": "IAB9",
+      "img": "mdi-xbox-controller"
     },
     "IAB10": {
       "type": "Home & Garden",
-      "code": "IAB10"
+      "code": "IAB10",
+      "img": "mdi-home"
     },
     "IAB11": {
       "type": "Law, Gov’t & Politics",
-      "code": "IAB11"
+      "code": "IAB11",
+      "img": "mdi-crown"
     },
     "IAB12": {
       "type": "News",
-      "code": "IAB12"
+      "code": "IAB12",
+      "img": "mdi-newspaper"
     },
     "IAB13": {
       "type": "Personal Finance",
-      "code": "IAB13"
+      "code": "IAB13",
+      "img": "mdi-cash"
     },
     "IAB14": {
       "type": "Society",
-      "code": "IAB14"
+      "code": "IAB14",
+      "img": "mdi-earth"
     },
     "IAB15": {
       "type": "Science",
-      "code": "IAB15"
+      "code": "IAB15",
+      "img": "mdi-glasses"
     },
     "IAB16": {
       "type": "Pets",
-      "code": "IAB16"
+      "code": "IAB16",
+      "img": "mdi-cat"
     },
     "IAB17": {
       "type": "Sports",
-      "code": "IAB17"
+      "code": "IAB17",
+      "img": "mdi-soccer"
     },
     "IAB18": {
       "type": "Style & Fashion",
-      "code": "IAB18"
+      "code": "IAB18",
+      "img": "mdi-tshirt-crew"
     },
     "IAB19": {
       "type": "Tech & Computing",
-      "code": "IAB19"
+      "code": "IAB19",
+      "img": "mdi-laptop"
     },
     "IAB20": {
       "type": "Travel",
-      "code": "IAB20"
+      "code": "IAB20",
+      "img": "mdi-bus"
     },
     "IAB21": {
       "type": "Real Estate",
-      "code": "IAB21"
+      "code": "IAB21",
+      "img": "mdi-domain"
     },
     "IAB22": {
       "type": "Shopping",
-      "code": "IAB22"
+      "code": "IAB22",
+      "img": "mdi-cart"
     },
     "IAB23": {
       "type": "Religion & Spirituality",
-      "code": "IAB23"
+      "code": "IAB23",
+      "img": "mdi-church"
     }
   }

@@ -1,6 +1,6 @@
 <template>
     <v-container fluid grid-list-md>
-        <v-tabs dark fixed icons v-modal="tabIndex">
+        <v-tabs dark fixed icons v-modal="tabIndex" center>
             <v-tabs-bar class="white">
                 <v-tabs-slider class="orange text--darken-3"></v-tabs-slider>
                 <v-tabs-item href="#overall-tab">
@@ -24,7 +24,7 @@
                 </v-btn>-->
             </v-tabs-bar>
             <v-tabs-items>
-                <v-tabs-content id="overall-tab">
+                <v-tabs-content id="overall-tab" class="elevation-1">
                     <v-card>
                         <v-card-text>
                             <v-container>

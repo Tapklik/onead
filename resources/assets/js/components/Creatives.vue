@@ -4,12 +4,22 @@
             <v-flex xs12>
                 <v-card class="elevation-0">
                     <v-card-title>
-                        <v-flex xs12 md6 lg9>
+                        <v-flex xs12 md2>
                             <v-btn primary dark class="elevation-0">
                                 <v-icon>add</v-icon> Add Creatives
                             </v-btn> 
                         </v-flex>
-                        <v-flex xs12 md6 lg3>
+                        <v-flex xs12 md2 lg7>
+                            <v-edit-dialog lazy v-model="createFolderModal"> 
+                                <v-btn v-if="!currentFolder.id" @click="createFolderModal = true" class="elevation-0">
+                                    <v-icon>add</v-icon> Add Folder
+                                </v-btn>
+                                <v-layout slot="input" class="elevation-0"> 
+                                    <v-text-field class="elevation-0" slot="input" label="Search" v-model="newFolder" single-line></v-text-field><v-btn primary dark class="elevation-0" slot="input" @click="storeNewFolder(), createFolderModal=false">Create</v-btn>
+                                </v-layout>
+                            </v-edit-dialog>
+                        </v-flex>
+                        <v-flex xs12 md8 lg3>
                             <v-text-field 
                                 append-icon="search" 
                                 label="Search" 
@@ -35,6 +45,11 @@
                                         <tr :active="props.selected" @click="openFolder(props.item)">
                                             <td width="40" class="text-xs-right"><v-icon>folder</v-icon></td>
                                             <td class="text-xs-left"><span class="title">{{ props.item.name }}</span></td>
+                                            <td class="text-xs-right">
+                                                <v-btn icon class="grey--text">
+                                                    <v-icon>delete</v-icon>
+                                                </v-btn>
+                                            </td>
                                         </tr>
                                     </template>
                                 </v-data-table>

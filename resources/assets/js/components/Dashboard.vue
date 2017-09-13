@@ -75,54 +75,79 @@
             <v-flex d-flex xs12 md4>
                 <v-card height="300px" class="elevation-1">
                     <v-card-title>
-                        <span class="subheading orange--text text--darken-4">ACTIVE CAMPAIGNS</span>
+                        <span class="subheading orange--text text--darken-4">RECENT CAMPAIGNS</span>
                         <v-spacer></v-spacer>
-                        <v-btn icon class="orange--text text--darken-3 ma-0">
-                            <v-icon>edit</v-icon>
-                        </v-btn>
-                        <v-btn icon class="orange--text text--darken-3 ma-0">
+                        <v-btn icon class="orange--text text--darken-3 ma-0" href="/admin/campaigns">
                             <v-icon>search</v-icon>
                         </v-btn>
                     </v-card-title>
-                        <v-data-table 
-                        v-bind:items="campaignList" 
-                        hide-actions
-                        :total-items=5
-                        >
-                            <template slot="headers" scope="props">
-                                &nbsp;
-                            </template>
-                            <template slot="items" scope="props">
-                                <td>
-                                    <span class="title">{{ props.item.name }}</span> <br>
-                                    <span class="caption">{{props.item.id}}</span>
-                                </td>
-                                <td>
-                                    <v-chip v-if="props.item.status == 'active'" small class="green white--text">
-                                        <small>STOPPED</small>
-                                    </v-chip>
-                                    <v-chip v-else-if="props.item.status == 'archived'" small class="yellow darken-2 white--text">
-                                        <small>ARCHIVED</small>
-                                    </v-chip>   
-                                    <v-chip v-else small class="red white--text">
-                                        <small>STOPPED</small>
-                                    </v-chip>
-                                </td>
-                                <td class="text-xs-right">
-                                    <span class="caption">{{ props.item.start_time }}</span> 
-                                    <span class="caption">-</span>&nbsp;<span class="caption">{{ props.item.end_time }}</span>
-                                </td>
-                            </template>
-                        </v-data-table>
+                    <v-data-table v-bind:items="campaignList" hide-actions :total-items='totalItems'>
+                        <template slot="headers" scope="props">
+                            &nbsp;
+                        </template>
+                        <template slot="items" scope="props">
+                            <td>
+                                <span class="title">{{ props.item.name }}</span>
+                            </td>
+                            <td>
+                                <v-chip v-if="props.item.status == 'active'" small class="green white--text">
+                                    <small>STOPPED</small>
+                                </v-chip>
+                                <v-chip v-else-if="props.item.status == 'archived'" small class="yellow darken-2 white--text">
+                                    <small>ARCHIVED</small>
+                                </v-chip>   
+                                <v-chip v-else small class="red white--text">
+                                    <small>STOPPED</small>
+                                </v-chip>
+                            </td>
+                            <td class="text-xs-right">
+                                <span class="caption">{{ props.item.start_time }}</span> 
+                                <span class="caption">-</span>&nbsp;<span class="caption">{{ props.item.end_time }}</span>
+                            </td>
+                        </template>
+                    </v-data-table>
                 </v-card>
             </v-flex>
             <v-flex d-flex xs12 md4>
                 <v-card height="300px" class="elevation-1">
-
+                    <v-card-title>
+                        <span class="subheading orange--text text--darken-4">RECENT CREATIVES</span>
+                        <v-spacer></v-spacer>
+                        <v-btn icon class="orange--text text--darken-3 ma-0" href="/admin/creatives">
+                            <v-icon>search</v-icon>
+                        </v-btn>
+                    </v-card-title>
+                    <v-data-table v-bind:items="creativeList" hide-actions :total-items='totalItems'>
+                        <template slot="headers" scope="props">
+                            &nbsp;
+                        </template>
+                        <template slot="items" scope="props">
+                            <td>
+                                <span class="title">{{ props.item.name }}</span>
+                            </td>
+                            <td>
+                                <v-chip v-if="props.item.approved == 'approved'" small class="green white--text">
+                                    <small>APPROVED</small>
+                                </v-chip>
+                                <v-chip v-else small class="yellow darken-2 white--text">
+                                    <small>ARCHIVED</small>
+                                </v-chip>   
+                                <v-chip v-else small class="red white--text">
+                                    <small>STOPPED</small>
+                                </v-chip>
+                            </td>
+                            <td class="text-xs-right">
+                                <span>{{ props.item.class }}</span> 
+                            </td>
+                        </template>
+                    </v-data-table>
                 </v-card>
             </v-flex>
             <v-flex d-flex xs12 md4>
                 <v-card height="300px" class="elevation-1">
+                    <v-card-title>
+                        <span class="subheading orange--text text--darken-4">LOG</span>
+                    </v-card-title>
 
                 </v-card>
             </v-flex>
@@ -136,6 +161,7 @@
         },
         data() {
             return {
+                totalItems: 5,
                 password: '',
                 campaignList: [],
                 creativeList: [],
@@ -143,7 +169,8 @@
                 date_to: this.getDate(0),
                 column: 'clicks',
                 line: 'imps',
-                overallList: false
+                overallList: false,
+                search: ''
             }
         },
         

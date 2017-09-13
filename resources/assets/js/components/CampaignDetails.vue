@@ -150,29 +150,68 @@
                     <v-flex xs12 md9>
                         <v-dialog v-model="showModal" width="1500px" lazy absolute>
                             <v-btn slot="activator" small class="grey lighten-2 mt-3">Set Budget Pacing</v-btn>
-                            <v-card>
-                                <v-card-title>
-                                    <div class="headline">Current Pacing Plan</div>
-                                </v-card-title>
-                                <v-layout row wrap>
-                                  <v-flex xs12 md2 v-for="day in days" :key="day.index">
-                                    <v-card class="elevation-0">
-                                        <v-card-text>
-                                            <v-checkbox :label="day" v-model="selectedDays" :value="days.indexOf(day)"></v-checkbox>
-                                        </v-card-text>
-                                    </v-card>
-                                </v-flex>
-                                </v-layout>
-                                <v-layout>
-                                    <v-flex xs12 md2 v-for="time in timesOfDay" :key="time.index">
+                                <v-card>
+                                <v-container fluid grid-list-md>
+                                    <v-layout row wrap>
+                                        <v-flex xs12 class="mb-3 mt-4">
+                                            <h4>Basic Campaign Details</h4>
+                                        </v-flex>
+                                    </v-layout>
+                                    <v-layout>
+                                        <table class="table table-sm table-responsive table-striped">
+                                            <thead class="thead-inverse">
+                                                <tr>
+                                                    <th>Time</th>
+                                                    <td>Sun</td>
+                                                    <td>Mon</td>
+                                                    <td>Tue</td>
+                                                    <td>wed</td>
+                                                    <td>Thu</td>
+                                                    <td>Fri</td>
+                                                    <td>Sat</td>
+                                                </tr>
+                                             </thead>
+                                             <tbody>
+                                                <tr v-for="time in timesOfDay">
+                                                    <th>{{ time }}</th>
+                                                    <td v-for="day in days">
+                                                        <v-icon v-if="getTimeActiveClass(days.indexOf(day), timesOfDay.indexOf(time))==true">check</v-icon>
+                                                        <v-icon v-else>close</v-icon>
+                                                    </td>
+                                                </tr>
+                                             </tbody>
+                                        </table>
+                                    </v-layout>
+                                    <v-layout row wrap>
+                                        <v-flex xs12 class="mb-3 mt-4">
+                                            <h4>Choose Your Days</h4>
+                                        </v-flex>
+                                    </v-layout>
+                                    <v-layout row wrap>
+                                      <v-flex xs12 md2 v-for="day in days" :key="day.index">
                                         <v-card class="elevation-0">
-                                          <v-card-text>
-                                                <v-checkbox :label="time" v-model="selectedTimes" :value="timesOfDay.indexOf(time)"></v-checkbox>
+                                            <v-card-text>
+                                                <v-checkbox :label="day" v-model="selectedDays" :value="days.indexOf(day)"></v-checkbox>
                                             </v-card-text>
                                         </v-card>
                                     </v-flex>
-                                </v-layout>
-                            </v-card>
+                                    </v-layout>
+                                    <v-layout row wrap>
+                                        <v-flex xs12 class="mb-3 mt-4">
+                                            <h4>Choose Your Times</h4>
+                                        </v-flex>
+                                    </v-layout>
+                                    <v-layout>
+                                        <v-flex xs12 md2 v-for="time in timesOfDay" :key="time.index">
+                                            <v-card class="elevation-0">
+                                              <v-card-text>
+                                                    <v-checkbox :label="time" v-model="selectedTimes" :value="timesOfDay.indexOf(time)"></v-checkbox>
+                                                </v-card-text>
+                                            </v-card>
+                                        </v-flex>
+                                    </v-layout>
+                                </v-container>
+                            </v-card>   
                         </v-dialog>
                     </v-flex>
                 </v-layout>
@@ -227,16 +266,16 @@
                 return false;
             },
             getTimeActiveClass(d, t) {
-                var timeActiveClass = ""
+                var timeActiveClass = false
                 var hPlan = this.campaign.budget.data.pacing
                 var timeOfWeek = d * 7 + t + d
                 var activeT = hPlan.charAt(timeOfWeek)
                 if(activeT == "1") {
-                    timeActiveClass = "fa fa-fw fa-check-circle fa-active"
+                    timeActiveClass = true
                 } else {
-                    timeActiveClass = "fa fa-fw fa-circle fa-inactive"
+                    timeActiveClass = false
                 }
-                return timeActiveClass   
+                return timeActiveClass  
             },
             applyPlan() {
                 var plan = ""

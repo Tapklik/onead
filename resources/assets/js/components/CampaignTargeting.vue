@@ -20,7 +20,7 @@
                 <v-layout row wrap xs12>
                     <v-flex xs12>
                         <tk-select-list v-model="campaign.device.data.os">
-                            <tk-select v-for="technology in technologiesList.operatingsystems" icon="mdi-newspaper" :trueValue="technology.device_id" :key="technology.type">
+                            <tk-select v-for="technology in technologiesList.operatingsystems" :icon="technology.icon" :trueValue="technology.device_id" :key="technology.type">
                                 {{ technology.type }}
                             </tk-select>
                         </tk-select-list>
@@ -39,7 +39,7 @@
                 <v-layout row wrap xs12>
                     <v-flex xs12>
                         <tk-select-list v-model="campaign.device.data.type">
-                            <tk-select v-for="technology in technologiesList.devices" icon="mdi-newspaper" :trueValue="technology.device_id" :key="technology.type">
+                            <tk-select v-for="technology in technologiesList.devices" :icon="technology.icon" :trueValue="technology.device_id" :key="technology.type">
                                 {{ technology.type }}
                             </tk-select>
                         </tk-select-list>
@@ -58,7 +58,7 @@
                 <v-layout row wrap xs12>
                     <v-flex xs12>
                         <tk-select-list v-model="campaign.device.data.ua">
-                            <tk-select v-for="technology in technologiesList.browsers" icon="mdi-newspaper" :trueValue="technology.device_id" :key="technology.type">
+                            <tk-select v-for="technology in technologiesList.browsers" :icon="technology.icon" :trueValue="technology.device_id" :key="technology.type">
                                 {{ technology.type }}
                             </tk-select>
                         </tk-select-list>
@@ -84,10 +84,10 @@
                 <v-layout row wrap xs12>
                     <v-flex xs12>
                         <tk-select-list v-model="campaign.user.data.gender">
-                            <tk-select icon="mdi-newspaper" trueValue="M">
+                            <tk-select icon="mdi-human-male" trueValue="M">
                                 Male
                             </tk-select>
-                            <tk-select icon="mdi-newspaper" trueValue="F">
+                            <tk-select icon="mdi-human-female" trueValue="F">
                                 Female
                             </tk-select>
                         </tk-select-list>                        

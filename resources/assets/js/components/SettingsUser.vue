@@ -38,7 +38,7 @@
                     </v-flex>
                     <v-flex xs12 md8>
                         <v-text-field
-                        label="Your first name"
+                        label="Your last name"
                         prepend-icon="person"
                         single-line
                         v-model="userDet.last_name"
