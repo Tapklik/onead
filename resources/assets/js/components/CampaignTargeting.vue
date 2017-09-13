@@ -139,9 +139,12 @@
                 <v-layout row wrap xs12>
                     <v-flex xs12>
                         <v-select
+                        @keyup="reloadGeo()"
                           v-bind:items="geo"
                           chips
                           v-model="campaign.geo.data"
+                          item-text="key" item-value=""
+                          :search-input.sync="searchCountry"
                           label="Select"
                           multiple
                           autocomplete></v-select>
@@ -171,7 +174,9 @@
                 type: [],
                 os: [],
                 browser: [],
-                geo: ['Belgium', 'Croatia', 'Belarus', 'Bulgaria'],
+                geo: [],
+                searchCountry: '',
+                selectedLocations: this.campaign.geo.data,
                 geoTemplate: '<div class="geo-dropdown"><flag :iso2="item.country_iso2"></flag><div class="text"><span class="key">{{ item.key }}</span><br><span class="comment">{{ item.comment }}</span></div></div>',
                 technologiesList: false,
                 age: [1, 12, 18, 26, 40, 55, 65, 120]
@@ -187,14 +192,13 @@
                     console.log(error);
                 });
             },
-
-            pushGeo(geo) {
-                this.campaign.geo.data.push(geo)
-            },
-
-            removeGeo(index) {
-                this.campaign.geo.data.splice(index, 1);
-            },
+            reloadGeo() {
+                axios.get(this.$root.uri + '/core/search/geo?key=' + this.searchCountry, this.$root.config).then(response => {
+                this.geo = response.data.data;
+            }, error => {
+                alert(error);
+            })
+            }
         },
 
         filters: {

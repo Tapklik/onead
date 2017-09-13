@@ -30,7 +30,6 @@
 
         data() {
            return {
-            ct: "sasassa"
            }
         },
 
