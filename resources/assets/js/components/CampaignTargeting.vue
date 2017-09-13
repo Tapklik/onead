@@ -141,13 +141,14 @@
                         <v-select
                         @keyup="reloadGeo()"
                           v-bind:items="geo"
-                          chips
                           v-model="campaign.geo.data"
-                          item-text="key" item-value=""
+                          item-text="key"
+                          return-object
                           :search-input.sync="searchCountry"
                           label="Select"
                           multiple
                           autocomplete></v-select>
+                        <v-chip v-for="g in campaign.geo.data" :key="geo.id">{{g.key}}</v-chip>
                     </v-flex>
                 </v-layout>
             </v-flex>
