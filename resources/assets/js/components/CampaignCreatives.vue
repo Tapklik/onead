@@ -3,33 +3,11 @@
         <v-layout>
             <v-flex xs12>
                 <v-card class="elevation-0">
-                    <v-card-title>
-                        <v-flex xs12 md2>
-                            <v-btn primary dark class="elevation-0">
-                                <v-icon>add</v-icon> Add Creatives
-                            </v-btn> 
-                        </v-flex>
-                        <v-flex xs12 md2 lg7>
-                            <v-edit-dialog lazy> 
-                                <v-btn v-if="!currentFolder.id" class="elevation-0">
-                                    <v-icon>add</v-icon> Add Folder
-                                </v-btn>
-                                <v-layout slot="input" class="elevation-0"> 
-                                    <v-text-field class="elevation-0" slot="input" label="Search" v-model="newFolder" single-line></v-text-field><v-btn primary dark class="elevation-0" slot="input" @click="storeNewFolder()">Create</v-btn>
-                                </v-layout>
-                            </v-edit-dialog>
-                        </v-flex>
-                        <v-flex xs12 md8 lg3>
-                            <v-text-field 
-                                append-icon="search" 
-                                label="Search" 
-                                single-line 
-                                hide-details 
-                                class="right"
-                                v-model="search">
-                            </v-text-field>
-                        </v-flex>
-                    </v-card-title>
+                        <v-layout row wrap>
+                            <v-flex xs12 class="valign-wrapper">
+                                <h5><i class="material-icons">add_box</i> Creatives Vault</h5>
+                            </v-flex>
+                        </v-layout>
                     <v-card-text v-if="!currentFolder.id">
                         <v-layout row wrap>
                             <v-flex xs12>
@@ -134,7 +112,7 @@
         mounted() {
 
         },
-        props: ['token', 'user'],
+        props:['token','user'],
         data() {
             return {
                 showModal: false,

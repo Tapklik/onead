@@ -41,6 +41,7 @@ Vue.component('campaign', require('./components/Campaign.vue'));
 Vue.component('campaign-details', require('./components/CampaignDetails.vue'));
 Vue.component('campaign-categories', require('./components/CampaignCategories.vue'));
 Vue.component('campaign-targeting', require('./components/CampaignTargeting.vue'));
+Vue.component('campaign-creatives', require('./components/CampaignCreatives.vue'));
 
 //Tapklik elements
 Vue.component('tk-select-list', require('./components/elements/tk-select-list.vue'));           // tk-select-list
