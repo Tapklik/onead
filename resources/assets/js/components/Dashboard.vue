@@ -2,7 +2,13 @@
     <v-container fluid grid-list-lg>
         <v-layout row wrap>
             <v-flex d-flex md12 lg6>
-                <v-card height="300px" class="elevation-1"></v-card>
+                <v-card height="300px" class="elevation-1">
+                   <v-card-title>
+                        <span class="subheading orange--text text--darken-4">Overall Chart for 10 days</span>
+                    </v-card-title>
+                    <v-card-media id="chart_main" height="250px"> 
+                    </v-card-media>
+                </v-card>
             </v-flex>
             <v-flex d-flex xs6 md4 lg2>
                 <v-layout row wrap>
@@ -165,7 +171,7 @@
                 password: '',
                 campaignList: [],
                 creativeList: [],
-                date_from: this.getDate(-7),
+                date_from: this.getDate(-10),
                 date_to: this.getDate(0),
                 column: 'clicks',
                 line: 'imps',
@@ -211,15 +217,15 @@
 
             loadMainGraph() {
 
-                axios.get(this.$root.reportUri + '?table=wins&acc=' + this.user.accountUuId + '&field=clicks,imps,spend&op=sum&from=' + this.date_from + ' 00:00:00&to=' + this.date_to + ' 00:00:00&scale=1h', this.$root.config).then(response => {
+                axios.get(this.$root.reportUri + '?table=wins&acc=' + this.user.accountUuId + '&field=clicks,imps,spend&op=sum&from=' + this.date_from + ' 00:00:00&to=' + this.date_to + ' 00:00:00', this.$root.config).then(response => {
                     this.overallList = response.data.data;
                     this.createChart('chart_main', this.overallList, this.column, this.line);
-                    this.createChart('chart_clicks', this.overallList, 'clicks');
-                    this.createChart('chart_imps', this.overallList, 'imps');
-                    this.createChart('chart_spend', this.overallList, 'spend');
-                    this.createChart('chart_ctr', this.overallList, 'ctr');
-                    this.createChart('chart_ecpc', this.overallList, 'ecpc');
-                    this.createChart('chart_ecpm', this.overallList, 'ecpm');
+                    //this.createChart('chart_clicks', this.overallList, 'clicks');
+                    //this.createChart('chart_imps', this.overallList, 'imps');
+                    //this.createChart('chart_spend', this.overallList, 'spend');
+                    //this.createChart('chart_ctr', this.overallList, 'ctr');
+                    //this.createChart('chart_ecpc', this.overallList, 'ecpc');
+                    //this.createChart('chart_ecpm', this.overallList, 'ecpm');
                 }, error => {
                     swal('Error', 'Could not load main graph', 'error');
                 })
@@ -350,6 +356,7 @@
         watch: {
             token(value) {
                 this.loadCampaignsAndCreatives();
+                this.loadMainGraph();
             }
         }
     }
