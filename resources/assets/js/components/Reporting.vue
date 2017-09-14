@@ -51,7 +51,7 @@
                                     </v-flex>
                                     <v-flex>
                                         <span> Spend </span>
-                                        <h5>{{ responseOverallSummary.spend }}</h5>
+                                        <h5>{{ $root.fromMicroDollars(responseOverallSummary.spend) }}</h5>
                                     </v-flex>
                                 </v-layout>
                             </v-container>
@@ -205,7 +205,7 @@
                 line: 'imps',
                 column: 'clicks',
                 dateFormat: 'yyyy-MM-dd',
-                date_from: this.getDate(-4),
+                date_from: this.getDate(5),
                 date_to: this.getDate(6),
                 selectedCampaigns1: [],
                 selectedCreatives1: [],

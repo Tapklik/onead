@@ -81,14 +81,13 @@
                                         &nbsp;
                                     </template>
                                     <template slot="items" scope="props">
-                                        <tr :active="props.selected" @click="props.selected = !props.selected">
+                                        <tr>
                                             <td width="40" class="text-xs-right">
                                                 <v-checkbox
                                                 primary
                                                 hide-details
-                                                @click.native="toggleAll"
-                                                :input-value="props.selected"
-                                                :indeterminate="props.indeterminate"
+                                                v-model="campaign.creatives.data"
+                                                :input-value="props.item"
                                                 ></v-checkbox>
                                             </td>
                                             <td class="text-xs-left">

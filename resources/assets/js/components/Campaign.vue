@@ -21,7 +21,7 @@
                 <campaign-categories :campaign="campaign" :state="stateReady"></campaign-categories>
             </v-stepper-content>
             <v-stepper-content step="3">
-               <campaign-creatives :user="user" :token="token"></campaign-creatives>
+               <campaign-creatives :user="user" :token="token" :campaign="campaign"></campaign-creatives>
             </v-stepper-content>
         
             <v-stepper-content step="4">

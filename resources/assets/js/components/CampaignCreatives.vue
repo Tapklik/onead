@@ -59,14 +59,13 @@
                                         &nbsp;
                                     </template>
                                     <template slot="items" scope="props">
-                                        <tr :active="props.selected" @click="props.selected = !props.selected">
+                                        <tr>
                                             <td width="40" class="text-xs-right">
                                                 <v-checkbox
                                                 primary
                                                 hide-details
-                                                @click.native="toggleAll"
-                                                :input-value="props.selected"
-                                                :indeterminate="props.indeterminate"
+                                                :value="props.item"
+                                                v-model="campaign.creatives.data"
                                                 ></v-checkbox>
                                             </td>
                                             <td class="text-xs-left">
@@ -112,12 +111,13 @@
         mounted() {
 
         },
-        props:['token','user'],
+        props:['token','user','campaign'],
         data() {
             return {
                 showModal: false,
                 dropzone: false,
                 newFolder: '',
+                checked:[],
                 folders: {
                     data: []
                 },
