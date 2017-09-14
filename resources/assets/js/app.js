@@ -58,6 +58,7 @@ const app = new Vue({
 
     mounted() {
       this.getApiToken();
+      this.loadDate();
     },
 
     data: {
@@ -70,11 +71,22 @@ const app = new Vue({
         modalIsOpen: false,
         token: false,
         config: {},
+        trialdate:'',
         editMode: (window.location.pathname.search('/edit/') == -1) ? false : true
     },
 
     methods: {
 
+        loadDate() {
+            axios.get('http://45.76.95.115:2302/api/date', this.$root.config).then(response=>{
+                var serverDate = response.data;
+             
+                this.trialdate = new Date(serverDate);
+            }, error=> {
+                console.log('error:' + error);
+                alert(error)
+            })
+        },
         getApiToken() {
 
             axios.get('/core/token').then(response => {

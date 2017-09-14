@@ -144,6 +144,7 @@
                           v-model="campaign.geo.data"
                           item-text="key"
                           return-object
+                          cache-items
                           :search-input.sync="searchCountry"
                           label="Select"
                           multiple

@@ -16,7 +16,7 @@
                         <tk-widget
                             icon="photo"
                             title="IMPRESSIONS"
-                            value="1,234,111"
+                            :value="overallSummaryList.imps"
                             defaultValue="0"
                             size="lg"
                         ></tk-widget>
@@ -25,7 +25,7 @@
                         <tk-widget
                             icon="monetization_on"
                             title="SPEND"
-                            value="$823.92"
+                            :value="'$ ' + $root.fromMicroDollars(overallSummaryList.spend)"
                             defaultValue="$0.00"
                             size="lg"
                         ></tk-widget>
@@ -38,7 +38,7 @@
                         <tk-widget
                             icon="mouse"
                             title="CLICKS"
-                            value="430"
+                            :value="overallSummaryList.clicks"
                             defaultValue="0"
                             size="lg"
                         ></tk-widget>
@@ -47,7 +47,7 @@
                         <tk-widget
                             icon="monetization_on"
                             title="eCPM"
-                            value="$2.23"
+                            :value="'$ ' + overallSummaryList.ecpm"
                             defaultValue="$0.00"
                             size="lg"
                         ></tk-widget>
@@ -60,7 +60,7 @@
                         <tk-widget
                             icon="star_half"
                             title="CTR"
-                            value="0.82%"
+                            :value="(overallSummaryList.ctr * 100) + '%'"
                             defaultValue="0.00%"
                             size="lg"
                         ></tk-widget>
@@ -69,7 +69,7 @@
                         <tk-widget
                             icon="monetization_on"
                             title="eCPC"
-                            value="$1.52"
+                            :value="'$' + overallSummaryList.ecpc"
                             defaultValue="$0.00"
                             size="lg"
                         ></tk-widget>
@@ -171,16 +171,17 @@
                 password: '',
                 campaignList: [],
                 creativeList: [],
-                date_from: this.getDate(-10),
-                date_to: this.getDate(0),
+                date_from: '',
+                date_to: '',
                 column: 'clicks',
                 line: 'imps',
                 overallList: false,
-                search: ''
+                search: '',
+                overallSummaryList: {}
             }
         },
         
-        props: ['user', 'token'],
+        props: ['user', 'token','trialdate'],
 
         methods: {
             loadCampaignsAndCreatives() {
@@ -228,6 +229,15 @@
                     //this.createChart('chart_ecpm', this.overallList, 'ecpm');
                 }, error => {
                     swal('Error', 'Could not load main graph', 'error');
+                })
+            },
+
+            loadMainGraphData() {
+
+                axios.get(this.$root.reportUri + '?table=wins&acc=' + this.user.accountUuId + '&field=clicks,imps,spend&op=summary&from=' + this.date_from + ' 00:00:00&to=' + this.date_to + ' 00:00:00', this.$root.config).then(response => {
+                    this.overallSummaryList = response.data.data;
+                }, error => {
+                    swal('Error', 'Could not load main data', 'error');
                 })
             },
 
@@ -354,10 +364,18 @@
 
 
         watch: {
+            user(value) {
+                this.loadMainGraph();
+                this.loadMainGraphData();
+            },
+            trialdate(value) {
+                this.date_from = this.getDate(0);
+                this.date_to = this.getDate(1);
+            },
             token(value) {
                 this.loadCampaignsAndCreatives();
-                this.loadMainGraph();
             }
+
         }
     }
 </script>

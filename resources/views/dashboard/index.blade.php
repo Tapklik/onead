@@ -8,7 +8,7 @@
             </v-flex>
          </v-layout>
 
-        <dashboard :user="user" :token="token"></dashboard>
+        <dashboard :user="user" :token="token" :trialdate="trialdate"></dashboard>
 @stop
 
 @section('footer-js-header')

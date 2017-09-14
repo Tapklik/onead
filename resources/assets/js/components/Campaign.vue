@@ -23,7 +23,6 @@
             <v-stepper-content step="3">
                <campaign-creatives :user="user" :token="token" :campaign="campaign"></campaign-creatives>
             </v-stepper-content>
-        
             <v-stepper-content step="4">
                 <campaign-targeting :campaign="campaign" :state="stateReady"></campaign-targeting>
             </v-stepper-content>

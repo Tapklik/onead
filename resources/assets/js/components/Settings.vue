@@ -1,11 +1,11 @@
 <template>
     <v-container fluid grid-list-md>
-        <v-tabs dark fixed icons>
-            <v-tabs-bar class="grey">
+        <v-tabs dark fixed icons centered>
+            <v-tabs-bar class="white">
                 <v-tabs-slider class="orange text--darken-3"></v-tabs-slider>
                 <v-tabs-item href="#account-tab">
-                    <v-icon >account_balance</v-icon>
-                    <span>Account Settings</span>
+                    <v-icon class="orange--text text--darken-3">account_balance</v-icon>
+                    <span class="orange--text text--darken-3">Account Settings</span>
                 </v-tabs-item>
                 <v-tabs-item href="#user-tab">
                     <v-icon class="orange--text text--darken-3">person</v-icon>

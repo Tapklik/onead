@@ -1,6 +1,6 @@
 <template>
     <v-container fluid grid-list-md>
-        <v-tabs dark fixed icons v-model="tabIndex" center>
+        <v-tabs dark fixed icons v-model="tabIndex" centered>
             <v-tabs-bar class="white">
                 <v-tabs-slider class="orange text--darken-3"></v-tabs-slider>
                 <v-tabs-item href="#overall-tab">
@@ -24,7 +24,7 @@
                 </v-btn>
             </v-tabs-bar>
             <v-tabs-items>
-                <v-tabs-content id="overall-tab" class="elevation-1">
+                <v-tabs-content id="overall-tab">
                     <v-card>
                         <v-card-text>
                             <v-container>
@@ -184,7 +184,6 @@
     export default {
 
         mounted() {
-
             this.loadCategories();
             this.loadTechnologies();
             this.loadReportDevices();
@@ -197,7 +196,7 @@
 
         },
 
-        props: ['user', 'token'],
+        props: ['user', 'token','trialdate'],
 
         data() {
             return {
@@ -205,8 +204,8 @@
                 line: 'imps',
                 column: 'clicks',
                 dateFormat: 'yyyy-MM-dd',
-                date_from: this.getDate(5),
-                date_to: this.getDate(6),
+                date_from: '',
+                date_to: '',
                 selectedCampaigns1: [],
                 selectedCreatives1: [],
                 selectedDevicesTypes1: [],
@@ -626,7 +625,8 @@ function removeLogo() {
 
 getDate(days) {
     const toTwoDigits = num => num < 10 ? '0' + num : num;
-    let today = new Date();
+    var a = this.$root.trialdate;
+    let today =  new Date();
     let date = new Date();
     date.setDate(today.getDate() + days);
     let year = date.getFullYear();
@@ -769,9 +769,15 @@ dataCall(report, responseList, responseListSummary, chart) {
 
 watch: {
     token(value) {
-        this.fetchCampaigns()
+        this.fetchCampaigns();
     },
+    
     user(value) {
+    },
+
+    trialdate(value) {
+        this.date_from=this.getDate(0);
+        this.date_to=this.getDate(1);
     },
 
     selectedCampaigns(value) {
@@ -779,9 +785,9 @@ watch: {
     },
 
     reportLoaded(value) {
-                // HERE YOU CREATE FIRST VERSION OF THE CHART ONCE THE DATA IS LOADED
-                this.generateCharts()
-            },
-        }
-    }
+        // HERE YOU CREATE FIRST VERSION OF THE CHART ONCE THE DATA IS LOADED
+        this.generateCharts()
+    },
+}
+}
 </script>

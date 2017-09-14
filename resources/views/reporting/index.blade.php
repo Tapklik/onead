@@ -6,7 +6,7 @@
         <h4>Reports</h4>
     </v-flex>
 </v-layout>
-<reporting :user="user" :token="token" ></reporting>
+<reporting :user="user" :token="token" :trialdate="trialdate" ></reporting>
 @stop
 
 @section('footer-js-header')
