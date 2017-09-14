@@ -1,6 +1,6 @@
 <template>
     <v-container fluid grid-list-md>
-        <v-tabs dark fixed icons v-modal="tabIndex" center>
+        <v-tabs dark fixed icons v-model="tabIndex" center>
             <v-tabs-bar class="white">
                 <v-tabs-slider class="orange text--darken-3"></v-tabs-slider>
                 <v-tabs-item href="#overall-tab">
@@ -19,9 +19,9 @@
                     <v-icon class="orange--text text--darken-3">public</v-icon>
                     <span class="orange--text text--darken-3">Geo</span>
                 </v-tabs-item>
-                <!-- <v-btn @click="generateCharts()">
+                <v-btn @click="generateCharts()">
                     Generate
-                </v-btn>-->
+                </v-btn>
             </v-tabs-bar>
             <v-tabs-items>
                 <v-tabs-content id="overall-tab" class="elevation-1">
@@ -205,8 +205,6 @@
                 line: 'imps',
                 column: 'clicks',
                 dateFormat: 'yyyy-MM-dd',
-                showModal1: false,
-                showModal2: false,
                 date_from: this.getDate(-100),
                 date_to: this.getDate(0),
                 selectedCampaigns1: [],
@@ -637,7 +635,7 @@ getDate(days) {
     return `${year}-${month}-${day}`;
 },
 
-generateQuery(queryList, scale, chartOrSum) {
+generateQuery(queryList, chartOrSum) {
 
     var queries = queryList.queries;
     var table = queryList.table;
@@ -661,9 +659,8 @@ generateQuery(queryList, scale, chartOrSum) {
 
     var queriesString = '&field=' + queries.queries_list.join(',') + '&op=' + chartOrSum
 
-    scale = scale != '' ? '&scale=' + scale : ''
 
-    request = '?table=' + table + '&acc=' + account + request + queriesString + this.range() + scale
+    request = '?table=' + table + '&acc=' + account + request + queriesString + this.range();
     console.log(request);
     return request;
 },
@@ -747,7 +744,7 @@ range() {
 },
 
 dataCall(report, responseList, responseListSummary, chart) {
-    axios.get(this.$root.reportUri + this.generateQuery(report, '1h', 'sum'))
+    axios.get(this.$root.reportUri + this.generateQuery(report, 'sum'))
     .then(response => {
         this[responseList] = response.data.data;
 
@@ -761,7 +758,7 @@ dataCall(report, responseList, responseListSummary, chart) {
         this.createChart(chart, this.startingData.data[0].clicks);
         swal('Error', 'Your search was unsuccesfull','error');
     });
-    axios.get(this.$root.reportUri + this.generateQuery(report, '1h', 'summary'))
+    axios.get(this.$root.reportUri + this.generateQuery(report, 'summary'))
     .then(response => {
         this[responseListSummary] = response.data.data;
     }, error => {
