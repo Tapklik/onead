@@ -117,6 +117,10 @@ const app = new Vue({
 
         toMicroDollars(value) {
             return (value * 1000000);
+        },
+
+        twoDecimalPlaces(value) {
+            return value.toFixed(2);
         }
 
     },

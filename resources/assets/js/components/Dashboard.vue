@@ -60,7 +60,7 @@
                         <tk-widget
                             icon="star_half"
                             title="CTR"
-                            :value="(overallSummaryList.ctr * 100) + '%'"
+                            :value="($root.twoDecimalPlaces(overallSummaryList.ctr * 100)) + '%'"
                             defaultValue="0.00%"
                             size="lg"
                         ></tk-widget>

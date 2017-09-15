@@ -42,7 +42,7 @@
                                     </v-flex>
                                     <v-flex>
                                         <span> CTR </span>
-                                        <h5>{{ (responseOverallSummary.ctr * 100) }}</h5>
+                                        <h5>{{ $root.twoDecimalPlaces(responseOverallSummary.ctr * 100) }}</h5>
                                     </v-flex>
                                     <v-flex>
                                         <span> eCPM </span>
@@ -77,7 +77,7 @@
                                     </v-flex>
                                     <v-flex>
                                         <span> CTR </span>
-                                        <h5>{{ (responsePublishersSummary.ctr * 10 * 10) }}</h5>
+                                        <h5>{{ $root.twoDecimalPlaces(responsePublishersSummary.ctr * 100) }}</h5>
                                     </v-flex>
                                     <v-flex>
                                         <span> eCPM </span>
@@ -118,7 +118,7 @@
                                     </v-flex>
                                     <v-flex>
                                         <span> CTR </span>
-                                        <h5>{{ (responseDevicesSummary.ctr * 10 * 10) }}</h5>
+                                        <h5>{{ $root.twoDecimalPlaces(responseDevicesSummary.ctr * 100) }}</h5>
                                     </v-flex>
                                     <v-flex>
                                         <span> eCPM </span>
@@ -165,7 +165,7 @@
                                     </v-flex>
                                     <v-flex>
                                         <span> CTR </span>
-                                        <h5>{{ (responseGeoSummary.ctr * 10* 10) }}</h5>
+                                        <h5>{{ $root.twoDecimalPlaces(responseGeoSummary.ctr * 100) }}</h5>
                                     </v-flex>
                                     <v-flex>
                                         <span> eCPM </span>
