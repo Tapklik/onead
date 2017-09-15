@@ -25,7 +25,7 @@
                     <v-icon class="orange--text text--darken-3">insert_chart</v-icon>
                     <v-select :items="campaignList" item-text="name" item-value="name" chips v-model="selectedCampaigns1" label="Campaigns" multiple autocomplete></v-select>
                     <v-select :items="creativesList" item-text="name" item-value="name" chips v-model="selectedCreatives1" label="Creatives" multiple autocomplete></v-select>
-                
+                <v-btn @click="generateCharts()">YES</v-btn>
             <v-tabs-items>
                 <v-tabs-content id="overall-tab">
                     <v-card>

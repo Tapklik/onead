@@ -27,7 +27,7 @@
                 <campaign-targeting :campaign="campaign" :state="stateReady"></campaign-targeting>
             </v-stepper-content>
             <v-stepper-content step="5">
-                
+                <campaign-review  :user="user" :token="token" :campaign="campaign" :state="stateReady" :folder="currentFolder" :gender="selectedGender()"></campaign-review>
             </v-stepper-content>
         </v-stepper>
     </div>         
@@ -50,13 +50,11 @@
                 campaignId: null,
                 campaign: {
                     name: '',
-                    start: '',
-                    end: '',
                     adomain: '',
                     ctrurl: '',
                     bid: 0,
                     exchange: 1,
-                    node: "",
+                    test: 1,
                     weight: 1,
                     status: 1,
                     total: 1,
