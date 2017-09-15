@@ -19,16 +19,19 @@
                     <v-icon class="orange--text text--darken-3">public</v-icon>
                     <span class="orange--text text--darken-3">Geo</span>
                 </v-tabs-item>
-                <v-btn @click="generateCharts()">
-                    Generate
-                </v-btn>
             </v-tabs-bar>
+                    <v-icon class="orange--text text--darken-3">date_range</v-icon>
+                
+                    <v-icon class="orange--text text--darken-3">insert_chart</v-icon>
+                    <v-select :items="campaignList" item-text="name" item-value="name" chips v-model="selectedCampaigns1" label="Campaigns" multiple autocomplete></v-select>
+                    <v-select :items="creativesList" item-text="name" item-value="name" chips v-model="selectedCreatives1" label="Creatives" multiple autocomplete></v-select>
+                
             <v-tabs-items>
                 <v-tabs-content id="overall-tab">
                     <v-card>
                         <v-card-text>
-                            <v-container>
-                                <v-layout>
+                            <v-container fluid grid-list-md>
+                                <v-layout row wrap>
                                     <v-flex>
                                         <span> Impressions </span>
                                         <h5>{{ responseOverallSummary.imps }}</h5>
@@ -39,7 +42,7 @@
                                     </v-flex>
                                     <v-flex>
                                         <span> CTR </span>
-                                        <h5>{{ responseOverallSummary.ctr }}</h5>
+                                        <h5>{{ (responseOverallSummary.ctr * 100) }}</h5>
                                     </v-flex>
                                     <v-flex>
                                         <span> eCPM </span>
@@ -62,8 +65,8 @@
                 <v-tabs-content id="publisher-tab">
                     <v-card flat>
                         <v-card-text>
-                            <v-container>
-                                <v-layout>
+                            <v-container fluid grid-list-md>
+                                <v-layout row wrap>
                                     <v-flex>
                                         <span> Impressions </span>
                                         <h5>{{ responsePublishersSummary.imps }}</h5>
@@ -74,7 +77,7 @@
                                     </v-flex>
                                     <v-flex>
                                         <span> CTR </span>
-                                        <h5>{{ responsePublishersSummary.ctr }}</h5>
+                                        <h5>{{ (responsePublishersSummary.ctr * 10 * 10) }}</h5>
                                     </v-flex>
                                     <v-flex>
                                         <span> eCPM </span>
@@ -86,11 +89,16 @@
                                     </v-flex>
                                     <v-flex>
                                         <span> Spend </span>
-                                        <h5>{{ responsePublishersSummary.spend }}</h5>
+                                        <h5>{{ $root.fromMicroDollars(responsePublishersSummary.spend) }}</h5>
                                     </v-flex>
                                 </v-layout>
                             </v-container>
-                            <v-select :items="publisherList" item-text="site" item-value="site" chips v-model="selectedPublishers1" label="Select" multiple autocomplete></v-select>
+                            <v-layout row wrap>
+                                <v-flex xs12 md4>
+                                    <v-select :items="publisherList" item-text="site" item-value="site" chips v-model="selectedPublishers1" label="Publisher Sites" multiple autocomplete></v-select>
+                                </v-flex>
+                            </v-layout>
+                            
                             <v-container id="chart_publisher" style="height: 500px;"></v-container>
                         </v-card-text>
                     </v-card>
@@ -98,8 +106,8 @@
                 <v-tabs-content id="devices-tab">
                     <v-card flat>
                         <v-card-text>
-                            <v-container>
-                                <v-layout>
+                            <v-container fluid grid-list-md>
+                                <v-layout row wrap>
                                     <v-flex>
                                         <span> Impressions </span>
                                         <h5>{{ responseDevicesSummary.imps }}</h5>
@@ -110,7 +118,7 @@
                                     </v-flex>
                                     <v-flex>
                                         <span> CTR </span>
-                                        <h5>{{ responseDevicesSummary.ctr }}</h5>
+                                        <h5>{{ (responseDevicesSummary.ctr * 10 * 10) }}</h5>
                                     </v-flex>
                                     <v-flex>
                                         <span> eCPM </span>
@@ -122,27 +130,31 @@
                                     </v-flex>
                                     <v-flex>
                                         <span> Spend </span>
-                                        <h5>{{ responseDevicesSummary.spend }}</h5>
+                                        <h5>{{ $root.fromMicroDollars(responseDevicesSummary.spend) }}</h5>
                                     </v-flex>
                                 </v-layout>
+                            <v-layout row wrap>
+                                <v-flex xs12 md4>
+                            <v-select :items="technologiesList.devices" item-text="type" item-value="device_id" chips v-model="selectedDevicesTypes1" label="Devices" multiple autocomplete></v-select>
+                            </v-flex>
+                                <v-flex xs12 md4>
+                            <v-select :items="technologiesList.operatingsystems" item-text="type" chips item-value="type" v-model="selectedDevicesOs1" label="Operating Systems" multiple autocomplete></v-select>
+                            </v-flex>
+                                <v-flex xs12 md4>
+                            <v-select :items="technologiesList.browsers" item-text="type" chips item-value="type" v-model="selectedDevicesUa1" label="Browsers" multiple autocomplete></v-select>
+                            </v-flex>
+                            </v-layout>
+                            
+                                <v-container id="chart_devices" style="height: 500px;"></v-container>
                             </v-container>
-                        
-                            <v-select :items="technologiesList.devices" item-text="type" item-value="device_id" chips v-model="selectedDevicesTypes1" label="Select" multiple autocomplete></v-select>
-                            
-                            <v-select :items="technologiesList.operatingsystems" item-text="type" item-value="type" chips v-model="selectedDevicesOs1" label="Select" multiple autocomplete></v-select>
-                            
-                            <v-select :items="technologiesList.browsers" item-text="type" item-value="type" chips v-model="selectedDevicesUa1" label="Select" multiple autocomplete></v-select>
-                            
-                            <v-container id="chart_devices" style="height: 500px;"></v-container>
-                        
                         </v-card-text>
                     </v-card>
                 </v-tabs-content>
                 <v-tabs-content id="geo-tab">
                     <v-card flat>
                         <v-card-text>
-                            <v-container>
-                                <v-layout>
+                            <v-container fluid grid-list-md>
+                                <v-layout row wrap>
                                     <v-flex>
                                         <span> Impressions </span>
                                         <h5>{{ responseGeoSummary.imps }}</h5>
@@ -153,7 +165,7 @@
                                     </v-flex>
                                     <v-flex>
                                         <span> CTR </span>
-                                        <h5>{{ responseGeoSummary.ctr }}</h5>
+                                        <h5>{{ (responseGeoSummary.ctr * 10* 10) }}</h5>
                                     </v-flex>
                                     <v-flex>
                                         <span> eCPM </span>
@@ -165,12 +177,19 @@
                                     </v-flex>
                                     <v-flex>
                                         <span> Spend </span>
-                                        <h5>{{ responseGeoSummary.spend }}</h5>
+                                        <h5>{{ $root.fromMicroDollars(responseGeoSummary.spend) }}</h5>
                                     </v-flex>
                                 </v-layout>
+
+                            <v-layout row wrap>
+                                <v-flex xs12 md4>
+                            <v-select :items="countriesList" item-text="country_name" item-value="country" v-model="selectedGeoCountries1" label="Countries" chips multiple autocomplete></v-select>
+                           
+                            </v-flex>
+                            </v-layout>
+ <v-container id="chart_geo" style="height: 500px;"></v-container>
+                            
                             </v-container>
-                            <v-select :items="countriesList" item-text="country_name" item-value="country" chips v-model="selectedGeoCountries1" label="Select" multiple autocomplete></v-select>
-                            <v-container id="chart_geo" style="height: 500px;"></v-container>
                         </v-card-text>
                     </v-card>
                 </v-tabs-content>
@@ -214,6 +233,7 @@
                 selectedPublishers1: [],
                 selectedGeoCountries1: [],
                 categoriesList: [],
+                creativesList: [],
                 technologiesList: [],
                 campaignList: [],
                 responseOverallList: [],
@@ -385,18 +405,6 @@
 
             },
 
-            // getSelections(selectionList, variableName) {
-            //    var result = [];
-            //    var selections = selectionList;
-
-            //    for (var s in selections) {
-            //        var object = {name: variableName, value: selections[s]};
-            //        result.push(object);
-            //    }
-
-            //    return result;
-            //}, 
-
             getCreatives() {
                 var listOfCreatives = []
                 var campaigns = this.selectedCampaigns
@@ -408,7 +416,7 @@
                         listOfCreatives.push(creatives[cr])
                     }
                 }
-                return listOfCreatives
+                this.creativesList = listOfCreatives;
             },
 
             findCampaignById(id) {
@@ -781,7 +789,7 @@ watch: {
     },
 
     selectedCampaigns(value) {
-        this.getCreatives()
+        this.getCreatives();
     },
 
     reportLoaded(value) {
