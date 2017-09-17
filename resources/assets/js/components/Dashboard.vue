@@ -4,7 +4,7 @@
             <v-flex d-flex md12 lg6>
                 <v-card height="300px" class="elevation-1">
                    <v-card-title>
-                        <span class="subheading orange--text text--darken-4">Overall Chart for 10 days</span>
+                        <span class="subheading orange--text text--darken-4">OVERALL CHART FOR 10 DAYS</span>
                     </v-card-title>
                     <v-card-media id="chart_main" height="250px"> 
                     </v-card-media>
@@ -16,6 +16,7 @@
                         <tk-widget
                             icon="photo"
                             title="IMPRESSIONS"
+                            subtitle="TOTAL LAST 10 DAYS"
                             :value="overallSummaryList.imps"
                             defaultValue="0"
                             size="lg"
@@ -25,6 +26,7 @@
                         <tk-widget
                             icon="monetization_on"
                             title="SPEND"
+                            subtitle="TOTAL LAST 10 DAYS"
                             :value="'$ ' + $root.fromMicroDollars(overallSummaryList.spend)"
                             defaultValue="$0.00"
                             size="lg"
@@ -38,6 +40,7 @@
                         <tk-widget
                             icon="mouse"
                             title="CLICKS"
+                            subtitle="TOTAL LAST 10 DAYS"
                             :value="overallSummaryList.clicks"
                             defaultValue="0"
                             size="lg"
@@ -47,7 +50,8 @@
                         <tk-widget
                             icon="monetization_on"
                             title="eCPM"
-                            :value="'$ ' + overallSummaryList.ecpm"
+                            subtitle="TOTAL LAST 10 DAYS"
+                            :value="'$ ' + $root.twoDecimalPlaces(overallSummaryList.ecpm)"
                             defaultValue="$0.00"
                             size="lg"
                         ></tk-widget>
@@ -60,7 +64,8 @@
                         <tk-widget
                             icon="star_half"
                             title="CTR"
-                            :value="($root.twoDecimalPlaces(overallSummaryList.ctr * 100)) + '%'"
+                            subtitle="TOTAL LAST 10 DAYS"
+                            :value="($root.twoDecimalPlaces(overallSummaryList.ctr * 100)) + ' %'"
                             defaultValue="0.00%"
                             size="lg"
                         ></tk-widget>
@@ -69,7 +74,8 @@
                         <tk-widget
                             icon="monetization_on"
                             title="eCPC"
-                            :value="'$' + overallSummaryList.ecpc"
+                            subtitle="TOTAL LAST 10 DAYS"
+                            :value="'$ ' + $root.twoDecimalPlaces(overallSummaryList.ecpc)"
                             defaultValue="$0.00"
                             size="lg"
                         ></tk-widget>
@@ -97,7 +103,7 @@
                             </td>
                             <td>
                                 <v-chip v-if="props.item.status == 'active'" small class="green white--text">
-                                    <small>STOPPED</small>
+                                    <small>ACTIVE</small>
                                 </v-chip>
                                 <v-chip v-else-if="props.item.status == 'archived'" small class="yellow darken-2 white--text">
                                     <small>ARCHIVED</small>

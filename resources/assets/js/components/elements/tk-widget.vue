@@ -8,7 +8,7 @@
                 <v-icon x-large>{{ icon }}</v-icon>
                 <v-layout row>
                     <v-flex xs12 class="pa-1">
-                        <span class="caption right grey--text text--lighte-1">TOTAL THIS MONTH</span>
+                        <span class="caption right grey--text text--lighte-1">{{ subtitle }}</span>
                     </v-flex>
                 </v-layout>
                 <v-layout row>
@@ -40,6 +40,11 @@ export default {
         },
 
         title: {
+            type: String,
+            default: null
+        },
+
+        subtitle: {
             type: String,
             default: null
         },
