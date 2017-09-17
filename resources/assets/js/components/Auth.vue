@@ -23,6 +23,7 @@
 		                    <v-flex xs12 sm8 offset-sm2 class="pt-1">
 		                        <v-text-field
 		                        label="Username"
+		                        prepend-icon="person"
 		                        hint="Username is an email address"
 		                        v-model="email"
 		                        ></v-text-field>
@@ -32,6 +33,7 @@
 		                    <v-flex xs12 sm8 offset-sm2 class="pt-2">
 		                        <v-text-field
 		                        label="Password"
+		                        prepend-icon="lock"
 		                        hint="At least 8 characters"
 		                        type="password"
 		                        v-model="password"
@@ -62,39 +64,6 @@
                 </v-card>
             </v-flex>
         </v-layout>
-	<!-- <div class="widget-body">
-			<div class="col-xs-12 col-md-4">
-				<div class="alert alert-danger" role="alert" v-show="error">
-					<i class="fa fa-exclamation-triangle"></i>
-					<strong>{{ error.message }} </strong>
-					{{ error.details }}
-				</div>
-
-				<div class="form-group">
-					<div class="row">
-						<label for="label-email">Email</label>
-						<input type="text" id="label-email" class="form-control" placeholder="you@email.com" v-model="email" />
-					</div>
-				</div>
-
-				<div class="form-group">
-					<div class="row">
-						<label for="label-password">Password</label>
-						<input type="password" id="label-password" class="form-control" placeholder="password" v-model="password" />
-					</div>
-				</div>
-
-				<div class="form-group">
-					<div class="row clearfix">
-						<button class="btn btn-primary pull-right" @click="login()">
-							<i class="fa fa-lock" v-show="!isLoading"></i>
-							<i class="fa fa-refresh fa-spin" v-show="isLoading"></i>
-							Login
-						</button>
-					</div>
-				</div>
-			</div>
-		</div> -->
 </template>
 
 <script>
