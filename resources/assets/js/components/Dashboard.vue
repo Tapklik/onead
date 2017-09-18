@@ -6,7 +6,7 @@
                    <v-card-title>
                         <span class="subheading orange--text text--darken-4">OVERALL CHART FOR 10 DAYS</span>
                     </v-card-title>
-                    <v-card-media id="chart_main" height="250px"> 
+                    <v-card-media  id="chart_main" class="tapklik-chart" height="250px"> 
                     </v-card-media>
                 </v-card>
             </v-flex>
@@ -27,7 +27,8 @@
                             icon="monetization_on"
                             title="SPEND"
                             subtitle="TOTAL LAST 10 DAYS"
-                            :value="'$ ' + $root.fromMicroDollars(overallSummaryList.spend)"
+                            :value="$root.fromMicroDollars(overallSummaryList.spend)"
+                            unit="$"
                             defaultValue="$0.00"
                             size="lg"
                         ></tk-widget>
@@ -51,7 +52,8 @@
                             icon="monetization_on"
                             title="eCPM"
                             subtitle="TOTAL LAST 10 DAYS"
-                            :value="'$ ' + $root.twoDecimalPlaces(overallSummaryList.ecpm)"
+                            :value="$root.twoDecimalPlaces(overallSummaryList.ecpm)"
+                            unit="$"
                             defaultValue="$0.00"
                             size="lg"
                         ></tk-widget>
@@ -65,7 +67,8 @@
                             icon="star_half"
                             title="CTR"
                             subtitle="TOTAL LAST 10 DAYS"
-                            :value="($root.twoDecimalPlaces(overallSummaryList.ctr * 100)) + ' %'"
+                            :value="$root.twoDecimalPlaces(overallSummaryList.ctr * 100)"
+                            unit="%"
                             defaultValue="0.00%"
                             size="lg"
                         ></tk-widget>
@@ -75,7 +78,8 @@
                             icon="monetization_on"
                             title="eCPC"
                             subtitle="TOTAL LAST 10 DAYS"
-                            :value="'$ ' + $root.twoDecimalPlaces(overallSummaryList.ecpc)"
+                            :value="$root.twoDecimalPlaces(overallSummaryList.ecpc)"
+                            unit="$"
                             defaultValue="$0.00"
                             size="lg"
                         ></tk-widget>
@@ -85,7 +89,7 @@
         </v-layout>
         <v-layout row wrap>
             <v-flex d-flex xs12 md4>
-                <v-card height="300px" class="elevation-1">
+                <v-card height="350px" class="elevation-1">
                     <v-card-title>
                         <span class="subheading orange--text text--darken-4">RECENT CAMPAIGNS</span>
                         <v-spacer></v-spacer>
@@ -121,7 +125,7 @@
                 </v-card>
             </v-flex>
             <v-flex d-flex xs12 md4>
-                <v-card height="300px" class="elevation-1">
+                <v-card height="350px" class="elevation-1">
                     <v-card-title>
                         <span class="subheading orange--text text--darken-4">RECENT CREATIVES</span>
                         <v-spacer></v-spacer>
@@ -156,7 +160,7 @@
                 </v-card>
             </v-flex>
             <v-flex d-flex xs12 md4>
-                <v-card height="300px" class="elevation-1">
+                <v-card height="350px" class="elevation-1">
                     <v-card-title>
                         <span class="subheading orange--text text--darken-4">LOG</span>
                     </v-card-title>
@@ -173,6 +177,8 @@
         },
         data() {
             return {
+                chartLoaded: false,
+                chartDataLoaded: false,
                 totalItems: 5,
                 password: '',
                 campaignList: [],
@@ -224,15 +230,9 @@
 
             loadMainGraph() {
 
-                axios.get(this.$root.reportUri + '?table=wins&acc=' + this.user.accountUuId + '&field=clicks,imps,spend&op=sum&from=' + this.date_from + ' 00:00:00&to=' + this.date_to + ' 00:00:00', this.$root.config).then(response => {
+                axios.get(this.$root.reportUri + '?table=wins&acc=' + this.user.accountUuId + '&field=clicks,imps,spend&op=sum&from=' + this.date_from + ' 00:00:00&to=' + this.date_to + ' 00:00:00' + '&scale=1d', this.$root.config).then(response => {
                     this.overallList = response.data.data;
-                    this.createChart('chart_main', this.overallList, this.column, this.line);
-                    //this.createChart('chart_clicks', this.overallList, 'clicks');
-                    //this.createChart('chart_imps', this.overallList, 'imps');
-                    //this.createChart('chart_spend', this.overallList, 'spend');
-                    //this.createChart('chart_ctr', this.overallList, 'ctr');
-                    //this.createChart('chart_ecpc', this.overallList, 'ecpc');
-                    //this.createChart('chart_ecpm', this.overallList, 'ecpm');
+                    this.chartLoaded = true;
                 }, error => {
                     swal('Error', 'Could not load main graph', 'error');
                 })
@@ -242,6 +242,7 @@
 
                 axios.get(this.$root.reportUri + '?table=wins&acc=' + this.user.accountUuId + '&field=clicks,imps,spend&op=summary&from=' + this.date_from + ' 00:00:00&to=' + this.date_to + ' 00:00:00', this.$root.config).then(response => {
                     this.overallSummaryList = response.data.data;
+                    this.chartDataLoaded = true;
                 }, error => {
                     swal('Error', 'Could not load main data', 'error');
                 })
@@ -268,84 +269,51 @@
                 "valueAxes": [{
                     "id": "v1",
                     "axisAlpha": 0,
+                    "gridAlpha": 0,
                     "position": "left",
+                    "labelsEnabled": false,
                     "ignoreAxisWidth":true
                 },
                 {
                     "id": "v2",
                     "axisAlpha": 0,
+                    "gridAlpha": 0,
                     "position": "right",
+                    "labelsEnabled": false,
                     "ignoreAxisWidth":true
                 }
                 ],
-                "balloon": {
-                    "borderThickness": 1,
-                    "shadowAlpha": 0
-                },
                 "graphs": [{
                     "valueAxis": "v1",
                     "id": "g1",
                     "type" : "column",
-                    "fillAlphas": 0.8,
-                    "fillColors":"#f76c06",
-                    "lineColor":"#f76c06",
-                    "balloonColor":"#444",
-                    "balloon":{
-                        "drop":true,
-                        "adjustBorderColor":false,
-                        "color":"#ffffff"
-                    },
-                    "bullet": "round",
-                    "bulletBorderAlpha": 1,
-                    "bulletColor": "#FFFFFF",
-                    "bulletSize": 5,
-                    "hideBulletsCount": 50,
+                    "fillAlphas": 1,
+                    "fillColors":"#ccc",
+                    "lineColor":"#ccc",
                     "lineThickness": 2,
-                    "title": "red line",
-                    "useLineColorForBulletBorder": true,
+                    "balloonText": "g1:[[clicks]]<br>g2:[[imps]]",
+                    "title": "Imps",
                     "valueField": column,
-                    "balloonText": "<span style='font-size:18px;'>[[value]]</span>"
                 },
                 {   
                     "valueAxis": "v2",
                     "id": "g2",
-                    "type" : "line",
-                    "fillColors":"#f76c06",
-                    "lineColor":"magenta",
-                    "balloonColor":"#444",
-                    "balloon":{
-                        "drop":true,
-                        "adjustBorderColor":false,
-                        "color":"#ffffff"
-                    },
-                    "bullet": "round",
-                    "bulletBorderAlpha": 1,
-                    "bulletColor": "#FFFFFF",
-                    "bulletSize": 5,
-                    "hideBulletsCount": 50,
+                    "type" : "smoothedLine",
+                    "lineColor":"#f76c06",
+                    "showBalloon": false,
                     "lineThickness": 2,
-                    "title": "red line",
-                    "useLineColorForBulletBorder": true,
+                    "title": "Clicks",
                     "valueField": line,
-                    "balloonText": "<span style='font-size:18px;'>[[value]]</span>"
                     
                 }],
-                "chartCursor": {
-                    "pan": true,
-                    "valueLineEnabled": true,
-                    "valueLineBalloonEnabled": true,
-                    "cursorAlpha":1,
-                    "cursorColor":"#444",
-                    "limitToGraph":"g1",
-                    "valueLineAlpha":0.2,
-                    "valueZoomable":true
-                },
                 "categoryField": "date",
                 "categoryAxis": {
                     "parseDates": true,
-                    "dashLength": 1,
-                    "minPeriod" : "hh",
-                    "minorGridEnabled": true
+                    "dashLength": 0,
+                    "axisAlpha": 0,
+                    "gridAlpha": 0,
+                    "minPeriod": "DD",
+                    "minorGridEnabled": false
                 },
                 "export": {
                     "enabled": true
@@ -371,17 +339,24 @@
 
         watch: {
             user(value) {
+                this.date_from = this.getDate(-9);
+                this.date_to = this.getDate(0);
                 this.loadMainGraph();
                 this.loadMainGraphData();
             },
-            trialdate(value) {
-                this.date_from = this.getDate(0);
-                this.date_to = this.getDate(1);
+            trialdate(value) { 
+
+            //TODO remove
+
+                this.date_from = this.getDate(-9);
+                this.date_to = this.getDate(0);
+            },
+            chartLoaded(value) {
+                this.createChart('chart_main', this.overallList, this.column, this.line);
             },
             token(value) {
                 this.loadCampaignsAndCreatives();
             }
-
         }
     }
 </script>

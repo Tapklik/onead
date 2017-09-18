@@ -84,3 +84,11 @@ h5 {
   z-index: 5000;
 }
 
+.card {
+  overflow: hidden;
+}
+
+.tapklik-chart a {
+  display: none !important;
+}
+

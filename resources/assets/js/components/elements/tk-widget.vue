@@ -3,7 +3,7 @@
         <v-card-title>
             <span class="subheading right orange--text text--darken-4">{{ title }}</span>
         </v-card-title>
-        <v-card-text class="fixed-z-index">
+        <v-card-text v-if="value" class="fixed-z-index">
             <v-flex xs12>
                 <v-icon x-large>{{ icon }}</v-icon>
                 <v-layout row>
@@ -13,11 +13,12 @@
                 </v-layout>
                 <v-layout row>
                     <v-flex xs12 class="pa-0">
-                        <span class="display-2 right">{{ displayValue }}</span>
+                        <span class="display-2 right">{{ unit }} {{ displayValue }}</span>
                     </v-flex>
                 </v-layout>
             </v-flex>
         </v-card-text>
+        <div v-else>LOADING...</div>
     </v-card>
 </template>
 
@@ -32,6 +33,10 @@ export default {
         },
 
         value: {
+            default: null
+        },
+
+        unit: {
             default: null
         },
 
