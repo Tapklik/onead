@@ -5,9 +5,73 @@
                 <v-card class="elevation-0">
                     <v-card-title>
                         <v-flex xs12 md2>
-                            <v-btn primary dark class="elevation-0">
-                                <v-icon>add</v-icon> Add Creatives
-                            </v-btn> 
+                            <v-dialog v-model="showModal" width="1500px">
+                                <v-btn slot="activator" @click="dropzoneMaker()" primary dark class="elevation-0">
+                                    <v-icon>add</v-icon> Add Creatives
+                                </v-btn> 
+                                <v-card>
+                                    <v-container fluid grid-list-md>
+                                        <v-layout row wrap>
+                                            <v-flex xs12 class="mb-3 mt-4">
+                                                <h4>Basic Creative Details</h4>
+                                            </v-flex>
+                                        </v-layout>
+                                        <v-layout row wrap>
+                                            <v-flex xs12 md12>
+                                                <div id="uploader">Drop Files Here</div>
+                                            </v-flex>
+                                        </v-layout>
+                                        <v-layout row wrap>
+                                            <v-flex xs12 md6>
+                                                <v-text-field v-model="creativeAttributes.name" label="Creatives Name"></v-text-field>
+                                            </v-flex>
+                                        </v-layout>
+                                        <v-layout row wrap>
+                                            <v-flex xs12 md6>
+                                                <v-text-field v-model="creativeAttributes.class" label="Class"></v-text-field>
+                                            </v-flex>
+                                        </v-layout>
+                                        <v-layout row wrap>
+                                            <v-flex xs12 md3>
+                                                <v-text-field v-model="creativeAttributes.h" label="Height"></v-text-field>
+                                            </v-flex>
+                                            <v-flex xs12 md3>
+                                                <v-text-field v-model="creativeAttributes.w" label="Width"></v-text-field>
+                                            </v-flex>
+                                        </v-layout>
+                                        <v-layout row wrap>
+                                            <v-flex xs12 md6>
+                                                <v-switch label="Responsive" v-model="creativeAttributes.responsive"></v-switch>
+                                            </v-flex>
+                                        </v-layout>
+                                        <v-layout row wrap>
+                                            <v-flex xs12 md2 v-for="f in folders.data" :key="f.id"> 
+                                                <v-checkbox :label="f.name" v-model="folderId" :value="f.id"></v-checkbox>
+                                            </v-flex>
+                                        </v-layout>
+                                        <v-layout row wrap>
+                                            <v-flex xs12 class="mb-3 mt-4">
+                                                <h4>Advanced Details</h4>
+                                            </v-flex>
+                                        </v-layout>
+                                        <v-layout row wrap>
+                                            <v-flex xs12 md6>
+                                                <v-text-field v-model="creativeAttributes.url" label="Class"></v-text-field>
+                                            </v-flex>
+                                        </v-layout>
+                                        <v-layout row wrap>
+                                            <v-flex xs12 md6>
+                                                <v-text-field label="Class"></v-text-field>
+                                            </v-flex>
+                                        </v-layout>
+                                        <v-layout row wrap>
+                                            <v-flex xs12 md6>
+                                                <v-btn @click="uploadCreative()"></v-btn>
+                                            </v-flex>
+                                        </v-layout>
+                                    </v-container>
+                                </v-card>   
+                            </v-dialog>
                         </v-flex>
                         <v-flex xs12 md2 lg7>
                             <v-edit-dialog lazy> 
@@ -129,6 +193,8 @@
 
 <script>
 
+    import Dropzone from 'dropzone';
+
     export default {
         mounted() {
 
@@ -138,7 +204,9 @@
             return {
                 showModal: false,
                 dropzone: false,
+                classList: ['banner','video','native'],
                 newFolder: '',
+                folderId: '',
                 folders: {
                     data: []
                 },
@@ -166,6 +234,16 @@
                 }, error => {
                     console.log(error);
                 });
+            },
+
+            dropzoneMaker() {
+                this.dropzone = new Dropzone($('div#uploader'), {
+                        url: this.$root.uri + '/creatives',
+                        paramName: 'file',
+                        maxFilesize: 2,
+                        headers: {'Authorization': "Bearer " + this.token},
+                        autoProcessQueue: false
+                    });
             },
 
             openFolder(folderObj) {
@@ -205,7 +283,7 @@
             uploadCreative() {
 
                 this.dropzone.options.params = {
-                    folder_id: this.currentFolder.key,
+                    folder_id: this.folderId,
                     name: this.creativeAttributes.name,
                     ctrurl: this.creativeAttributes.url,
                     w: this.creativeAttributes.w,
@@ -278,13 +356,15 @@
           }
       },
 
-      watch: {
-        token(value) {
+     
+        watch: {
+            token(value) {
 
-            if(typeof value != 'undefined') {
-                this.getFolders();
+                if(typeof value != 'undefined') {
+                    this.getFolders();
+                }
+
             }
         }
-    }
 }
 </script>
