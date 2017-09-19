@@ -1,5 +1,10 @@
 <template>
     <v-container fluid grid-list-md>
+        <v-layout>    
+            <v-flex xs12 md12>
+                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
+            </v-flex>
+        </v-layout>
         <v-layout>
             <v-flex xs12>
                 <v-card class="elevation-0">
@@ -26,6 +31,7 @@
                                                     prepend-icon="attach_money"
                                                     v-model="payment"
                                                     single-line
+                                                    type="number"
                                                     ></v-text-field>
                                                 </v-flex>
                                             </v-layout>
@@ -42,7 +48,7 @@
                                             </v-layout>
                                             <v-layout>
                                                 <v-flex class="text-xs-center">
-                                                    <v-btn @click="processPayment()">Create a Bill</v-btn>
+                                                    <v-btn @click="processPayment(), showModal=false">Create a Bill</v-btn>
                                                 </v-flex>
                                             </v-layout>
                                         </v-container>                                    
@@ -121,6 +127,10 @@
 
         data() {
             return {
+                success: false,
+                error: false,
+                alert: false,
+                alertMessage: 'You have created a bill successfully',
                 bills: [],
                 showModal:false,
                 paymentMethod: 'cc payment',
@@ -136,10 +146,16 @@
 
             processPayment() {
                 axios.post(this.$root.uri + '/accounts/' + this.user.accountUuId + '/banker/main' , this.collectBill(), this.$root.config).then(response => {
-                    swal('Success', 'Bill created successfully', 'success');
+                    this.success = true;
+                    this.error = false;
+                    this.alert = true;
+                    this.alertMessage = 'You have created a bill successfully';
 
                 }, error => {
-                    swal('Error', error, 'error');
+                    this.success = false;
+                    this.error = true;
+                    this.alert = true;
+                    this.alertMessage = 'Something went wrong!';
                 });
             },
 

@@ -146,10 +146,7 @@
                                     <small>APPROVED</small>
                                 </v-chip>
                                 <v-chip v-else small class="yellow darken-2 white--text">
-                                    <small>ARCHIVED</small>
-                                </v-chip>   
-                                <v-chip v-else small class="red white--text">
-                                    <small>STOPPED</small>
+                                    <small>NOT APPROVED</small>
                                 </v-chip>
                             </td>
                             <td class="text-xs-right">
@@ -222,8 +219,10 @@
                 axios.get(this.$root.uri + '/campaigns', this.$root.config).then(response => {
                     var a = response.data.data;
                     var b = [];
-                    for (var i = 0; i < 3; i++) {
-                        b.push(a[i]);
+                    for (var item in a) {
+
+                        b.push(a[item]);
+                        if(b.length == 5) break;
                     }
                     this.campaignList = b;
 
@@ -250,8 +249,9 @@
                 axios.get(this.$root.uri + '/accounts/log', this.$root.config).then(response => {
                     var a = response.data.data;
                     var b = [];
-                    for (var i = 0; i < 4; i++) {
-                        b.push(a[i]);
+                    for (var item in a) {
+                        b.push(a[item]);
+                        if(b.length == 4) break;
                     }
                     this.logList = b;
                 }, error => {
