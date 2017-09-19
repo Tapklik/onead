@@ -15,8 +15,9 @@
                                 </v-card-title>
                                 <v-card-text>
                                     <v-layout row wrap>
-                                        <v-flex xs12 class="valign-wrapper mt-4">
-                                            <span class="title">Amount:</span>
+                                        <v-flex xs12 md3>
+                                            <span class="title">Amount:</span> <br>
+                                            <span class="caption">The amount you are going to pay.</span>
                                         </v-flex>
                                         <v-flex xs12 md6 class="valign-wrapper">
                                             <v-text-field
@@ -29,9 +30,9 @@
                                         </v-flex>
                                     </v-layout>
                                     <v-layout row wrap>
-                                        <v-flex xs12 class="valign-wrapper mt-5">
-                                            <span class="title">Method:</span>
-                                            <p class="ma-0">Hours will be only edited for active days</p>
+                                        <v-flex xs12 md3>
+                                            <span class="title">Method:</span><br>
+                                            <span class="caption">Payment through paypal or credit card.</span>
                                         </v-flex>
                                         <v-flex xs12 md6 class="valign-wrapper">
                                             <v-radio-group v-model="paymentMethod" row class="pa-1">
