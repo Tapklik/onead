@@ -5,51 +5,54 @@
                 <v-card class="elevation-0">
                     <v-card-title>
                         <v-flex xs12 md6 lg9>
-                        <v-dialog v-model="showModal" width="750px" lazy absolute>
+                        <v-dialog v-model="showModal" lazy absolute width="70%">
                             <v-btn primary dark class="elevation-0" slot="activator">
                                 <v-icon>add</v-icon> New Payment
-                            </v-btn> 
+                            </v-btn>
                             <v-card>
                                 <v-card-title>
-                                    <div class="headline">Method of payment</div>
+                                    <h4>Method of payment</h4>
                                 </v-card-title>
-                                <v-container fluid grid-list-md>
-                                    <v-layout row wrap> 
-                                        <v-container fluid grid-list-md>
-                                            <v-layout>
-                                                <v-flex xs12 md3>
-                                                    <span class="title">Amount:</span>
-                                                </v-flex>
-                                                <v-flex xs12 md6 class="valign-wrapper">
-                                                    <v-text-field
-                                                    label="0.00"
-                                                    prepend-icon="attach_money"
-                                                    v-model="payment"
-                                                    single-line
-                                                    type="number"
-                                                    ></v-text-field>
-                                                </v-flex>
-                                            </v-layout>
-                                            <v-layout>
-                                                <v-flex xs12 md3>
-                                                    <span class="title">Method:</span>
-                                                </v-flex>
-                                                <v-flex xs12 md6 class="valign-wrapper">
-                                                    <v-radio-group v-model="paymentMethod" row class="pa-1">
-                                                        <v-radio label="Credit Card" value="cc payment" ></v-radio>
-                                                        <v-radio label="Paypal" value="paypal payment"></v-radio>
-                                                    </v-radio-group>
-                                                </v-flex>
-                                            </v-layout>
-                                            <v-layout>
-                                                <v-flex class="text-xs-center">
-                                                    <v-btn @click="processPayment(), showModal=false">Create a Bill</v-btn>
-                                                </v-flex>
-                                            </v-layout>
-                                        </v-container>                                    
+                                <v-card-text>
+                                    <v-layout row wrap>
+                                        <v-flex xs12 class="valign-wrapper mt-4">
+                                            <span class="title">Amount:</span>
+                                        </v-flex>
+                                        <v-flex xs12 md6 class="valign-wrapper">
+                                            <v-text-field
+                                            label="0.00"
+                                            prepend-icon="attach_money"
+                                            v-model="payment"
+                                            single-line
+                                            type="number"
+                                            ></v-text-field>
+                                        </v-flex>
                                     </v-layout>
-                                </v-container>
-                            </v-card>
+                                    <v-layout row wrap>
+                                        <v-flex xs12 class="valign-wrapper mt-5">
+                                            <span class="title">Method:</span>
+                                            <p class="ma-0">Hours will be only edited for active days</p>
+                                        </v-flex>
+                                        <v-flex xs12 md6 class="valign-wrapper">
+                                            <v-radio-group v-model="paymentMethod" row class="pa-1">
+                                                <v-radio label="Credit Card" value="cc payment" ></v-radio>
+                                                <v-radio label="Paypal" value="paypal payment"></v-radio>
+                                            </v-radio-group>
+                                        </v-flex>
+                                    </v-layout>
+                                </v-card-text>
+                                <v-card-actions>
+                                    <v-spacer></v-spacer>
+                                    <v-btn @click="showModal = false" class="elevation-0">
+                                        <v-icon>close</v-icon>                                    
+                                        Cancel
+                                    </v-btn>
+                                    <v-btn primary dark @click="processPayment(), showModal = false" class="elevation-0">
+                                        <v-icon>done</v-icon>
+                                        Save
+                                    </v-btn>
+                                </v-card-actions>
+                            </v-card>   
                         </v-dialog>
                         </v-flex>
                         <v-flex xs12 md6 lg3>
