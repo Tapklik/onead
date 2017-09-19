@@ -5,18 +5,21 @@
                 <v-card class="elevation-0">
                     <v-card-title>
                         <v-flex xs12 md2>
-                            <v-dialog v-model="showModal" width="1500px">
+                            <v-dialog v-model="showModal" lazy absolute width="70%">
                                 <v-btn slot="activator" @click="dropzoneMaker()" primary dark class="elevation-0">
                                     <v-icon>add</v-icon>
                                     Add Creatives
                                 </v-btn>
-                                <v-card>
-                                    <v-container fluid grid-list-md>
-                                        <v-layout row wrap>
-                                            <v-flex xs12 class="mb-3 mt-4">
-                                                <h4>Basic Creative Details</h4>
-                                            </v-flex>
-                                        </v-layout>
+                            <v-card>
+                                <v-card-title>
+                                    <h4>Upload Creatives Here</h4>
+                                </v-card-title>
+                                <v-card-text>
+                                    <v-layout row wrap>
+                                        <v-flex xs12 class="valign-wrapper mt-4">
+                                            <span class="title">Basic Creative Details</span>
+                                        </v-flex>
+                                    </v-layout>
                                         <v-layout row wrap>
                                             <v-flex xs12 md12>
                                                 <div id="uploader">Drop Files Here</div>
@@ -56,11 +59,12 @@
                                                             :value="f.id"></v-checkbox>
                                             </v-flex>
                                         </v-layout>
-                                        <v-layout row wrap>
-                                            <v-flex xs12 class="mb-3 mt-4">
-                                                <h4>Advanced Details</h4>
-                                            </v-flex>
-                                        </v-layout>
+                                    <v-layout row wrap>
+                                        <v-flex xs12 class="valign-wrapper mt-5">
+                                            <span class="title">Advanced Details</span>
+                                            <p class="ma-0">Hours will be only edited for active days</p>
+                                        </v-flex>
+                                    </v-layout>
                                         <v-layout row wrap>
                                             <v-flex xs12 md6>
                                                 <v-text-field v-model="creativeAttributes.url"
@@ -72,29 +76,56 @@
                                                 <v-text-field label="Class"></v-text-field>
                                             </v-flex>
                                         </v-layout>
-                                        <v-layout row wrap>
-                                            <v-flex xs12 md6>
-                                                <v-btn @click="uploadCreative()"></v-btn>
-                                            </v-flex>
-                                        </v-layout>
-                                    </v-container>
-                                </v-card>
-                            </v-dialog>
+                                </v-card-text>
+                                <v-card-actions>
+                                    <v-spacer></v-spacer>
+                                    <v-btn class="elevation-0">
+                                        <v-icon>close</v-icon>                                    
+                                        Cancel
+                                    </v-btn>
+                                    <v-btn primary dark class="elevation-0">
+                                        <v-icon>done</v-icon>
+                                        Save
+                                    </v-btn>
+                                </v-card-actions>
+                            </v-card>   
+                        </v-dialog>
                         </v-flex>
                         <v-flex xs12 md2 lg7>
-                            <v-edit-dialog lazy>
-                                <v-btn v-if="!currentFolder.id" class="elevation-0">
+                            <v-dialog v-model="showModal1" lazy absolute width="70%">
+                                <v-btn v-if="!currentFolder.id" slot="activator" class="elevation-0">
                                     <v-icon>add</v-icon>
                                     Add Folder
                                 </v-btn>
-                                <v-layout slot="input" class="elevation-0">
-                                    <v-text-field class="elevation-0" slot="input" label="Search" v-model="newFolder"
-                                                  single-line></v-text-field>
-                                    <v-btn primary dark class="elevation-0" slot="input" @click="storeNewFolder()">
-                                        Create
+                            <v-card>
+                                <v-card-title>
+                                    <h4>Create a Folder</h4>
+                                </v-card-title>
+                                <v-card-text>
+                                    <v-layout row wrap>
+                                        <v-flex xs12 class="valign-wrapper mt-4">
+                                            <span class="title">Folder Name</span>
+                                        </v-flex>
+                                    </v-layout>
+                                        <v-layout row wrap>
+                                            <v-flex xs12 md6>
+                                                <v-text-field v-model="newFolder" label="Folder Name"></v-text-field>
+                                            </v-flex>
+                                        </v-layout>
+                                </v-card-text>
+                                <v-card-actions>
+                                    <v-spacer></v-spacer>
+                                    <v-btn class="elevation-0" @click="showModal1 = false">
+                                        <v-icon>close</v-icon>                                    
+                                        Cancel
                                     </v-btn>
-                                </v-layout>
-                            </v-edit-dialog>
+                                    <v-btn primary dark class="elevation-0" @click="storeNewFolder(), showModal1=false">
+                                        <v-icon>done</v-icon>
+                                        Save
+                                    </v-btn>
+                                </v-card-actions>
+                            </v-card>   
+                        </v-dialog>
                         </v-flex>
                         <v-flex xs12 md8 lg3>
                             <v-text-field
@@ -110,6 +141,7 @@
                     <v-card-text v-if="!currentFolder.id">
                         <v-layout row wrap>
                             <v-flex xs12>
+                            <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
                                 <v-data-table
                                         :items="folders.data"
                                         hide-actions
@@ -219,7 +251,12 @@
         props: ['token', 'user'],
         data() {
             return {
+                alert: false,
+                success: false,
+                error: false,
+                alertMessage: '',
                 showModal: false,
+                showModal1: false,
                 dropzone: false,
                 classList: ['banner', 'video', 'native'],
                 newFolder: '',
@@ -336,11 +373,17 @@
 
                 axios.post(this.$root.uri + '/creatives/folders', payload, this.$root.config).then(response => {
                     this.getFolders();
-
                     this.currentFolder = {};
                     this.createFolderFlag = false;
+                    this.error = false;
+                    this.success = true;
+                    this.alert = true;
+                    this.alertMessage = 'You have successfully created a new folder';
                 }, error => {
-
+                    this.error = true;
+                    this.success = false;
+                    this.alert = true;
+                    this.alertMessage = 'Something went wrong';
                 });
             },
 

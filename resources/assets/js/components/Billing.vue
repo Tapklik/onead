@@ -168,8 +168,13 @@
 
             axios.get(this.$root.uri + '/accounts/' + this.user.accountUuId + '/banker/main?type=billing', this.$root.config).then(response => {
                 this.bills = response.data.data;
+
             }, error => {
-                swal('Error', error, 'error');
+                this.success = false;
+                this.error = true;
+                this.alert = true;
+                this.alertMessage = 'Something went wrong!';
+            
             })
         }
     },
