@@ -237,7 +237,7 @@
             },
 
             dropzoneMaker() {
-                this.dropzone = new Dropzone($('div#uploader'), {
+                this.dropzone = new Dropzone('div#uploader', {
                         url: this.$root.uri + '/creatives',
                         paramName: 'file',
                         maxFilesize: 2,
