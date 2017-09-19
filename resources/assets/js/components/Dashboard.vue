@@ -97,7 +97,7 @@
                             <v-icon>search</v-icon>
                         </v-btn>
                     </v-card-title>
-                    <v-data-table v-bind:items="campaignList"  v-bind:rows-per-page-items="[4]" >
+                    <v-data-table v-bind:items="campaignList" hide-actions>
                         <template slot="headers" scope="props">
                             &nbsp;
                         </template>
@@ -133,7 +133,7 @@
                             <v-icon>search</v-icon>
                         </v-btn>
                     </v-card-title>
-                    <v-data-table v-bind:items="creativeList"  v-bind:rows-per-page-items="[4]">
+                    <v-data-table v-bind:items="creativeList"  hide-actions>
                         <template slot="headers" scope="props">
                             &nbsp;
                         </template>
@@ -168,7 +168,7 @@
                             <v-icon>search</v-icon>
                         </v-btn>
                     </v-card-title>
-                    <v-data-table v-bind:items="logList"  v-bind:rows-per-page-items="[4]">
+                    <v-data-table v-bind:items="logList" hide-actions>
                         <template slot="headers" scope="props">
                             &nbsp;
                         </template>
@@ -178,7 +178,7 @@
                             </td>
                             
                             <td class="text-xs-right">
-                                <span>{{ props.item.timestamp }}</span> 
+                                <span>{{ new Date(props.item.timestamp) }}</span> 
                             </td>
                         </template>
                     </v-data-table>
@@ -215,18 +215,28 @@
         props: ['user', 'token','trialdate'],
 
         methods: {
+            Slice(value) {
+                return value.slice(0,9)
+            },
             loadCampaignsAndCreatives() {
                 axios.get(this.$root.uri + '/campaigns', this.$root.config).then(response => {
-                    this.campaignList = response.data.data;
+                    var a = response.data.data;
+                    var b = [];
+                    for (var i = 0; i < 3; i++) {
+                        b.push(a[i]);
+                    }
+                    this.campaignList = b;
 
                     var listOfCreatives = []
                     var campaigns = this.campaignList
                     for (var c in campaigns) {
+                        if(listOfCreatives.length == 5) break;
                         var campaignId = campaigns[c].value
                         var campaignObj = this.findCampaignById(campaignId)
                         
                         var creatives = campaigns[c].creatives.data
                         for (var cr in creatives) {
+                            if(listOfCreatives.length == 5) break;
                             listOfCreatives.push(creatives[cr])
                         }
                     }
@@ -238,7 +248,12 @@
 
             loadLog() {
                 axios.get(this.$root.uri + '/accounts/log', this.$root.config).then(response => {
-                    this.logList = response.data.data;
+                    var a = response.data.data;
+                    var b = [];
+                    for (var i = 0; i < 4; i++) {
+                        b.push(a[i]);
+                    }
+                    this.logList = b;
                 }, error => {
                     swal('Error', 'error', 'error');
                 })
