@@ -8997,7 +8997,7 @@ p {
   display: none;
 }
 .application--light .input-group--selection-controls {
-  color: #009688;
+  color: #ef6c00;
 }
 .application--light .input-group--selection-controls label {
   color: rgba(0,0,0,0.73);
@@ -9016,7 +9016,7 @@ p {
   color: inherit;
 }
 .application .theme--light.input-group--selection-controls {
-  color: #009688;
+  color: #ef6c00;
 }
 .application .theme--light.input-group--selection-controls label {
   color: rgba(0,0,0,0.73);
@@ -9035,7 +9035,7 @@ p {
   color: inherit;
 }
 .application--dark .input-group--selection-controls {
-  color: #80cbc4;
+  color: #ffcc80;
 }
 .application--dark .input-group--selection-controls label {
   color: #fff;
@@ -9054,7 +9054,7 @@ p {
   color: inherit;
 }
 .application .theme--dark.input-group--selection-controls {
-  color: #80cbc4;
+  color: #ffcc80;
 }
 .application .theme--dark.input-group--selection-controls label {
   color: #fff;
@@ -10188,7 +10188,7 @@ p {
   margin-left: 56px;
 }
 .application--light .switch .input-group--selection-controls__container {
-  color: #009688;
+  color: #ef6c00;
 }
 .application--light .switch:not(.input-group--dirty) .input-group--selection-controls__container {
   color: rgba(0,0,0,0.38) !important;
@@ -10200,7 +10200,7 @@ p {
   color: rgba(0,0,0,0.38);
 }
 .application--light .switch .input-group--selection-controls__ripple--active:after {
-  background-color: #009688;
+  background-color: #ef6c00;
 }
 .application--light .switch .input-group--selection-controls__toggle {
   color: rgba(0,0,0,0.38);
@@ -10215,7 +10215,7 @@ p {
   color: rgba(0,0,0,0.12) !important;
 }
 .application .theme--light.switch .input-group--selection-controls__container {
-  color: #009688;
+  color: #ef6c00;
 }
 .application .theme--light.switch:not(.input-group--dirty) .input-group--selection-controls__container {
   color: rgba(0,0,0,0.38) !important;
@@ -10227,7 +10227,7 @@ p {
   color: rgba(0,0,0,0.38);
 }
 .application .theme--light.switch .input-group--selection-controls__ripple--active:after {
-  background-color: #009688;
+  background-color: #ef6c00;
 }
 .application .theme--light.switch .input-group--selection-controls__toggle {
   color: rgba(0,0,0,0.38);
@@ -10242,7 +10242,7 @@ p {
   color: rgba(0,0,0,0.12) !important;
 }
 .application--dark .switch .input-group--selection-controls__container {
-  color: #80cbc4;
+  color: #ffcc80;
 }
 .application--dark .switch:not(.input-group--dirty) .input-group--selection-controls__container {
   color: rgba(255,255,255,0.3) !important;
@@ -10254,7 +10254,7 @@ p {
   color: rgba(255,255,255,0.3);
 }
 .application--dark .switch .input-group--selection-controls__ripple--active:after {
-  background-color: #80cbc4;
+  background-color: #ffcc80;
 }
 .application--dark .switch .input-group--selection-controls__toggle {
   color: rgba(255,255,255,0.3);
@@ -10269,7 +10269,7 @@ p {
   color: rgba(255,255,255,0.1) !important;
 }
 .application .theme--dark.switch .input-group--selection-controls__container {
-  color: #80cbc4;
+  color: #ffcc80;
 }
 .application .theme--dark.switch:not(.input-group--dirty) .input-group--selection-controls__container {
   color: rgba(255,255,255,0.3) !important;
@@ -10281,7 +10281,7 @@ p {
   color: rgba(255,255,255,0.3);
 }
 .application .theme--dark.switch .input-group--selection-controls__ripple--active:after {
-  background-color: #80cbc4;
+  background-color: #ffcc80;
 }
 .application .theme--dark.switch .input-group--selection-controls__toggle {
   color: rgba(255,255,255,0.3);

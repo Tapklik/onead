@@ -22,6 +22,7 @@
     "vuetify": "^0.15.2"
   },
   "dependencies": {
+    "dropzone": "^5.1.1",
     "vue-material": "^0.7.4"
   }
 }
