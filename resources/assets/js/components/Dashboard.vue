@@ -4,7 +4,7 @@
             <v-flex d-flex md12 lg6>
                 <v-card height="300px" class="elevation-1">
                    <v-card-title>
-                        <span class="subheading orange--text text--darken-4">OVERALL CHART FOR 10 DAYS</span>
+                        <span class="subheading orange--text text--darken-4">OVERALssddL CHART FOR 10 DAYS</span>
                     </v-card-title>
                     <v-card-media  id="chart_main" class="tapklik-chart" height="250px"> 
                     </v-card-media>
@@ -97,7 +97,7 @@
                             <v-icon>search</v-icon>
                         </v-btn>
                     </v-card-title>
-                    <v-data-table v-bind:items="campaignList" hide-actions :total-items='totalItems'>
+                    <v-data-table v-bind:items="campaignList"  v-bind:rows-per-page-items="[4]" >
                         <template slot="headers" scope="props">
                             &nbsp;
                         </template>
@@ -133,7 +133,7 @@
                             <v-icon>search</v-icon>
                         </v-btn>
                     </v-card-title>
-                    <v-data-table v-bind:items="creativeList" hide-actions :total-items='totalItems'>
+                    <v-data-table v-bind:items="creativeList"  v-bind:rows-per-page-items="[4]">
                         <template slot="headers" scope="props">
                             &nbsp;
                         </template>
@@ -163,8 +163,25 @@
                 <v-card height="350px" class="elevation-1">
                     <v-card-title>
                         <span class="subheading orange--text text--darken-4">LOG</span>
+                        <v-spacer></v-spacer>
+                        <v-btn icon class="orange--text text--darken-3 ma-0" href="/admin/campaigns">
+                            <v-icon>search</v-icon>
+                        </v-btn>
                     </v-card-title>
-
+                    <v-data-table v-bind:items="logList"  v-bind:rows-per-page-items="[4]">
+                        <template slot="headers" scope="props">
+                            &nbsp;
+                        </template>
+                        <template slot="items" scope="props">
+                            <td>
+                                <span class="title">{{ props.item.log }}</span>
+                            </td>
+                            
+                            <td class="text-xs-right">
+                                <span>{{ props.item.timestamp }}</span> 
+                            </td>
+                        </template>
+                    </v-data-table>
                 </v-card>
             </v-flex>
         </v-layout>
@@ -183,12 +200,14 @@
                 password: '',
                 campaignList: [],
                 creativeList: [],
+                logList: [],
                 date_from: '',
                 date_to: '',
                 column: 'clicks',
                 line: 'imps',
                 overallList: false,
                 search: '',
+                pagination: {},
                 overallSummaryList: {}
             }
         },
@@ -217,6 +236,13 @@
                 })
             },
 
+            loadLog() {
+                axios.get(this.$root.uri + '/accounts/log', this.$root.config).then(response => {
+                    this.logList = response.data.data;
+                }, error => {
+                    swal('Error', 'error', 'error');
+                })
+            },
             getDate(days) {
                 const toTwoDigits = num => num < 10 ? '0' + num : num;
                 let today = new Date();
@@ -356,6 +382,7 @@
             },
             token(value) {
                 this.loadCampaignsAndCreatives();
+                this.loadLog();
             }
         }
     }
