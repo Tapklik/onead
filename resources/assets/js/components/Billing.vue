@@ -1,10 +1,5 @@
 <template>
     <v-container fluid grid-list-md>
-        <v-layout>    
-            <v-flex xs12 md12>
-                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
-            </v-flex>
-        </v-layout>
         <v-layout>
             <v-flex xs12>
                 <v-card class="elevation-0">
@@ -71,6 +66,7 @@
                     <v-card-text>
                         <v-layout row wrap>
                             <v-flex xs12>
+                                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
                                 <v-data-table 
                                 v-bind:items="bills" 
                                 v-bind:search="search" 
