@@ -149,39 +149,12 @@
                     </v-flex>
                     <v-flex xs12 md9>
                         <v-dialog v-model="showModal" lazy absolute width="70%">
-                            <v-btn slot="activator" small class="grey lighten-2 mt-3">Set Budget Pacing</v-btn>
-                                <v-card>
-                                    <v-card-title class="headline">
-                                        <h4>Basic Campaign Details</h4>
-                                    </v-card-title>
-                                    <v-card-text>
-                                        <v-layout>
-                                            <v-flex xs12>
-                                                <table class="table table-sm table-responsive table-striped">
-                                                    <thead class="thead-inverse">
-                                                        <tr>
-                                                            <th>Time</th>
-                                                            <td>Sun</td>
-                                                            <td>Mon</td>
-                                                            <td>Tue</td>
-                                                            <td>wed</td>
-                                                            <td>Thu</td>
-                                                            <td>Fri</td>
-                                                            <td>Sat</td>
-                                                        </tr>
-                                                     </thead>
-                                                     <tbody>
-                                                        <tr v-for="time in timesOfDay">
-                                                            <th>{{ time }}</th>
-                                                            <td v-for="day in days">
-                                                                <v-icon v-if="getTimeActiveClass(days.indexOf(day), timesOfDay.indexOf(time))==true">check</v-icon>
-                                                                <v-icon v-else>close</v-icon>
-                                                            </td>
-                                                        </tr>
-                                                     </tbody>
-                                                </table>
-                                            </v-flex>
-                                        </v-layout>
+                            <v-btn slot="activator" small class="elevation-0 grey lighten-2 mt-3">Set Budget Pacing</v-btn>
+                            <v-card>
+                                <v-card-title>
+                                    <h4>Budget Pacing</h4>
+                                </v-card-title>
+                                <v-card-text>
                                     <v-layout row wrap>
                                         <v-flex xs12 class="valign-wrapper mt-4">
                                             <span class="title">Active Days of Week</span>
@@ -196,20 +169,31 @@
                                         </v-flex>
                                     </v-layout>
                                     <v-layout row wrap>
-                                        <v-flex xs12 class="valign-wrapper mt-4">
+                                        <v-flex xs12 class="valign-wrapper mt-5">
                                             <span class="title">Active Hour of Day</span>
                                             <p class="ma-0">Hours will be only edited for active days</p>
                                         </v-flex>
                                         <v-flex xs6 md4 lg2 v-for="time in timesOfDay" :key="time.index">
-                                                <v-checkbox  
-                                                :key="time.index" 
-                                                :label="time" 
-                                                v-model="selectedTimes" 
-                                                :value="timesOfDay.indexOf(time)"
-                                                ></v-checkbox>
+                                            <v-checkbox  
+                                            :key="time.index" 
+                                            :label="time" 
+                                            v-model="selectedTimes" 
+                                            :value="timesOfDay.indexOf(time)"
+                                            ></v-checkbox>
                                         </v-flex>
                                     </v-layout>
                                 </v-card-text>
+                                <v-card-actions>
+                                    <v-spacer></v-spacer>
+                                    <v-btn class="elevation-0">
+                                        <v-icon>close</v-icon>                                    
+                                        Cancel
+                                    </v-btn>
+                                    <v-btn primary dark class="elevation-0">
+                                        <v-icon>done</v-icon>
+                                        Save
+                                    </v-btn>
+                                </v-card-actions>
                             </v-card>   
                         </v-dialog>
                     </v-flex>

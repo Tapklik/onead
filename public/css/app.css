@@ -76,7 +76,8 @@ h5 {
 
 /*** FIXES ***/
 
-.radio-group .input-group__details {
+.radio-group .input-group__details,
+.checkbox .input-group__details {
   display: none;
 }
 
