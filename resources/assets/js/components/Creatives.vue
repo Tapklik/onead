@@ -237,11 +237,14 @@
             },
 
             dropzoneMaker() {
-                this.dropzone = new Dropzone($('div#uploader'), {
+
+                if(this.dropzone) return;
+
+                this.dropzone = new Dropzone("#uploader", {
                         url: this.$root.uri + '/creatives',
                         paramName: 'file',
                         maxFilesize: 2,
-                        headers: {'Authorization': "Bearer " + this.token},
+                        headers: {"Authorization": 'Bearer ' + this.token},
                         autoProcessQueue: false
                     });
             },
@@ -294,18 +297,17 @@
 
                 this.dropzone.processQueue();
 
-                var obj = this;
                 this.dropzone.on("complete", function (file) {
                     if(file.status == 'success') {
-                        obj.dropzone.removeFile(file);
+                        this.dropzone.removeFile(file);
 
-                        obj.getFolderCreatives(obj.currentFolder.id);
+                        this.getFolderCreatives(this.currentFolder.id);
 
-                        swal('Success', 'The upload has finished successfully!', 'success');
+                        alert('Success message. Change this shit with ur popup.')
                     } else {
-                        swal('Error', 'Something went wrong.', 'error');
+                        alert('This is error. Fuck this... add popup.')
                     }
-                });
+                }.bind(this));
             },
 
             storeNewFolder() {
