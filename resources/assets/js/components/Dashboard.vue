@@ -4,7 +4,7 @@
             <v-flex d-flex md12 lg6>
                 <v-card height="300px" class="elevation-1">
                    <v-card-title>
-                        <span class="subheading orange--text text--darken-4">OVERALssddL CHART FOR 10 DAYS</span>
+                        <span class="subheading orange--text text--darken-4">OVERALL CHART FOR 10 DAYS</span>
                     </v-card-title>
                     <v-card-media  id="chart_main" class="tapklik-chart" height="250px"> 
                     </v-card-media>
@@ -245,8 +245,9 @@
             },
             getDate(days) {
                 const toTwoDigits = num => num < 10 ? '0' + num : num;
-                let today = new Date();
-                let date = new Date();
+                var a = this.$root.trialdate;
+                let today =  new Date(a);
+                let date = new Date(a);
                 date.setDate(today.getDate() + days);
                 let year = date.getFullYear();
                 let month = toTwoDigits(date.getMonth() + 1);
@@ -365,17 +366,10 @@
 
         watch: {
             user(value) {
-                this.date_from = this.getDate(-9);
+                this.date_from = this.getDate(-10);
                 this.date_to = this.getDate(0);
                 this.loadMainGraph();
                 this.loadMainGraphData();
-            },
-            trialdate(value) { 
-
-            //TODO remove
-
-                this.date_from = this.getDate(-9);
-                this.date_to = this.getDate(0);
             },
             chartLoaded(value) {
                 this.createChart('chart_main', this.overallList, this.column, this.line);

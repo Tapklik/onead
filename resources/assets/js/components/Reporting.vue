@@ -634,8 +634,8 @@ function removeLogo() {
 getDate(days) {
     const toTwoDigits = num => num < 10 ? '0' + num : num;
     var a = this.$root.trialdate;
-    let today =  new Date();
-    let date = new Date();
+    let today =  new Date(a);
+    let date = new Date(a);
     date.setDate(today.getDate() + days);
     let year = date.getFullYear();
     let month = toTwoDigits(date.getMonth() + 1);
@@ -784,8 +784,8 @@ watch: {
     },
 
     trialdate(value) {
-        this.date_from=this.getDate(0);
-        this.date_to=this.getDate(1);
+        this.date_from=this.getDate(-10);
+        this.date_to=this.getDate(0);
     },
 
     selectedCampaigns(value) {
