@@ -141,7 +141,7 @@
 
             fetchCampaignUser(id) {
 
-                axios.get(this.$root.uri + '/campaigns/' + id + '/user', this.$root.config).then(response => {
+                axios.get(this.$root.uri + '/campaigns/' + id + '/users', this.$root.config).then(response => {
                     this.campaign.user = response.data;
 
                     this.fetchCampaignBudget(id);
