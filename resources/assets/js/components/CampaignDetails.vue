@@ -177,7 +177,7 @@
                                             <v-checkbox  
                                             :key="time.index" 
                                             :label="time" 
-                                            v-model="selectedTimes" 
+                                            v-model="selectedTimes"
                                             :value="timesOfDay.indexOf(time)"
                                             ></v-checkbox>
                                         </v-flex>
@@ -185,11 +185,11 @@
                                 </v-card-text>
                                 <v-card-actions>
                                     <v-spacer></v-spacer>
-                                    <v-btn class="elevation-0">
+                                    <v-btn @click="showModal = false" class="elevation-0">
                                         <v-icon>close</v-icon>                                    
                                         Cancel
                                     </v-btn>
-                                    <v-btn primary dark class="elevation-0">
+                                    <v-btn primary dark @click="applyPlan(),showModal=false" class="elevation-0">
                                         <v-icon>done</v-icon>
                                         Save
                                     </v-btn>
