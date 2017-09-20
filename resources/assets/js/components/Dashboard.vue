@@ -189,6 +189,10 @@
 <script>
     export default {
         mounted() {
+            this.$root.isLoading = false;
+        },
+        created() {
+            this.$root.isLoading = true;
         },
         data() {
             return {
@@ -394,8 +398,6 @@
               return v.toUpperCase();
           }
       },
-
-
         watch: {
             user(value) {
                 this.date_from = this.getDate(-10);

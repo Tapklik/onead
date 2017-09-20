@@ -9,9 +9,9 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
-import Vuetify from 'vuetify'
+import Vuetify from 'vuetify';
 
-Vue.use(Vuetify)
+Vue.use(Vuetify);
 
 
 /**
@@ -73,7 +73,8 @@ const app = new Vue({
         token: false,
         config: {},
         trialdate:'',
-        editMode: (window.location.pathname.search('/edit/') == -1) ? false : true
+        editMode: (window.location.pathname.search('/edit/') == -1) ? false : true,
+        isLoading: false
     },
 
     methods: {
