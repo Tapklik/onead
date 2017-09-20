@@ -6,7 +6,7 @@
                     <v-card-title>
                         <v-flex xs12 md2>
                             <v-dialog v-model="showModal" lazy absolute width="50%">
-                                <v-btn slot="activator" @click="dropzoneMaker()" primary dark class="elevation-0">
+                                <v-btn slot="activator" primary dark class="elevation-0">
                                     <v-icon>add</v-icon>
                                     Add Creatives
                                 </v-btn>
@@ -23,7 +23,7 @@
 
                                         <v-layout row wrap>
                                             <v-flex xs12 md12>
-                                                <div id="uploader" style="width: 100%; background-color: grey; text-align: center; font-size: 16pt; padding-top:30px">Drop Files Here</div>
+                                                <div id="uploader" @mouseenter="dropzoneMaker()" style="width: 100%; background-color: grey; text-align: center; font-size: 16pt; padding-top:30px">Drop Files Here</div>
                                             </v-flex>
                                         </v-layout>
                                         <v-layout row wrap>
@@ -278,9 +278,9 @@
         props: ['token', 'user'],
         data() {
             return {
-                alert: true,
+                alert: false,
                 success: false,
-                error: true,
+                error: false,
                 alertMessage: 'Something went wrong',
                 showModal: false,
                 showModal1: false,
@@ -307,6 +307,9 @@
         },
 
         methods: {
+            setTimeout(value) {
+                setTimeout(value, 500);
+            },
             getFolders() {
 
                 axios.get(this.$root.uri + '/creatives/folders', this.$root.config).then(response => {
@@ -316,7 +319,7 @@
                     this.alert = true;
                     this.error = true;
                     this.success = false;
-                    this.alertMessage = 'Something went wrong';
+                    this.alertMessage = 'Bim';
                 });
             },
 
@@ -349,7 +352,7 @@
                     this.alert = true;
                     this.error = true;
                     this.success = false;
-                    this.alertMessage = 'Something went wrong';
+                    this.alertMessage = 'Bam';
                 });
             },
 
@@ -384,11 +387,15 @@
                     if (file.status == 'success') {
                         this.dropzone.removeFile(file);
 
-                        this.getFolderCreatives(this.currentFolder.id);
-
-                        alert('Success message. Change this shit with ur popup.')
+                    this.alert = true;
+                    this.error = false;
+                    this.success = true;
+                    this.alertMessage = 'Uploaded successfully';
                     } else {
-                        alert('This is error. Fuck this... add popup.')
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Boom';
                     }
                 }.bind(this));
             },
@@ -413,7 +420,7 @@
                     this.error = true;
                     this.success = false;
                     this.alert = true;
-                    this.alertMessage = 'Something went wrong';
+                    this.alertMessage = 'Bem';
                 });
             },
 
