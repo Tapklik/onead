@@ -23,7 +23,7 @@
 
                                         <v-layout row wrap>
                                             <v-flex xs12 md12>
-                                                <div id="uploader">Drop Files Here</div>
+                                                <div id="uploader" style="width: 100%; background-color: grey; text-align: center; font-size: 16pt; padding-top:30px">Drop Files Here</div>
                                             </v-flex>
                                         </v-layout>
                                         <v-layout row wrap>
@@ -82,7 +82,7 @@
                                             </v-flex>
                                             <v-flex xs12 md8>
                                                 <v-select 
-                            prepend-icon="folder" :items="folders.data" item-text="name" item-value="id" v-model="folderId" placeholder="Folder"></v-select>
+                            prepend-icon="folder" :items="folders.data" item-text="name" item-value="key" v-model="folderId" placeholder="Folder"></v-select>
                                             </v-flex>
                                         </v-layout>
                                         <v-layout row wrap>
@@ -115,11 +115,11 @@
                                     </v-card-text>
                                     <v-card-actions>
                                         <v-spacer></v-spacer>
-                                        <v-btn class="elevation-0">
+                                        <v-btn @click="showModal = false" class="elevation-0">
                                             <v-icon>close</v-icon>                                    
                                             Cancel
                                         </v-btn>
-                                        <v-btn primary dark class="elevation-0">
+                                        <v-btn primary dark @click="uploadCreative(), showModal = false" class="elevation-0">
                                             <v-icon>done</v-icon>
                                             Save
                                         </v-btn>
