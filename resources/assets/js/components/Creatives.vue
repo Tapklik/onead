@@ -38,7 +38,7 @@
                                                 <p class="ma-0">Edit default name</p>
                                             </v-flex>
                                             <v-flex xs12 md8>
-                                                <v-text-field v-model="creativeAttributes.name" placeholder="Name"></v-text-field>
+                                                <v-text-field prepend-icon="mode_edit" v-model="creativeAttributes.name" placeholder="Name"></v-text-field>
                                             </v-flex>
                                         </v-layout>
                                         <v-layout row wrap>
@@ -47,7 +47,7 @@
                                                 <p class="ma-0">(Banner, Video, Native)</p>
                                             </v-flex>
                                             <v-flex xs12 md8>
-                                                <v-select :items="classList" v-model="creativeAttributes.class" autocomplete></v-select>
+                                                <v-select prepend-icon="photo" :items="classList" v-model="creativeAttributes.class" autocomplete></v-select>
                                             </v-flex>
                                         </v-layout>
                                         <v-layout row wrap>
@@ -57,12 +57,12 @@
                                             </v-flex>
                                             
                                             <v-flex xs12 md2>
-                                                <v-text-field v-model="creativeAttributes.w" placeholder="W"></v-text-field>
+                                                <v-text-field prepend-icon="code" v-model="creativeAttributes.w" placeholder="W"></v-text-field>
+                                            </v-flex>
+                                            <v-flex xs12 md1>
                                             </v-flex>
                                             <v-flex xs12 md2>
-                                            </v-flex>
-                                            <v-flex xs12 md2>
-                                                <v-text-field v-model="creativeAttributes.h" placeholder="H"></v-text-field>
+                                                <v-text-field prepend-icon="unfold_more" v-model="creativeAttributes.h" placeholder="H"></v-text-field>
                                             </v-flex>
                                         </v-layout>
                                         <v-layout row wrap>
@@ -81,7 +81,8 @@
                                                 <p class="ma-0">Choose the folder you want to save in?</p>
                                             </v-flex>
                                             <v-flex xs12 md8>
-                                                <v-select :items="folders.data" item-text="name" item-value="id" v-model="folderId" placeholder="Folder"></v-select>
+                                                <v-select 
+                            prepend-icon="folder" :items="folders.data" item-text="name" item-value="id" v-model="folderId" placeholder="Folder"></v-select>
                                             </v-flex>
                                         </v-layout>
                                         <v-layout row wrap>
@@ -96,7 +97,8 @@
                                                 <p class="ma-0">Click-through url per creative</p>
                                             </v-flex>
                                             <v-flex xs12 md8>
-                                                <v-text-field v-model="creativeAttributes.url"
+                                                <v-text-field 
+                            prepend-icon="language" v-model="creativeAttributes.url"
                                                 placeholder="URL"></v-text-field>
                                             </v-flex>
                                         </v-layout>
@@ -106,7 +108,8 @@
                                                 <p class="ma-0">Set iframe or HTML markup</p>
                                             </v-flex>
                                             <v-flex xs12 md8>
-                                                <v-text-field placeholder="Ad Markup"></v-text-field>
+                                                <v-text-field 
+                            prepend-icon="language" placeholder="Ad Markup"></v-text-field>
                                             </v-flex>
                                         </v-layout>
                                     </v-card-text>
@@ -141,7 +144,7 @@
                                                 <p class="ma-0">The name of the newly created folder</p>
                                             </v-flex>
                                             <v-flex xs12 md8>
-                                                <v-text-field v-model="newFolder" placeholder="Folder Name"></v-text-field>
+                                                <v-text-field prepend-icon="folder" v-model="newFolder" placeholder="Folder Name"></v-text-field>
                                             </v-flex>
                                         </v-layout>
                                     </v-card-text>
@@ -225,14 +228,6 @@
                         </template>
                         <template slot="items" scope="props">
                             <tr>
-                                <td width="40" class="text-xs-right">
-                                    <v-checkbox
-                                    primary
-                                    hide-details
-                                    v-model="campaign.creatives.data"
-                                    :input-value="props.item"
-                                    ></v-checkbox>
-                                </td>
                                 <td class="text-xs-left">
                                     <span class="title">{{ props.item.name }}</span><br>
                                     <span class="caption">{{ props.item.id }}</span>
@@ -338,14 +333,11 @@
             },
 
             openFolder(folderObj) {
-
                 this.currentFolder = folderObj;
-
-                this.getFolderCreatives(this.currentFolder.id);
+                this.getFolderCreatives(folderObj.id);
             },
 
             closeFolder() {
-                console.log("lcossssing")
                 this.currentFolder = {};
                 this.creatives = {};
             },
@@ -457,6 +449,7 @@
 
 
         watch: {
+
             token(value) {
 
                 if (typeof value != 'undefined') {
