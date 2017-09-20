@@ -5,7 +5,7 @@
                 <v-card class="elevation-0">
                     <v-card-title>
                         <v-flex xs12 md2>
-                            <v-dialog v-model="showModal" lazy absolute width="70%">
+                            <v-dialog v-model="showModal" lazy absolute width="50%">
                                 <v-btn slot="activator" @click="dropzoneMaker()" primary dark class="elevation-0">
                                     <v-icon>add</v-icon>
                                     Add Creatives
@@ -16,7 +16,7 @@
                                     </v-card-title>
                                     <v-card-text>
                                         <v-layout row wrap>
-                                            <v-flex xs12 class="valign-wrapper mt-4">
+                                            <v-flex xs12 class="valign-wrapper">
                                                 <span class="title">Upload Creatives</span>
                                             </v-flex>
                                         </v-layout>
@@ -33,43 +33,42 @@
                                         </v-layout>
                                         <br>
                                         <v-layout row wrap>
-                                            <v-flex xs12 md3>
+                                            <v-flex xs12 md7 class="valign-wrapper">
                                                 <span class="title">Name</span><br>
-                                                <span class="caption">Edit default name</span>
+                                                <p class="ma-0">Edit default name</p>
                                             </v-flex>
-                                            <v-flex xs12 md6>
+                                            <v-flex xs12 md8>
                                                 <v-text-field v-model="creativeAttributes.name" placeholder="Name"></v-text-field>
                                             </v-flex>
                                         </v-layout>
                                         <v-layout row wrap>
-                                            <v-flex xs12 md3>
+                                            <v-flex xs12 md7 class="valign-wrapper">
                                                 <span class="title">Creative Class</span><br>
-                                                <span class="caption">(Banner, Video, Native)</span>
+                                                <p class="ma-0">(Banner, Video, Native)</p>
                                             </v-flex>
-                                            <v-flex xs12 md6>
-                                                <v-text-field v-model="creativeAttributes.class"
-                                                placeholder="Class"></v-text-field>
+                                            <v-flex xs12 md8>
+                                                <v-select :items="classList" v-model="creativeAttributes.class" autocomplete></v-select>
                                             </v-flex>
                                         </v-layout>
                                         <v-layout row wrap>
-                                            <v-flex xs12 md3>
+                                            <v-flex xs12 md12 class="valign-wrapper">
                                                 <span class="title">Dimensions (W x H)</span><br>
-                                                <span class="caption">Edit default dimensions</span>
+                                                <p class="ma-0">Edit default dimensions</p>
                                             </v-flex>
                                             
-                                            <v-flex xs12 md1>
+                                            <v-flex xs12 md2>
                                                 <v-text-field v-model="creativeAttributes.w" placeholder="W"></v-text-field>
                                             </v-flex>
-                                            <v-flex xs12 md1>
+                                            <v-flex xs12 md2>
                                             </v-flex>
-                                            <v-flex xs12 md1>
+                                            <v-flex xs12 md2>
                                                 <v-text-field v-model="creativeAttributes.h" placeholder="H"></v-text-field>
                                             </v-flex>
                                         </v-layout>
                                         <v-layout row wrap>
-                                            <v-flex xs12 md3>
+                                            <v-flex xs12 md3 class="valign-wrapper">
                                                 <span class="title">Responsive</span><br>
-                                                <span class="caption">Is this creative responsive?</span>
+                                                <p class="ma-0">Is this creative responsive?</p>
                                             </v-flex>
                                             <v-flex xs12 md6>
                                                 <v-switch
@@ -77,13 +76,12 @@
                                             </v-flex>
                                         </v-layout>
                                         <v-layout row wrap>
-                                            <v-flex xs12 md3>
+                                            <v-flex xs12 md7 class="valign-wrapper">
                                                 <span class="title">Folder</span><br>
-                                                <span class="caption">Choose the folder you want to save in?</span>
+                                                <p class="ma-0">Choose the folder you want to save in?</p>
                                             </v-flex>
-                                            <v-flex xs12 md1 v-for="f in folders.data" :key="f.id">
-                                                <v-checkbox :label="f.name" v-model="folderId"
-                                                :value="f.id"></v-checkbox>
+                                            <v-flex xs12 md8>
+                                                <v-select :items="folders.data" item-text="name" item-value="id" v-model="folderId" placeholder="Folder"></v-select>
                                             </v-flex>
                                         </v-layout>
                                         <v-layout row wrap>
@@ -93,22 +91,22 @@
                                         </v-layout>
                                         <br>
                                         <v-layout row wrap>
-                                            <v-flex xs12 md3>
+                                            <v-flex xs12 md7  class="valign-wrapper">
                                                 <span class="title">Click-Through URL</span><br>
-                                                <span class="caption">Click-through url per creative</span>
+                                                <p class="ma-0">Click-through url per creative</p>
                                             </v-flex>
-                                            <v-flex xs12 md6>
+                                            <v-flex xs12 md8>
                                                 <v-text-field v-model="creativeAttributes.url"
-                                                label="Class"></v-text-field>
+                                                placeholder="URL"></v-text-field>
                                             </v-flex>
                                         </v-layout>
                                         <v-layout row wrap>
-                                            <v-flex xs12 md3>
+                                            <v-flex xs12 md7 class="valign-wrapper">
                                                 <span class="title">Ad Markup</span><br>
-                                                <span class="caption">Set iframe or HTML markup</span>
+                                                <p class="ma-0">Set iframe or HTML markup</p>
                                             </v-flex>
-                                            <v-flex xs12 md6>
-                                                <v-text-field label="Class"></v-text-field>
+                                            <v-flex xs12 md8>
+                                                <v-text-field placeholder="Ad Markup"></v-text-field>
                                             </v-flex>
                                         </v-layout>
                                     </v-card-text>
@@ -138,12 +136,12 @@
                                     </v-card-title>
                                     <v-card-text>
                                         <v-layout row wrap>
-                                            <v-flex xs12 md3>
+                                            <v-flex xs12 md7 class="valign-wrapper">
                                                 <span class="title">Folder Name</span><br>
-                                                <span class="caption">The name of the newly created folder</span>
+                                                <p class="ma-0">The name of the newly created folder</p>
                                             </v-flex>
-                                            <v-flex xs12 md6>
-                                                <v-text-field v-model="newFolder" label="Folder Name"></v-text-field>
+                                            <v-flex xs12 md8>
+                                                <v-text-field v-model="newFolder" placeholder="Folder Name"></v-text-field>
                                             </v-flex>
                                         </v-layout>
                                     </v-card-text>
