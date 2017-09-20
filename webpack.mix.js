@@ -17,4 +17,3 @@ mix.js('resources/assets/js/app.js', 'public/js')
    .copy('node_modules/mdi/css/materialdesignicons.min.css', 'public/css')
    .copy('node_modules/mdi/fonts/*', 'public/fonts')
    .copy('resources/assets/images', 'public/images');
-
