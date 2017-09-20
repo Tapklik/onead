@@ -31,6 +31,8 @@
                     <v-card>
                         <v-card-text>
                             <v-container fluid grid-list-md>
+
+                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
                                 <v-layout row wrap>
                                     <v-flex>
                                         <span> Impressions </span>
@@ -66,6 +68,7 @@
                     <v-card flat>
                         <v-card-text>
                             <v-container fluid grid-list-md>
+                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
                                 <v-layout row wrap>
                                     <v-flex>
                                         <span> Impressions </span>
@@ -107,6 +110,7 @@
                     <v-card flat>
                         <v-card-text>
                             <v-container fluid grid-list-md>
+                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
                                 <v-layout row wrap>
                                     <v-flex>
                                         <span> Impressions </span>
@@ -154,6 +158,7 @@
                     <v-card flat>
                         <v-card-text>
                             <v-container fluid grid-list-md>
+                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
                                 <v-layout row wrap>
                                     <v-flex>
                                         <span> Impressions </span>
@@ -187,8 +192,7 @@
                            
                             </v-flex>
                             </v-layout>
- <v-container id="chart_geo" style="height: 500px;"></v-container>
-                            
+                            <v-container id="chart_geo" style="height: 500px;"></v-container>
                             </v-container>
                         </v-card-text>
                     </v-card>
@@ -219,6 +223,10 @@
 
         data() {
             return {
+                alert: true,
+                error: true,
+                success: false,
+                alertMessage: 'Something went wrong ',
                 tabIndex: 'overall-tab',
                 line: 'imps',
                 column: 'clicks',

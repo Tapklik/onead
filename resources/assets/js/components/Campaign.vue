@@ -13,20 +13,25 @@
                 <v-stepper-step step="5" editable>Review</v-stepper-step>
             </v-stepper-header>
             <v-stepper-content step="1">
+                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
                 <campaign-details :campaign="campaign" :state="stateReady"
                 :startTime="campaign.start_time"
                 :endTime="campaign.end_time"></campaign-details>
             </v-stepper-content>
             <v-stepper-content step="2">
+                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
                 <campaign-categories :campaign="campaign" :state="stateReady"></campaign-categories>
             </v-stepper-content>
             <v-stepper-content step="3">
+                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
                <campaign-creatives :user="user" :token="token" :campaign="campaign"></campaign-creatives>
             </v-stepper-content>
             <v-stepper-content step="4">
+                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
                 <campaign-targeting :campaign="campaign" :state="stateReady"></campaign-targeting>
             </v-stepper-content>
             <v-stepper-content step="5">
+                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
                 <campaign-review  :user="user" :token="token" :campaign="campaign" :state="stateReady" :folder="currentFolder" :gender="selectedGender()"></campaign-review>
             </v-stepper-content>
         </v-stepper>
@@ -46,6 +51,10 @@
 
         data() {
             return {
+                alert: false,
+                error: false,
+                success: false,
+                alertMessage: '',
                 e1: 1,
                 campaignId: null,
                 campaign: {
@@ -111,7 +120,10 @@
                 axios.get('/data/categories.json').then(response => {
                     this.categoriesList = response.data;
                 }, error => {
-                    console.log(error);
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
                 });
             },
 
@@ -123,7 +135,10 @@
 
                     this.fetchCampaignCategories(id);
                 }, error => {
-                    console.log(error);
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
                 });
             },
 
@@ -135,7 +150,10 @@
 
                     this.fetchCampaignUser(id);
                 }, error => {
-                    console.log(error);
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
                 });
             },
 
@@ -146,7 +164,10 @@
 
                     this.fetchCampaignBudget(id);
                 }, error => {
-                    console.log(error);
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
                 });
             },
 
@@ -156,7 +177,10 @@
                     this.campaign.budget = response.data;
 
                 }, error => {
-                    console.log(error);
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
                 });
             },
 

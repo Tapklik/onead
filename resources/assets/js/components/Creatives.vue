@@ -283,10 +283,10 @@
         props: ['token', 'user'],
         data() {
             return {
-                alert: false,
+                alert: true,
                 success: false,
-                error: false,
-                alertMessage: '',
+                error: true,
+                alertMessage: 'Something went wrong',
                 showModal: false,
                 showModal1: false,
                 dropzone: false,
@@ -318,7 +318,10 @@
 
                     this.folders = response.data;
                 }, error => {
-                    console.log(error);
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
                 });
             },
 
@@ -351,7 +354,10 @@
                 axios.get(this.$root.uri + '/creatives/folders/' + folderId, this.$root.config).then(response => {
                     this.creatives = response.data;
                 }, error => {
-                    console.log(error);
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
                 });
             },
 

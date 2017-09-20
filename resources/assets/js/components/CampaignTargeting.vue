@@ -1,5 +1,6 @@
 <template>
     <v-container fluid grid-list-md>
+                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
         <v-layout row wrap>
             <v-flex xs12 md6>
                 <v-layout row wrap>
@@ -170,6 +171,10 @@
 
         data() {
             return {
+                alert: true,
+                error: true,
+                success: false,
+                alertMessage: 'Something went wrong',
                 desktopValue: 2,
                 mobileValue: 4,
                 tabletValue: 5,
@@ -191,14 +196,20 @@
                 axios.get('/data/technologies.json').then(response => {
                     this.technologiesList = response.data;
                 }, error => {
-                    console.log(error);
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
                 });
             },
             reloadGeo() {
                 axios.get(this.$root.uri + '/core/search/geo?key=' + this.searchCountry, this.$root.config).then(response => {
                 this.geo = response.data.data;
             }, error => {
-                alert(error);
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
             })
             }
         },

@@ -1,5 +1,7 @@
 <template>
     <v-container fluid grid-list-md>
+
+                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
         <v-layout row wrap>
             <v-flex xs12 md6>
                 <v-layout row wrap>
@@ -133,6 +135,10 @@
 
         data() {
             return {
+                alert: true,
+                error: true,
+                success: false,
+                alertMessage: 'Something went wrong',
                 campaigns: [],
                 account: {  
                     localization: {
@@ -170,7 +176,10 @@
                 axios.get(this.$root.uri + '/accounts/' + this.user.accountUuId + '/users', this.$root.config).then( response => {
                     this.usersList = response.data.data;
                 }, error => {
-                    alert(error);
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
                 });
             },
 
@@ -180,7 +189,10 @@
                 axios.get(this.$root.uri + '/accounts/' + this.user.accountUuId + '/users/' + this.user.uuid, this.$root.config).then( response => {
                     this.account = response.data.data;
                 }, error => {
-                    alert(error);
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
                 });
             },
 
@@ -201,16 +213,25 @@
 
                 axios.put(this.$root.uri + '/accounts/' + this.user.accountUuId + '/users/' + this.user.uuid, payload, this.$root.config).then(response => {
                 }, error => {
-                    swal('Error', 'Something went wrong', 'error');
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
                 });
             },
             updateAccountDetails() {
                 var payload = this.collectAccount();
 
                 axios.put(this.$root.uri + '/accounts/' + this.user.accountUuId, payload, this.$root.config).then(response => {
-                    swal('Success', 'Account updated successfully', 'success');
+                    this.alert = true;
+                    this.error = false;
+                    this.success = true;
+                    this.alertMessage = 'Succesful';
                 }, error => {
-                    swal('Error', 'Something went wrong', 'error');
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
                 });
             },
 

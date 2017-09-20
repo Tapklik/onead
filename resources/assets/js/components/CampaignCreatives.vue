@@ -10,7 +10,8 @@
                         </v-layout>
                     <v-card-text v-if="!currentFolder.id">
                         <v-layout row wrap>
-                            <v-flex xs12>
+                            <v-flex xs12>                      
+                            <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
                                 <v-data-table 
                                 :items="folders.data"
                                 hide-actions
@@ -49,6 +50,7 @@
                         </v-layout>
                         <v-layout row wrap>
                             <v-flex xs12 md8 >
+                            <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
                                 <v-data-table                                        
                                 :items="creatives.data"
                                 hide-actions
@@ -114,6 +116,10 @@
         props:['token','user','campaign'],
         data() {
             return {
+                alert: true,
+                error: true,
+                success: false,
+                alertMessage: 'Something went wrong',
                 showModal: false,
                 dropzone: false,
                 newFolder: '',
@@ -143,7 +149,10 @@
 
                     this.folders = response.data;
                 }, error => {
-                    console.log(error);
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
                 });
             },
 
@@ -164,7 +173,10 @@
                 axios.get(this.$root.uri + '/creatives/folders/' + folderId, this.$root.config).then(response => {
                     this.creatives = response.data;
                 }, error => {
-                    console.log(error);
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
                 });
             },
 
@@ -223,6 +235,10 @@
                     this.currentFolder = {};
                     this.createFolderFlag = false;
                 }, error => {
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
 
                 });
             },

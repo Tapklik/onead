@@ -1,5 +1,6 @@
 <template>
     <v-container fluid grid-list-lg>
+        <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
         <v-layout row wrap>
             <v-flex d-flex md12 lg6>
                 <v-card height="300px" class="elevation-1">
@@ -191,6 +192,10 @@
         },
         data() {
             return {
+                alert: true,
+                success: false,
+                error: true,
+                alertMessage: 'Something went wrong',
                 chartLoaded: false,
                 chartDataLoaded: false,
                 totalItems: 5,
@@ -241,7 +246,10 @@
                     }
                     this.creativeList = listOfCreatives;
                 }, error => {
-                    swal('Error', 'error', 'error');
+                    this.error = true;
+                    this.success = false;
+                    this.alert = true;
+                    this.alertMessage = 'Something went wrong';
                 })
             },
 
@@ -255,7 +263,10 @@
                     }
                     this.logList = b;
                 }, error => {
-                    swal('Error', 'error', 'error');
+                    this.error = true;
+                    this.success = false;
+                    this.alert = true;
+                    this.alertMessage = 'Something went wrong';
                 })
             },
             getDate(days) {
@@ -276,7 +287,10 @@
                     this.overallList = response.data.data;
                     this.chartLoaded = true;
                 }, error => {
-                    swal('Error', 'Could not load main graph', 'error');
+                    this.error = true;
+                    this.success = false;
+                    this.alert = true;
+                    this.alertMessage = 'Something went wrong';
                 })
             },
 
@@ -286,7 +300,10 @@
                     this.overallSummaryList = response.data.data;
                     this.chartDataLoaded = true;
                 }, error => {
-                    swal('Error', 'Could not load main data', 'error');
+                    this.error = true;
+                    this.success = false;
+                    this.alert = true;
+                    this.alertMessage = 'Something went wrong';
                 })
             },
 

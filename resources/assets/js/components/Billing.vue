@@ -128,9 +128,9 @@
         data() {
             return {
                 success: false,
-                error: false,
-                alert: false,
-                alertMessage: 'You have created a bill successfully',
+                error: true,
+                alert: true,
+                alertMessage: 'Something went wrong',
                 bills: [],
                 showModal:false,
                 paymentMethod: 'cc payment',

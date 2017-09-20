@@ -1,5 +1,6 @@
 <template>
     <v-container fluid grid-list-md>
+        <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
         <v-layout row wrap>
             <v-flex xs12 md6>
                 <v-layout row wrap>
@@ -125,6 +126,10 @@
 
         data() {
             return {
+                alert: true,
+                error: true,
+                success: false,
+                alertMessage: 'Something went wrong',
                 account: false,
                 userDet: {},
                 password: '',
@@ -140,7 +145,10 @@
                 axios.get(this.$root.uri + '/accounts/' + this.user.accountUuId + '/users/' + this.user.uuid, this.$root.config).then( response => {
                     this.userDet = response.data.data;
                 }, error => {
-                    alert(error);
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
                 });
             },            
 
@@ -154,8 +162,15 @@
                 var payload = this.collectUser();
 
                 axios.put(this.$root.uri + '/accounts/' + this.user.accountUuId + '/users/' + this.user.uuid, payload, this.$root.config).then(response => {
+                    this.alert = true;
+                    this.error = false;
+                    this.success = true;
+                    this.alertMessage = 'Succesful';
                 }, error => {
-                    alert(error);
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
                 });
             },
 
@@ -177,7 +192,10 @@
                 axios.get(this.$root.uri + '/accounts/' + this.user.accountUuId, this.$root.config).then( response => {
                     this.account = response.data.data;
                 }, error => {
-                    alert(error);
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
                 });
             },
         },
