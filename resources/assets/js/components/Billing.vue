@@ -15,11 +15,11 @@
                                 </v-card-title>
                                 <v-card-text>
                                     <v-layout row wrap>
-                                        <v-flex xs12 md3>
-                                            <span class="title">Amount:</span> <br>
-                                            <span class="caption">The amount you are going to pay.</span>
+                                        <v-flex xs12 md7 class="valign-wrapper">
+                                            <span class="title">Amount</span><br>
+                                            <p class="ma-0">The amount you are paying</p>
                                         </v-flex>
-                                        <v-flex xs12 md6 class="valign-wrapper">
+                                        <v-flex xs12 md8 class="valign-wrapper">
                                             <v-text-field
                                             label="0.00"
                                             prepend-icon="attach_money"
@@ -30,11 +30,11 @@
                                         </v-flex>
                                     </v-layout>
                                     <v-layout row wrap>
-                                        <v-flex xs12 md3>
-                                            <span class="title">Method:</span><br>
-                                            <span class="caption">Payment through paypal or credit card.</span>
+                                        <v-flex xs12 md3 class="valign-wrapper mt-4">
+                                            <span class="title">Method</span><br>
+                                            <p class="ma-0">Payment through credit card or paypal</p>
                                         </v-flex>
-                                        <v-flex xs12 md6 class="valign-wrapper">
+                                        <v-flex xs12 md6 class="valign-wrapper mt-4">
                                             <v-radio-group v-model="paymentMethod" row class="pa-1">
                                                 <v-radio label="Credit Card" value="cc payment" ></v-radio>
                                                 <v-radio label="Paypal" value="paypal payment"></v-radio>

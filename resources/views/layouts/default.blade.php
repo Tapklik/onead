@@ -5,7 +5,22 @@
 @stop
 
 @section('master-content')
+    <style>
+        #loader {
+            z-index: 20;
+            position: absolute;
+            display: block;
+            width: 100%;
+            height: 100%;
+            opacity: .8;
+            text-align: center;
+            padding: 25% 0;
+            background-color: #000;
+            color: #fff;
+        }
+    </style>
 <div id="app">
+    <div id="loader" v-show="$root.isLoading">LOADING</div>
 <v-app>
     <sidebar></sidebar>
     <main>
