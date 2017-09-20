@@ -121,7 +121,10 @@
                 }).then(response => {
                     this.campaigns = response.data.data;
                 }, error => {
-                    swal('Error', error, 'error');
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
                 })
             },
 

@@ -1,6 +1,6 @@
 <template>
     <v-container fluid grid-list-lg>
-        <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
+        <v-alert class="mb-2" dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
         <v-layout row wrap>
             <v-flex d-flex md12 lg6>
                 <v-card height="300px" class="elevation-1">

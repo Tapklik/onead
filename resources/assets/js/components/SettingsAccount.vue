@@ -265,7 +265,10 @@
               axios.get(this.$root.uri + '/accounts/' + this.user.accountUuId, this.$root.config).then( response => {
                 this.account = response.data.data;
             }, error => {
-                console.log(error);
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
             });
           },
 
@@ -274,7 +277,10 @@
             axios.get('/data/countries.json').then(response => {
                 this.countriesList = response.data;
             }, error => {
-                console.log(error);
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
             });
         },
 
