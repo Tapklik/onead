@@ -192,9 +192,34 @@
                                     <td class="text-xs-left"><span class="title">{{ props.item.name }}</span>
                                     </td>
                                     <td class="text-xs-right">
-                                        <v-btn icon class="grey--text">
-                                            <v-icon>delete</v-icon>
-                                        </v-btn>
+                                        <v-dialog v-model="showModal2" lazy absolute width="70%">
+                                            <v-btn icon class="grey--text" slot="activator">
+                                                <v-icon>delete</v-icon>
+                                            </v-btn>
+                                            <v-card>
+                                                <v-card-title>
+                                                    <h4>Delete Folder</h4>
+                                                </v-card-title>
+                                                <v-card-text>
+                                                    <v-layout row wrap>
+                                                        <v-flex xs12 md12 class="valign-wrapper text-xs-center">
+                                                            <span class="title">ARE YOU SURE YOU WANT TO DELETE {{props.item.name | uppercase}}?</span><br>
+                                                        </v-flex>
+                                                    </v-layout>
+                                                </v-card-text>
+                                                <v-card-actions>
+                                                    <v-spacer></v-spacer>
+                                                    <v-btn class="elevation-0" @click="showModal2 = false">
+                                                        <v-icon>close</v-icon>                                    
+                                                        Cancel
+                                                    </v-btn>
+                                                    <v-btn primary dark class="elevation-0" @click="deleteFolder(props.item.id, props.item.name), showModal2=false">
+                                                        <v-icon>done</v-icon>
+                                                        Delete
+                                                    </v-btn>
+                                                </v-card-actions>
+                                            </v-card>   
+                                        </v-dialog>
                                     </td>
                                 </tr>
                             </template>
@@ -207,7 +232,7 @@
                     <v-flex xs12>
                         <v-breadcrumbs divider="/" class="left pa-0">
                             <v-breadcrumbs-item>
-                                <span @click="closeFolder()">ROOT</span>
+                                <span @click="closeFolder(), imageSource=''">ROOT</span>
                             </v-breadcrumbs-item>
                             <v-breadcrumbs-item>
                                 {{ currentFolder.name | uppercase}}
@@ -228,11 +253,11 @@
                         </template>
                         <template slot="items" scope="props">
                             <tr>
-                                <td class="text-xs-left">
+                                <td @click="imageSource = props.item.iurl" class="text-xs-left">
                                     <span class="title">{{ props.item.name }}</span><br>
                                     <span class="caption">{{ props.item.id }}</span>
                                 </td>
-                                <td>
+                                <td @click="imageSource = props.item.iurl">
                                     <v-chip v-if="props.item.approved == 'approved'" small
                                     class="green white--text">
                                     <small>APPROVED</small>
@@ -245,8 +270,8 @@
                                 <small>DECLINED</small>
                             </v-chip>
                         </td>
-                        <td>{{ props.item.class | uppercase }}</td>
-                        <td>{{ props.item.w }} x {{ props.item.h }}</td>
+                        <td @click="imageSource = props.item.iurl">{{ props.item.class | uppercase }}</td>
+                        <td @click="imageSource = props.item.iurl">{{ props.item.w }} x {{ props.item.h }}</td>
                         <td>
                             <v-btn icon class="grey--text">
                                 <v-icon>delete</v-icon>
@@ -258,6 +283,9 @@
                     From {{ pageStart }} to {{ pageStop }}
                 </template>
             </v-data-table>
+        </v-flex>
+        <v-flex xs12 md4>
+        <img width="100%" :src="imageSource">
         </v-flex>
     </v-layout>
 </v-card-text>
@@ -278,12 +306,14 @@
         props: ['token', 'user'],
         data() {
             return {
+                imageSource: '',
                 alert: false,
                 success: false,
                 error: false,
                 alertMessage: 'Something went wrong',
                 showModal: false,
                 showModal1: false,
+                showModal2: false,
                 dropzone: false,
                 classList: ['banner', 'video', 'native'],
                 newFolder: '',
@@ -343,6 +373,34 @@
             closeFolder() {
                 this.currentFolder = {};
                 this.creatives = {};
+            },
+
+            deleteFolder(folderId, folderName) {
+                axios.delete(this.$root.uri + '/creatives/folders/' + folderId, this.$root.config).then(response => {
+                    this.alert = true;
+                    this.success = true;
+                    this.error = false;
+                    this.alertMessage = 'You have successfully deleted ' + folderName;
+                }, error => {
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong with'; 
+                });
+            },
+
+            deleteCreative(creativeId, creativeName) {
+                axios.delete(this.$root.uri + '/creatives/folders/' + folderId +'', this.$root.config).then(response => {
+                    this.alert = true;
+                    this.success = true;
+                    this.error = false;
+                    this.alertMessage = 'You have successfully deleted ' + folderName;
+                }, error => {
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong with'; 
+                });
             },
 
             getFolderCreatives(folderId) {
