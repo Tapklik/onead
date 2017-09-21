@@ -1,6 +1,7 @@
 <template>
     <v-container>
-        <table class="table table-sm table-responsive table-striped">
+        <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
+        <table class="table table-sm table-responsive table-striped mt-4">
             <template>
                 <tr>
                     <td class="title">Name: </td>
@@ -43,6 +44,10 @@
         data() {
 
             return {
+                alert: true,
+                success: false,
+                error: true,
+                alertMessage: 'Something went wrong',
                 ajax: false,
                 batch: []
             }
@@ -70,8 +75,15 @@
                     this.updateCampaignDevice();
                     this.updateCampaignBudget();
                     this.updateCampaignCreatives();
+                    this.alert = true;
+                    this.success = true;
+                    this.error = false;
+                    this.alertMessage = 'Successfully created a new campaign';
                 }, error => {
-                    console.log(error);
+                    this.alert = true;
+                    this.success = false;
+                    this.error = true;
+                    this.alertMessage = 'Something went wrong';
                 });
             },
 
@@ -95,7 +107,10 @@
                 axios.put(this.$root.uri + '/campaigns/' + this.campaign.id, payload, this.$root.config).then(response => {
                     this.batch.push(0);
                 }, error => {
-                    swal('Error', 'Something went wrong', 'error');
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
                 });
             },
 
@@ -106,7 +121,10 @@
                 axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/cat', payload, this.$root.config).then(response => {
                     this.batch.push(1);
                 }, error => {
-                    swal('Error', 'Something went wrong', 'error');
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
                 });
             },
 
@@ -116,8 +134,10 @@
                 axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/users', payload, this.$root.config).then(response => {
                     this.batch.push(2);
                 }, error => {
-
-                    swal('Error', 'Something went wrong', 'error');
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
                 });
             },
 
@@ -128,7 +148,10 @@
                 axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/geo', {geo: payload}, this.$root.config).then(response => {
                     this.batch.push(3);
                 }, error => {
-                    swal('Error', 'Something went wrong', 'error');
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
                 });
             },
 
@@ -139,21 +162,27 @@
                 axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/device/type', {types: payload.types}, this.$root.config).then(response => {
                     this.batch.push(4);
                 }, error => {
-
-                    swal('Error', 'Something went wrong', 'error');
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
                 });
                 axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/device/model', {models: payload.models}, this.$root.config).then(response => {
                     this.batch.push(5);
 
                 }, error => {
-
-                    swal('Error', 'Something went wrong', 'error');
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
                 });
                 axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/device/os', {os: payload.os}, this.$root.config).then(response => {
                     this.batch.push(6);
                 }, error => {
-
-                    swal('Error', 'Something went wrong', 'error');
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
                 });
             },
 
@@ -164,7 +193,10 @@
                 axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/budget', payload, this.$root.config).then(response => {
                     this.batch.push(7);
                 }, error => {
-
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
                 });
             },
 
@@ -175,7 +207,10 @@
                 axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/creatives', {creatives: payload}, this.$root.config).then(response => {
                     this.batch.push(8);
                 }, error => {
-
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
                 });
             },
 

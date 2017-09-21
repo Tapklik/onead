@@ -22,7 +22,8 @@
                     </v-card-title>
                     <v-card-text>
                         <v-layout row wrap>
-                            <v-flex xs12>
+                            <v-flex xs12>   
+                                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
                                 <v-data-table 
                                 v-bind:items="campaigns" 
                                 v-bind:search="search"
@@ -94,6 +95,10 @@
 
         data() {
             return {
+                alert: true,
+                error: true,
+                success: false,
+                alertMessage: 'Something went wrong',
                 campaigns: [],
                 max25chars: (v) => v.length <= 25 || 'Input too long!',
                 tmp: '',
@@ -116,7 +121,10 @@
                 }).then(response => {
                     this.campaigns = response.data.data;
                 }, error => {
-                    swal('Error', error, 'error');
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
                 })
             },
 

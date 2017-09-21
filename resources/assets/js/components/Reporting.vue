@@ -31,6 +31,8 @@
                     <v-card>
                         <v-card-text>
                             <v-container fluid grid-list-md>
+
+                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
                                 <v-layout row wrap>
                                     <v-flex>
                                         <span> Impressions </span>
@@ -66,6 +68,7 @@
                     <v-card flat>
                         <v-card-text>
                             <v-container fluid grid-list-md>
+                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
                                 <v-layout row wrap>
                                     <v-flex>
                                         <span> Impressions </span>
@@ -107,6 +110,7 @@
                     <v-card flat>
                         <v-card-text>
                             <v-container fluid grid-list-md>
+                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
                                 <v-layout row wrap>
                                     <v-flex>
                                         <span> Impressions </span>
@@ -154,6 +158,7 @@
                     <v-card flat>
                         <v-card-text>
                             <v-container fluid grid-list-md>
+                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
                                 <v-layout row wrap>
                                     <v-flex>
                                         <span> Impressions </span>
@@ -187,8 +192,7 @@
                            
                             </v-flex>
                             </v-layout>
- <v-container id="chart_geo" style="height: 500px;"></v-container>
-                            
+                            <v-container id="chart_geo" style="height: 500px;"></v-container>
                             </v-container>
                         </v-card-text>
                     </v-card>
@@ -219,6 +223,10 @@
 
         data() {
             return {
+                alert: true,
+                error: true,
+                success: false,
+                alertMessage: 'Something went wrong ',
                 tabIndex: 'overall-tab',
                 line: 'imps',
                 column: 'clicks',
@@ -431,7 +439,10 @@
             axios.get(this.$root.uri + '/campaigns', this.$root.config).then(response => {
                 this.campaignList = response.data.data;
             }, error => {
-                swal('Error', 'Could not load campaigns', 'error');
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
             })
         },
 
@@ -440,7 +451,10 @@
             axios.get('/data/categories.json').then(response => {
                 this.categoriesList = response.data;
             }, error => {
-                swal('Error', 'Could not load categories', 'error');
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
             });
         },
 
@@ -449,7 +463,10 @@
             axios.get('/data/technologies.json').then(response => {
                 this.technologiesList = response.data;
             }, error => {
-                swal('Error', 'Could not load technologies', 'error');
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
             });
         },
 
@@ -458,7 +475,10 @@
             axios.get('/data/countries.json').then(response => {
                 this.countriesList = response.data;
             }, error => {
-                swal('Error', 'Could not load countries', 'error');
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
             });
         },
 
@@ -467,7 +487,10 @@
             axios.get('/data/publishers.json').then(response => {
                 this.publisherList = response.data;
             }, error => {
-                swal('Error', 'Could not load publishers', 'error');
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
             });
         },
 
@@ -476,7 +499,10 @@
             axios.get('/data/reportGeo.json').then(response => {
                 this.reportGeo = response.data;
             }, error => {
-                swal('Error', 'Could not load reportGeo', 'error');
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
             });
         },
 
@@ -485,7 +511,10 @@
             axios.get('/data/reportOverall.json').then(response => {
                 this.reportOverall = response.data;
             }, error => {
-                swal('Error', 'Could not load reportOverall', 'error');
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
             });
         },
 
@@ -494,7 +523,10 @@
             axios.get('/data/reportDevices.json').then(response => {
                 this.reportDevices = response.data;
             }, error => {
-                swal('Error', 'Could not load reportDevices', 'error');
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
             });
         },
 
@@ -503,7 +535,10 @@
             axios.get('/data/reportPublishers.json').then(response => {
                 this.reportPublishers = response.data;
             }, error => {
-                swal('Error', 'Could not load reportPublishers', 'error');
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
             });
         },
 
@@ -764,13 +799,19 @@ dataCall(report, responseList, responseListSummary, chart) {
         }
     }, error => {
         this.createChart(chart, this.startingData.data[0].clicks);
-        swal('Error', 'Your search was unsuccesfull','error');
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
     });
     axios.get(this.$root.reportUri + this.generateQuery(report, 'summary'))
     .then(response => {
         this[responseListSummary] = response.data.data;
     }, error => {
-        swal('Error', 'Your search was unsuccesfull','error');
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
     });
 }
 },
