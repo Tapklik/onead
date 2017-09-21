@@ -321,7 +321,7 @@
             },
 
             dropzoneMaker() {
-                if (this.dropzone) return;
+                if (this.dropzone !== false) return;
 
                 this.dropzone = new Dropzone("#uploader", {
                     url: this.$root.uri + '/creatives',
