@@ -49,6 +49,9 @@ Vue.component('tk-select-list', require('./components/elements/tk-select-list.vu
 Vue.component('tk-select', require('./components/elements/tk-select.vue'));                     // tk-select
 Vue.component('tk-filter', require('./components/elements/tk-filter.vue')); 
 Vue.component('tk-widget', require('./components/elements/tk-widget.vue'));                     // tk-widget
+Vue.component('scale-loader', require('vue-spinner/src/ScaleLoader.vue'));
+
+
 
 
 //var envUri = (window.location.hostname.search('local') == -1) ? '//api.tapklik.com/v1' : '//local.api.tapklik.com/v1';

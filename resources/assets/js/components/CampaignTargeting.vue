@@ -112,16 +112,6 @@
                         <v-slider min="1" max="120" v-model="campaign.user.data.age.max"></v-slider>
                     </v-flex>
                 </v-layout>
-                <v-layout row wrap xs12>
-                    <v-flex>
-                        <span class="title">Gender</span>
-                    </v-flex>
-                </v-layout>
-                <v-layout row wrap xs12>
-                    <v-flex>
-                        <p>Set gender for target audience</p>
-                    </v-flex>
-                </v-layout>
                 <v-layout row wrap>
                     <v-flex xs12 class="valign-wrapper mb-3 mt-4">
                         <h4>Geo Location Targeting</h4>

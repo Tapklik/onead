@@ -161,7 +161,6 @@
                                         </v-flex>
                                         <v-flex xs6 md2 lg1 v-for="day in days" :key="day.index">
                                             <v-checkbox 
-                                            :key="day.index" 
                                             :label="day" 
                                             v-model="selectedDays" 
                                             :value="days.indexOf(day)"
@@ -174,12 +173,13 @@
                                             <p class="ma-0">Hours will be only edited for active days</p>
                                         </v-flex>
                                         <v-flex xs6 md4 lg2 v-for="time in timesOfDay" :key="time.index">
+                                            
                                             <v-checkbox  
-                                            :key="time.index" 
                                             :label="time" 
                                             v-model="selectedTimes"
                                             :value="timesOfDay.indexOf(time)"
                                             ></v-checkbox>
+                                            
                                         </v-flex>
                                     </v-layout>
                                 </v-card-text>

@@ -95,10 +95,10 @@
 
         data() {
             return {
-                alert: true,
-                error: true,
+                alert: false,
+                error: false,
                 success: false,
-                alertMessage: 'Something went wrong',
+                alertMessage: '',
                 campaigns: [],
                 max25chars: (v) => v.length <= 25 || 'Input too long!',
                 tmp: '',
