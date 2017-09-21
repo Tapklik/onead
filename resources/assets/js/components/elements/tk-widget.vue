@@ -18,7 +18,7 @@
                 </v-layout>
             </v-flex>
         </v-card-text>
-        <div v-else>LOADING...</div>
+        <v-card-text v-else><scale-loader :loading="true" color="#9e9e9e" height="15px" width="3px"></scale-loader></v-card-text>
     </v-card>
 </template>
 

@@ -44,6 +44,5 @@
 </div>
 
 @yield('footer-js-header')
-
 <script src="/js/app.js"></script>
 @stop

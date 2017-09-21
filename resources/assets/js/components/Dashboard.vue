@@ -408,7 +408,6 @@
                 });
             },
 
-            sayhi() { console.log(hi)}
         },
 
         filters: {
