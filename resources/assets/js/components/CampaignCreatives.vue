@@ -35,7 +35,7 @@
                             <v-flex xs12>
                                 <v-breadcrumbs divider="/" class="left pa-0">
                                     <v-breadcrumbs-item >
-                                        <span @click="closeFolder()">ROOT</span>
+                                        <span @click="closeFolder(), imageSource=''">ROOT</span>
                                     </v-breadcrumbs-item>
                                     <v-breadcrumbs-item>
                                         {{ currentFolder.name | uppercase}}
@@ -56,7 +56,7 @@
                                         &nbsp;
                                     </template>
                                     <template slot="items" scope="props">
-                                        <tr v-show="props.item.approved == 'approved'">
+                                        <tr @click="imageSource = props.item.iurl" v-show="props.item.approved == 'approved'">
                                             <td width="40" class="text-xs-right">
                                                 <v-checkbox
                                                 primary
@@ -89,6 +89,10 @@
                                     </template>
                                 </v-data-table>
                             </v-flex>
+                            <v-flex xs12 md4 class="valign-wrapper mt-4">                                
+                                <!--<v-card-media class="portrait" style="background-position: center; background-size: 100%; background-repeat: no-repeat;" width="100%" height="100%" transition="scale-transition" :src="imageSource"></v-card-media>-->
+                                <img style="max-width: 100%; width: auto;" :src="imageSource">
+                            </v-flex>
                         </v-layout>
                     </v-card-text>
                 </v-card>   
@@ -106,6 +110,7 @@
         props:['token','user','campaign'],
         data() {
             return {
+                imageSource: '',
                 alert: false,
                 error: false,
                 success: false,
