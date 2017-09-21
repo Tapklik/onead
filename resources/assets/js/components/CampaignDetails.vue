@@ -173,13 +173,13 @@
                                             <p class="ma-0">Hours will be only edited for active days</p>
                                         </v-flex>
                                         <v-flex xs6 md4 lg2 v-for="time in timesOfDay" :key="time.index">
-                                            <v-card>
+                                            
                                             <v-checkbox  
                                             :label="time" 
                                             v-model="selectedTimes"
                                             :value="timesOfDay.indexOf(time)"
                                             ></v-checkbox>
-                                            </v-card>
+                                            
                                         </v-flex>
                                     </v-layout>
                                 </v-card-text>

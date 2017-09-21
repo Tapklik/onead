@@ -24,11 +24,6 @@
                                         <tr :active="props.selected" @click="openFolder(props.item)">
                                             <td width="40" class="text-xs-right"><v-icon>folder</v-icon></td>
                                             <td class="text-xs-left"><span class="title">{{ props.item.name }}</span></td>
-                                            <td class="text-xs-right">
-                                                <v-btn icon class="grey--text">
-                                                    <v-icon>delete</v-icon>
-                                                </v-btn>
-                                            </td>
                                         </tr>
                                     </template>
                                 </v-data-table>
@@ -87,11 +82,6 @@
                                              </td>
                                              <td>{{ props.item.class | uppercase }}</td>
                                              <td>{{ props.item.w }} x {{ props.item.h }}</td>
-                                             <td>
-                                                <v-btn icon class="grey--text">
-                                                    <v-icon>delete</v-icon>
-                                                </v-btn>
-                                            </td>
                                         </tr>
                                     </template>
                                     <template slot="pageText" scope="{ pageStart, pageStop }">
@@ -116,8 +106,8 @@
         props:['token','user','campaign'],
         data() {
             return {
-                alert: true,
-                error: true,
+                alert: false,
+                error: false,
                 success: false,
                 alertMessage: 'Something went wrong',
                 showModal: false,

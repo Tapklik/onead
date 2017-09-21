@@ -230,6 +230,7 @@
                         </v-layout>
                         <v-layout row wrap>
                             <v-flex xs12 md8>
+                                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
                                 <v-data-table :items="creatives.data" hide-actions class="creatives-explorer" v-bind:rows-per-page-items="[10, 25, { text: 'All', value: -1 }]">
                                     <template slot="headers" scope="props">
                                         &nbsp;
@@ -401,7 +402,7 @@
                     this.alert = true;
                     this.error = true;
                     this.success = false;
-                    this.alertMessage = 'Something went wrong with'; 
+                    this.alertMessage = 'Something went wrong'; 
                 });
             },
 
@@ -415,7 +416,7 @@
                     this.alert = true;
                     this.error = true;
                     this.success = false;
-                    this.alertMessage = 'Something went wrong with'; 
+                    this.alertMessage = 'Something went wrong'; 
                 });
             },
 
