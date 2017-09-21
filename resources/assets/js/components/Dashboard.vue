@@ -7,7 +7,8 @@
                    <v-card-title>
                         <span class="subheading orange--text text--darken-4">OVERALL CHART FOR 10 DAYS</span>
                     </v-card-title>
-                    <v-card-media  id="chart_main" class="tapklik-chart" height="250px"> 
+                    <v-card-media id="chart_main" class="tapklik-chart" height="250px"> 
+                        LOADING
                     </v-card-media>
                 </v-card>
             </v-flex>
@@ -30,7 +31,7 @@
                             subtitle="TOTAL LAST 10 DAYS"
                             :value="$root.fromMicroDollars(overallSummaryList.spend)"
                             unit="$"
-                            defaultValue="$0.00"
+                            defaultValue="0.00"
                             size="lg"
                         ></tk-widget>
                     </v-flex>
@@ -55,7 +56,7 @@
                             subtitle="TOTAL LAST 10 DAYS"
                             :value="$root.twoDecimalPlaces(overallSummaryList.ecpm)"
                             unit="$"
-                            defaultValue="$0.00"
+                            defaultValue="0.00"
                             size="lg"
                         ></tk-widget>
                     </v-flex>
@@ -70,7 +71,7 @@
                             subtitle="TOTAL LAST 10 DAYS"
                             :value="$root.twoDecimalPlaces(overallSummaryList.ctr * 100)"
                             unit="%"
-                            defaultValue="0.00%"
+                            defaultValue="0.00"
                             size="lg"
                         ></tk-widget>
                     </v-flex>
@@ -81,7 +82,7 @@
                             subtitle="TOTAL LAST 10 DAYS"
                             :value="$root.twoDecimalPlaces(overallSummaryList.ecpc)"
                             unit="$"
-                            defaultValue="$0.00"
+                            defaultValue="0.00"
                             size="lg"
                         ></tk-widget>
                     </v-flex>
@@ -162,9 +163,9 @@
                     <v-card-title>
                         <span class="subheading orange--text text--darken-4">LOG</span>
                         <v-spacer></v-spacer>
-                        <v-btn icon class="orange--text text--darken-3 ma-0" href="/admin/campaigns">
+                        <!-- <v-btn icon class="orange--text text--darken-3 ma-0" href="/admin/campaigns">
                             <v-icon>search</v-icon>
-                        </v-btn>
+                        </v-btn> -->
                     </v-card-title>
                     <v-data-table v-bind:items="logList" hide-actions>
                         <template slot="headers" scope="props">
@@ -172,11 +173,13 @@
                         </template>
                         <template slot="items" scope="props">
                             <td>
-                                <span class="title">{{ props.item.log }}</span>
+                            <v-icon>person</v-icon>
                             </td>
-                            
-                            <td class="text-xs-right">
-                                <span>{{ new Date(props.item.timestamp) }}</span> 
+                            <td class="caption text-xs-right">
+                                <span>{{ formatLogTime(props.item.timestamp) }}<br>{{ formatLogDate(props.item.timestamp) }}</span> 
+                            </td>
+                            <td>
+                                <span class="small">{{ props.item.log }}</span>
                             </td>
                         </template>
                     </v-data-table>
@@ -201,7 +204,6 @@
                 error: true,
                 alertMessage: 'Something went wrong',
                 chartLoaded: false,
-                chartDataLoaded: false,
                 totalItems: 5,
                 password: '',
                 campaignList: [],
@@ -263,7 +265,7 @@
                     var b = [];
                     for (var item in a) {
                         b.push(a[item]);
-                        if(b.length == 4) break;
+                        if(b.length == 5) break;
                     }
                     this.logList = b;
                 }, error => {
@@ -273,6 +275,25 @@
                     this.alertMessage = 'Something went wrong';
                 })
             },
+
+            formatLogTime(t) {
+                var timestamp = new Date(t)
+                var hours = timestamp.getHours();
+                var minutes = "0" + timestamp.getMinutes();
+                var seconds = "0" + timestamp.getSeconds();
+                var formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+                return formattedTime
+            },
+
+            formatLogDate(t) {
+                var timestamp = new Date(t)
+                var year = timestamp.getFullYear();
+                var month = "0" + timestamp.getMonth();
+                var day = "0" + timestamp.getDate();
+                var formattedDate = year + '.' + month.substr(-2) + '.' + day.substr(-2);
+                return formattedDate
+            },
+
             getDate(days) {
                 const toTwoDigits = num => num < 10 ? '0' + num : num;
                 var a = this.$root.trialdate;
@@ -302,7 +323,6 @@
 
                 axios.get(this.$root.reportUri + '?table=wins&acc=' + this.user.accountUuId + '&field=clicks,imps,spend&op=summary&from=' + this.date_from + ' 00:00:00&to=' + this.date_to + ' 00:00:00', this.$root.config).then(response => {
                     this.overallSummaryList = response.data.data;
-                    this.chartDataLoaded = true;
                 }, error => {
                     this.error = true;
                     this.success = false;
@@ -316,88 +336,87 @@
                 for (var c in campaignList) {
                     if (campaignList[c].id == id) return campaignList[c] 
                 }
-        },
-
-        createChart(target, dataset, column, line) {
-
-            var chart = AmCharts.makeChart(target, {
-                "type": "serial",
-                "theme": "light",
-                "marginRight": 40,
-                "marginLeft": 40,
-                "marginTop": 40,
-                "autoMarginOffset": 20,
-                "mouseWheelZoomEnabled":false,
-                "dataDateFormat": "YYYY-MM-DD HH",
-                "valueAxes": [{
-                    "id": "v1",
-                    "axisAlpha": 0,
-                    "gridAlpha": 0,
-                    "position": "left",
-                    "labelsEnabled": false,
-                    "ignoreAxisWidth":true
-                },
-                {
-                    "id": "v2",
-                    "axisAlpha": 0,
-                    "gridAlpha": 0,
-                    "position": "right",
-                    "labelsEnabled": false,
-                    "ignoreAxisWidth":true
-                }
-                ],
-                "graphs": [{
-                    "valueAxis": "v1",
-                    "id": "g1",
-                    "type" : "column",
-                    "fillAlphas": 1,
-                    "fillColors":"#ccc",
-                    "lineColor":"#ccc",
-                    "lineThickness": 2,
-                    "balloonText": "g1:[[clicks]]<br>g2:[[imps]]",
-                    "title": "Imps",
-                    "valueField": column,
-                },
-                {   
-                    "valueAxis": "v2",
-                    "id": "g2",
-                    "type" : "smoothedLine",
-                    "lineColor":"#f76c06",
-                    "showBalloon": false,
-                    "lineThickness": 2,
-                    "title": "Clicks",
-                    "valueField": line,
-                    
-                }],
-                "categoryField": "date",
-                "categoryAxis": {
-                    "parseDates": true,
-                    "dashLength": 0,
-                    "axisAlpha": 0,
-                    "gridAlpha": 0,
-                    "minPeriod": "DD",
-                    "minorGridEnabled": false
-                },
-                "export": {
-                    "enabled": true
-                },
-                "dataProvider": dataset, // Here you need to add the dataset
-            });
-
-            chart.addListener("rendered", zoomChart);
-
-            zoomChart(dataset);
-            function zoomChart(dataset) {
-                    //chart.zoomToIndexes(dataset.length, dataset.length);
-                }
             },
+
+            createChart(target, dataset, column, line) {
+                var obj = this;
+                var chart = AmCharts.makeChart(target, {
+                    "type": "serial",
+                    "theme": "light",
+                    "marginRight": 40,
+                    "marginLeft": 40,
+                    "marginTop": 40,
+                    "autoMarginOffset": 20,
+                    "mouseWheelZoomEnabled":false,
+                    "dataDateFormat": "YYYY-MM-DD HH",
+                    "valueAxes": [{
+                        "id": "v1",
+                        "axisAlpha": 0,
+                        "gridAlpha": 0,
+                        "position": "left",
+                        "labelsEnabled": false,
+                        "ignoreAxisWidth":true
+                    },
+                    {
+                        "id": "v2",
+                        "axisAlpha": 0,
+                        "gridAlpha": 0,
+                        "position": "right",
+                        "labelsEnabled": false,
+                        "ignoreAxisWidth":true
+                    }
+                    ],
+                    "graphs": [{
+                        "valueAxis": "v1",
+                        "id": "g1",
+                        "type" : "column",
+                        "fillAlphas": 1,
+                        "fillColors":"#ccc",
+                        "lineColor":"#ccc",
+                        "lineThickness": 2,
+                        "balloonText": "g1:[[clicks]]<br>g2:[[imps]]",
+                        "title": "Imps",
+                        "valueField": column,
+                    },
+                    {   
+                        "valueAxis": "v2",
+                        "id": "g2",
+                        "type" : "smoothedLine",
+                        "lineColor":"#f76c06",
+                        "showBalloon": false,
+                        "lineThickness": 2,
+                        "title": "Clicks",
+                        "valueField": line,
+                        
+                    }],
+                    "categoryField": "date",
+                    "categoryAxis": {
+                        "parseDates": true,
+                        "dashLength": 0,
+                        "axisAlpha": 0,
+                        "gridAlpha": 0,
+                        "minPeriod": "DD",
+                        "minorGridEnabled": false
+                    },
+                    "legend": {
+                        "useGraphSettings": true
+                    },
+                    "export": {
+                        "enabled": true
+                    },
+                    "dataProvider": dataset, // Here you need to add the dataset
+                });
+            },
+
+            sayhi() { console.log(hi)}
         },
 
         filters: {
             uppercase: function(v) {
-              return v.toUpperCase();
-          }
-      },
+                return v.toUpperCase();
+            },
+        },
+
         watch: {
             user(value) {
                 this.date_from = this.getDate(-10);
@@ -405,9 +424,11 @@
                 this.loadMainGraph();
                 this.loadMainGraphData();
             },
+
             chartLoaded(value) {
                 this.createChart('chart_main', this.overallList, this.column, this.line);
             },
+
             token(value) {
                 this.loadCampaignsAndCreatives();
                 this.loadLog();
