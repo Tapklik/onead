@@ -56,7 +56,7 @@
                                         &nbsp;
                                     </template>
                                     <template slot="items" scope="props">
-                                        <tr>
+                                        <tr v-show="props.item.approved == 'approved'">
                                             <td width="40" class="text-xs-right">
                                                 <v-checkbox
                                                 primary
