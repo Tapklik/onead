@@ -377,9 +377,20 @@
                     url: this.$root.uri + '/creatives',
                     paramName: 'file',
                     maxFilesize: 2,
+                    acceptedFiles: 'image/*',
                     headers: {"Authorization": 'Bearer ' + this.token},
                     autoProcessQueue: false
                 });
+
+                this.dropzone.on("addedfile", function(file) {
+
+                    var sizeInterval = setInterval(function () {
+                        if(typeof file.width != 'undefined') {
+                            this.creativeAttributes = {w: file.width, h: file.height};
+                            clearInterval(sizeInterval);
+                        }
+                    }.bind(this), 1000);
+                }.bind(this));
             },
 
             openFolder(folderObj) {
