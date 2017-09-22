@@ -81,10 +81,6 @@ h5 {
   display: none;
 }
 
-.dialog__content {
-  z-index: 5000;
-}
-
 .card {
   overflow: hidden;
 }

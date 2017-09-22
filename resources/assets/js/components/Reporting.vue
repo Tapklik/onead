@@ -1,8 +1,59 @@
 <template>
     <v-container fluid grid-list-md>
-        <v-tabs dark fixed icons v-model="tabIndex" centered>
-            <v-tabs-bar class="white">
-                <v-tabs-slider class="orange text--darken-3"></v-tabs-slider>
+        <v-tabs icons v-model="tabIndex" light :scrollable="false">
+            <v-card light extended class="grey lighten-3 elevation-0">
+                <v-card-text>
+                    <v-layout row wrap>
+                        <v-flex xs-12 md6 lg4>
+                            <v-select :items="campaignList" item-text="name" item-value="name" chips v-model="selectedCampaigns1" label="Campaigns" multiple autocomplete></v-select>
+                            <v-select :items="creativesList" item-text="name" item-value="name" chips v-model="selectedCreatives1" label="Creatives" multiple autocomplete></v-select>
+                        </v-flex>
+                        <v-spacer></v-spacer>
+                        <v-flex xs-12 md6 lg4>
+                            <v-layout row wrap>
+                                <v-flex xs6>
+                                    <v-dialog
+                                    persistent
+                                    :v-model="false"
+                                    lazy
+                                    full-width
+                                    >
+                                        <v-text-field
+                                        label="From"
+                                        prepend-icon="flight_takeoff"
+                                        append-icon="date_range"
+                                        single-line
+                                        readonly
+                                        slot="activator"
+                                        ></v-text-field>
+                                        <v-date-picker no-title scrollable autosave></v-date-picker>
+                                    </v-dialog>
+                                </v-flex>
+                                <v-flex xs6>
+                                    <v-dialog
+
+                                    :v-model="false"
+                                    lazy
+                                    full-width
+                                    >
+                                        <v-text-field
+                                        label="From"
+                                        prepend-icon="flight_takeoff"
+                                        append-icon="date_range"
+                                        single-line
+                                        readonly
+                                        slot="activator"
+                                        ></v-text-field>
+                                        <v-date-picker no-title scrollable autosave></v-date-picker>
+                                    </v-dialog>
+                                </v-flex>
+                            </v-layout>
+                        </v-flex>
+                    </v-layout>
+                </v-card-text>
+            <v-divider></v-divider>
+            <v-tabs-bar class="transparent" slot="extension">
+                <v-tabs-slider class="orange darken-3"></v-tabs-slider>
                 <v-tabs-item href="#overall-tab">
                     <v-icon class="orange--text text--darken-3">present_to_all</v-icon>
                     <span class="orange--text text--darken-3"> Overall</span>
@@ -20,11 +71,9 @@
                     <span class="orange--text text--darken-3">Geo</span>
                 </v-tabs-item>
             </v-tabs-bar>
-                    <v-icon class="orange--text text--darken-3">date_range</v-icon>
-                
-                    <v-icon class="orange--text text--darken-3">insert_chart</v-icon>
-                    <v-select :items="campaignList" item-text="name" item-value="name" chips v-model="selectedCampaigns1" label="Campaigns" multiple autocomplete></v-select>
-                    <v-select :items="creativesList" item-text="name" item-value="name" chips v-model="selectedCreatives1" label="Creatives" multiple autocomplete></v-select>
+            </v-card>
+                   
+                    
                 <v-btn @click="generateCharts()">YES</v-btn>
             <v-tabs-items>
                 <v-tabs-content id="overall-tab">
