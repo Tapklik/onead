@@ -228,10 +228,10 @@
 
         data() {
             return {
-                alert: true,
-                error: true,
+                alert: false,
+                error: false,
                 success: false,
-                alertMessage: 'Something went wrong ',
+                alertMessage: '',
                 tabIndex: 'overall-tab',
                 line: 'imps',
                 column: 'clicks',

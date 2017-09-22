@@ -48,10 +48,10 @@
         data() {
 
             return {
-                alert: true,
+                alert: false,
                 success: false,
-                error: true,
-                alertMessage: 'Something went wrong',
+                error: false,
+                alertMessage: '',
                 ajax: false,
                 batch: []
             }

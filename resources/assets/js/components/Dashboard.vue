@@ -201,10 +201,10 @@
         
         data() {
             return {
-                alert: true,
+                alert: false,
                 success: false,
-                error: true,
-                alertMessage: 'Something went wrong',
+                error: false,
+                alertMessage: '',
                 chartLoaded: false,
                 totalItems: 5,
                 password: '',
