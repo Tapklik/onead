@@ -6,7 +6,7 @@
                     <v-layout row wrap>
                         <v-flex xs-12 md6 lg4>
                             <v-select :items="campaignList" item-text="name" item-value="id" chips v-model="selectedCampaigns1" label="Campaigns" multiple autocomplete></v-select>
-                            <v-select :items="creativesList" item-text="name" item-value="name" chips v-model="selectedCreatives1" label="Creatives" multiple autocomplete></v-select>
+                            <v-select :items="creativesList" item-text="name" item-value="id" chips v-model="selectedCreatives1" label="Creatives" multiple autocomplete></v-select>
                         </v-flex>
                         <v-spacer></v-spacer>
                         <v-flex xs-12 md6 lg4>
@@ -31,12 +31,7 @@
                                     </v-dialog>
                                 </v-flex>
                                 <v-flex xs6>
-                                    <v-dialog
-
-                                    :v-model="false"
-                                    lazy
-                                    full-width
-                                    >
+                                    <v-dialog :v-model="false" lazy full-width>
                                         <v-text-field
                                         label="From"
                                         prepend-icon="flight_takeoff"
@@ -48,6 +43,16 @@
                                         ></v-text-field>
                                         <v-date-picker v-model="date_to" no-title scrollable autosave></v-date-picker>
                                     </v-dialog>
+                                </v-flex>
+                            </v-layout>
+                            <v-layout row wrap>
+                                <v-flex xs6>
+                                    <v-select :items="stats" v-model="column" label="Column" autocomplete></v-select>
+                                           
+                                </v-flex>
+                                <v-flex xs6>
+                                    <v-select :items="stats" v-model="line" label="Line" autocomplete></v-select>
+                           
                                 </v-flex>
                             </v-layout>
                         </v-flex>
@@ -310,7 +315,7 @@
                     <v-card flat>
                         <v-card-text>
                             <v-container fluid grid-list-md>
-                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
+                                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
                                 <v-layout row wrap>
                                     <v-flex xs6 md4 lg2>
                                         <tk-widget
@@ -419,6 +424,7 @@
                 success: false,
                 alertMessage: '',
                 tabIndex: 'overall-tab',
+                stats: ['imps', 'clicks', 'ecpc', 'ecpm', 'spend', 'ctr'],
                 line: 'imps',
                 column: 'clicks',
                 dateFormat: 'yyyy-MM-dd',
@@ -769,8 +775,8 @@
                         "fillColors":"#ccc",
                         "lineColor":"#ccc",
                         "lineThickness": 2,
-                        "balloonText": "[[date]] <br> ---------------- <br> Clicks: [[clicks]]<br>Imps: [[imps]]",
-                        "title": "Imps",
+                        "balloonText": "[[date]] <br> ---------------- <br>"+column+" :[[clicks]]<br>"+line+": [[imps]]",
+                        "title": column,
                         "valueField": column,
                     },
                     {   
@@ -780,7 +786,7 @@
                         "lineColor":"#f76c06",
                         "showBalloon": false,
                         "lineThickness": 2,
-                        "title": "Clicks",
+                        "title": line,
                         "valueField": line,
                         
                     }],
@@ -813,14 +819,15 @@
                     "dataProvider": dataset, // Here you need to add the dataset
                 });
 
-                chart.addListener("rendered", removeLogo);
+chart.addListener("rendered", removeLogo);
 
-                function removeLogo() {
-                    $('.amcharts-chart-div').find('a').each(function(index, item) {
-                        $(item).hide();
-                    });
-                }
-            },
+function removeLogo() {
+    $('.amcharts-chart-div').find('a').each(function(index, item) {
+        $(item).hide();
+    });
+}
+
+},
 
 getDate(days) {
     const toTwoDigits = num => num < 10 ? '0' + num : num;
