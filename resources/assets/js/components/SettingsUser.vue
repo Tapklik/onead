@@ -126,10 +126,10 @@
 
         data() {
             return {
-                alert: true,
-                error: true,
+                alert: false,
+                error: false,
                 success: false,
-                alertMessage: 'Something went wrong',
+                alertMessage: '',
                 account: false,
                 userDet: {},
                 password: '',

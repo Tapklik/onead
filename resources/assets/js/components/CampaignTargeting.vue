@@ -161,10 +161,10 @@
 
         data() {
             return {
-                alert: true,
-                error: true,
+                alert: false,
+                error: false,
                 success: false,
-                alertMessage: 'Something went wrong',
+                alertMessage: '',
                 desktopValue: 2,
                 mobileValue: 4,
                 tabletValue: 5,
