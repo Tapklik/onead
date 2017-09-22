@@ -237,11 +237,11 @@
                                     </template>
                                     <template slot="items" scope="props">
                                         <tr>
-                                            <td @click="imageSource = props.item.iurl" class="text-xs-left">
+                                            <td @mouseenter="imageSource = props.item.iurl" class="text-xs-left">
                                                 <span class="title">{{ props.item.name }}</span><br>
                                                 <span class="caption">{{ props.item.id }}</span>
                                             </td>
-                                            <td @click="imageSource = props.item.iurl">
+                                            <td @mouseenter="imageSource = props.item.iurl">
                                                 <v-chip v-if="props.item.approved == 'approved'" small class="green white--text">
                                                     <small>APPROVED</small>
                                                 </v-chip>
@@ -252,10 +252,10 @@
                                                     <small>DECLINED</small>
                                                 </v-chip>
                                             </td>
-                                            <td @click="imageSource = props.item.iurl">
+                                            <td @mouseenter="imageSource = props.item.iurl">
                                                 {{ props.item.class | uppercase }}
                                             </td>
-                                            <td @click="imageSource = props.item.iurl">
+                                            <td @mouseenter="imageSource = props.item.iurl">
                                                 {{ props.item.w }} x {{ props.item.h }}
                                             </td>
                                             <td>
@@ -477,7 +477,12 @@
             },
 
             uploadCreative() {
-
+                this.dropzone.options.uploader = {
+                    createImageThumbnails: true,
+                    thumbnailWidth: 120,
+                    thumbnailHeight: 90,
+                    thumbnailMethod: 'crop'
+                };
                 this.dropzone.options.params = {
                     folder_id: this.folderId,
                     name: this.creativeAttributes.name,
@@ -500,15 +505,17 @@
                     this.dropzone.on("complete", function (file) {
                         if (file.status == 'success') {
                             this.dropzone.removeFile(file);
-                        this.alert = true;
-                        this.error = false;
-                        this.success = true;
-                        this.alertMessage = 'Uploaded successfully';
-                        } else {
-                        this.alert = true;
-                        this.error = true;
-                        this.success = false;
-                        this.alertMessage = 'Boom';
+                            console.log(file);
+                            this.alert = true;
+                            this.error = false;
+                            this.success = true;
+                            this.alertMessage = 'Uploaded successfully';
+                        } 
+                        else {
+                            this.alert = true;
+                            this.error = true;
+                            this.success = false;
+                            this.alertMessage = 'Boom';
                         }
                     }.bind(this));
                 }
