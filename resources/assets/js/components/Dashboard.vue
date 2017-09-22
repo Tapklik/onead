@@ -376,7 +376,7 @@
                         "fillColors":"#ccc",
                         "lineColor":"#ccc",
                         "lineThickness": 2,
-                        "balloonText": "g1:[[clicks]]<br>g2:[[imps]]",
+                        "balloonText": "[[date]] <br> ---------------- <br> Clicks: [[clicks]]<br>Imps: [[imps]]",
                         "title": "Imps",
                         "valueField": column,
                     },
@@ -399,6 +399,17 @@
                         "gridAlpha": 0,
                         "minPeriod": "DD",
                         "minorGridEnabled": false
+                    },
+                    "balloon": {
+                        "borderColor": "#f76c06",
+                        "borderAlpha": 0,
+                        "borderThickness": 0,
+                        "shadowAlpha": 0,
+                        "color": "#ffffff",
+                        "drop": false,
+                        "cornerRadius": 5,
+                        "fillColor": "#f76c06",
+                        "fillAlpha": 1,
                     },
                     "legend": {
                         "useGraphSettings": true
