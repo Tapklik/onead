@@ -395,7 +395,7 @@
                     var sizeInterval = setInterval(function () {
 
                         if(typeof file.width != 'undefined') {
-                            this.creativeAttributes = {w: file.width, h: file.height, name: file.name.slice(0,(file.name.length-4)), class: 'banner'};
+                            this.creativeAttributes = {w: file.width, h: file.height, name: file.name.slice(0,file.name.lastIndexOf('.')), class: 'banner'};
                             clearInterval(sizeInterval);
                         }
                     }.bind(this), 1000);
