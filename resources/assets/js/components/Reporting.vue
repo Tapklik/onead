@@ -24,9 +24,10 @@
                                         append-icon="date_range"
                                         single-line
                                         readonly
+                                        v-model="date_from"
                                         slot="activator"
                                         ></v-text-field>
-                                        <v-date-picker no-title scrollable autosave></v-date-picker>
+                                        <v-date-picker v-model="date_from" no-title scrollable autosave></v-date-picker>
                                     </v-dialog>
                                 </v-flex>
                                 <v-flex xs6>
@@ -42,9 +43,10 @@
                                         append-icon="date_range"
                                         single-line
                                         readonly
+                                        v-model="date_to"
                                         slot="activator"
                                         ></v-text-field>
-                                        <v-date-picker no-title scrollable autosave></v-date-picker>
+                                        <v-date-picker v-model="date_to" no-title scrollable autosave></v-date-picker>
                                     </v-dialog>
                                 </v-flex>
                             </v-layout>
