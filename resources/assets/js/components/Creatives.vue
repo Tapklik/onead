@@ -312,12 +312,17 @@
     import Dropzone from 'dropzone';
 
     export default {
-        mounted() {
+        created() {
+           this.$root.isLoading = true;
+        },
 
+        mounted() {
+           this.$root.isLoading = false;
         },
         props: ['token', 'user'],
         data() {
             return {
+                creativeIAB: ['300x250','250x250','240x400','336x280','180x150','300x100','720x300','468x60','234x60','88x31','120x90','120x60','120x240','125x125','728x90','160x600','120x600','300x600'],
                 deleteCreativeId: '',
                 deleteCreativeName: '',
                 deleteFolderId: '',
@@ -352,7 +357,7 @@
                 search: ''
             }
         },
-
+        
         methods: {
             setTimeout(value) {
                 setTimeout(value, 500);
@@ -396,6 +401,25 @@
             openFolder(folderObj) {
                 this.currentFolder = folderObj;
                 this.getFolderCreatives(folderObj.id);
+            },
+
+            checkDimensions() {
+                var iabs = this.creativeIAB;
+                console.log(iabs);
+                var dimension = this.dimension;
+                console.log(dimension);
+                var check = 0;
+                for(var iab in iabs) {
+                    if(dimension == iab) {
+                        check++; 
+                    }
+                }
+                if (check > 0) {
+                    return true;
+                }
+                else { 
+                    return false
+                }
             },
 
             closeFolder() {
@@ -466,24 +490,31 @@
                     responsive: this.creativeAttributes.responsive,
                     class: this.creativeAttributes.class,
                 };
-
-                this.dropzone.processQueue();
-
-                this.dropzone.on("complete", function (file) {
-                    if (file.status == 'success') {
-                        this.dropzone.removeFile(file);
-
-                    this.alert = true;
-                    this.error = false;
-                    this.success = true;
-                    this.alertMessage = 'Uploaded successfully';
-                    } else {
+                if(this.checkDimensions() == false) {
                     this.alert = true;
                     this.error = true;
                     this.success = false;
-                    this.alertMessage = 'Boom';
-                    }
-                }.bind(this));
+                    this.alertMessage = 'The dimensions are not qualified and not up to iab standard';
+                }
+                else
+                {
+                this.dropzone.processQueue();
+                
+                    this.dropzone.on("complete", function (file) {
+                        if (file.status == 'success') {
+                            this.dropzone.removeFile(file);
+                        this.alert = true;
+                        this.error = false;
+                        this.success = true;
+                        this.alertMessage = 'Uploaded successfully';
+                        } else {
+                        this.alert = true;
+                        this.error = true;
+                        this.success = false;
+                        this.alertMessage = 'Boom';
+                        }
+                    }.bind(this));
+                }
             },
 
             storeNewFolder() {
@@ -531,6 +562,10 @@
                 return this.folders.filter(function (folder) {
                     return folder.name.toLowerCase().indexOf(obj.$root.search.toLowerCase()) >= 0;
                 });
+            },
+            
+            dimension() {
+                return this.creativeAttributes.w + 'x' + this.creativeAttributes.h;
             }
         },
 
