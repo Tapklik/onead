@@ -385,7 +385,9 @@
                     maxFilesize: 2,
                     acceptedFiles: 'image/*',
                     headers: {"Authorization": 'Bearer ' + this.token},
-                    autoProcessQueue: false
+                    autoProcessQueue: false,
+                    thumbnailWidth: 128,
+                    thumbnailHeight: 128
                 });
 
                 this.dropzone.on("addedfile", function(file, thumb) {
@@ -486,6 +488,7 @@
             },
 
             uploadCreative() {
+                this.dropzone.
                 this.dropzone.options.params = {
                     folder_id: this.folderId,
                     name: this.creativeAttributes.name,
