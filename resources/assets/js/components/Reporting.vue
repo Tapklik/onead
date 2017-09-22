@@ -5,7 +5,7 @@
                 <v-card-text>
                     <v-layout row wrap>
                         <v-flex xs-12 md6 lg4>
-                            <v-select :items="campaignList" item-text="name" item-value="name" chips v-model="selectedCampaigns1" label="Campaigns" multiple autocomplete></v-select>
+                            <v-select :items="campaignList" item-text="name" item-value="id" chips v-model="selectedCampaigns1" label="Campaigns" multiple autocomplete></v-select>
                             <v-select :items="creativesList" item-text="name" item-value="name" chips v-model="selectedCreatives1" label="Creatives" multiple autocomplete></v-select>
                         </v-flex>
                         <v-spacer></v-spacer>
@@ -24,9 +24,10 @@
                                         append-icon="date_range"
                                         single-line
                                         readonly
+                                        v-model="date_from"
                                         slot="activator"
                                         ></v-text-field>
-                                        <v-date-picker no-title scrollable autosave></v-date-picker>
+                                        <v-date-picker v-model="date_from" no-title scrollable autosave></v-date-picker>
                                     </v-dialog>
                                 </v-flex>
                                 <v-flex xs6>
@@ -42,9 +43,10 @@
                                         append-icon="date_range"
                                         single-line
                                         readonly
+                                        v-model="date_to"
                                         slot="activator"
                                         ></v-text-field>
-                                        <v-date-picker no-title scrollable autosave></v-date-picker>
+                                        <v-date-picker v-model="date_to" no-title scrollable autosave></v-date-picker>
                                     </v-dialog>
                                 </v-flex>
                             </v-layout>
@@ -80,32 +82,65 @@
                     <v-card>
                         <v-card-text>
                             <v-container fluid grid-list-md>
-
-                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
+                                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
                                 <v-layout row wrap>
-                                    <v-flex>
-                                        <span> Impressions </span>
-                                        <h5>{{ responseOverallSummary.imps }}</h5>
+                                    <v-flex xs6 md4 lg2>
+                                        <tk-widget
+                                            icon="photo"
+                                            title="Impressions"
+                                            :value="responseOverallSummary.imps"
+                                            defaultValue="0.00"
+                                            size="lg"
+                                        ></tk-widget>
                                     </v-flex>
-                                    <v-flex>
-                                        <span> Clicks </span>
-                                        <h5>{{ responseOverallSummary.clicks }}</h5>
+                                    <v-flex xs6 md4 lg2>
+                                        <tk-widget
+                                            icon="monetization_on"
+                                            title="Clicks"
+                                            :value="responseOverallSummary.clicks"
+                                            defaultValue="0.00"
+                                            size="lg"
+                                        ></tk-widget>
                                     </v-flex>
-                                    <v-flex>
-                                        <span> CTR </span>
-                                        <h5>{{ $root.twoDecimalPlaces(responseOverallSummary.ctr * 100) }}</h5>
+                                    <v-flex xs6 md4 lg2>
+                                        <tk-widget
+                                            icon="mouse"
+                                            title="CTR"
+                                            :value="$root.twoDecimalPlaces(responseOverallSummary.ctr * 100)"
+                                            unit="%"
+                                            defaultValue="0.00"
+                                            size="lg"
+                                        ></tk-widget>
                                     </v-flex>
-                                    <v-flex>
-                                        <span> eCPM </span>
-                                        <h5>{{ responseOverallSummary.ecpm }}</h5>
+                                    <v-flex xs6 md4 lg2>
+                                        <tk-widget
+                                            icon="monetization_on"
+                                            title="eCPM"
+                                            :value="responseOverallSummary.ecpm "
+                                            unit="$"
+                                            defaultValue="0.00"
+                                            size="lg"
+                                        ></tk-widget>
                                     </v-flex>
-                                    <v-flex>
-                                        <span> eCPC </span>
-                                        <h5>{{ responseOverallSummary.ecpc }}</h5>
+                                    <v-flex xs6 md4 lg2>
+                                        <tk-widget
+                                            icon="star_half"
+                                            title="eCPC"
+                                            :value="responseOverallSummary.ecpc "
+                                            unit="$"
+                                            defaultValue="0.00"
+                                            size="lg"
+                                        ></tk-widget>
                                     </v-flex>
-                                    <v-flex>
-                                        <span> Spend </span>
-                                        <h5>{{ $root.fromMicroDollars(responseOverallSummary.spend) }}</h5>
+                                    <v-flex xs6 md4 lg2>
+                                        <tk-widget
+                                            icon="monetization_on"
+                                            title="Spend"
+                                            :value="$root.fromMicroDollars(responseOverallSummary.spend)"
+                                            unit="$"
+                                            defaultValue="0.00"
+                                            size="lg"
+                                        ></tk-widget>
                                     </v-flex>
                                 </v-layout>
                             </v-container>
@@ -117,31 +152,65 @@
                     <v-card flat>
                         <v-card-text>
                             <v-container fluid grid-list-md>
-                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
+                                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
                                 <v-layout row wrap>
-                                    <v-flex>
-                                        <span> Impressions </span>
-                                        <h5>{{ responsePublishersSummary.imps }}</h5>
+                                    <v-flex xs6 md4 lg2>
+                                        <tk-widget
+                                            icon="photo"
+                                            title="Impressions"
+                                            :value="responsePublishersSummary.imps"
+                                            defaultValue="0.00"
+                                            size="lg"
+                                        ></tk-widget>
                                     </v-flex>
-                                    <v-flex>
-                                        <span> Clicks </span>
-                                        <h5>{{ responsePublishersSummary.clicks }}</h5>
+                                    <v-flex xs6 md4 lg2>
+                                        <tk-widget
+                                            icon="monetization_on"
+                                            title="Clicks"
+                                            :value="responsePublishersSummary.clicks"
+                                            defaultValue="0.00"
+                                            size="lg"
+                                        ></tk-widget>
                                     </v-flex>
-                                    <v-flex>
-                                        <span> CTR </span>
-                                        <h5>{{ $root.twoDecimalPlaces(responsePublishersSummary.ctr * 100) }}</h5>
+                                    <v-flex xs6 md4 lg2>
+                                        <tk-widget
+                                            icon="mouse"
+                                            title="CTR"
+                                            :value="$root.twoDecimalPlaces(responsePublishersSummary.ctr * 100)"
+                                            unit="%"
+                                            defaultValue="0.00"
+                                            size="lg"
+                                        ></tk-widget>
                                     </v-flex>
-                                    <v-flex>
-                                        <span> eCPM </span>
-                                        <h5>{{ responsePublishersSummary.ecpm }}</h5>
+                                    <v-flex xs6 md4 lg2>
+                                        <tk-widget
+                                            icon="monetization_on"
+                                            title="eCPM"
+                                            :value="responsePublishersSummary.ecpm "
+                                            unit="$"
+                                            defaultValue="0.00"
+                                            size="lg"
+                                        ></tk-widget>
                                     </v-flex>
-                                    <v-flex>
-                                        <span> eCPC </span>
-                                        <h5>{{ responsePublishersSummary.ecpc }}</h5>
+                                    <v-flex xs6 md4 lg2>
+                                        <tk-widget
+                                            icon="star_half"
+                                            title="eCPC"
+                                            :value="responsePublishersSummary.ecpc "
+                                            unit="$"
+                                            defaultValue="0.00"
+                                            size="lg"
+                                        ></tk-widget>
                                     </v-flex>
-                                    <v-flex>
-                                        <span> Spend </span>
-                                        <h5>{{ $root.fromMicroDollars(responsePublishersSummary.spend) }}</h5>
+                                    <v-flex xs6 md4 lg2>
+                                        <tk-widget
+                                            icon="monetization_on"
+                                            title="Spend"
+                                            :value="$root.fromMicroDollars(responsePublishersSummary.spend)"
+                                            unit="$"
+                                            defaultValue="0.00"
+                                            size="lg"
+                                        ></tk-widget>
                                     </v-flex>
                                 </v-layout>
                             </v-container>
@@ -159,31 +228,65 @@
                     <v-card flat>
                         <v-card-text>
                             <v-container fluid grid-list-md>
-                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
+                                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
                                 <v-layout row wrap>
-                                    <v-flex>
-                                        <span> Impressions </span>
-                                        <h5>{{ responseDevicesSummary.imps }}</h5>
+                                    <v-flex xs6 md4 lg2>
+                                        <tk-widget
+                                            icon="photo"
+                                            title="Impressions"
+                                            :value="responseDevicesSummary.imps"
+                                            defaultValue="0.00"
+                                            size="lg"
+                                        ></tk-widget>
                                     </v-flex>
-                                    <v-flex>
-                                        <span> Clicks </span>
-                                        <h5>{{ responseDevicesSummary.clicks }}</h5>
+                                    <v-flex xs6 md4 lg2>
+                                        <tk-widget
+                                            icon="monetization_on"
+                                            title="Clicks"
+                                            :value="responseDevicesSummary.clicks"
+                                            defaultValue="0.00"
+                                            size="lg"
+                                        ></tk-widget>
                                     </v-flex>
-                                    <v-flex>
-                                        <span> CTR </span>
-                                        <h5>{{ $root.twoDecimalPlaces(responseDevicesSummary.ctr * 100) }}</h5>
+                                    <v-flex xs6 md4 lg2>
+                                        <tk-widget
+                                            icon="mouse"
+                                            title="CTR"
+                                            :value="$root.twoDecimalPlaces(responseDevicesSummary.ctr * 100)"
+                                            unit="%"
+                                            defaultValue="0.00"
+                                            size="lg"
+                                        ></tk-widget>
                                     </v-flex>
-                                    <v-flex>
-                                        <span> eCPM </span>
-                                        <h5>{{ responseDevicesSummary.ecpm }}</h5>
+                                    <v-flex xs6 md4 lg2>
+                                        <tk-widget
+                                            icon="monetization_on"
+                                            title="eCPM"
+                                            :value="responseDevicesSummary.ecpm "
+                                            unit="$"
+                                            defaultValue="0.00"
+                                            size="lg"
+                                        ></tk-widget>
                                     </v-flex>
-                                    <v-flex>
-                                        <span> eCPC </span>
-                                        <h5>{{ responseDevicesSummary.ecpc }}</h5>
+                                    <v-flex xs6 md4 lg2>
+                                        <tk-widget
+                                            icon="star_half"
+                                            title="eCPC"
+                                            :value="responseDevicesSummary.ecpc "
+                                            unit="$"
+                                            defaultValue="0.00"
+                                            size="lg"
+                                        ></tk-widget>
                                     </v-flex>
-                                    <v-flex>
-                                        <span> Spend </span>
-                                        <h5>{{ $root.fromMicroDollars(responseDevicesSummary.spend) }}</h5>
+                                    <v-flex xs6 md4 lg2>
+                                        <tk-widget
+                                            icon="monetization_on"
+                                            title="Spend"
+                                            :value="$root.fromMicroDollars(responseDevicesSummary.spend)"
+                                            unit="$"
+                                            defaultValue="0.00"
+                                            size="lg"
+                                        ></tk-widget>
                                     </v-flex>
                                 </v-layout>
                             <v-layout row wrap>
@@ -209,29 +312,63 @@
                             <v-container fluid grid-list-md>
                 <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
                                 <v-layout row wrap>
-                                    <v-flex>
-                                        <span> Impressions </span>
-                                        <h5>{{ responseGeoSummary.imps }}</h5>
+                                    <v-flex xs6 md4 lg2>
+                                        <tk-widget
+                                            icon="photo"
+                                            title="Impressions"
+                                            :value="responseGeoSummary.imps"
+                                            defaultValue="0.00"
+                                            size="lg"
+                                        ></tk-widget>
                                     </v-flex>
-                                    <v-flex>
-                                        <span> Clicks </span>
-                                        <h5>{{ responseGeoSummary.clicks }}</h5>
+                                    <v-flex xs6 md4 lg2>
+                                        <tk-widget
+                                            icon="monetization_on"
+                                            title="Clicks"
+                                            :value="responseGeoSummary.clicks"
+                                            defaultValue="0.00"
+                                            size="lg"
+                                        ></tk-widget>
                                     </v-flex>
-                                    <v-flex>
-                                        <span> CTR </span>
-                                        <h5>{{ $root.twoDecimalPlaces(responseGeoSummary.ctr * 100) }}</h5>
+                                    <v-flex xs6 md4 lg2>
+                                        <tk-widget
+                                            icon="mouse"
+                                            title="CTR"
+                                            :value="$root.twoDecimalPlaces(responseGeoSummary.ctr * 100)"
+                                            unit="%"
+                                            defaultValue="0.00"
+                                            size="lg"
+                                        ></tk-widget>
                                     </v-flex>
-                                    <v-flex>
-                                        <span> eCPM </span>
-                                        <h5>{{ responseGeoSummary.ecpm }}</h5>
+                                    <v-flex xs6 md4 lg2>
+                                        <tk-widget
+                                            icon="monetization_on"
+                                            title="eCPM"
+                                            :value="responseGeoSummary.ecpm "
+                                            unit="$"
+                                            defaultValue="0.00"
+                                            size="lg"
+                                        ></tk-widget>
                                     </v-flex>
-                                    <v-flex>
-                                        <span> eCPC </span>
-                                        <h5>{{ responseGeoSummary.ecpc }}</h5>
+                                    <v-flex xs6 md4 lg2>
+                                        <tk-widget
+                                            icon="star_half"
+                                            title="eCPC"
+                                            :value="responseGeoSummary.ecpc "
+                                            unit="$"
+                                            defaultValue="0.00"
+                                            size="lg"
+                                        ></tk-widget>
                                     </v-flex>
-                                    <v-flex>
-                                        <span> Spend </span>
-                                        <h5>{{ $root.fromMicroDollars(responseGeoSummary.spend) }}</h5>
+                                    <v-flex xs6 md4 lg2>
+                                        <tk-widget
+                                            icon="monetization_on"
+                                            title="Spend"
+                                            :value="$root.fromMicroDollars(responseGeoSummary.spend)"
+                                            unit="$"
+                                            defaultValue="0.00"
+                                            size="lg"
+                                        ></tk-widget>
                                     </v-flex>
                                 </v-layout>
 

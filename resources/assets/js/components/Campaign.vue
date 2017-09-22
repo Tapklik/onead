@@ -32,7 +32,7 @@
             </v-stepper-content>
             <v-stepper-content step="5">
                 <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
-                <campaign-review  :user="user" :token="token" :campaign="campaign" :state="stateReady" :folder="currentFolder" :gender="selectedGender()"></campaign-review>
+                <campaign-review  :alert1='alert1' :error1='error1' :success1='success1' :alertmessage1='alertmessage1' :user="user" :token="token" :campaign="campaign" :state="stateReady" :folder="currentFolder" :gender="selectedGender()"></campaign-review>
             </v-stepper-content>
         </v-stepper>
     </div>         
@@ -49,7 +49,7 @@
             this.loadCategories();
         },
 
-        props: ['token', 'user'],
+        props: ['token', 'user','alert1','error1','alertmessage1','success1'],
 
         data() {
             return {

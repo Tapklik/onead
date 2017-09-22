@@ -24,6 +24,7 @@
                         <v-layout row wrap>
                             <v-flex xs12>   
                                 <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
+                                <v-alert dismissible v-bind:success='success1' v-bind:error='error1' v-model="alert1" transition="scale-transition">{{alertmessage1}}</v-alert>
                                 <v-data-table 
                                 v-bind:items="campaigns" 
                                 v-bind:search="search"
@@ -95,7 +96,7 @@
             this.$root.isLoading = false;
         },
 
-        props: ['token'],
+        props: ['token','alert1', 'error1', 'success1', 'alertmessage1'],
 
         data() {
             return {
