@@ -5,7 +5,7 @@
                 <v-card-text>
                     <v-layout row wrap>
                         <v-flex xs-12 md6 lg4>
-                            <v-select :items="campaignList" item-text="name" item-value="name" chips v-model="selectedCampaigns1" label="Campaigns" multiple autocomplete></v-select>
+                            <v-select :items="campaignList" item-text="name" item-value="id" chips v-model="selectedCampaigns1" label="Campaigns" multiple autocomplete></v-select>
                             <v-select :items="creativesList" item-text="name" item-value="name" chips v-model="selectedCreatives1" label="Creatives" multiple autocomplete></v-select>
                         </v-flex>
                         <v-spacer></v-spacer>
