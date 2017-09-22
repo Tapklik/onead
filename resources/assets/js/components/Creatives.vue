@@ -389,8 +389,9 @@
 
                 this.dropzone.on("addedfile", function(file) {
                     var sizeInterval = setInterval(function () {
+
                         if(typeof file.width != 'undefined') {
-                            this.creativeAttributes = {w: file.width, h: file.height, name: file.name.slice(0,(file.name.length-4))};
+                            this.creativeAttributes = {w: file.width, h: file.height, name: file.name.slice(0,(file.name.length-4)), class: 'banner'};
                             clearInterval(sizeInterval);
                         }
                     }.bind(this), 1000);
@@ -400,6 +401,7 @@
             openFolder(folderObj) {
                 this.currentFolder = folderObj;
                 this.getFolderCreatives(folderObj.id);
+                this.folderId = this.currentFolder.key;
             },
 
             checkDimensions() {
@@ -422,6 +424,7 @@
             closeFolder() {
                 this.currentFolder = {};
                 this.creatives = {};
+                this.folderId = 0;
             },
 
             deleteFolder(folderId, folderName) {
