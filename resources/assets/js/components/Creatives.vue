@@ -78,7 +78,7 @@
                                                 <p class="ma-0">Choose the folder you want to save in?</p>
                                             </v-flex>
                                             <v-flex xs12 md8>
-                                                <v-select prepend-icon="folder" :items="folders.data" item-text="name" item-value="key" v-model="folderId" placeholder="Folder"></v-select>
+                                                <v-select prepend-icon="folder" :items="folders.data" item-text="name" item-value="key" v-model="folderId" autocomplete placeholder="Folder"></v-select>
                                             </v-flex>
                                         </v-layout>
                                         <v-layout row wrap>
