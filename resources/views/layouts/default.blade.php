@@ -5,42 +5,37 @@
 @stop
 
 @section('master-content')
-    <style>
-        #loader {
-            z-index: 20;
-            position: absolute;
-            display: block;
-            width: 100%;
-            height: 100%;
-            opacity: .8;
-            text-align: center;
-            padding: 25% 0;
-            background-color: #000;
-            color: #fff;
-        }
-    </style>
+
 <div id="app">
-    <div id="loader" v-show="$root.isLoading">LOADING</div>
-<v-app>
-    <sidebar></sidebar>
-    <main>
-        <v-container fluid>
-            <header id="header">
-                @include('layouts.partials.header')
-            </header>
-
-            <!-- MAIN CONTENT -->
-            <div id="content">
-                @yield('content')
+    <div class="loader" v-show="$root.isLoading">
+        <div class="loader-container">
+            <div class="loader-logo">
+                <div class="loader-spinner"></div>
+                <div class="loader-inner-logo"></div>
             </div>
-            <!-- END MAIN CONTENT -->
+            <div class="loader-text">LOADING</div>
+        </div> 
+    </div>    
+    <v-app v-cloak>
+        <sidebar></sidebar>
+        <main>
+            <v-container fluid>
+                <header id="header">
+                    @include('layouts.partials.header')
+                </header>
 
-            <div class="page-footer">
-                @include('layouts.partials.footer')
-            </div>
-        </v-container>
-    </main>
-</v-app>
+                <!-- MAIN CONTENT -->
+                <div id="content">
+                    @yield('content')
+                </div>
+                <!-- END MAIN CONTENT -->
+
+                <div class="page-footer">
+                    @include('layouts.partials.footer')
+                </div>
+            </v-container>
+        </main>
+    </v-app>
 </div>
 
 @yield('footer-js-header')

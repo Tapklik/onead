@@ -26,9 +26,14 @@
 
 <script>
     export default {
-        mounted() {
-        
+        created() {
+            this.$root.isLoading = true;
         },
+
+        mounted() {
+            this.$root.isLoading = false;
+        },
+        
         props: ['user', 'token'],
 
         data() {

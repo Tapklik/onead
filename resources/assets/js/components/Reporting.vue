@@ -206,6 +206,10 @@
 
     export default {
 
+        created() {
+            this.$root.isLoading = true;
+        },
+        
         mounted() {
             this.loadCategories();
             this.loadTechnologies();
@@ -215,6 +219,7 @@
             this.loadReportOverall();
             this.loadCountries();
             this.loadPublishers();
+            this.$root.isLoading = false;
             this.drawDummy();
 
         },

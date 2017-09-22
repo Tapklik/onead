@@ -191,12 +191,14 @@
 
 <script>
     export default {
-        mounted() {
-            this.$root.isLoading = false;
-        },
         created() {
             this.$root.isLoading = true;
         },
+
+        mounted() {
+            this.$root.isLoading = false;
+        },
+        
         data() {
             return {
                 alert: true,

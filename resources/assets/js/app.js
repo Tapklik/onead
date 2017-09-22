@@ -77,7 +77,7 @@ const app = new Vue({
         config: {},
         trialdate:'',
         editMode: (window.location.pathname.search('/edit/') == -1) ? false : true,
-        isLoading: false
+        isLoading: true
     },
 
     methods: {

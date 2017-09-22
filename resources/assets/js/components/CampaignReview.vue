@@ -35,8 +35,12 @@
 
 <script>
     export default {
+       created() {
+            this.$root.isLoading = true;
+        },
+
         mounted() {
-            console.log('Review component mounted.')
+            this.$root.isLoading = false;
         },
 
         props: ['campaign', 'folder', 'gender','token','user'],

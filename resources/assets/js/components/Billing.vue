@@ -121,8 +121,12 @@
 <script>
 
     export default {
+        created() {
+            this.$root.isLoading = true;
+        },
+
         mounted() {
-            console.log('Campaigns mounted.');
+            this.$root.isLoading = false;
         },
 
         data() {

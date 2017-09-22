@@ -40,10 +40,12 @@
 
 <script>
     export default {
-        mounted() {
-            console.log('Create Campaign Mounted.');
+        created() {
+            this.$root.isLoading = true;
+        },
 
-            // Check if campaign is in edit mode
+        mounted() {
+            this.$root.isLoading = false;
             this.loadCategories();
         },
 

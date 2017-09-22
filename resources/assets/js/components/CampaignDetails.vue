@@ -205,10 +205,16 @@
 <script>
     export default {
 
-        mounted() {
-            console.log('Details component mounted.')
+        created() {
+            this.$root.isLoading = true;
         },
+
+        mounted() {
+            this.$root.isLoading = false;
+        },
+
         props: ['campaign'],
+        
         data() {
             return {
                 showModal: false,
@@ -221,6 +227,7 @@
                 selectedTimes: [1, 2, 3, 4, 5, 6]
             }
         },
+        
         computed: {
             bidUsd: {
                 // getter
