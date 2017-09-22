@@ -383,10 +383,10 @@
                 });
 
                 this.dropzone.on("addedfile", function(file) {
-
+                    console.log(file);
                     var sizeInterval = setInterval(function () {
                         if(typeof file.width != 'undefined') {
-                            this.creativeAttributes = {w: file.width, h: file.height};
+                            this.creativeAttributes = {w: file.width, h: file.height, name: file.name.slice(0,(file.name.length-4))};
                             clearInterval(sizeInterval);
                         }
                     }.bind(this), 1000);
