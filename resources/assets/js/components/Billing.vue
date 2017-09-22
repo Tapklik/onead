@@ -100,7 +100,7 @@
                                             <span v-else class="title"> $ {{$root.fromMicroDollars(props.item.debit) }}</span>
                                         </td>
                                         <td>
-                                            <v-btn icon class="grey--text">
+                                            <v-btn icon @click="selectedBill = props.item" class="grey--text">
                                                 <v-icon>search</v-icon>
                                             </v-btn>
                                         </td>
@@ -127,10 +127,11 @@
 
         data() {
             return {
+                selectedBill: {},
                 success: false,
-                error: true,
-                alert: true,
-                alertMessage: 'Something went wrong',
+                error: false,
+                alert: false,
+                alertMessage: '',
                 bills: [],
                 showModal:false,
                 paymentMethod: 'cc payment',
