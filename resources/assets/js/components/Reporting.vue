@@ -734,128 +734,93 @@
         },
 
         createChart(target, dataset, column, line) {
+                var obj = this;
+                var chart = AmCharts.makeChart(target, {
+                    "type": "serial",
+                    "theme": "light",
+                    "marginRight": 40,
+                    "marginLeft": 40,
+                    "marginTop": 40,
+                    "autoMarginOffset": 20,
+                    "mouseWheelZoomEnabled":false,
+                    "dataDateFormat": "YYYY-MM-DD HH",
+                    "valueAxes": [{
+                        "id": "v1",
+                        "axisAlpha": 0,
+                        "gridAlpha": 0,
+                        "position": "left",
+                        "labelsEnabled": false,
+                        "ignoreAxisWidth":true
+                    },
+                    {
+                        "id": "v2",
+                        "axisAlpha": 0,
+                        "gridAlpha": 0,
+                        "position": "right",
+                        "labelsEnabled": false,
+                        "ignoreAxisWidth":true
+                    }
+                    ],
+                    "graphs": [{
+                        "valueAxis": "v1",
+                        "id": "g1",
+                        "type" : "column",
+                        "fillAlphas": 1,
+                        "fillColors":"#ccc",
+                        "lineColor":"#ccc",
+                        "lineThickness": 2,
+                        "balloonText": "[[date]] <br> ---------------- <br> Clicks: [[clicks]]<br>Imps: [[imps]]",
+                        "title": "Imps",
+                        "valueField": column,
+                    },
+                    {   
+                        "valueAxis": "v2",
+                        "id": "g2",
+                        "type" : "smoothedLine",
+                        "lineColor":"#f76c06",
+                        "showBalloon": false,
+                        "lineThickness": 2,
+                        "title": "Clicks",
+                        "valueField": line,
+                        
+                    }],
+                    "categoryField": "date",
+                    "categoryAxis": {
+                        "parseDates": true,
+                        "dashLength": 0,
+                        "axisAlpha": 0,
+                        "gridAlpha": 0,
+                        "minPeriod": "DD",
+                        "minorGridEnabled": false
+                    },
+                    "balloon": {
+                        "borderColor": "#f76c06",
+                        "borderAlpha": 0,
+                        "borderThickness": 0,
+                        "shadowAlpha": 0,
+                        "color": "#ffffff",
+                        "drop": false,
+                        "cornerRadius": 5,
+                        "fillColor": "#f76c06",
+                        "fillAlpha": 1,
+                    },
+                    "legend": {
+                        "useGraphSettings": true
+                    },
+                    "export": {
+                        "enabled": true
+                    },
+                    "dataProvider": dataset, // Here you need to add the dataset
+                });
 
-            var chart = AmCharts.makeChart(target, {
-                "type": "serial",
-                "theme": "light",
-                "marginRight": 40,
-                "marginLeft": 40,
-                "marginTop": 40,
-                "autoMarginOffset": 20,
-                "mouseWheelZoomEnabled":false,
-                "dataDateFormat": "YYYY-MM-DD HH",
-                "valueAxes": [{
-                    "id": "v1",
-                    "axisAlpha": 0,
-                    "position": "left",
-                    "ignoreAxisWidth":true
-                },
-                {
-                    "id": "v2",
-                    "axisAlpha": 0,
-                    "position": "right",
-                    "ignoreAxisWidth":true
+                chart.addListener("rendered", removeLogo);
+
+                function removeLogo() {
+                    $('.amcharts-chart-div').find('a').each(function(index, item) {
+                        $(item).hide();
+                    });
                 }
-                ],
-                "balloon": {
-                    "borderThickness": 1,
-                    "shadowAlpha": 0
-                },
-                "graphs": [{
-                    "valueAxis": "v1",
-                    "id": "g1",
-                    "type" : "column",
-                    "fillAlphas": 0.8,
-                    "fillColors":"#f76c06",
-                    "lineColor":"#f76c06",
-                    "balloonColor":"#444",
-                    "balloon":{
-                        "drop":true,
-                        "adjustBorderColor":false,
-                        "color":"#ffffff"
-                    },
-                    "bullet": "round",
-                    "bulletBorderAlpha": 1,
-                    "bulletColor": "#FFFFFF",
-                    "bulletSize": 5,
-                    "hideBulletsCount": 50,
-                    "lineThickness": 2,
-                    "title": "red line",
-                    "useLineColorForBulletBorder": true,
-                    "valueField": column,
-                    "balloonText": "<span style='font-size:18px;'>[[value]]</span>"
-                },
-                {   
-                    "valueAxis": "v2",
-                    "id": "g2",
-                    "type" : "line",
-                    "fillColors":"#f76c06",
-                    "lineColor":"magenta",
-                    "balloonColor":"#444",
-                    "balloon":{
-                        "drop":true,
-                        "adjustBorderColor":false,
-                        "color":"#ffffff"
-                    },
-                    "bullet": "round",
-                    "bulletBorderAlpha": 1,
-                    "bulletColor": "#FFFFFF",
-                    "bulletSize": 5,
-                    "hideBulletsCount": 50,
-                    "lineThickness": 2,
-                    "title": "red line",
-                    "useLineColorForBulletBorder": true,
-                    "valueField": line,
-                    "balloonText": "<span style='font-size:18px;'>[[value]]</span>"
-                    
-                }],
-                "chartScrollbar": {
-                    "graph": "g1",
-                    "oppositeAxis":false,
-                    "offset":30,
-                    "scrollbarHeight": 80,
-                    "backgroundAlpha": 0,
-                    "selectedBackgroundAlpha": 0.1,
-                    "selectedBackgroundColor": "#888888",
-                    "graphFillAlpha": 0,
-                    "graphLineAlpha": 0.5,
-                    "selectedGraphFillAlpha": 0,
-                    "selectedGraphLineAlpha": 1,
-                    "autoGridCount":true,
-                    "color":"#AAAAAA"
-                },
-                "chartCursor": {
-                    "pan": true,
-                    "valueLineEnabled": true,
-                    "valueLineBalloonEnabled": true,
-                    "cursorAlpha":1,
-                    "cursorColor":"#444",
-                    "limitToGraph":"g1",
-                    "valueLineAlpha":0.2,
-                    "valueZoomable":true
-                },
-                "categoryField": "date",
-                "categoryAxis": {
-                    "parseDates": true,
-                    "dashLength": 1,
-                    "minPeriod" : "hh",
-                    "minorGridEnabled": true
-                },
-                "export": {
-                    "enabled": true
-                },
-                "dataProvider": dataset, // Here you need to add the dataset
-            });
-
-chart.addListener("rendered", removeLogo);
-
-function removeLogo() {
-    $('.amcharts-chart-div').find('a').each(function(index, item) {
-        $(item).hide();
-    });
-}
-
-},
+            },
 
 getDate(days) {
     const toTwoDigits = num => num < 10 ? '0' + num : num;
