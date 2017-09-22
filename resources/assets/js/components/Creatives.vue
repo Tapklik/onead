@@ -388,7 +388,6 @@
                 });
 
                 this.dropzone.on("addedfile", function(file) {
-                    console.log(file);
                     var sizeInterval = setInterval(function () {
                         if(typeof file.width != 'undefined') {
                             this.creativeAttributes = {w: file.width, h: file.height, name: file.name.slice(0,(file.name.length-4))};
@@ -405,13 +404,11 @@
 
             checkDimensions() {
                 var iabs = this.creativeIAB;
-                console.log(iabs);
                 var dimension = this.dimension;
-                console.log(dimension);
                 var check = 0;
                 for(var iab in iabs) {
-                    if(dimension == iab) {
-                        check++; 
+                    if(dimension == iabs[iab]) {
+                        check = check + 1;
                     }
                 }
                 if (check > 0) {
