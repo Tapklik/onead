@@ -352,8 +352,9 @@
                     responsive: false,
                     h: 0,
                     w: 0,
-                    class: 'banner'
+                    class: 'banner',
                 },
+                thumb: '',
                 search: ''
             }
         },
@@ -387,7 +388,8 @@
                     autoProcessQueue: false
                 });
 
-                this.dropzone.on("addedfile", function(file) {
+                this.dropzone.on("addedfile", function(file, thumb) {
+
                     var sizeInterval = setInterval(function () {
 
                         if(typeof file.width != 'undefined') {
@@ -395,6 +397,10 @@
                             clearInterval(sizeInterval);
                         }
                     }.bind(this), 1000);
+                }.bind(this));
+
+                this.dropzone.on("thumbnail", function(file, thumb) {
+                    this.thumb = thumb;
                 }.bind(this));
             },
 
@@ -480,12 +486,6 @@
             },
 
             uploadCreative() {
-                this.dropzone.options.uploader = {
-                    createImageThumbnails: true,
-                    thumbnailWidth: 120,
-                    thumbnailHeight: 90,
-                    thumbnailMethod: 'crop'
-                };
                 this.dropzone.options.params = {
                     folder_id: this.folderId,
                     name: this.creativeAttributes.name,
@@ -494,6 +494,7 @@
                     h: this.creativeAttributes.h,
                     responsive: this.creativeAttributes.responsive,
                     class: this.creativeAttributes.class,
+                    thumb: this.thumb
                 };
                 if(this.checkDimensions() == false) {
                     this.alert = true;
