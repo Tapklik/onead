@@ -10,7 +10,7 @@
                 <v-layout row wrap>
                     <v-flex xs12 md9 class="valign-wrapper mt-4">
                         <span class="title">Campaign Name</span>
-                        <p class="ma-0">Set a name for your campaign to be identified with</p>
+                        <p class="caption ma-0">Set a name for your campaign to be identified with</p>
                     </v-flex>
                     <v-flex xs12 md8>
                         <v-text-field
@@ -24,7 +24,7 @@
                 <v-layout row wrap>
                     <v-flex xs12 md12 class="valign-wrapper mt-4">
                         <span class="title">Campaign Flight</span>
-                        <p class="ma-0">Define campaign start and end dates</p>
+                        <p class="caption ma-0">Define campaign start and end dates</p>
                     </v-flex>
                     <v-flex xs6 md5 lg4>
                         <v-dialog
@@ -68,7 +68,7 @@
                 <v-layout row wrap>
                     <v-flex xs12 md9 class="valign-wrapper mt-4">
                         <span class="title">Advertiser Domain</span>
-                        <p class="ma-0">Insert advertiser’s TLD (company.com)</p>
+                        <p class="caption ma-0">Insert advertiser’s TLD (company.com)</p>
                     </v-flex>
                     <v-flex xs12 md8>
                         <v-text-field
@@ -82,7 +82,7 @@
                 <v-layout row wrap>
                     <v-flex xs12 md9 class="valign-wrapper mt-4">
                         <span class="title">Click-through URL</span>
-                        <p class="ma-0">Set the default click through URL for your creatives</p>
+                        <p class="caption ma-0">Set the default click through URL for your creatives</p>
                     </v-flex>
                     <v-flex xs12 md8>
                         <v-text-field
@@ -103,7 +103,7 @@
                 <v-layout row wrap>
                     <v-flex xs12 md9 class="valign-wrapper mt-4">
                         <span class="title">Budget Type</span>
-                        <p class="ma-0">Set budget to "daily" or "campaign"; "campaign" budget spans the budget across the lifetime of the campaign</p>
+                        <p class="caption ma-0">Set budget to "daily" or "campaign"; "campaign" budget spans the budget across the lifetime of the campaign</p>
                     </v-flex>
                 </v-layout>
                 <v-layout>
@@ -117,7 +117,7 @@
                 <v-layout row wrap>
                     <v-flex xs12 md9 class="valign-wrapper mt-4">
                         <span class="title">Budget</span>
-                        <p class="ma-0">Set budget for your campaign</p>
+                        <p class="caption ma-0">Set budget for your campaign</p>
                     </v-flex>
                     <v-flex xs12 md8>
                         <v-text-field
@@ -131,7 +131,7 @@
                 <v-layout row wrap>
                     <v-flex xs12 md9 class="valign-wrapper mt-4">
                         <span class="title">Target Bid (CPM)</span>
-                        <p class="ma-0">Allocate the target bid price per 1000 impressions</p>
+                        <p class="caption ma-0">Allocate the target bid price per 1000 impressions</p>
                     </v-flex>
                     <v-flex xs12 md8>
                         <v-text-field
@@ -145,7 +145,7 @@
                 <v-layout row wrap>
                     <v-flex xs12 md9 class="valign-wrapper mt-4">
                         <span class="title">Daily Budget Pacing</span>
-                        <p class="ma-0">Default pacing is enabled every day between 7:00AM and 1:00AM next day</p>
+                        <p class="caption ma-0">Default pacing is enabled every day between 7:00AM and 1:00AM next day</p>
                     </v-flex>
                     <v-flex xs12 md9>
                         <v-dialog v-model="showModal" lazy absolute width="70%">
@@ -170,7 +170,7 @@
                                     <v-layout row wrap>
                                         <v-flex xs12 class="valign-wrapper mt-5">
                                             <span class="title">Active Hour of Day</span>
-                                            <p class="ma-0">Hours will be only edited for active days</p>
+                                            <p class="caption ma-0">Hours will be only edited for active days</p>
                                         </v-flex>
                                         <v-flex xs6 md4 lg2 v-for="time in timesOfDay" :key="time.index">
                                             
