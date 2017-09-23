@@ -1,18 +1,18 @@
 <template>
     <v-container fluid grid-list-md>
         <v-layout row wrap>
+            <v-flex xs12 class="valign-wrapper mb-1">
+                <h5>CAMPAIGN DETAILS</h5>
+            </v-flex>
+        </v-layout>
+        <v-layout row wrap>
             <v-flex xs12 md6>
-                <v-layout row wrap>
-                    <v-flex xs12 class="mb-3 mt-4">
-                        <h4>Basic Campaign Details</h4>
-                    </v-flex>
-                </v-layout>
                 <v-layout row wrap>
                     <v-flex xs12 md9 class="valign-wrapper mt-4">
                         <span class="title">Campaign Name</span>
                         <p class="caption ma-0">Set a name for your campaign to be identified with</p>
                     </v-flex>
-                    <v-flex xs12 md8>
+                    <v-flex xs12 md6>
                         <v-text-field
                         label="Campaign Name"
                         prepend-icon="mode_edit"
@@ -96,11 +96,6 @@
             </v-flex>
             <v-flex xs12 md6>
                 <v-layout row wrap>
-                    <v-flex xs12 class="mb-3 mt-4">
-                        <h4>Budget Details</h4>
-                    </v-flex>
-                </v-layout>
-                <v-layout row wrap>
                     <v-flex xs12 md9 class="valign-wrapper mt-4">
                         <span class="title">Budget Type</span>
                         <p class="caption ma-0">Set budget to "daily" or "campaign"; "campaign" budget spans the budget across the lifetime of the campaign</p>
@@ -119,7 +114,7 @@
                         <span class="title">Budget</span>
                         <p class="caption ma-0">Set budget for your campaign</p>
                     </v-flex>
-                    <v-flex xs12 md8>
+                    <v-flex xs12 md6>
                         <v-text-field
                         label="0.00"
                         prepend-icon="attach_money"
@@ -133,7 +128,7 @@
                         <span class="title">Target Bid (CPM)</span>
                         <p class="caption ma-0">Allocate the target bid price per 1000 impressions</p>
                     </v-flex>
-                    <v-flex xs12 md8>
+                    <v-flex xs12 md6>
                         <v-text-field
                         label="0.00"
                         prepend-icon="attach_money"

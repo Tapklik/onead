@@ -33,14 +33,8 @@ h1, h2, h3, h4, h5 {
 }
 
 .header {
-	background: #f3f3f3;
-	margin-top: -15px;
-	margin-left: -15px;
-	margin-right: -15px;
 	margin-bottom: 20px;
 	padding-top: 40px;
-	padding-left: 12px;
-	border-bottom: 1px solid #dddddd;
 	& h4 {
 		color: #9e9e9e;
 	}
@@ -88,7 +82,11 @@ h1, h2, h3, h4, h5 {
 }
 
 i {
-	z-index: 1;
+	z-index: 1 !important;
+}
+
+.stepper__content {
+	bottom: initial;
 }
 
 .tapklik-chart {

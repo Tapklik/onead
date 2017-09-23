@@ -4,7 +4,7 @@
 
         <v-layout class="header">
             <v-flex xs12>
-                <h4>Create A New Campaign</h4>
+                <h4>CREATE A NEW CAMPAIGN</h4>
             </v-flex>
          </v-layout>
 

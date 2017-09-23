@@ -1,13 +1,19 @@
 <template>
     <v-container fluid grid-list-xs>
-        <v-layout>
+        <v-layout row wrap>
+            <v-flex xs12 class="valign-wrapper mb-1">
+                <h5>CAREATIVES VAULT</h5>
+            </v-flex>
+        </v-layout>
+        <v-layout row wrap>
+            <v-flex xs12 md6 class="valign-wrapper mt-4">
+                <span class="title">Browse Campaign Creatives</span>
+                <p class="caption ma-0">Select creatives for your campaign. Make sure that your creatives fit target devices</p>
+            </v-flex>
+        </v-layout>
+        <v-layout row wrap>
             <v-flex xs12>
                 <v-card class="elevation-0">
-                        <v-layout row wrap>
-                            <v-flex xs12 class="valign-wrapper">
-                                <h5><i class="material-icons">add_box</i> Creatives Vault</h5>
-                            </v-flex>
-                        </v-layout>
                     <v-card-text v-if="!currentFolder.id">
                         <v-layout row wrap>
                             <v-flex xs12>                      

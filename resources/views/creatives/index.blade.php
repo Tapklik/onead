@@ -4,7 +4,7 @@
 
         <v-layout class="header">
             <v-flex xs12>
-                <h4>Your Creatives Vault</h4>
+                <h4>CREATIVES VAULT</h4>
             </v-flex>
          </v-layout>
 

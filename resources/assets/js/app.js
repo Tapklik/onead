@@ -25,7 +25,7 @@ Vue.component('dashboard', require('./components/Dashboard.vue'));
 Vue.component('sidebar', require('./components/Sidebar.vue'));
 Vue.component('auth', require('./components/Auth.vue'));
 Vue.component('creatives', require('./components/Creatives.vue'));
-
+Vue.component('controls', require('./components/Controls.vue'));
 
 Vue.component('campaigns', require('./components/Campaigns.vue'));
 Vue.component('billing', require('./components/Billing.vue'));

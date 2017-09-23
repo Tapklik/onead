@@ -1,25 +1,21 @@
 <template>
     <v-container fluid grid-list-md>
-                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
+        <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
+        <v-layout row wrap>
+            <v-flex xs12 class="valign-wrapper mb-1">
+                <h5>CAMPAIGN TARGETING</h5>
+            </v-flex>
+        </v-layout>
         <v-layout row wrap>
             <v-flex xs12 md6>
-                <v-layout row wrap>
-                    <v-flex xs12 class="valign-wrapper mb-3 mt-4">
-                        <h4>Device Targeting</h4>
-                    </v-flex>
-                </v-layout>
-                <v-layout row wrap xs12>
+                <v-layout row wrap xs12 class="mt-4">
                     <v-flex>
                         <span class="title">Devices</span>
+                        <p class="caption ma-0">Select device types</p>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap xs12>
-                    <v-flex>
-                        <p>Select device types</p>
-                    </v-flex>
-                </v-layout>
-                <v-layout row wrap xs12>
-                    <v-flex xs12>
+                    <v-flex xs12 class="mt-3">
                         <tk-select-list v-model="campaign.device.data.type">
                             <tk-select v-for="technology in technologiesList.devices" :icon="technology.icon" :trueValue="technology.device_id" :key="technology.type">
                                 {{ technology.type }}
@@ -30,11 +26,7 @@
                 <v-layout row wrap xs12>
                     <v-flex>
                         <span class="title">Operating Systems</span>
-                    </v-flex>
-                </v-layout>
-                <v-layout row wrap xs12>
-                    <v-flex>
-                        <p>Select operating systems</p>
+                        <p class="caption ma-0">Select operating systems</p> 
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap xs12>
@@ -49,11 +41,7 @@
                 <v-layout row wrap xs12>
                     <v-flex>
                         <span class="title">Browsers</span>
-                    </v-flex>
-                </v-layout>
-                <v-layout row wrap xs12>
-                    <v-flex>
-                        <p>Select browsers</p>
+                        <p class="caption ma-0">Select browsers</p>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap xs12>
@@ -67,19 +55,10 @@
                 </v-layout>
             </v-flex>
             <v-flex xs12 md6>
-                <v-layout row wrap>
-                    <v-flex xs12 class="valign-wrapper mb-3 mt-4">
-                        <h4>Geo Location Targeting</h4>
-                    </v-flex>
-                </v-layout>
-                <v-layout row wrap xs12>
+                <v-layout row wrap xs12 class="mt-4">
                     <v-flex>
                         <span class="title">Geo Location</span>
-                    </v-flex>
-                </v-layout>
-                <v-layout row wrap xs12>
-                    <v-flex>
-                        <p>Choose the countries you want to target</p>
+                        <p class="caption ma-0">Choose the countries or cities you want to target</p>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap xs12>
@@ -91,6 +70,7 @@
                           item-text="key"
                           return-object
                           cache-items
+                          single-line
                           prepernd-icon="add_location"
                           :search-input.sync="searchCountry"
                           label="Select"
@@ -106,7 +86,7 @@
                                 </v-list-tile-content>
                             </template>
                         </v-select>
-                        <v-chip close v-for="g in campaign.geo.data" :key="geo.id">
+                        <v-chip close v-for="g in campaign.geo.data" :key="geo.id" class="grey lighten-4">
                             <v-avatar>
                                 <img :src='"/images/flags/" + g.country_iso2 + ".png"'>
                             </v-avatar>
@@ -115,19 +95,10 @@
                     </v-flex>
                 </v-layout>
                 <v-divider class="mt-5"></v-divider>
-                <v-layout row wrap>
-                    <v-flex xs12 class="valign-wrapper mb-3 mt-4">
-                        <h4>Audience Targeting</h4>
-                    </v-flex>
-                </v-layout>
-                <v-layout row wrap xs12>
+                <v-layout row wrap xs12 class="mt-4">
                     <v-flex>
-                        <span class="title">Gender</span>
-                    </v-flex>
-                </v-layout>
-                <v-layout row wrap xs12>
-                    <v-flex>
-                        <p>Set gender for target audience</p>
+                        <span class="title">Target Audience Gender</span>
+                        <p class="caption ma-0">Set gender for target audience</p>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap xs12>
@@ -142,14 +113,10 @@
                         </tk-select-list>                        
                     </v-flex>
                 </v-layout>
-                <v-layout row wrap xs12>
+                <v-layout row wrap xs12 class="mt-4">
                     <v-flex>
-                        <span class="title">Age Group</span>
-                    </v-flex>
-                </v-layout>
-                <v-layout row wrap xs12>
-                    <v-flex>
-                        <p>Set age group in which your target audience fits</p>
+                        <span class="title">Target Audience Age Group</span>
+                        <p class="caption ma-0">Set age group in which your target audience fits</p>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap xs12>

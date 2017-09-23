@@ -31,8 +31,6 @@
 				{ title: 'Creatives', icon: 'crop_original', link: '/admin/creatives' },
 				{ title: 'Reports', icon: 'insert_chart', link: '/admin/reports' },
 				{ title: 'Billing', icon: 'monetization_on', link: '/admin/billing' },
-				{ title: 'Settings', icon: 'settings', link: '/admin/settings' },
-				{ title: 'Log Out', icon: 'keyboard_arrow_left', link: '/admin/logout' },
 				],
 			}
 		},

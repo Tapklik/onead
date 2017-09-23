@@ -1,9 +1,9 @@
 <template>
-        <v-card class="tk-select pa-1" height="100px" @click="toggleClick()">
+        <v-card class="tk-select pa-1 elevation-0 grey lighten-4" height="85px" @click="toggleClick()">
             <div class="tk-select-wrapper" @mouseenter="toggleHover()" @mouseleave="toggleHover()" v-bind:class="{active: 
                 checked, hovered: hovering }">         
                 <v-icon large :class="textColor">{{ icon }}</v-icon>  
-                <v-checkbox v-model="checked" class="tk-select-checkbox"></v-checkbox>
+                <v-checkbox v-model="checked" class="tk-select-checkbox" color="orange darken-4"></v-checkbox>
                 <p class="body-1" :class="textColor"><slot></slot></p>
             </div>      
         </v-card>
@@ -136,10 +136,19 @@ export default {
     margin: 0 20px 40px 20px;
     text-align: center;
     width: 120px;
+    border-radius: 4px;
+}
+
+.tk-select p {
+    width: 112px;
+    display: block;
+    text-align: center;
 }
 
 .tk-select-wrapper {
-   
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .tk-select-wrapper .tk-select-checkbox {
@@ -149,12 +158,12 @@ export default {
 }
 
 .tk-select-wrapper:hover, .tk-select-wrapper:hover input[type=checkbox].checkbox+span:before {
-    color: #f76c06;
-    border-color: #f76c06;
+    color: #e65100;
+    border-color: #e65100;
 }
 
 .tk-select-wrapper.active {
-    color: #f76c06;
+    color: #e65100;
 }
 
 .tk-select-wrapper:hover {
@@ -168,7 +177,7 @@ export default {
 }
 
 label input[type="checkbox"].checkbox:checked + span:before {
-    color: #f76c06;
+    color: #e65100;
     border-color: #CCC;
 }
 

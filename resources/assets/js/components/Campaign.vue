@@ -2,15 +2,15 @@
     <div>
         <v-stepper class="elevation-0" v-model="e1" alt-labels>
             <v-stepper-header class="elevation-0">
-                <v-stepper-step step="1" :complete="e1 > 1" editable>Details</v-stepper-step>
+                <v-stepper-step step="1" :complete="e1 > 1" editable>DETAILS</v-stepper-step>
                 <v-divider></v-divider>
-                <v-stepper-step step="2" :complete="e1 > 2" editable>Categories</v-stepper-step>
+                <v-stepper-step step="2" :complete="e1 > 2" editable>CATEGORIES</v-stepper-step>
                 <v-divider></v-divider>
-                <v-stepper-step step="3" :complete="e1 > 3" editable>Creatives</v-stepper-step>
+                <v-stepper-step step="3" :complete="e1 > 3" editable>CREATIVES</v-stepper-step>
                 <v-divider></v-divider>
-                <v-stepper-step step="4" :complete="e1 > 4" editable>Targeting</v-stepper-step>
+                <v-stepper-step step="4" :complete="e1 > 4" editable>TARGETING</v-stepper-step>
                 <v-divider></v-divider>
-                <v-stepper-step step="5" editable>Review</v-stepper-step>
+                <v-stepper-step step="5" editable>campaign-review</v-stepper-step>
             </v-stepper-header>
             <v-stepper-content step="1">
                 <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
