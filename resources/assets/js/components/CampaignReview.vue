@@ -29,7 +29,8 @@
                 </tr>
             </template>
         </table>
-        <v-btn large primary @click="createCampaign()">Start Campaign</v-btn>
+        <v-btn v-show="!$root.editMode" large primary @click="createCampaign()">Start Campaign</v-btn>
+        <v-btn v-show="$root.editMode" large primary @click="updateCampaign()">update {{campaign.name}}</v-btn>
     </v-container>
 </template>
 
@@ -43,7 +44,7 @@
             this.$root.isLoading = false;
         },
 
-        props: ['campaign', 'folder', 'gender','token','user'],
+        props: ['campaign', 'folder', 'gender','token','user','alert1','error1', 'success1', 'alertmessage1'],
 
         data() {
 
@@ -79,10 +80,16 @@
                     this.updateCampaignDevice();
                     this.updateCampaignBudget();
                     this.updateCampaignCreatives();
+                    
                     this.alert = true;
                     this.success = true;
                     this.error = false;
                     this.alertMessage = 'Successfully created a new campaign';
+                    
+                    setTimeout(function() {
+                      window.location = "/admin/campaigns";
+                    }, 3000);
+                
                 }, error => {
                     this.alert = true;
                     this.success = false;
@@ -101,6 +108,11 @@
                 this.updateCampaignDevice();
                 this.updateCampaignBudget();
                 this.updateCampaignCreatives();
+
+                setTimeout(function() {
+                  window.location = "/admin/campaigns";
+                }, 3000);
+                
             },
 
             updateCampaignDetails(){
@@ -279,7 +291,11 @@
             batch(value) {
 
                 if (value.length == 7) {
-                    swal('Success', 'Campaign has been updated', 'success');
+                    this.error = false;
+                    this.alert = true;
+                    this.success = true;
+                    this.alertMessage = 'Successfully updated campaign';
+                    
                     this.ajax = false;
                     this.batch = [];
                 }

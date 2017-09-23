@@ -352,8 +352,9 @@
                     responsive: false,
                     h: 0,
                     w: 0,
-                    class: 'banner'
+                    class: 'banner',
                 },
+                thumb: '',
                 search: ''
             }
         },
@@ -384,22 +385,31 @@
                     maxFilesize: 2,
                     acceptedFiles: 'image/*',
                     headers: {"Authorization": 'Bearer ' + this.token},
-                    autoProcessQueue: false
+                    autoProcessQueue: false,
+                    thumbnailWidth: 128,
+                    thumbnailHeight: 128
                 });
 
-                this.dropzone.on("addedfile", function(file) {
+                this.dropzone.on("addedfile", function(file, thumb) {
+
                     var sizeInterval = setInterval(function () {
+
                         if(typeof file.width != 'undefined') {
-                            this.creativeAttributes = {w: file.width, h: file.height, name: file.name.slice(0,(file.name.length-4))};
+                            this.creativeAttributes = {w: file.width, h: file.height, name: file.name.slice(0,file.name.lastIndexOf('.')), class: 'banner'};
                             clearInterval(sizeInterval);
                         }
                     }.bind(this), 1000);
+                }.bind(this));
+
+                this.dropzone.on("thumbnail", function(file, thumb) {
+                    this.thumb = thumb;
                 }.bind(this));
             },
 
             openFolder(folderObj) {
                 this.currentFolder = folderObj;
                 this.getFolderCreatives(folderObj.id);
+                this.folderId = this.currentFolder.key;
             },
 
             checkDimensions() {
@@ -422,6 +432,7 @@
             closeFolder() {
                 this.currentFolder = {};
                 this.creatives = {};
+                this.folderId = 0;
             },
 
             deleteFolder(folderId, folderName) {
@@ -477,12 +488,7 @@
             },
 
             uploadCreative() {
-                this.dropzone.options.uploader = {
-                    createImageThumbnails: true,
-                    thumbnailWidth: 120,
-                    thumbnailHeight: 90,
-                    thumbnailMethod: 'crop'
-                };
+                this.dropzone.
                 this.dropzone.options.params = {
                     folder_id: this.folderId,
                     name: this.creativeAttributes.name,
@@ -491,6 +497,7 @@
                     h: this.creativeAttributes.h,
                     responsive: this.creativeAttributes.responsive,
                     class: this.creativeAttributes.class,
+                    thumb: this.thumb
                 };
                 if(this.checkDimensions() == false) {
                     this.alert = true;

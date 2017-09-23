@@ -5,8 +5,8 @@
                 <v-card-text>
                     <v-layout row wrap>
                         <v-flex xs-12 md6 lg4>
-                            <v-select :items="campaignList" item-text="name" item-value="name" chips v-model="selectedCampaigns1" label="Campaigns" multiple autocomplete></v-select>
-                            <v-select :items="creativesList" item-text="name" item-value="name" chips v-model="selectedCreatives1" label="Creatives" multiple autocomplete></v-select>
+                            <v-select :items="campaignList" item-text="name" item-value="id" chips v-model="selectedCampaigns1" label="Campaigns" multiple autocomplete></v-select>
+                            <v-select :items="creativesList" item-text="name" item-value="id" chips v-model="selectedCreatives1" label="Creatives" multiple autocomplete></v-select>
                         </v-flex>
                         <v-spacer></v-spacer>
                         <v-flex xs-12 md6 lg4>
@@ -24,28 +24,35 @@
                                         append-icon="date_range"
                                         single-line
                                         readonly
+                                        v-model="date_from"
                                         slot="activator"
                                         ></v-text-field>
-                                        <v-date-picker no-title scrollable autosave></v-date-picker>
+                                        <v-date-picker v-model="date_from" no-title scrollable autosave></v-date-picker>
                                     </v-dialog>
                                 </v-flex>
                                 <v-flex xs6>
-                                    <v-dialog
-
-                                    :v-model="false"
-                                    lazy
-                                    full-width
-                                    >
+                                    <v-dialog :v-model="false" lazy full-width>
                                         <v-text-field
                                         label="From"
                                         prepend-icon="flight_takeoff"
                                         append-icon="date_range"
                                         single-line
                                         readonly
+                                        v-model="date_to"
                                         slot="activator"
                                         ></v-text-field>
-                                        <v-date-picker no-title scrollable autosave></v-date-picker>
+                                        <v-date-picker v-model="date_to" no-title scrollable autosave></v-date-picker>
                                     </v-dialog>
+                                </v-flex>
+                            </v-layout>
+                            <v-layout row wrap>
+                                <v-flex xs6>
+                                    <v-select :items="stats" v-model="column" label="Column" autocomplete></v-select>
+                                           
+                                </v-flex>
+                                <v-flex xs6>
+                                    <v-select :items="stats" v-model="line" label="Line" autocomplete></v-select>
+                           
                                 </v-flex>
                             </v-layout>
                         </v-flex>
@@ -80,32 +87,65 @@
                     <v-card>
                         <v-card-text>
                             <v-container fluid grid-list-md>
-
-                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
+                                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
                                 <v-layout row wrap>
-                                    <v-flex>
-                                        <span> Impressions </span>
-                                        <h5>{{ responseOverallSummary.imps }}</h5>
+                                    <v-flex xs6 md4 lg2>
+                                        <tk-widget
+                                            icon="photo"
+                                            title="Impressions"
+                                            :value="responseOverallSummary.imps"
+                                            defaultValue="0.00"
+                                            size="lg"
+                                        ></tk-widget>
                                     </v-flex>
-                                    <v-flex>
-                                        <span> Clicks </span>
-                                        <h5>{{ responseOverallSummary.clicks }}</h5>
+                                    <v-flex xs6 md4 lg2>
+                                        <tk-widget
+                                            icon="monetization_on"
+                                            title="Clicks"
+                                            :value="responseOverallSummary.clicks"
+                                            defaultValue="0.00"
+                                            size="lg"
+                                        ></tk-widget>
                                     </v-flex>
-                                    <v-flex>
-                                        <span> CTR </span>
-                                        <h5>{{ $root.twoDecimalPlaces(responseOverallSummary.ctr * 100) }}</h5>
+                                    <v-flex xs6 md4 lg2>
+                                        <tk-widget
+                                            icon="mouse"
+                                            title="CTR"
+                                            :value="$root.twoDecimalPlaces(responseOverallSummary.ctr * 100)"
+                                            unit="%"
+                                            defaultValue="0.00"
+                                            size="lg"
+                                        ></tk-widget>
                                     </v-flex>
-                                    <v-flex>
-                                        <span> eCPM </span>
-                                        <h5>{{ responseOverallSummary.ecpm }}</h5>
+                                    <v-flex xs6 md4 lg2>
+                                        <tk-widget
+                                            icon="monetization_on"
+                                            title="eCPM"
+                                            :value="responseOverallSummary.ecpm "
+                                            unit="$"
+                                            defaultValue="0.00"
+                                            size="lg"
+                                        ></tk-widget>
                                     </v-flex>
-                                    <v-flex>
-                                        <span> eCPC </span>
-                                        <h5>{{ responseOverallSummary.ecpc }}</h5>
+                                    <v-flex xs6 md4 lg2>
+                                        <tk-widget
+                                            icon="star_half"
+                                            title="eCPC"
+                                            :value="responseOverallSummary.ecpc "
+                                            unit="$"
+                                            defaultValue="0.00"
+                                            size="lg"
+                                        ></tk-widget>
                                     </v-flex>
-                                    <v-flex>
-                                        <span> Spend </span>
-                                        <h5>{{ $root.fromMicroDollars(responseOverallSummary.spend) }}</h5>
+                                    <v-flex xs6 md4 lg2>
+                                        <tk-widget
+                                            icon="monetization_on"
+                                            title="Spend"
+                                            :value="$root.fromMicroDollars(responseOverallSummary.spend)"
+                                            unit="$"
+                                            defaultValue="0.00"
+                                            size="lg"
+                                        ></tk-widget>
                                     </v-flex>
                                 </v-layout>
                             </v-container>
@@ -117,31 +157,65 @@
                     <v-card flat>
                         <v-card-text>
                             <v-container fluid grid-list-md>
-                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
+                                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
                                 <v-layout row wrap>
-                                    <v-flex>
-                                        <span> Impressions </span>
-                                        <h5>{{ responsePublishersSummary.imps }}</h5>
+                                    <v-flex xs6 md4 lg2>
+                                        <tk-widget
+                                            icon="photo"
+                                            title="Impressions"
+                                            :value="responsePublishersSummary.imps"
+                                            defaultValue="0.00"
+                                            size="lg"
+                                        ></tk-widget>
                                     </v-flex>
-                                    <v-flex>
-                                        <span> Clicks </span>
-                                        <h5>{{ responsePublishersSummary.clicks }}</h5>
+                                    <v-flex xs6 md4 lg2>
+                                        <tk-widget
+                                            icon="monetization_on"
+                                            title="Clicks"
+                                            :value="responsePublishersSummary.clicks"
+                                            defaultValue="0.00"
+                                            size="lg"
+                                        ></tk-widget>
                                     </v-flex>
-                                    <v-flex>
-                                        <span> CTR </span>
-                                        <h5>{{ $root.twoDecimalPlaces(responsePublishersSummary.ctr * 100) }}</h5>
+                                    <v-flex xs6 md4 lg2>
+                                        <tk-widget
+                                            icon="mouse"
+                                            title="CTR"
+                                            :value="$root.twoDecimalPlaces(responsePublishersSummary.ctr * 100)"
+                                            unit="%"
+                                            defaultValue="0.00"
+                                            size="lg"
+                                        ></tk-widget>
                                     </v-flex>
-                                    <v-flex>
-                                        <span> eCPM </span>
-                                        <h5>{{ responsePublishersSummary.ecpm }}</h5>
+                                    <v-flex xs6 md4 lg2>
+                                        <tk-widget
+                                            icon="monetization_on"
+                                            title="eCPM"
+                                            :value="responsePublishersSummary.ecpm "
+                                            unit="$"
+                                            defaultValue="0.00"
+                                            size="lg"
+                                        ></tk-widget>
                                     </v-flex>
-                                    <v-flex>
-                                        <span> eCPC </span>
-                                        <h5>{{ responsePublishersSummary.ecpc }}</h5>
+                                    <v-flex xs6 md4 lg2>
+                                        <tk-widget
+                                            icon="star_half"
+                                            title="eCPC"
+                                            :value="responsePublishersSummary.ecpc "
+                                            unit="$"
+                                            defaultValue="0.00"
+                                            size="lg"
+                                        ></tk-widget>
                                     </v-flex>
-                                    <v-flex>
-                                        <span> Spend </span>
-                                        <h5>{{ $root.fromMicroDollars(responsePublishersSummary.spend) }}</h5>
+                                    <v-flex xs6 md4 lg2>
+                                        <tk-widget
+                                            icon="monetization_on"
+                                            title="Spend"
+                                            :value="$root.fromMicroDollars(responsePublishersSummary.spend)"
+                                            unit="$"
+                                            defaultValue="0.00"
+                                            size="lg"
+                                        ></tk-widget>
                                     </v-flex>
                                 </v-layout>
                             </v-container>
@@ -159,31 +233,65 @@
                     <v-card flat>
                         <v-card-text>
                             <v-container fluid grid-list-md>
-                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
+                                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
                                 <v-layout row wrap>
-                                    <v-flex>
-                                        <span> Impressions </span>
-                                        <h5>{{ responseDevicesSummary.imps }}</h5>
+                                    <v-flex xs6 md4 lg2>
+                                        <tk-widget
+                                            icon="photo"
+                                            title="Impressions"
+                                            :value="responseDevicesSummary.imps"
+                                            defaultValue="0.00"
+                                            size="lg"
+                                        ></tk-widget>
                                     </v-flex>
-                                    <v-flex>
-                                        <span> Clicks </span>
-                                        <h5>{{ responseDevicesSummary.clicks }}</h5>
+                                    <v-flex xs6 md4 lg2>
+                                        <tk-widget
+                                            icon="monetization_on"
+                                            title="Clicks"
+                                            :value="responseDevicesSummary.clicks"
+                                            defaultValue="0.00"
+                                            size="lg"
+                                        ></tk-widget>
                                     </v-flex>
-                                    <v-flex>
-                                        <span> CTR </span>
-                                        <h5>{{ $root.twoDecimalPlaces(responseDevicesSummary.ctr * 100) }}</h5>
+                                    <v-flex xs6 md4 lg2>
+                                        <tk-widget
+                                            icon="mouse"
+                                            title="CTR"
+                                            :value="$root.twoDecimalPlaces(responseDevicesSummary.ctr * 100)"
+                                            unit="%"
+                                            defaultValue="0.00"
+                                            size="lg"
+                                        ></tk-widget>
                                     </v-flex>
-                                    <v-flex>
-                                        <span> eCPM </span>
-                                        <h5>{{ responseDevicesSummary.ecpm }}</h5>
+                                    <v-flex xs6 md4 lg2>
+                                        <tk-widget
+                                            icon="monetization_on"
+                                            title="eCPM"
+                                            :value="responseDevicesSummary.ecpm "
+                                            unit="$"
+                                            defaultValue="0.00"
+                                            size="lg"
+                                        ></tk-widget>
                                     </v-flex>
-                                    <v-flex>
-                                        <span> eCPC </span>
-                                        <h5>{{ responseDevicesSummary.ecpc }}</h5>
+                                    <v-flex xs6 md4 lg2>
+                                        <tk-widget
+                                            icon="star_half"
+                                            title="eCPC"
+                                            :value="responseDevicesSummary.ecpc "
+                                            unit="$"
+                                            defaultValue="0.00"
+                                            size="lg"
+                                        ></tk-widget>
                                     </v-flex>
-                                    <v-flex>
-                                        <span> Spend </span>
-                                        <h5>{{ $root.fromMicroDollars(responseDevicesSummary.spend) }}</h5>
+                                    <v-flex xs6 md4 lg2>
+                                        <tk-widget
+                                            icon="monetization_on"
+                                            title="Spend"
+                                            :value="$root.fromMicroDollars(responseDevicesSummary.spend)"
+                                            unit="$"
+                                            defaultValue="0.00"
+                                            size="lg"
+                                        ></tk-widget>
                                     </v-flex>
                                 </v-layout>
                             <v-layout row wrap>
@@ -207,31 +315,65 @@
                     <v-card flat>
                         <v-card-text>
                             <v-container fluid grid-list-md>
-                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
+                                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
                                 <v-layout row wrap>
-                                    <v-flex>
-                                        <span> Impressions </span>
-                                        <h5>{{ responseGeoSummary.imps }}</h5>
+                                    <v-flex xs6 md4 lg2>
+                                        <tk-widget
+                                            icon="photo"
+                                            title="Impressions"
+                                            :value="responseGeoSummary.imps"
+                                            defaultValue="0.00"
+                                            size="lg"
+                                        ></tk-widget>
                                     </v-flex>
-                                    <v-flex>
-                                        <span> Clicks </span>
-                                        <h5>{{ responseGeoSummary.clicks }}</h5>
+                                    <v-flex xs6 md4 lg2>
+                                        <tk-widget
+                                            icon="monetization_on"
+                                            title="Clicks"
+                                            :value="responseGeoSummary.clicks"
+                                            defaultValue="0.00"
+                                            size="lg"
+                                        ></tk-widget>
                                     </v-flex>
-                                    <v-flex>
-                                        <span> CTR </span>
-                                        <h5>{{ $root.twoDecimalPlaces(responseGeoSummary.ctr * 100) }}</h5>
+                                    <v-flex xs6 md4 lg2>
+                                        <tk-widget
+                                            icon="mouse"
+                                            title="CTR"
+                                            :value="$root.twoDecimalPlaces(responseGeoSummary.ctr * 100)"
+                                            unit="%"
+                                            defaultValue="0.00"
+                                            size="lg"
+                                        ></tk-widget>
                                     </v-flex>
-                                    <v-flex>
-                                        <span> eCPM </span>
-                                        <h5>{{ responseGeoSummary.ecpm }}</h5>
+                                    <v-flex xs6 md4 lg2>
+                                        <tk-widget
+                                            icon="monetization_on"
+                                            title="eCPM"
+                                            :value="responseGeoSummary.ecpm "
+                                            unit="$"
+                                            defaultValue="0.00"
+                                            size="lg"
+                                        ></tk-widget>
                                     </v-flex>
-                                    <v-flex>
-                                        <span> eCPC </span>
-                                        <h5>{{ responseGeoSummary.ecpc }}</h5>
+                                    <v-flex xs6 md4 lg2>
+                                        <tk-widget
+                                            icon="star_half"
+                                            title="eCPC"
+                                            :value="responseGeoSummary.ecpc "
+                                            unit="$"
+                                            defaultValue="0.00"
+                                            size="lg"
+                                        ></tk-widget>
                                     </v-flex>
-                                    <v-flex>
-                                        <span> Spend </span>
-                                        <h5>{{ $root.fromMicroDollars(responseGeoSummary.spend) }}</h5>
+                                    <v-flex xs6 md4 lg2>
+                                        <tk-widget
+                                            icon="monetization_on"
+                                            title="Spend"
+                                            :value="$root.fromMicroDollars(responseGeoSummary.spend)"
+                                            unit="$"
+                                            defaultValue="0.00"
+                                            size="lg"
+                                        ></tk-widget>
                                     </v-flex>
                                 </v-layout>
 
@@ -282,6 +424,7 @@
                 success: false,
                 alertMessage: '',
                 tabIndex: 'overall-tab',
+                stats: ['imps', 'clicks', 'ecpc', 'ecpm', 'spend', 'ctr'],
                 line: 'imps',
                 column: 'clicks',
                 dateFormat: 'yyyy-MM-dd',
@@ -597,118 +740,84 @@
         },
 
         createChart(target, dataset, column, line) {
-
-            var chart = AmCharts.makeChart(target, {
-                "type": "serial",
-                "theme": "light",
-                "marginRight": 40,
-                "marginLeft": 40,
-                "marginTop": 40,
-                "autoMarginOffset": 20,
-                "mouseWheelZoomEnabled":false,
-                "dataDateFormat": "YYYY-MM-DD HH",
-                "valueAxes": [{
-                    "id": "v1",
-                    "axisAlpha": 0,
-                    "position": "left",
-                    "ignoreAxisWidth":true
-                },
-                {
-                    "id": "v2",
-                    "axisAlpha": 0,
-                    "position": "right",
-                    "ignoreAxisWidth":true
-                }
-                ],
-                "balloon": {
-                    "borderThickness": 1,
-                    "shadowAlpha": 0
-                },
-                "graphs": [{
-                    "valueAxis": "v1",
-                    "id": "g1",
-                    "type" : "column",
-                    "fillAlphas": 0.8,
-                    "fillColors":"#f76c06",
-                    "lineColor":"#f76c06",
-                    "balloonColor":"#444",
-                    "balloon":{
-                        "drop":true,
-                        "adjustBorderColor":false,
-                        "color":"#ffffff"
+                var obj = this;
+                var chart = AmCharts.makeChart(target, {
+                    "type": "serial",
+                    "theme": "light",
+                    "marginRight": 40,
+                    "marginLeft": 40,
+                    "marginTop": 40,
+                    "autoMarginOffset": 20,
+                    "mouseWheelZoomEnabled":false,
+                    "dataDateFormat": "YYYY-MM-DD HH",
+                    "valueAxes": [{
+                        "id": "v1",
+                        "axisAlpha": 0,
+                        "gridAlpha": 0,
+                        "position": "left",
+                        "labelsEnabled": false,
+                        "ignoreAxisWidth":true
                     },
-                    "bullet": "round",
-                    "bulletBorderAlpha": 1,
-                    "bulletColor": "#FFFFFF",
-                    "bulletSize": 5,
-                    "hideBulletsCount": 50,
-                    "lineThickness": 2,
-                    "title": "red line",
-                    "useLineColorForBulletBorder": true,
-                    "valueField": column,
-                    "balloonText": "<span style='font-size:18px;'>[[value]]</span>"
-                },
-                {   
-                    "valueAxis": "v2",
-                    "id": "g2",
-                    "type" : "line",
-                    "fillColors":"#f76c06",
-                    "lineColor":"magenta",
-                    "balloonColor":"#444",
-                    "balloon":{
-                        "drop":true,
-                        "adjustBorderColor":false,
-                        "color":"#ffffff"
+                    {
+                        "id": "v2",
+                        "axisAlpha": 0,
+                        "gridAlpha": 0,
+                        "position": "right",
+                        "labelsEnabled": false,
+                        "ignoreAxisWidth":true
+                    }
+                    ],
+                    "graphs": [{
+                        "valueAxis": "v1",
+                        "id": "g1",
+                        "type" : "column",
+                        "fillAlphas": 1,
+                        "fillColors":"#ccc",
+                        "lineColor":"#ccc",
+                        "lineThickness": 2,
+                        "balloonText": "[[date]] <br> ---------------- <br>"+column+" :[[clicks]]<br>"+line+": [[imps]]",
+                        "title": column,
+                        "valueField": column,
                     },
-                    "bullet": "round",
-                    "bulletBorderAlpha": 1,
-                    "bulletColor": "#FFFFFF",
-                    "bulletSize": 5,
-                    "hideBulletsCount": 50,
-                    "lineThickness": 2,
-                    "title": "red line",
-                    "useLineColorForBulletBorder": true,
-                    "valueField": line,
-                    "balloonText": "<span style='font-size:18px;'>[[value]]</span>"
-                    
-                }],
-                "chartScrollbar": {
-                    "graph": "g1",
-                    "oppositeAxis":false,
-                    "offset":30,
-                    "scrollbarHeight": 80,
-                    "backgroundAlpha": 0,
-                    "selectedBackgroundAlpha": 0.1,
-                    "selectedBackgroundColor": "#888888",
-                    "graphFillAlpha": 0,
-                    "graphLineAlpha": 0.5,
-                    "selectedGraphFillAlpha": 0,
-                    "selectedGraphLineAlpha": 1,
-                    "autoGridCount":true,
-                    "color":"#AAAAAA"
-                },
-                "chartCursor": {
-                    "pan": true,
-                    "valueLineEnabled": true,
-                    "valueLineBalloonEnabled": true,
-                    "cursorAlpha":1,
-                    "cursorColor":"#444",
-                    "limitToGraph":"g1",
-                    "valueLineAlpha":0.2,
-                    "valueZoomable":true
-                },
-                "categoryField": "date",
-                "categoryAxis": {
-                    "parseDates": true,
-                    "dashLength": 1,
-                    "minPeriod" : "hh",
-                    "minorGridEnabled": true
-                },
-                "export": {
-                    "enabled": true
-                },
-                "dataProvider": dataset, // Here you need to add the dataset
-            });
+                    {   
+                        "valueAxis": "v2",
+                        "id": "g2",
+                        "type" : "smoothedLine",
+                        "lineColor":"#f76c06",
+                        "showBalloon": false,
+                        "lineThickness": 2,
+                        "title": line,
+                        "valueField": line,
+                        
+                    }],
+                    "categoryField": "date",
+                    "categoryAxis": {
+                        "parseDates": true,
+                        "dashLength": 0,
+                        "axisAlpha": 0,
+                        "gridAlpha": 0,
+                        "minPeriod": "DD",
+                        "minorGridEnabled": false
+                    },
+                    "balloon": {
+                        "borderColor": "#f76c06",
+                        "borderAlpha": 0,
+                        "borderThickness": 0,
+                        "shadowAlpha": 0,
+                        "color": "#ffffff",
+                        "drop": false,
+                        "cornerRadius": 5,
+                        "fillColor": "#f76c06",
+                        "fillAlpha": 1,
+                    },
+                    "legend": {
+                        "useGraphSettings": true
+                    },
+                    "export": {
+                        "enabled": true
+                    },
+                    "dataProvider": dataset, // Here you need to add the dataset
+                });
 
 chart.addListener("rendered", removeLogo);
 
