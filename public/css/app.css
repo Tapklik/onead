@@ -85,6 +85,10 @@ h5 {
   overflow: hidden;
 }
 
+i {
+  z-index: 1;
+}
+
 .tapklik-chart a {
   display: none !important;
 }

@@ -20,8 +20,8 @@
                 </v-layout>
                 <v-layout row wrap xs12>
                     <v-flex xs12>
-                        <tk-select-list v-model="campaign.device.data.os">
-                            <tk-select v-for="technology in technologiesList.operatingsystems" :icon="technology.icon" :trueValue="technology.device_id" :key="technology.type">
+                        <tk-select-list v-model="campaign.device.data.type">
+                            <tk-select v-for="technology in technologiesList.devices" :icon="technology.icon" :trueValue="technology.device_id" :key="technology.type">
                                 {{ technology.type }}
                             </tk-select>
                         </tk-select-list>
@@ -39,8 +39,8 @@
                 </v-layout>
                 <v-layout row wrap xs12>
                     <v-flex xs12>
-                        <tk-select-list v-model="campaign.device.data.type">
-                            <tk-select v-for="technology in technologiesList.devices" :icon="technology.icon" :trueValue="technology.device_id" :key="technology.type">
+                        <tk-select-list v-model="campaign.device.data.os">
+                            <tk-select v-for="technology in technologiesList.operatingsystems" :icon="technology.icon" :trueValue="technology.device_id" :key="technology.type">
                                 {{ technology.type }}
                             </tk-select>
                         </tk-select-list>
@@ -67,6 +67,54 @@
                 </v-layout>
             </v-flex>
             <v-flex xs12 md6>
+                <v-layout row wrap>
+                    <v-flex xs12 class="valign-wrapper mb-3 mt-4">
+                        <h4>Geo Location Targeting</h4>
+                    </v-flex>
+                </v-layout>
+                <v-layout row wrap xs12>
+                    <v-flex>
+                        <span class="title">Geo Location</span>
+                    </v-flex>
+                </v-layout>
+                <v-layout row wrap xs12>
+                    <v-flex>
+                        <p>Choose the countries you want to target</p>
+                    </v-flex>
+                </v-layout>
+                <v-layout row wrap xs12>
+                    <v-flex xs12>
+                        <v-select
+                        @keyup="reloadGeo()"
+                          v-bind:items="geo"
+                          v-model="campaign.geo.data"
+                          item-text="key"
+                          return-object
+                          cache-items
+                          prepernd-icon="add_location"
+                          :search-input.sync="searchCountry"
+                          label="Select"
+                          multiple
+                          autocomplete>
+                            <template slot="item" scope="data">
+                                <v-list-tile-avatar>
+                                    <img v-bind:src='"/images/flags/" + data.item.country_iso2 + ".png"'/>
+                                </v-list-tile-avatar>
+                                <v-list-tile-content>
+                                    <v-list-tile-title v-html="data.item.key"></v-list-tile-title>
+                                    <v-list-tile-sub-title v-html="data.item.comment"></v-list-tile-sub-title>
+                                </v-list-tile-content>
+                            </template>
+                        </v-select>
+                        <v-chip close v-for="g in campaign.geo.data" :key="geo.id">
+                            <v-avatar>
+                                <img :src='"/images/flags/" + g.country_iso2 + ".png"'>
+                            </v-avatar>
+                            {{g.key}}
+                        </v-chip>
+                    </v-flex>
+                </v-layout>
+                <v-divider class="mt-5"></v-divider>
                 <v-layout row wrap>
                     <v-flex xs12 class="valign-wrapper mb-3 mt-4">
                         <h4>Audience Targeting</h4>
@@ -112,44 +160,12 @@
                         <v-slider min="1" max="120" v-model="campaign.user.data.age.max"></v-slider>
                     </v-flex>
                 </v-layout>
-                <v-layout row wrap>
-                    <v-flex xs12 class="valign-wrapper mb-3 mt-4">
-                        <h4>Geo Location Targeting</h4>
-                    </v-flex>
-                </v-layout>
-                <v-layout row wrap xs12>
-                    <v-flex>
-                        <span class="title">Geo Location</span>
-                    </v-flex>
-                </v-layout>
-                <v-layout row wrap xs12>
-                    <v-flex>
-                        <p>Choose the countries you want to target</p>
-                    </v-flex>
-                </v-layout>
-                <v-layout row wrap xs12>
-                    <v-flex xs12>
-                        <v-select
-                        @keyup="reloadGeo()"
-                          v-bind:items="geo"
-                          v-model="campaign.geo.data"
-                          item-text="key"
-                          return-object
-                          cache-items
-                          :search-input.sync="searchCountry"
-                          label="Select"
-                          multiple
-                          autocomplete></v-select>
-                        <v-chip v-for="g in campaign.geo.data" :key="geo.id">{{g.key}}</v-chip>
-                    </v-flex>
-                </v-layout>
             </v-flex>
         </v-layout>
     </v-container>
 </template>
 
 <script>
-
     export default {
 
         props: ['campaign'],
@@ -201,15 +217,27 @@
                     this.success = false;
                     this.alertMessage = 'Something went wrong';
             })
+            },
+
+            getFlagPath(iso) {
+                if (iso) {
+                    return "/images/flags/" + iso.toLowerCase() + ".svg"
+                } else {
+                    return ""
+                }
             }
+
+        },
+
+        computed: {
+            
         },
 
         filters: {
 
-            lowercase(input) {
-
-                return input.toLowerCase();
-            }
+             lowercase: function(v) {
+              return v.toLowerCase();
+          }
         },
 
         watch: {
