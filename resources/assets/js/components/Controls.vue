@@ -1,9 +1,9 @@
 <template>
     <v-flex class="text-xs-right">
-        <v-btn icon class="grey--text text--lighten2">
+        <v-btn icon class="grey--text text--lighten2" href="/admin/settings">
             <v-icon>settings</v-icon>
         </v-btn>
-        <v-btn icon class="grey--text text--lighten2">
+        <v-btn icon class="grey--text text--lighten2" href="/admin/logout">
             <v-icon>power_settings_new</v-icon>
         </v-btn>
     </v-flex> 
