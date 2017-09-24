@@ -124,8 +124,8 @@
                         <v-flex xs12 md2 lg7>
                             <v-dialog v-model="showModal1" lazy absolute width="70%">
                                 <v-btn v-if="!currentFolder.id" slot="activator" class="elevation-0">
-                                    <v-icon>add</v-icon>
-                                    Add Folder
+                                    <v-icon>create_new_folder</v-icon> &nbsp;&nbsp;
+                                     New Folder
                                 </v-btn>
                                 <v-card>
                                     <v-card-title>
@@ -295,9 +295,27 @@
                                     </template>
                                 </v-data-table>
                             </v-flex>
-                            <v-flex xs12 md4 class="valign-wrapper mt-4">                                
-                                <!--<v-card-media class="portrait" style="background-position: center; background-size: 100%; background-repeat: no-repeat;" width="100%" height="100%" transition="scale-transition" :src="imageSource"></v-card-media>-->
-                                <img style="max-width: 100%; width: auto;" :src="imageSource">
+                            <v-flex xs12 md3 offset-md1 class="valign-wrapper mt-4">                                
+                                <v-card>
+                                    <v-card-text>
+                                        <v-layout row wrap>
+                                            <v-flex xs12>
+                                                <span class="title">Preview</span>
+                                                <div class="preview">
+                                                        <img style="max-width: 100%; width: auto;" :src="imageSource">
+                                                </div>
+                                            </v-flex>
+                                        </v-layout>
+                                        <v-divider></v-divider>
+                                        <v-layout row wrap>
+                                            <v-flex xs12>
+                                                <span class="title">Creative Details</span><br>
+                                                <span class="body-1">Name : </span><span class="body-2">sample</span>
+                                            </v-flex>
+                                        </v-layout>
+                                    </v-card-text>
+                                </v-card>
+                                
                             </v-flex>
                         </v-layout>
                     </v-card-text>

@@ -121,6 +121,8 @@
                 </v-layout>
                 <v-layout row wrap xs12>
                     <v-flex xs12>
+                        <div id="age-slider" class="noUiSlider"></div>
+                           
                     <p>From: {{campaign.user.data.age.min}}</p>
                         <v-slider min="1" max="120" v-model="campaign.user.data.age.min" :toggle-keys="age"></v-slider>
                     <p>To: {{campaign.user.data.age.max}}</p>
@@ -133,14 +135,21 @@
 </template>
 
 <script>
+    import noUiSlider from 'nouislider';
+
     export default {
 
-        props: ['campaign'],
+        created() {
+            this.$root.isLoading = true;
+        },
 
         mounted() {
-            console.log('Targeting component mounted.')
+            this.$root.isLoading = false;
             this.loadTechnologies();
+            if(this.$root.editMode == false) this.createSlider(this.campaign.user.data.age.min, this.campaign.user.data.age.max);
         },
+
+        props: ['campaign'],
 
         data() {
             return {
@@ -183,7 +192,33 @@
                     this.error = true;
                     this.success = false;
                     this.alertMessage = 'Something went wrong';
-            })
+                })
+            },
+
+            createSlider(from, to) {
+                var ageSlider = document.getElementById('age-slider');
+
+                noUiSlider.create(ageSlider, {
+                    start: [from, to],
+                    connect: [false, true, false],
+                    behaviour: 'tap-drag',
+                    range: {
+                        'min': [1, 12],
+                        '12%': [12, 18],
+                        '25%': [18, 26],
+                        '43%': [26, 40],
+                        '62%': [40, 55],
+                        '78%': [55, 65],
+                        '90%': [65, 120],
+                        'max': 120
+                    }
+                });
+
+                ageSlider.noUiSlider.on('update', function (values, handle) {
+
+                    this.campaign.user.data.age.min = parseInt(values[0]);
+                    this.campaign.user.data.age.max = parseInt(values[1]);
+                }.bind(this));
             },
 
             getFlagPath(iso) {
@@ -212,6 +247,11 @@
             geo(value) {
 
                 this.$parent.countries = value;
+            },
+
+            campaign(value) {
+
+                this.createSlider(this.campaign.user.data.age.min, this.campaign.user.data.age.max);
             },
 
             technologies(value) {

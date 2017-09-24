@@ -151,32 +151,62 @@
                                 </v-card-title>
                                 <v-card-text>
                                     <v-layout row wrap>
-                                        <v-flex xs12 class="valign-wrapper mt-4">
-                                            <span class="title">Active Days of Week</span>
-                                        </v-flex>
-                                        <v-flex xs6 md2 lg1 v-for="day in days" :key="day.index">
-                                            <v-checkbox 
-                                            :label="day" 
-                                            v-model="selectedDays" 
-                                            :value="days.indexOf(day)"
-                                            ></v-checkbox>
-                                        </v-flex>
-                                    </v-layout>
-                                    <v-layout row wrap>
-                                        <v-flex xs12 class="valign-wrapper mt-5">
-                                            <span class="title">Active Hour of Day</span>
-                                            <p class="caption ma-0">Hours will be only edited for active days</p>
-                                        </v-flex>
-                                        <v-flex xs6 md4 lg2 v-for="time in timesOfDay" :key="time.index">
-                                            
-                                            <v-checkbox  
-                                            :label="time" 
-                                            v-model="selectedTimes"
-                                            :value="timesOfDay.indexOf(time)"
-                                            ></v-checkbox>
-                                            
-                                        </v-flex>
-                                    </v-layout>
+                                        <v-flex xs12 md7>
+                                            <v-layout row wrap>
+                                                <v-flex xs12 mdclass="valign-wrapper mt-4">
+                                                    <span class="title">Active Days of Week</span>
+                                                </v-flex>
+                                                <v-flex xs6 md3 lg2 v-for="day in days" :key="day.index">
+                                                    <v-checkbox 
+                                                    color="orange darken-4"
+                                                    :label="day" 
+                                                    v-model="selectedDays" 
+                                                    :value="days.indexOf(day)"
+                                                    ></v-checkbox>
+                                                </v-flex>
+                                            </v-layout>
+                                            <v-layout row wrap>
+                                                <v-flex xs12 class="valign-wrapper mt-5">
+                                                    <span class="title">Active Hour of Day</span>
+                                                    <p class="caption ma-0">Hours will be only edited for active days</p>
+                                                </v-flex>
+                                                <v-flex xs12 md6 lg4 v-for="time in timesOfDay" :key="time.index">
+                                                    <v-checkbox  
+                                                    color="orange darken-4"
+                                                    :label="time" 
+                                                    v-model="selectedTimes"
+                                                    :value="timesOfDay.indexOf(time)"
+                                                    ></v-checkbox>
+                                                </v-flex>
+                                            </v-layout>
+                                        </v-flex>  
+                                        <v-flex xs12 md5 >
+                                            <v-card>
+                                                <v-card-text>
+                                                    <span class="title">Plan Preview</span>
+                                                    <p class="caption ma-0">Here you can see your weekly budget pacing plan</p>
+                                                    <v-data-table class="mt-4">
+                                                        <template slot="headers" scope="props">
+                                                            <th></th>
+                                                            <th>S</th>
+                                                            <th>M</th>
+                                                            <th>T</th>
+                                                            <th>W</th>
+                                                            <th>T</th>
+                                                            <th>F</th>
+                                                            <th>S</th>
+                                                        </template>
+                                                        <template slot="items" scope="props">
+                                                            <tr v-for="time in timesOfDay">
+                                                                <th>{{ time }}</th>
+                                                                <td v-for="day in days" v-html="getTimeActiveClass(days.indexOf(day), timesOfDay.indexOf(time))"></td>
+                                                            </tr>
+                                                        </template>
+                                                    </v-data-table>
+                                                </v-card-text>
+                                            </v-card>
+                                        </v-flex>  
+                                    </v-layout>        
                                 </v-card-text>
                                 <v-card-actions>
                                     <v-spacer></v-spacer>
@@ -256,9 +286,9 @@
                 var timeOfWeek = d * 7 + t + d
                 var activeT = hPlan.charAt(timeOfWeek)
                 if(activeT == "1") {
-                    timeActiveClass = true
+                    timeActiveClass = '<i class="material-icons icon orange--text text--darken-4">check</i>'
                 } else {
-                    timeActiveClass = false
+                    timeActiveClass = '<i class="material-icons icon grey--text ">remove</i>'
                 }
                 return timeActiveClass  
             },

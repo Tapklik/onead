@@ -79,10 +79,6 @@ h5 {
   overflow: hidden;
 }
 
-i {
-  z-index: 1 !important;
-}
-
 .stepper__content {
   bottom: initial;
 }

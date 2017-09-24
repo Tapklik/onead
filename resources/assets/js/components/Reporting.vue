@@ -1,19 +1,18 @@
 <template>
     <v-container fluid grid-list-md>
         <v-tabs icons v-model="tabIndex" light :scrollable="false">
-            <v-card light extended class="grey lighten-3 elevation-0">
+            <v-card light extended class="elevation-1">
                 <v-card-text>
                     <v-layout row wrap>
                         <v-flex xs-12 md6 lg4>
-                            <v-select :items="campaignList" item-text="name" item-value="id" chips v-model="selectedCampaigns1" label="Campaigns" multiple autocomplete></v-select>
-                            <v-select :items="creativesList" item-text="name" item-value="id" chips v-model="selectedCreatives1" label="Creatives" multiple autocomplete></v-select>
+                            <v-select :items="campaignList" item-text="name" prepend-icon="important_devices" item-value="id" chips v-model="selectedCampaigns1" label="Campaigns" multiple autocomplete></v-select>
+                            <v-select :items="creativesList" item-text="name" prepend-icon="photo_library" item-value="id" chips v-model="selectedCreatives1" label="Creatives" multiple autocomplete></v-select>
                         </v-flex>
                         <v-spacer></v-spacer>
                         <v-flex xs-12 md6 lg4>
                             <v-layout row wrap>
                                 <v-flex xs6>
                                     <v-dialog
-                                    persistent
                                     :v-model="false"
                                     lazy
                                     full-width
@@ -22,7 +21,6 @@
                                         label="From"
                                         prepend-icon="flight_takeoff"
                                         append-icon="date_range"
-                                        single-line
                                         readonly
                                         v-model="date_from"
                                         slot="activator"
@@ -36,7 +34,6 @@
                                         label="From"
                                         prepend-icon="flight_takeoff"
                                         append-icon="date_range"
-                                        single-line
                                         readonly
                                         v-model="date_to"
                                         slot="activator"
@@ -47,11 +44,11 @@
                             </v-layout>
                             <v-layout row wrap>
                                 <v-flex xs6>
-                                    <v-select :items="stats" v-model="column" label="Column" autocomplete></v-select>
+                                    <v-select :items="stats" prepend-icon="insert_chart" v-model="column" label="Column" autocomplete></v-select>
                                            
                                 </v-flex>
                                 <v-flex xs6>
-                                    <v-select :items="stats" v-model="line" label="Line" autocomplete></v-select>
+                                    <v-select :items="stats" prepend-icon="show_chart" v-model="line" label="Line" autocomplete></v-select>
                            
                                 </v-flex>
                             </v-layout>
@@ -147,9 +144,15 @@
                                             size="lg"
                                         ></tk-widget>
                                     </v-flex>
+                                    <v-flex xs12>
+                                        <v-card class="elevation-1">
+                                            <v-card-media id="chart_overall" class="tapklik-chart" height="500px"> 
+                                                <scale-loader :loading="true" color="#9e9e9e" height="15px" width="3px" class="mt-5"></scale-loader>
+                                            </v-card-media>
+                                        </v-card>
+                                    </v-flex>
                                 </v-layout>
                             </v-container>
-                            <v-container id="chart_overall" style="height: 500px;"></v-container>
                         </v-card-text>
                     </v-card>
                 </v-tabs-content>
@@ -230,7 +233,7 @@
                     </v-card>
                 </v-tabs-content>
                 <v-tabs-content id="devices-tab">
-                    <v-card flat>
+                    <v-card>
                         <v-card-text>
                             <v-container fluid grid-list-md>
                                 <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>

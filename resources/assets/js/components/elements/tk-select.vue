@@ -181,7 +181,4 @@ label input[type="checkbox"].checkbox:checked + span:before {
     border-color: #CCC;
 }
 
-i {
-    z-index: 1000;
-}
 </style>
