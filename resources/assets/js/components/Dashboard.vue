@@ -438,7 +438,7 @@
             },
 
             chartLoaded(value) {
-                this.createChart('chart_main', this.overallList, this.column, this.line);
+                setTimeout(this.createChart('chart_main', this.overallList, this.column, this.line), 2000);
             },
 
             token(value) {
