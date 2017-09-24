@@ -3,7 +3,7 @@
         <v-card-title>
             <span class="subheading right orange--text text--darken-4">{{ title }}</span>
         </v-card-title>
-        <v-card-text v-if="value && value >= 0" class="fixed-z-index">
+        <v-card-text v-if="value >= 0" class="fixed-z-index">
             <v-flex xs12>
                 <v-icon x-large>{{ icon }}</v-icon>
                 <v-layout row>
