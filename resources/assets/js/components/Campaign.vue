@@ -10,7 +10,7 @@
                 <v-divider></v-divider>
                 <v-stepper-step step="4" :complete="e1 > 4" editable>TARGETING</v-stepper-step>
                 <v-divider></v-divider>
-                <v-stepper-step step="5" editable>campaign-review</v-stepper-step>
+                <v-stepper-step step="5" editable>REVIEW</v-stepper-step>
             </v-stepper-header>
             <v-stepper-content step="1">
                 <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>

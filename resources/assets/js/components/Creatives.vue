@@ -237,11 +237,11 @@
                                     </template>
                                     <template slot="items" scope="props">
                                         <tr>
-                                            <td @mouseenter="imageSource = props.item.iurl" class="text-xs-left">
+                                            <td @mouseenter="imageSource = props.item.thumb" class="text-xs-left">
                                                 <span class="title">{{ props.item.name }}</span><br>
                                                 <span class="caption">{{ props.item.id }}</span>
                                             </td>
-                                            <td @mouseenter="imageSource = props.item.iurl">
+                                            <td @mouseenter="imageSource = props.item.thumb">
                                                 <v-chip v-if="props.item.approved == 'approved'" small class="green white--text">
                                                     <small>APPROVED</small>
                                                 </v-chip>
@@ -252,10 +252,10 @@
                                                     <small>DECLINED</small>
                                                 </v-chip>
                                             </td>
-                                            <td @mouseenter="imageSource = props.item.iurl">
+                                            <td @mouseenter="imageSource = props.item.thumb">
                                                 {{ props.item.class | uppercase }}
                                             </td>
-                                            <td @mouseenter="imageSource = props.item.iurl">
+                                            <td @mouseenter="imageSource = props.item.thumb">
                                                 {{ props.item.w }} x {{ props.item.h }}
                                             </td>
                                             <td>
