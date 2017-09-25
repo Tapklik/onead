@@ -410,9 +410,7 @@
                 });
 
                 this.dropzone.on("addedfile", function(file, thumb) {
-
                     var sizeInterval = setInterval(function () {
-
                         if(typeof file.width != 'undefined') {
                             this.creativeAttributes = {w: file.width, h: file.height, name: file.name.slice(0,file.name.lastIndexOf('.')), class: 'banner'};
                             clearInterval(sizeInterval);
@@ -507,7 +505,6 @@
             },
 
             uploadCreative() {
-                this.dropzone.
                 this.dropzone.options.params = {
                     folder_id: this.folderId,
                     name: this.creativeAttributes.name,
