@@ -87,6 +87,30 @@ h5 {
   display: none !important;
 }
 
+.preview {
+  width: 384px;
+  height: 384px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: auto;
+  position: relative;
+}
+
+.thumbnail-details {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  bottom: 0px;
+  display: block;
+  width: 100%;
+  padding: 8px 24px;
+}
+
+.thumbnail-details span {
+  color: #fff;
+  font-size: 24px;
+}
+
 /*** ANIMATION MIXINS ***/
 
 /*** ANIMATIONS ***/

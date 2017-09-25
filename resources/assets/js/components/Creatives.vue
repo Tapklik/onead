@@ -220,7 +220,7 @@
                             <v-flex xs12>
                                 <v-breadcrumbs divider="/" class="left pa-0">
                                     <v-breadcrumbs-item>
-                                        <span @click="closeFolder(), imageSource=''">ROOT</span>
+                                        <span @click="closeFolder(), imageSource='', sample='sample'">ROOT</span>
                                     </v-breadcrumbs-item>
                                     <v-breadcrumbs-item>
                                         {{ currentFolder.name | uppercase}}
@@ -296,26 +296,19 @@
                                 </v-data-table>
                             </v-flex>
                             <v-flex xs12 md3 offset-md1 class="valign-wrapper mt-4">                                
-                                <v-card>
-                                    <v-card-text>
-                                        <v-layout row wrap>
-                                            <v-flex xs12>
-                                                <span class="title">Preview</span>
-                                                <div class="preview">
-                                                        <img style="max-width: 100%; width: auto;" :src="imageSource">
-                                                </div>
-                                            </v-flex>
-                                        </v-layout>
-                                        <v-divider></v-divider>
-                                        <v-layout row wrap>
-                                            <v-flex xs12>
-                                                <span class="title">Creative Details</span><br>
-                                                <span class="body-1">Name : </span><span class="body-2">{{sample}}</span>
-                                            </v-flex>
-                                        </v-layout>
-                                    </v-card-text>
-                                </v-card>
-                                
+                                <v-layout row wrap>
+                                    <v-flex xs12>
+                                        <div v-show="imageSource!=''"class="preview" :style="'background-image:url('+imageSource+')'">
+                                            <!--    <img style="width: 128px; height: 128px;" :src="imageSource">-->
+                                            <v-layout row wrap class="thumbnail-details">
+                                                <v-flex xs12>
+                                                    <span class="title">Creative Details</span><br>
+                                                    <span class="body-1">Name : </span><span class="body-2">{{sample}}</span>
+                                                </v-flex>
+                                            </v-layout>
+                                        </div>
+                                    </v-flex>
+                                </v-layout>
                             </v-flex>
                         </v-layout>
                     </v-card-text>
