@@ -237,11 +237,11 @@
                                     </template>
                                     <template slot="items" scope="props">
                                         <tr>
-                                            <td @mouseenter="imageSource = props.item.thumb" class="text-xs-left">
+                                            <td @mouseenter="imageSource = props.item.thumb, sample= props.item.name" class="text-xs-left">
                                                 <span class="title">{{ props.item.name }}</span><br>
                                                 <span class="caption">{{ props.item.id }}</span>
                                             </td>
-                                            <td @mouseenter="imageSource = props.item.thumb">
+                                            <td @mouseenter="imageSource = props.item.thumb, sample= props.item.name">
                                                 <v-chip v-if="props.item.approved == 'approved'" small class="green white--text">
                                                     <small>APPROVED</small>
                                                 </v-chip>
@@ -252,10 +252,10 @@
                                                     <small>DECLINED</small>
                                                 </v-chip>
                                             </td>
-                                            <td @mouseenter="imageSource = props.item.thumb">
+                                            <td @mouseenter="imageSource = props.item.thumb, sample= props.item.name">
                                                 {{ props.item.class | uppercase }}
                                             </td>
-                                            <td @mouseenter="imageSource = props.item.thumb">
+                                            <td @mouseenter="imageSource = props.item.thumb, sample= props.item.name">
                                                 {{ props.item.w }} x {{ props.item.h }}
                                             </td>
                                             <td>
@@ -310,7 +310,7 @@
                                         <v-layout row wrap>
                                             <v-flex xs12>
                                                 <span class="title">Creative Details</span><br>
-                                                <span class="body-1">Name : </span><span class="body-2">sample</span>
+                                                <span class="body-1">Name : </span><span class="body-2">{{sample}}</span>
                                             </v-flex>
                                         </v-layout>
                                     </v-card-text>
@@ -340,6 +340,7 @@
         props: ['token', 'user'],
         data() {
             return {
+                sample: 'sample',
                 creativeIAB: ['300x250','250x250','240x400','336x280','180x150','300x100','720x300','468x60','234x60','88x31','120x90','120x60','120x240','125x125','728x90','160x600','120x600','300x600'],
                 deleteCreativeId: '',
                 deleteCreativeName: '',

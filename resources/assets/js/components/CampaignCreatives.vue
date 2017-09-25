@@ -6,12 +6,6 @@
             </v-flex>
         </v-layout>
         <v-layout row wrap>
-            <v-flex xs12 md6 class="valign-wrapper mt-4">
-                <span class="title">Browse Campaign Creatives</span>
-                <p class="caption ma-0">Select creatives for your campaign. Make sure that your creatives fit target devices</p>
-            </v-flex>
-        </v-layout>
-        <v-layout row wrap>
             <v-flex xs12>
                 <v-card class="elevation-0">
                     <v-card-text v-if="!currentFolder.id">
@@ -62,7 +56,7 @@
                                         &nbsp;
                                     </template>
                                     <template slot="items" scope="props">
-                                        <tr @click="imageSource = props.item.iurl" v-show="props.item.approved == 'approved'">
+                                        <tr @mouseenter="imageSource = props.item.thumb, sample=props.item.name" v-show="props.item.approved == 'approved'">
                                             <td width="40" class="text-xs-right">
                                                 <v-checkbox
                                                 primary
@@ -94,10 +88,27 @@
                                         From {{ pageStart }} to {{ pageStop }}
                                     </template>
                                 </v-data-table>
-                            </v-flex>
-                            <v-flex xs12 md4 class="valign-wrapper mt-4">                                
-                                <!--<v-card-media class="portrait" style="background-position: center; background-size: 100%; background-repeat: no-repeat;" width="100%" height="100%" transition="scale-transition" :src="imageSource"></v-card-media>-->
-                                <img style="max-width: 100%; width: auto;" :src="imageSource">
+                            </v-flex>             
+                            <v-flex xs12 md3 offset-md1 class="valign-wrapper mt-4">                                
+                                <v-card>
+                                    <v-card-text>
+                                        <v-layout row wrap>
+                                            <v-flex xs12>
+                                                <span class="title">Preview</span>
+                                                <div class="preview">
+                                                        <img style="max-width: 100%; width: auto;" :src="imageSource">
+                                                </div>
+                                            </v-flex>
+                                        </v-layout>
+                                        <v-divider></v-divider>
+                                        <v-layout row wrap>
+                                            <v-flex xs12>
+                                                <span class="title">Creative Details</span><br>
+                                                <span class="body-1">Name : </span><span class="body-2">{{sample}}</span>
+                                            </v-flex>
+                                        </v-layout>
+                                    </v-card-text>
+                                </v-card>
                             </v-flex>
                         </v-layout>
                     </v-card-text>
@@ -116,6 +127,7 @@
         props:['token','user','campaign'],
         data() {
             return {
+                sample:'sample',
                 imageSource: '',
                 alert: false,
                 error: false,
