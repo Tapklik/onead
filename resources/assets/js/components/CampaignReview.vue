@@ -1,34 +1,158 @@
 <template>
     <v-container>
         <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
-        <table class="table table-sm table-responsive table-striped mt-4">
-            <template>
-                <tr>
-                    <td class="title">Name: </td>
-                    <td>{{campaign.name}}</td>    
-                </tr>
-                <tr>
-                    <td class="title">Runtime: </td>
-                    <td>From {{campaign.start_time}} to {{campaign.end_time}}</td>    
-                </tr>
-                <tr>
-                    <td class="title">Budget: </td>
-                    <td>$ {{$root.fromMicroDollars(campaign.budget.data.amount)}}, {{campaign.budget.data.type}}</td>    
-                </tr>
-                <tr>
-                    <td class="title">Bid: </td>
-                    <td>$ {{$root.fromMicroDollars(campaign.bid)}}</td>    
-                </tr>
-                <tr>
-                    <td class="title">Gender: </td>
-                    <td>{{gender}}</td>    
-                </tr>
-                <tr>
-                    <td class="title">Age Group: </td>
-                    <td>From {{campaign.user.data.age.min}} to {{campaign.user.data.age.max}}</td>    
-                </tr>
-            </template>
-        </table>
+        <v-layout row wrap>
+            <v-flex xs12 md6>
+                <v-layout row wrap>
+                    <h4>CAMPAIGN DETAILS</h4>
+                </v-layout>
+                <v-layout row wrap>
+                    <v-flex xs12 md4>
+                        <span>Name:</span>
+                    </v-flex>
+                    <v-flex xs12 md8>
+                        <p> {{campaign.name}}</p>
+                    </v-flex>
+                </v-layout>
+                <v-layout row wrap>
+                    <v-flex xs12 md4>
+                        <span>Campaign Flight:</span>
+                    </v-flex>
+                    <v-flex xs12 md8>
+                        <p> From: {{campaign.start_time}} to: {{campaign.end_time}}</p>
+                    </v-flex>
+                </v-layout>
+                <v-layout row wrap>
+                    <v-flex xs12 md4>
+                        <span>Advertiser Domain:</span>
+                    </v-flex>
+                    <v-flex xs12 md8>
+                        <p> {{campaign.adomain}}</p>
+                    </v-flex>
+                </v-layout>
+                <v-layout row wrap>
+                    <v-flex xs12 md4>
+                        <span>Click-through URL:</span>
+                    </v-flex>
+                    <v-flex xs12 md8>
+                        <p> {{campaign.ctrurl}}</p>
+                    </v-flex>
+                </v-layout>
+                <v-layout row wrap>
+                    <v-flex xs12 md4>
+                        <span>Budget Type:</span>
+                    </v-flex>
+                    <v-flex xs12 md8>
+                        <p> {{campaign.budget.data.type}}</p>
+                    </v-flex>
+                </v-layout>
+                <v-layout row wrap>
+                    <v-flex xs12 md4>
+                        <span>Budget:</span>
+                    </v-flex>
+                    <v-flex xs12 md8>
+                        <p> {{campaign.budget.data.amount}}</p>
+                    </v-flex>
+                </v-layout>
+                <v-layout row wrap>
+                    <v-flex xs12 md4>
+                        <span>Target Bid:</span>
+                    </v-flex>
+                    <v-flex xs12 md8>
+                        <p> {{campaign.bid}}</p>
+                    </v-flex>
+                </v-layout>
+                <v-layout row wrap>
+                    <v-flex xs12 md4>
+                        <span>Daily Budget Pacing:</span>
+                    </v-flex>
+                    <v-flex xs12 md8>
+                        <p> {{campaign.budget.data.pacing}}</p>
+                    </v-flex>
+                </v-layout>
+            </v-flex>
+            <v-flex xs12 md6>
+                <v-layout row wrap>
+                    <h4>CAMPAIGN CATEGORIES</h4>
+                </v-layout>
+                <v-layout row wrap>
+                    <v-flex xs12 md4>
+                        <span>Chosen Categories: </span>
+                    </v-flex>                    
+                    <v-flex xs12 md8>
+                        <span v-for="category in campaign.cat.data">{{category}}<br> </span><br>
+                    </v-flex>
+                </v-layout>
+            </v-flex>
+        </v-layout>
+        <v-layout row wrap>
+            <v-flex xs12 md6>
+                <v-layout row wrap>
+                    <h4>CAMPAIGN CREATIVES</h4>
+                </v-layout>
+                <v-layout row wrap>
+                    <v-flex xs12 md4>
+                        <span>Chosen Creatives: </span>
+                    </v-flex>                    
+                    <v-flex xs12 md8>
+                        <span v-for="creative in campaign.creatives.data" :key="creative.id">{{creative.name}}<br> </span>
+                    </v-flex>
+                </v-layout>
+            </v-flex>
+            <v-flex xs12 md6>
+                <v-layout row wrap>
+                    <h4>CAMPAIGN TARGETING</h4>
+                </v-layout>
+                <v-layout row wrap>
+                    <v-flex xs12 md4>
+                        <span>Chosen Devices:</span>
+                    </v-flex>
+                    <v-flex xs12 md8>
+                        <p v-for="device in campaign.device.data.type"> {{device}}</p>
+                    </v-flex>
+                </v-layout>
+                <v-layout row wrap>
+                    <v-flex xs12 md4>
+                        <span>Chosen Operating Systems:</span>
+                    </v-flex>
+                    <v-flex xs12 md8>
+                        <p v-for="os in campaign.device.data.os">{{os}}</p>
+                    </v-flex>
+                </v-layout>
+                <v-layout row wrap>
+                    <v-flex xs12 md4>
+                        <span>Chosen Browsers:</span>
+                    </v-flex>
+                    <v-flex xs12 md8>
+                        <p v-for="ua in campaign.device.data.ua"> {{ua}}</p>
+                    </v-flex>
+                </v-layout>
+                <v-layout row wrap>
+                    <v-flex xs12 md4>
+                        <span>Target Audience: </span>
+                    </v-flex>
+                    <v-flex xs12 md8>
+                        <p> From {{campaign.user.data.age.min}} to {{campaign.user.data.age.max}}</p>
+                    </v-flex>
+                </v-layout>
+                <v-layout row wrap>
+                    <v-flex xs12 md4>
+                        <span>Selected Geo:</span>
+                    </v-flex>
+                    <v-flex xs12 md8>
+                        <p v-for="geo in campaign.geo.data" :key="id"> {{geo.key}}</p>
+                    </v-flex>
+                </v-layout>
+                <v-layout row wrap>
+                    <v-flex xs12 md4>
+                        <span>Gender:</span>
+                    </v-flex>
+                    <v-flex xs12 md8>
+                        <p v-for="gender in campaign.user.data.gender"> {{gender}}</p>
+                    </v-flex>
+                </v-layout>
+            </v-flex>
+        </v-layout>
         <v-btn v-show="!$root.editMode" large primary @click="createCampaign()">Start Campaign</v-btn>
         <v-btn v-show="$root.editMode" large primary @click="updateCampaign()">update {{campaign.name}}</v-btn>
     </v-container>

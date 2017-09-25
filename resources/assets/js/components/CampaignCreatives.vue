@@ -56,7 +56,7 @@
                                         &nbsp;
                                     </template>
                                     <template slot="items" scope="props">
-                                        <tr @mouseenter="imageSource = props.item.thumb, sample=props.item.name" v-show="props.item.approved == 'approved'">
+                                        <tr @mouseenter="imageSource = props.item.thumb, sample= props.item.name, statusShow = props.item.approved, typeShow = props.item.class, dimensionsShow = props.item.w + 'x' + props.item.h" v-show="props.item.approved == 'approved'">
                                             <td width="40" class="text-xs-right">
                                                 <v-checkbox
                                                 primary
