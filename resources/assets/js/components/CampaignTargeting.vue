@@ -66,7 +66,7 @@
                         <v-select
                         @keyup="reloadGeo()"
                           v-bind:items="geo"
-                          v-model="selectedLocations"
+                          v-model="campaign.geo.data"
                           item-text="key"
                           return-object
                           cache-items
@@ -75,6 +75,7 @@
                           :search-input.sync="searchCountry"
                           label="Select"
                           multiple
+                          tags
                           autocomplete>
                             <template slot="item" scope="data">
                                 <v-list-tile-avatar>
@@ -86,7 +87,7 @@
                                 </v-list-tile-content>
                             </template>
                         </v-select>
-                        <v-chip close v-for="g in campaign.geo.data" :key="geo.id" v-model="selectedLocations" class="grey lighten-4">
+                        <v-chip close v-for="g in campaign.geo.data" :key="geo.id" class="grey lighten-4">
                             <v-avatar>
                                 <img :src='"/images/flags/" + g.country_iso2 + ".png"'>
                             </v-avatar>
@@ -122,11 +123,6 @@
                 <v-layout row wrap xs12>
                     <v-flex xs12>
                         <div id="age-slider" class="noUiSlider"></div>
-                           
-                    <p>From: {{campaign.user.data.age.min}}</p>
-                        <v-slider min="1" max="120" v-model="campaign.user.data.age.min" :toggle-keys="age"></v-slider>
-                    <p>To: {{campaign.user.data.age.max}}</p>
-                        <v-slider min="1" max="120" v-model="campaign.user.data.age.max"></v-slider>
                     </v-flex>
                 </v-layout>
             </v-flex>
@@ -146,7 +142,6 @@
         mounted() {
             this.$root.isLoading = false;
             this.loadTechnologies();
-            if(this.$root.editMode == false) this.createSlider(this.campaign.user.data.age.min, this.campaign.user.data.age.max);
         },
 
         props: ['campaign'],
@@ -194,6 +189,7 @@
                     this.alertMessage = 'Something went wrong';
                 })
             },
+
 
             createSlider(from, to) {
                 var ageSlider = document.getElementById('age-slider');
@@ -250,7 +246,6 @@
             },
 
             campaign(value) {
-
                 this.createSlider(this.campaign.user.data.age.min, this.campaign.user.data.age.max);
             },
 

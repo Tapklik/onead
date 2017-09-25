@@ -237,11 +237,11 @@
                                     </template>
                                     <template slot="items" scope="props">
                                         <tr>
-                                            <td @mouseenter="imageSource = props.item.thumb, sample= props.item.name" class="text-xs-left">
+                                            <td @mouseenter="imageSource = props.item.thumb, sample= props.item.name, statusShow = props.item.approved, typeShow = props.item.class, dimensionsShow = props.item.w + 'x' + props.item.h" class="text-xs-left">
                                                 <span class="title">{{ props.item.name }}</span><br>
                                                 <span class="caption">{{ props.item.id }}</span>
                                             </td>
-                                            <td @mouseenter="imageSource = props.item.thumb, sample= props.item.name">
+                                            <td @mouseenter="imageSource = props.item.thumb, sample= props.item.name, statusShow = props.item.approved, typeShow = props.item.class, dimensionsShow = props.item.w + 'x' + props.item.h">
                                                 <v-chip v-if="props.item.approved == 'approved'" small class="green white--text">
                                                     <small>APPROVED</small>
                                                 </v-chip>
@@ -252,10 +252,10 @@
                                                     <small>DECLINED</small>
                                                 </v-chip>
                                             </td>
-                                            <td @mouseenter="imageSource = props.item.thumb, sample= props.item.name">
+                                            <td @mouseenter="imageSource = props.item.thumb, sample= props.item.name, statusShow = props.item.approved, typeShow = props.item.class, dimensionsShow = props.item.w + 'x' + props.item.h">
                                                 {{ props.item.class | uppercase }}
                                             </td>
-                                            <td @mouseenter="imageSource = props.item.thumb, sample= props.item.name">
+                                            <td @mouseenter="imageSource = props.item.thumb, sample= props.item.name, statusShow = props.item.approved, typeShow = props.item.class, dimensionsShow = props.item.w + 'x' + props.item.h">
                                                 {{ props.item.w }} x {{ props.item.h }}
                                             </td>
                                             <td>
@@ -303,7 +303,10 @@
                                             <v-layout row wrap class="thumbnail-details">
                                                 <v-flex xs12>
                                                     <span class="title">Creative Details</span><br>
-                                                    <span class="body-1">Name : </span><span class="body-2">{{sample}}</span>
+                                                    <span class="body-1">Name : </span><span class="body-2">{{sample}}</span><br>
+                                                    <span class="body-1">Dimensions : </span><span class="body-2">{{dimensionsShow}}</span><br>
+                                                    <span class="body-1">Type : </span><span class="body-2">{{typeShow}}</span><br>
+                                                    <span class="body-1">Status : </span><span class="body-2">{{statusShow}}</span>
                                                 </v-flex>
                                             </v-layout>
                                         </div>
@@ -334,6 +337,9 @@
         data() {
             return {
                 sample: 'sample',
+                dimensionsShow: '',
+                typeShow: '',
+                statusShow: '',
                 creativeIAB: ['300x250','250x250','240x400','336x280','180x150','300x100','720x300','468x60','234x60','88x31','120x90','120x60','120x240','125x125','728x90','160x600','120x600','300x600'],
                 deleteCreativeId: '',
                 deleteCreativeName: '',
