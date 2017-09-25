@@ -66,7 +66,7 @@
                         <v-select
                         @keyup="reloadGeo()"
                           v-bind:items="geo"
-                          v-model="campaign.geo.data"
+                          v-model="selectedLocations"
                           item-text="key"
                           return-object
                           cache-items
@@ -86,7 +86,7 @@
                                 </v-list-tile-content>
                             </template>
                         </v-select>
-                        <v-chip close v-for="g in campaign.geo.data" :key="geo.id" class="grey lighten-4">
+                        <v-chip close v-for="g in campaign.geo.data" :key="geo.id" v-model="selectedLocations" class="grey lighten-4">
                             <v-avatar>
                                 <img :src='"/images/flags/" + g.country_iso2 + ".png"'>
                             </v-avatar>
