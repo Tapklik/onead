@@ -185,9 +185,9 @@
                                                 <v-card-text>
                                                     <span class="title">Plan Preview</span>
                                                     <p class="caption ma-0">Here you can see your weekly budget pacing plan</p>
-                                                    <v-data-table class="mt-4">
+                                                    <v-data-table class="mt-4" :items="timesOfDay" hide-actions>
                                                         <template slot="headers" scope="props">
-                                                            <th></th>
+                                                            <th>Time</th>
                                                             <th>S</th>
                                                             <th>M</th>
                                                             <th>T</th>
@@ -197,9 +197,9 @@
                                                             <th>S</th>
                                                         </template>
                                                         <template slot="items" scope="props">
-                                                            <tr v-for="time in timesOfDay">
-                                                                <th>{{ time }}</th>
-                                                                <td v-for="day in days" v-html="getTimeActiveClass(days.indexOf(day), timesOfDay.indexOf(time))"></td>
+                                                            <tr>
+                                                                <th>{{ props.item }}</th>
+                                                                <td v-for="day in days" v-html="getTimeActiveClass(days.indexOf(day), timesOfDay.indexOf(props.item))"></td>
                                                             </tr>
                                                         </template>
                                                     </v-data-table>
@@ -249,7 +249,8 @@
                 timesOfDay: ['12:00AM - 7:00AM', '7:00AM - 10:00AM', '10:00AM - 1:00PM', '1:00PM - 4:00PM', '4:00PM - 7:00PM', 
                 '7:00PM - 10:00PM', '10:00PM - 12:00AM'],
                 selectedDays: [0, 1, 2, 3, 4, 5, 6],
-                selectedTimes: [1, 2, 3, 4, 5, 6]
+                selectedTimes: [1, 2, 3, 4, 5, 6],
+                pacing: this.campaign.budget.data.pacing
             }
         },
         
@@ -282,7 +283,7 @@
             },
             getTimeActiveClass(d, t) {
                 var timeActiveClass = false
-                var hPlan = this.campaign.budget.data.pacing
+                var hPlan = this.pacing
                 var timeOfWeek = d * 7 + t + d
                 var activeT = hPlan.charAt(timeOfWeek)
                 if(activeT == "1") {
@@ -309,6 +310,32 @@
                         }
                     }
                     this.campaign.budget.data.pacing = plan
+                },
+            applyCurrentlyPlan() {
+                var plan = ""
+                for (var d = 0; d < 7; d++) {
+                    if (d > 0) {plan += " "}
+                        if (this.selectedDays.indexOf(d) >= 0 ) {
+                            for( var t = 0; t < 7; t++) {
+                                if(this.selectedTimes.indexOf(t) >= 0) {
+                                    plan += "1"
+                                } else {
+                                    plan += "0"
+                                }
+                            }
+                        } else {
+                            plan += "0000000"
+                        }
+                    }
+                    this.pacing = plan
+                }
+            },
+            watch: {
+                selectedTimes() {
+                    this.applyCurrentlyPlan();
+                },
+                selectedDays() {
+                    this.applyCurrentlyPlan();
                 }
             }
         }
