@@ -2,7 +2,7 @@
     <v-container fluid grid-list-md>
         <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
         <v-layout row wrap>
-            <v-flex xs12 md6>
+            <v-flex xs12 md6 lg4>
                 <v-layout row wrap>
                     <v-flex xs12 class="mb-3 mt-4">
                         <h4>User Details</h4>
@@ -20,30 +20,23 @@
                 </v-layout>
                 <v-layout row wrap>
                     <v-flex xs12 md12 class="valign-wrapper mt-4">
-                        <span class="title">First Name</span>
-                        <p class="ma-0">This is your first name</p>
+                        <span class="title">Name</span>
+                        <p class="ma-0">This is your name</p>
                     </v-flex>
                     <v-flex xs12 md8>
                         <v-text-field
                         label="Your first name"
                         prepend-icon="person"
                         single-line
-                        v-model="userDet.first_name"
+                        v-model="fullName"
                         ></v-text-field>
                     </v-flex>
                 </v-layout>
+            </v-flex>
+            <v-flex xs12 md6 lg4>
                 <v-layout row wrap>
-                    <v-flex xs12 md12 class="valign-wrapper mt-4">
-                        <span class="title">Last Name</span>
-                        <p class="ma-0">This is your last name</p>
-                    </v-flex>
-                    <v-flex xs12 md8>
-                        <v-text-field
-                        label="Your last name"
-                        prepend-icon="person"
-                        single-line
-                        v-model="userDet.last_name"
-                        ></v-text-field>
+                    <v-flex xs12 class="mb-3 mt-4">
+                        <h4></h4>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap>
@@ -54,13 +47,6 @@
                     <v-flex xs12 md8>
                         <v-icon>email</v-icon>
                         <span>{{userDet.email}}</span>
-                    </v-flex>
-                </v-layout>
-            </v-flex>
-            <v-flex xs12 md6>
-            <v-layout row wrap>
-                    <v-flex xs12 class="mb-3 mt-4">
-                        <h4>.</h4>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap>
@@ -75,6 +61,17 @@
                         single-line
                         v-model="userDet.phone"
                         ></v-text-field>
+                    </v-flex>
+                </v-layout>
+                <br><br>
+                <v-layout row wrap>
+                    <v-btn primary @click="updateUser()">Update you details</v-btn>
+                </v-layout>
+            </v-flex>
+            <v-flex xs12 md6 lg4>
+                <v-layout row wrap>
+                    <v-flex xs12 class="mb-3 mt-4">
+                        <h4></h4>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap>
@@ -98,16 +95,15 @@
                         <p class="ma-0">This is your status (active or inactive)</p>
                     </v-flex>
                     <v-flex xs12 md8 v-if="userDet.status == 0">
-                        <v-icon class="red--text">keyboard_arrow_down</v-icon>
-                        <span>Inactive</span>
+                        <v-chip small class="red white--text">
+                            <small>INACTIVE</small>
+                        </v-chip>
                     </v-flex>
                     <v-flex xs12 md8 v-else>
-                        <v-icon class="green--text">keyboard_arrow_up</v-icon>
-                        <span>Active</span>
+                        <v-chip small class="green white--text">
+                            <small>ACTIVE</small>
+                        </v-chip>
                     </v-flex>
-                </v-layout><br><br>
-                <v-layout row wrap>
-                    <v-btn @click="updateUser()">Update you details</v-btn>
                 </v-layout>
             </v-flex>
         </v-layout>
@@ -134,6 +130,14 @@
                 userDet: {},
                 password: '',
                 ajax: false
+            }
+        },
+
+        computed: {
+            fullName() {
+                var a = this.userDet.first_name;
+                var b = this.userDet.last_name;
+                return a + ' ' + b;
             }
         },
 
