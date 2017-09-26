@@ -1,117 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);html,
-body {
-  font-family: Open Sans, Roboto, Trebuchet, sans-serif !important;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5 {
-  color: #e65100;
-}
-
-.logo > img {
-  width: 50px;
-  margin-top: 30px;
-  margin-left: 25px;
-}
-
-.application .theme--dark.navigation-drawer {
-  background: #f76c06;
-  /* Old browsers */
-  /* FF3.6-15 */
-  /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(135deg, #f76c06 0%, #f76c06 57%, #f99e36 100%);
-  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-}
-
-.application .theme--dark.navigation-drawer .list {
-  background: transparent;
-}
-
-.tapklik-gradient {
-  background: #f76c06;
-  /* Old browsers */
-  /* FF3.6-15 */
-  /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(135deg, #f76c06 0%, #f76c06 57%, #f99e36 100%);
-  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-}
-
-.header {
-  margin-bottom: 20px;
-  padding-top: 40px;
-}
-
-.header h4 {
-  color: #9e9e9e;
-}
-
-.tapklik-drawer {
-  margin-top: 0 !important;
-  height: 100% !important;
-  max-height: 100% !important;
-}
-
-.tapklik-drawer .icon {
-  color: #fff3e0;
-}
-
-.tapklik-drawer .item-title {
-  color: #fff3e0;
-  font-size: 13px;
-  font-weight: bold;
-}
-
-.creatives-explorer > thead[style] {
-  display: none !important;
-}
-
-/*** FIXES ***/
-
-.radio-group .input-group__details,
-.checkbox .input-group__details {
-  display: none;
-}
-
-.card {
-  overflow: hidden;
-}
-
-.stepper__content {
-  bottom: initial;
-}
-
-.tapklik-chart a {
-  display: none !important;
-}
-
-.preview {
-  width: 384px;
-  height: 384px;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  margin: auto;
-  position: relative;
-}
-
-.thumbnail-details {
-  background-color: rgba(0, 0, 0, 0.5);
-  position: absolute;
-  bottom: 0px;
-  display: block;
-  width: 100%;
-  padding: 8px 24px;
-}
-
-.thumbnail-details span {
-  color: #fff;
-  font-size: 24px;
-}
-
-/*** ANIMATION MIXINS ***/
+@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);/*** ANIMATION MIXINS ***/
 
 /*** ANIMATIONS ***/
 
@@ -225,5 +112,118 @@ h5 {
   margin-top: 20px;
   font-size: 15px;
   line-height: 20px;
+}
+
+html,
+body {
+  font-family: Open Sans, Roboto, Trebuchet, sans-serif !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  color: #e65100;
+}
+
+.logo > img {
+  width: 50px;
+  margin-top: 30px;
+  margin-left: 25px;
+}
+
+.application .theme--dark.navigation-drawer {
+  background: #f76c06;
+  /* Old browsers */
+  /* FF3.6-15 */
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(135deg, #f76c06 0%, #f76c06 57%, #f99e36 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
+.application .theme--dark.navigation-drawer .list {
+  background: transparent;
+}
+
+.tapklik-gradient {
+  background: #f76c06;
+  /* Old browsers */
+  /* FF3.6-15 */
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(135deg, #f76c06 0%, #f76c06 57%, #f99e36 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
+.header {
+  margin-bottom: 20px;
+  padding-top: 40px;
+}
+
+.header h4 {
+  color: #9e9e9e;
+}
+
+.tapklik-drawer {
+  margin-top: 0 !important;
+  height: 100% !important;
+  max-height: 100% !important;
+}
+
+.tapklik-drawer .icon {
+  color: #fff3e0;
+}
+
+.tapklik-drawer .item-title {
+  color: #fff3e0;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.creatives-explorer > thead[style] {
+  display: none !important;
+}
+
+/*** FIXES ***/
+
+.radio-group .input-group__details,
+.checkbox .input-group__details {
+  display: none;
+}
+
+.card {
+  overflow: hidden;
+}
+
+.stepper__content {
+  bottom: initial;
+}
+
+.tapklik-chart a {
+  display: none !important;
+}
+
+.preview {
+  width: 384px;
+  height: 384px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: auto;
+  position: relative;
+}
+
+.thumbnail-details {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  bottom: 0px;
+  display: block;
+  width: 100%;
+  padding: 8px 24px;
+}
+
+.thumbnail-details span {
+  color: #fff;
+  font-size: 24px;
 }
 

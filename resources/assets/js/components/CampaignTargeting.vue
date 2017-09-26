@@ -8,13 +8,13 @@
         </v-layout>
         <v-layout row wrap>
             <v-flex xs12 md6>
-                <v-layout row wrap xs12 class="mt-4">
-                    <v-flex>
+                <v-layout row wrap>
+                    <v-flex xs12 class="mt-4">
                         <span class="title">Devices</span>
                         <p class="caption ma-0">Select device types</p>
                     </v-flex>
                 </v-layout>
-                <v-layout row wrap xs12>
+                <v-layout row wrap>
                     <v-flex xs12 class="mt-3">
                         <tk-select-list v-model="campaign.device.data.type">
                             <tk-select v-for="technology in technologiesList.devices" :icon="technology.icon" :trueValue="technology.device_id" :key="technology.type">
@@ -23,13 +23,13 @@
                         </tk-select-list>
                     </v-flex>
                 </v-layout>
-                <v-layout row wrap xs12>
-                    <v-flex>
+                <v-layout row wrap>
+                    <v-flex xs12>
                         <span class="title">Operating Systems</span>
                         <p class="caption ma-0">Select operating systems</p> 
                     </v-flex>
                 </v-layout>
-                <v-layout row wrap xs12>
+                <v-layout row wrap>
                     <v-flex xs12>
                         <tk-select-list v-model="campaign.device.data.os">
                             <tk-select v-for="technology in technologiesList.operatingsystems" :icon="technology.icon" :trueValue="technology.device_id" :key="technology.type">
@@ -38,8 +38,8 @@
                         </tk-select-list>
                     </v-flex>
                 </v-layout>
-                <v-layout row wrap xs12>
-                    <v-flex>
+                <v-layout row wrap>
+                    <v-flex xs12>
                         <span class="title">Browsers</span>
                         <p class="caption ma-0">Select browsers</p>
                     </v-flex>
@@ -55,14 +55,14 @@
                 </v-layout>
             </v-flex>
             <v-flex xs12 md6>
-                <v-layout row wrap xs12 class="mt-4">
-                    <v-flex>
+                <v-layout row wrap>
+                    <v-flex xs12 class="mt-4">
                         <span class="title">Geo Location</span>
                         <p class="caption ma-0">Choose the countries or cities you want to target</p>
                     </v-flex>
                 </v-layout>
-                <v-layout row wrap xs12>
-                    <v-flex xs12>
+                <v-layout row wrap>
+                    <v-flex xs8>
                         <v-select
                         @keyup="reloadGeo()"
                           v-bind:items="geo"
@@ -96,13 +96,13 @@
                     </v-flex>
                 </v-layout>
                 <v-divider class="mt-5"></v-divider>
-                <v-layout row wrap xs12 class="mt-4">
-                    <v-flex>
+                <v-layout row wrap class="mt-4">
+                    <v-flex xs12>
                         <span class="title">Target Audience Gender</span>
                         <p class="caption ma-0">Set gender for target audience</p>
                     </v-flex>
                 </v-layout>
-                <v-layout row wrap xs12>
+                <v-layout row wrap>
                     <v-flex xs12>
                         <tk-select-list v-model="campaign.user.data.gender">
                             <tk-select icon="mdi-human-male" trueValue="M">
@@ -114,16 +114,22 @@
                         </tk-select-list>                        
                     </v-flex>
                 </v-layout>
-                <v-layout row wrap xs12 class="mt-4">
-                    <v-flex>
+                <v-layout row wrap  class="mt-4">
+                    <v-flex xs12>
                         <span class="title">Target Audience Age Group</span>
                         <p class="caption ma-0">Set age group in which your target audience fits</p>
                     </v-flex>
                 </v-layout>
-                <v-layout row wrap xs12>
-                    <v-flex xs12>
-                        <div id="age-slider" class="noUiSlider"></div>
-                    </v-flex>
+                <v-layout row wrap>
+                    <v-flex xs12 md10 lg8 class="mt-5">
+                        <vue-slider
+                        ref="slider"
+                        v-model="ageRange"
+                        v-bind="ageSlider"
+                        :show="true"
+                        :real-time="true"
+                        ></vue-slider>
+                    </v-flex>  
                 </v-layout>
             </v-flex>
         </v-layout>
@@ -131,7 +137,8 @@
 </template>
 
 <script>
-    import noUiSlider from 'nouislider';
+    import vueSlider from 'vue-slider-component'
+
 
     export default {
 
@@ -142,6 +149,11 @@
         mounted() {
             this.$root.isLoading = false;
             this.loadTechnologies();
+        },
+
+
+        components: {
+            vueSlider
         },
 
         props: ['campaign'],
@@ -163,7 +175,45 @@
                 selectedLocations: this.campaign.geo.data,
                 geoTemplate: '<div class="geo-dropdown"><flag :iso2="item.country_iso2"></flag><div class="text"><span class="key">{{ item.key }}</span><br><span class="comment">{{ item.comment }}</span></div></div>',
                 technologiesList: false,
-                age: [1, 12, 18, 26, 40, 55, 65, 120]
+                ageRange: [1, 120],
+                ageSlider: {
+                    width: "100%",
+                    tooltip: "always",
+                    disabled: false,
+                    piecewise: true,
+                    piecewiseLabel: true,
+                    style: {
+                      
+                    },
+                    data: [
+                      1,
+                      12,
+                      18,
+                      26,
+                      40,
+                      55,
+                      65,
+                      120
+                    ],
+                    formatter: "{value} y/o",
+                    piecewiseStyle: {
+                      "backgroundColor": "#ccc",
+                      "visibility": "visible",
+                      "width": "12px",
+                      "height": "12px"
+                    },
+                    piecewiseActiveStyle: {
+                      "backgroundColor": "#e65100"
+                    },
+                    tooltipStyle: {
+                        "color": "#555",
+                        "backgroundColor": "#f5f5f5",
+                        "borderColor": "#f5f5f5"
+                    },
+                    processStyle: {
+                        "backgroundColor": "#e65100"
+                    }
+                }
             }
         },
 
@@ -228,7 +278,9 @@
         },
 
         computed: {
-            
+            stepActive() {
+                return this.$parent.isActive
+            }
         },
 
         filters: {
@@ -245,13 +297,13 @@
                 this.$parent.countries = value;
             },
 
-            campaign(value) {
-                this.createSlider(this.campaign.user.data.age.min, this.campaign.user.data.age.max);
+            stepActive: function(v) {
+                this.$nextTick(() => this.$refs.slider.refresh())
             },
 
             technologies(value) {
 
-                alert(value);
+                console.log(value);
             }
         }
     }
