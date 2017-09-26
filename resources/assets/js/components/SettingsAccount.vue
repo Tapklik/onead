@@ -1,18 +1,17 @@
 <template>
     <v-container fluid grid-list-md>
-
-                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
+        <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
         <v-layout row wrap>
             <v-flex xs12 md6>
                 <v-layout row wrap>
-                    <v-flex xs12 class="mb-3 mt-4">
+                    <v-flex xs12 md4 class="mb-3 mt-4">
                         <h4>Account Details</h4>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap>
                     <v-flex xs12 md9 class="valign-wrapper mt-4">
                         <span class="title">Account Name</span>
-                        <p class="ma-0">This is the name of your account</p>
+                        <p class="caption">This is the name of your account</p>
                     </v-flex>
                     <v-flex xs12 md8>
                         <v-icon>perm_identity</v-icon>
@@ -20,68 +19,69 @@
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap>
-                    <v-flex xs12 md12 class="valign-wrapper mt-4">
+                    <v-flex xs12 md4 class="valign-wrapper mt-4">
                         <span class="title">Account ID</span>
-                        <p class="ma-0">This is the unique ID of your account</p>
+                        <p class="caption">This is the unique ID of your account</p>
                     </v-flex>
-                    <v-flex xs12 md8>
+                    <v-flex xs12 md9>
                         <v-icon>perm_identity</v-icon>
                         <span>{{$root.getFirstUuidSegment}}</span>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap>
-                    <v-flex xs12 md12 class="valign-wrapper mt-4">
+                    <v-flex xs12 md4 class="valign-wrapper mt-4">
                         <span class="title">Country</span>
-                        <p class="ma-0">This is the country your account is located in</p>
+                        <p class="caption">This is the country your account is located in</p>
                     </v-flex>
-                    <v-flex xs12 md8>
+                    <v-flex xs12 md9>
                         <v-select
                           v-bind:items="countriesList"
                           v-model="account.localization.country"
                           label="Select" item-text="country_name" item-value="country"
                           single-line
+                          prepend-icon="language"
                           bottom
-                          autocomplete
                         ></v-select>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap>
-                    <v-flex xs12 md12 class="valign-wrapper mt-4">
+                    <v-flex xs12 md4 class="valign-wrapper mt-4">
                         <span class="title">City</span>
-                        <p class="ma-0">This is the city your account is located in</p>
+                        <p class="caption">This is the city your account is located in</p>
                     </v-flex>
-                    <v-flex xs12 md8>
+                    <v-flex xs12 md9>
                         <v-text-field
                         label="Your first name"
                         prepend-icon="person"
                         single-line
                         v-model="account.localization.city"
+                        v-on:blur="check = true"
                         ></v-text-field>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap>
-                    <v-flex xs12 md12 class="valign-wrapper mt-4">
+                    <v-flex xs12 md4 class="valign-wrapper mt-4">
                         <span class="title">Timezone</span>
-                        <p class="ma-0">This is the timezone your account is located in</p>
+                        <p class="caption">This is the timezone your account is located in</p>
                     </v-flex>
-                    <v-flex xs12 md8>
+                    <v-flex xs12 md9>
                         <v-select
                           v-bind:items="timezoneList"
                           v-model="account.localization.timezone"
+                          prepend-icon="language"
                           label="Select" item-text="text" item-value="text"
                           single-line
                           bottom
-                          autocomplete
                         ></v-select>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap>
-                    <v-flex xs12 md12 class="valign-wrapper mt-4">
+                    <v-flex xs12 md4 class="valign-wrapper mt-4">
                         <span class="title">Language</span>
-                        <p class="ma-0">This is the language your account operates with</p>
+                        <p class="caption">This is the language your account operates with</p>
                     </v-flex>
-                    <v-flex xs12 md8>
-                        <v-icon>perm_identity</v-icon>
+                    <v-flex xs12 md9>
+                        <v-icon>language</v-icon>
                         <span>{{account.localization.language}}</span>
                     </v-flex>
                 </v-layout>
@@ -105,14 +105,21 @@
                         </template>
                         <template slot="items" scope="props">
                             <td>
-                                <v-icon>person</v-icon>
-                                <span  class="title">{{props.item.name}}</span> 
+                                <v-icon>person</v-icon> 
+                            </td>
+                            <td>
+                                <span  class="title">{{props.item.name}}</span>
                             </td>
                             <td>
                                 <span class="text-xs-left">{{props.item.email}}</span> 
                             </td>
-                            <td>
-                                <span class="small">{{ props.item.status }}</span>
+                            <td class="text-xs-right">
+                                <v-chip v-if="props.item.status == true" small class="green white--text">
+                                    <small>ACTIVE</small>
+                                </v-chip>
+                                <v-chip v-else small class="red darken-2 white--text">
+                                    <small>NOT ACTIVE</small>
+                                </v-chip>
                             </td>
                         </template>
                     </v-data-table>
@@ -130,10 +137,11 @@
         mounted() {
         },
 
-        props:['user'],
+        props:['user','token'],
 
         data() {
             return {
+                something: false,
                 alert: false,
                 error: false,
                 success: false,
@@ -289,8 +297,8 @@
    },
 
     computed: {
-        token() {
-            return this.$parent.token;
+        localization() {
+            return this.account.localization;
         }
     },
 

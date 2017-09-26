@@ -1,6 +1,8 @@
 <template>
     <v-container fluid grid-list-md>
+
         <v-tabs light :scrollable="false">
+        <v-card light extended class="elevation-1">
             <v-tabs-bar class="white">
                 <v-tabs-slider class="orange text--darken-3"></v-tabs-slider>
                 <v-tabs-item href="#account-tab">
@@ -12,6 +14,7 @@
                     <span class="orange--text text--darken-3">User Settings</span>
                 </v-tabs-item>
             </v-tabs-bar>
+            </v-card>
             <v-tabs-items>
                 <v-tabs-content id="account-tab">
                     <settings-account :user="user" :token="token"></settings-account>
