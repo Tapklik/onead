@@ -216,7 +216,6 @@
                 }
             }
         },
-
         methods: {
             loadTechnologies() {
 
@@ -304,6 +303,10 @@
             technologies(value) {
 
                 console.log(value);
+            },
+            ageRange(value) {
+                this.campaign.user.data.age.min = value[0];
+                this.campaign.user.data.age.max = value[1];
             }
         }
     }
