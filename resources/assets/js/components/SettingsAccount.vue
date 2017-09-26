@@ -99,21 +99,20 @@
                     <v-card-title>
                         <span class="subheading orange--text text--darken-4">USERS</span>
                     </v-card-title>
-                    <v-data-table v-bind:items="usersList" hide-actions > 
+                    <v-data-table v-bind:items="usersList" hide-actions>
                         <template slot="headers" scope="props">
                             &nbsp;
                         </template>
                         <template slot="items" scope="props">
                             <td>
-                                <span class="title">{{ props.item.name }}</span>
+                                <v-icon>person</v-icon>
+                                <span  class="title">{{props.item.name}}</span> 
                             </td>
-                            <td class="text-xs-right">
-                                <v-chip v-if="props.item.status == true" small class="green white--text">
-                                    <small>Active</small>
-                                </v-chip>
-                                <v-chip v-else small class="red white--text">
-                                    <small>Inactive</small>
-                                </v-chip>
+                            <td>
+                                <span class="text-xs-left">{{props.item.email}}</span> 
+                            </td>
+                            <td>
+                                <span class="small">{{ props.item.status }}</span>
                             </td>
                         </template>
                     </v-data-table>

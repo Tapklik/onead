@@ -1,6 +1,6 @@
 <template>
     <v-container fluid grid-list-md>
-        <v-tabs dark fixed icons centered>
+        <v-tabs light :scrollable="false">
             <v-tabs-bar class="white">
                 <v-tabs-slider class="orange text--darken-3"></v-tabs-slider>
                 <v-tabs-item href="#account-tab">

@@ -76,9 +76,6 @@
                 </v-tabs-item>
             </v-tabs-bar>
             </v-card>
-                   
-                    
-                <v-btn @click="generateCharts()">YES</v-btn>
             <v-tabs-items>
                 <v-tabs-content id="overall-tab">
                     <v-card>
@@ -414,7 +411,6 @@
             this.loadCountries();
             this.loadPublishers();
             this.$root.isLoading = false;
-            this.drawDummy();
 
         },
 
@@ -983,11 +979,45 @@ dataCall(report, responseList, responseListSummary, chart) {
 },
 
 watch: {
+    column(value) {
+        this.generateCharts();
+    },
+    line(value) {
+        this.generateCharts();
+    },
+    date_from(value) {
+        this.generateCharts();
+    },
+    date_to(value) {
+        this.generateCharts();
+    },
     token(value) {
         this.fetchCampaigns();
     },
+    selectedCampaigns1(value) {
+        this.generateCharts(); 
+    },
+    selectedCreatives1(value) {
+        this.generateCharts();
+    },
+    selectedPublishers1(value) {
+        this.generateCharts();
+    },
+    selectedDevicesTypes1(value) {
+        this.generateCharts();
+    },
+    selectedDevicesOs1(value) {
+        this.generateCharts();
+    },
+    selectedDevicesUa1(value) {
+        this.generateCharts();
+    },
+    selectedGeoCountries1(value) {
+        this.generateCharts();
+    },
     
     user(value) {
+        this.generateCharts();
     },
 
     trialdate(value) {
