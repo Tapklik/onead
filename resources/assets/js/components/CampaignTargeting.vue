@@ -17,7 +17,7 @@
                 <v-layout row wrap>
                     <v-flex xs12 class="mt-3">
                         <tk-select-list v-model="campaign.device.data.type">
-                            <tk-select v-for="technology in technologiesList.devices" :icon="technology.icon" :trueValue="technology.device_id" :key="technology.type">
+                            <tk-select v-for="technology in technologiesList.devices" :icon="technology.icon" :trueValue="technology.device_id" :key="technology.device_id">
                                 {{ technology.type }}
                             </tk-select>
                         </tk-select-list>

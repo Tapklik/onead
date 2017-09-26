@@ -32,7 +32,7 @@
             </v-stepper-content>
             <v-stepper-content step="5">
                 <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
-                <campaign-review  :alert1='alert1' :error1='error1' :success1='success1' :alertmessage1='alertmessage1' :user="user" :token="token" :campaign="campaign" :state="stateReady" :folder="currentFolder" :gender="selectedGender()"></campaign-review>
+                <campaign-review :selectedUa="selectedUa" :selectedOs="selectedOs" :selectedDevices="selectedDevices" :selectedCategories="selectedCategories" :user="user" :token="token" :campaign="campaign" :state="stateReady" :folder="currentFolder" :gender="selectedGender()"></campaign-review>
             </v-stepper-content>
         </v-stepper>
     </div>         
@@ -62,10 +62,6 @@
                 e1: 1,
                 campaignId: null,
                 campaign: {
-                    devicesTargetting: [],
-                    osTargetting: [],
-                    uaTargetting: [],
-                    categoriesCategories: [],
                     daysDetails: [0, 1, 2, 3, 4, 5, 6],
                     timesDetails: [1, 2, 3, 4, 5, 6],
                     name: '',
@@ -249,14 +245,13 @@
                 for (var s in selections) {
                     var id = selections[s];
                     for(var tech in technologiesList) {
-                        if(id == technologiesList[tech].device_id) {
+                        if(id == technologiesList[tech].type) {
 
                         os.push(technologiesList[tech]);
                         break;
                         }       
                     }
                 }
-                this.campaign.osTargetting = os;  
                 return os;  
             },
             selectedDevices() {
@@ -272,8 +267,7 @@
                         break;
                         }       
                     }
-                }
-                this.campaign.devicesTargetting = devices;  
+                } 
                 return devices;  
             },
             selectedUa() {
@@ -283,14 +277,13 @@
                 for (var s in selections) {
                     var id = selections[s];
                     for(var tech in technologiesList) {
-                        if(id == technologiesList[tech].device_id) {
+                        if(id == technologiesList[tech].type) {
 
                         ua.push(technologiesList[tech]);
                         break;
                         }       
                     }
                 }
-                this.campaign.uaTargetting = ua;  
                 return ua;  
             },
             selectedCategories() {
@@ -307,9 +300,8 @@
                         }       
                     }
                 }
-                this.campaign.categoriesCategories = categories;  
                 return categories;
-            },
+            }
         },
         watch: {
             token (value) {

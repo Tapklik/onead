@@ -67,7 +67,7 @@
                         <span>Daily Budget Pacing:</span>
                     </v-flex>
                     <v-flex xs12 md8>
-                        <p> {{campaign.budget.data.pacing}}</p>
+                        <p></p>
                     </v-flex>
                 </v-layout>
             </v-flex>
@@ -80,7 +80,7 @@
                         <span>Chosen Categories: </span>
                     </v-flex>                    
                     <v-flex xs12 md8>
-                        <span v-for="category in campaign.categoriesCategories">{{category}}<br> </span><br>
+                        <span v-for="category in selectedCategories">{{category}}<br> </span><br>
                     </v-flex>
                 </v-layout>
             </v-flex>
@@ -108,7 +108,7 @@
                         <span>Chosen Devices:</span>
                     </v-flex>
                     <v-flex xs12 md8>
-                        <p v-for="device in campaign.devicesTargetting"> {{device}}</p>
+                        <p v-for="device in selectedDevices"> {{device}}</p>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap>
@@ -116,7 +116,7 @@
                         <span>Chosen Operating Systems:</span>
                     </v-flex>
                     <v-flex xs12 md8>
-                        <p v-for="os in campaign.osTargetting">{{os}}</p>
+                        <p v-for="os in selectedOs">{{os}}</p>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap>
@@ -124,7 +124,7 @@
                         <span>Chosen Browsers:</span>
                     </v-flex>
                     <v-flex xs12 md8>
-                        <p v-for="ua in campaign.uaTargetting"> {{ua}}</p>
+                        <p v-for="ua in selectedUa"> {{ua}}</p>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap>
@@ -140,7 +140,7 @@
                         <span>Selected Geo:</span>
                     </v-flex>
                     <v-flex xs12 md8>
-                        <p v-for="geo in campaign.geo.data" :key="id"> {{geo.key}}</p>
+                        <p v-for="geo in campaign.geo.data" :key="geo.id"> {{geo.key}}</p>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap>
@@ -168,7 +168,7 @@
             this.$root.isLoading = false;
         },
 
-        props: ['campaign', 'folder', 'gender','token','user','alert1','error1', 'success1', 'alertmessage1'],
+        props: ['campaign', 'folder', 'gender','token','user','selectedUa','selectedOs','selectedDevices','selectedCategories'],
 
         data() {
 
@@ -210,9 +210,6 @@
                     this.error = false;
                     this.alertMessage = 'Successfully created a new campaign';
                     
-                    setTimeout(function() {
-                      window.location = "/admin/campaigns";
-                    }, 3000);
                 
                 }, error => {
                     this.alert = true;
@@ -232,10 +229,6 @@
                 this.updateCampaignDevice();
                 this.updateCampaignBudget();
                 this.updateCampaignCreatives();
-
-                setTimeout(function() {
-                  window.location = "/admin/campaigns";
-                }, 3000);
                 
             },
 
