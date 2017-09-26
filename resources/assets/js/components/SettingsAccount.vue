@@ -2,7 +2,7 @@
     <v-container fluid grid-list-md>
         <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
         <v-layout row wrap>
-            <v-flex xs12 md6>
+            <v-flex xs12 md6 lg4>
                 <v-layout row wrap>
                     <v-flex xs12 md4 class="mb-3 mt-4">
                         <h4>Account Details</h4>
@@ -26,6 +26,13 @@
                     <v-flex xs12 md9>
                         <v-icon>perm_identity</v-icon>
                         <span>{{$root.getFirstUuidSegment}}</span>
+                    </v-flex>
+                </v-layout>
+            </v-flex>
+            <v-flex xs12 md6 lg4>
+                <v-layout row wrap>
+                    <v-flex xs12 class="mb-3 mt-4">
+                        <h4></h4>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap>
@@ -59,6 +66,13 @@
                         ></v-text-field>
                     </v-flex>
                 </v-layout>
+            </v-flex>
+            <v-flex xs12 md6 lg4>
+                <v-layout row wrap>
+                    <v-flex xs12 class="mb-3 mt-4">
+                        <h4></h4>
+                    </v-flex>
+                </v-layout>
                 <v-layout row wrap>
                     <v-flex xs12 md4 class="valign-wrapper mt-4">
                         <span class="title">Timezone</span>
@@ -85,45 +99,12 @@
                         <span>{{account.localization.language}}</span>
                     </v-flex>
                 </v-layout>
-                <v-layout row wrap>
-                    <v-btn @click="updateAccount()">Update you details</v-btn>
-                </v-layout>
             </v-flex>
-            <v-flex xs12 md6>
-                <v-layout row wrap>
-                    <v-flex xs12 class="mb-3 mt-4">
-                        <h4>User List</h4>
-                    </v-flex>
-                </v-layout>
-                <v-card height="300px" class="elevation-1">
-                    <v-card-title>
-                        <span class="subheading orange--text text--darken-4">USERS</span>
-                    </v-card-title>
-                    <v-data-table v-bind:items="usersList" hide-actions>
-                        <template slot="headers" scope="props">
-                            &nbsp;
-                        </template>
-                        <template slot="items" scope="props">
-                            <td>
-                                <v-icon>person</v-icon> 
-                            </td>
-                            <td>
-                                <span  class="title">{{props.item.name}}</span>
-                            </td>
-                            <td>
-                                <span class="text-xs-left">{{props.item.email}}</span> 
-                            </td>
-                            <td class="text-xs-right">
-                                <v-chip v-if="props.item.status == true" small class="green white--text">
-                                    <small>ACTIVE</small>
-                                </v-chip>
-                                <v-chip v-else small class="red darken-2 white--text">
-                                    <small>NOT ACTIVE</small>
-                                </v-chip>
-                            </td>
-                        </template>
-                    </v-data-table>
-                </v-card>
+        </v-layout>
+        <v-layout row wrap>
+            <v-flex xs12 md6 lg4></v-flex>
+            <v-flex xs12 md6 lg4>
+                <v-btn primary @click="updateAccount()">Update you details</v-btn>
             </v-flex>
         </v-layout>
     </v-container>

@@ -210,6 +210,9 @@
                     this.error = false;
                     this.alertMessage = 'Successfully created a new campaign';
                     
+                    setTimeout(function() {
+                      window.location = "/admin/campaigns";
+                    }, 3000);
                 
                 }, error => {
                     this.alert = true;
@@ -229,6 +232,10 @@
                 this.updateCampaignDevice();
                 this.updateCampaignBudget();
                 this.updateCampaignCreatives();
+
+                setTimeout(function() {
+                  window.location = "/admin/campaigns";
+                }, 3000);
                 
             },
 
