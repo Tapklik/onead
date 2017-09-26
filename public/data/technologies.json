@@ -5,29 +5,29 @@
     {
       "type":"Firefox",
       "icon":"mdi-firefox",
-      "device_id": "1"
+      "device_id": 1
     },
     
     {
       "type": "Chrome",
       "icon": "mdi-google-chrome",
-      "device_id": "2"
+      "device_id": 2
     },
 
     {
       "type": "Safari",
       "icon": "mdi-apple-safari",
-      "device_id": "3"
+      "device_id": 3
     },
     {
       "type":"IE",
       "icon": "mdi-internet-explorer",
-      "device_id": "4"
+      "device_id": 4
     },
     {
       "type": "Opera",
       "icon": "mdi-opera",
-      "device_id": "5"
+      "device_id": 5
     }
   ],
 
@@ -36,30 +36,30 @@
     {
       "type":"Windows",
       "icon": "mdi-windows",
-      "device_id": "6"
+      "device_id": 6
     }, 
     {
       "type":"Linux",
       "icon": "mdi-linux",
-      "device_id": "5" 
+      "device_id": 5
     },
     {
       "type":"Mac",
       "icon":"mdi-apple",
-      "device_id": "4"
+      "device_id": 4
     },
     {
       "type":"Android",
       "icon":"mdi-android",
-      "device_id": "1"
+      "device_id": 1
     },
     {
       "type":"iOS",
       "icon":"mdi-apple",
-      "device_id": "3"
+      "device_id": 3
     },
     {
-      "device_id": "2",
+      "device_id": 2,
       "type":"Blackberry",
       "icon":"mdi-blackberry"
     }
@@ -69,18 +69,18 @@
     {
       "type":"Desktop",
       "icon": "mdi-desktop-mac",
-      "device_id": "2"
+      "device_id": 2
     },
 
     {
       "type": "Mobile",
       "icon": "mdi-cellphone",
-      "device_id": "4"
+      "device_id": 4
     },
     {
       "type":"Tablet",
       "icon":"mdi-tablet",
-      "device_id":"5"
+      "device_id":5
     }
   ]
 }
