@@ -47,12 +47,14 @@
         mounted() {
             this.$root.isLoading = false;
             this.loadCategories();
+            this.loadTechnologies();
         },
 
         props: ['token', 'user','alert1','error1','alertmessage1','success1'],
 
         data() {
             return {
+                technologiesList: [],
                 alert: false,
                 error: false,
                 success: false,
@@ -60,6 +62,12 @@
                 e1: 1,
                 campaignId: null,
                 campaign: {
+                    devicesTargetting: [],
+                    osTargetting: [],
+                    uaTargetting: [],
+                    categoriesCategories: [],
+                    daysDetails: [0, 1, 2, 3, 4, 5, 6],
+                    timesDetails: [1, 2, 3, 4, 5, 6],
                     name: '',
                     adomain: '',
                     ctrurl: '',
@@ -85,7 +93,7 @@
                         data: {
                             amount: 0,
                             pacing: "0111111 0111111 0111111 0111111 0111111 0111111 0111111",
-                            type: 'daily'
+                            type: 'daily',
                         }
                     },
                     device: {
@@ -111,7 +119,7 @@
                 creatives: [],
                 currentFolder: {},
                 ageChange: false,
-                stateReady: false,
+                stateReady: false
             }
         },
 
@@ -158,7 +166,7 @@
                     this.alertMessage = 'Something went wrong';
                 });
             },
-
+            
             fetchCampaignUser(id) {
 
                 axios.get(this.$root.uri + '/campaigns/' + id + '/users', this.$root.config).then(response => {
@@ -221,8 +229,88 @@
 
                 return bucket;
             },
-        },
+            loadTechnologies() {
 
+                axios.get('/data/technologies.json').then(response => {
+                    this.technologiesList = response.data;
+                }, error => {
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
+                });
+            },
+        },
+        computed: {
+            selectedOs() {
+                var os = [];
+                var technologiesList = this.technologiesList.operatingsystems;
+                var selections = this.campaign.device.data.os;
+                for (var s in selections) {
+                    var id = selections[s];
+                    for(var tech in technologiesList) {
+                        if(id == technologiesList[tech].device_id) {
+
+                        os.push(technologiesList[tech]);
+                        break;
+                        }       
+                    }
+                }
+                this.campaign.osTargetting = os;  
+                return os;  
+            },
+            selectedDevices() {
+                var devices = [];
+                var technologiesList = this.technologiesList.devices;
+                var selections = this.campaign.device.data.type;
+                for (var s in selections) {
+                    var id = selections[s];
+                    for(var tech in technologiesList) {
+                        if(id == technologiesList[tech].device_id) {
+
+                        devices.push(technologiesList[tech]);
+                        break;
+                        }       
+                    }
+                }
+                this.campaign.devicesTargetting = devices;  
+                return devices;  
+            },
+            selectedUa() {
+                var ua = [];
+                var technologiesList = this.technologiesList.browsers;
+                var selections = this.campaign.device.data.ua;
+                for (var s in selections) {
+                    var id = selections[s];
+                    for(var tech in technologiesList) {
+                        if(id == technologiesList[tech].device_id) {
+
+                        ua.push(technologiesList[tech]);
+                        break;
+                        }       
+                    }
+                }
+                this.campaign.uaTargetting = ua;  
+                return ua;  
+            },
+            selectedCategories() {
+                var categories = [];
+                var categoriesList = this.categoriesList;
+                var selections = this.campaign.cat.data;
+                for (var s in selections) {
+                    var id = selections[s];
+                    for(var category in categoriesList) {
+                        if(id == categoriesList[category].code) {
+
+                        categories.push(categoriesList[category]);
+                        break;
+                        }       
+                    }
+                }
+                this.campaign.categoriesCategories = categories;  
+                return categories;
+            },
+        },
         watch: {
             token (value) {
 
@@ -241,7 +329,6 @@
             },
 
             campaign(value) {
-
                 // Update folder
                 this.folder = (typeof this.campaign.creatives.data[0] != 'undefined') ? this.campaign.creatives.data[0].folder : [];
             },

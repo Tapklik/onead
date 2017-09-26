@@ -331,10 +331,13 @@
                 }
             },
             watch: {
-                selectedTimes() {
+                selectedTimes(value) {
+                    this.campaign.timesDetails = value;
                     this.applyCurrentlyPlan();
+                
                 },
-                selectedDays() {
+                selectedDays(value) {
+                    this.campaign.daysDetails = value;
                     this.applyCurrentlyPlan();
                 }
             }

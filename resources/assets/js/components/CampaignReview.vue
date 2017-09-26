@@ -51,7 +51,7 @@
                         <span>Budget:</span>
                     </v-flex>
                     <v-flex xs12 md8>
-                        <p> {{campaign.budget.data.amount}}</p>
+                        <p> {{$root.fromMicroDollars(campaign.budget.data.amount)}}</p>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap>
@@ -59,7 +59,7 @@
                         <span>Target Bid:</span>
                     </v-flex>
                     <v-flex xs12 md8>
-                        <p> {{campaign.bid}}</p>
+                        <p> {{$root.fromMicroDollars(campaign.bid)}}</p>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap>
@@ -80,7 +80,7 @@
                         <span>Chosen Categories: </span>
                     </v-flex>                    
                     <v-flex xs12 md8>
-                        <span v-for="category in campaign.cat.data">{{category}}<br> </span><br>
+                        <span v-for="category in campaign.categoriesCategories">{{category}}<br> </span><br>
                     </v-flex>
                 </v-layout>
             </v-flex>
@@ -108,7 +108,7 @@
                         <span>Chosen Devices:</span>
                     </v-flex>
                     <v-flex xs12 md8>
-                        <p v-for="device in campaign.device.data.type"> {{device}}</p>
+                        <p v-for="device in campaign.devicesTargetting"> {{device}}</p>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap>
@@ -116,7 +116,7 @@
                         <span>Chosen Operating Systems:</span>
                     </v-flex>
                     <v-flex xs12 md8>
-                        <p v-for="os in campaign.device.data.os">{{os}}</p>
+                        <p v-for="os in campaign.osTargetting">{{os}}</p>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap>
@@ -124,7 +124,7 @@
                         <span>Chosen Browsers:</span>
                     </v-flex>
                     <v-flex xs12 md8>
-                        <p v-for="ua in campaign.device.data.ua"> {{ua}}</p>
+                        <p v-for="ua in campaign.uaTargetting"> {{ua}}</p>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap>
