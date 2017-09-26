@@ -32,7 +32,7 @@
                 <v-layout row wrap>
                     <v-flex xs12>
                         <tk-select-list v-model="campaign.device.data.os">
-                            <tk-select v-for="technology in technologiesList.operatingsystems" :icon="technology.icon" :trueValue="technology.device_id" :key="technology.type">
+                            <tk-select v-for="technology in technologiesList.operatingsystems" :icon="technology.icon" :trueValue="technology.type" :key="technology.device_id">
                                 {{ technology.type }}
                             </tk-select>
                         </tk-select-list>
@@ -47,7 +47,7 @@
                 <v-layout row wrap xs12>
                     <v-flex xs12>
                         <tk-select-list v-model="campaign.device.data.ua">
-                            <tk-select v-for="technology in technologiesList.browsers" :icon="technology.icon" :trueValue="technology.device_id" :key="technology.type">
+                            <tk-select v-for="technology in technologiesList.browsers" :icon="technology.icon" :trueValue="technology.type" :key="technology.device_id">
                                 {{ technology.type }}
                             </tk-select>
                         </tk-select-list>

@@ -11,7 +11,7 @@
                 <v-layout row wrap>
                     <v-flex xs12 md9 class="valign-wrapper mt-4">
                         <span class="title">User ID</span>
-                        <p class="ma-0">This is your ID</p>
+                        <p class="caption">This is your ID</p>
                     </v-flex>
                     <v-flex xs12 md8>
                         <v-icon>perm_identity</v-icon>
@@ -21,7 +21,7 @@
                 <v-layout row wrap>
                     <v-flex xs12 md12 class="valign-wrapper mt-4">
                         <span class="title">Name</span>
-                        <p class="ma-0">This is your name</p>
+                        <p class="caption">This is your name</p>
                     </v-flex>
                     <v-flex xs12 md8>
                         <v-text-field
@@ -42,7 +42,7 @@
                 <v-layout row wrap>
                     <v-flex xs12 md12 class="valign-wrapper mt-4">
                         <span class="title">Email</span>
-                        <p class="ma-0">Your email address</p>
+                        <p class="caption">Your email address</p>
                     </v-flex>
                     <v-flex xs12 md8>
                         <v-icon>email</v-icon>
@@ -52,7 +52,7 @@
                 <v-layout row wrap>
                     <v-flex xs12 md12 class="valign-wrapper mt-4">
                         <span class="title">Phone number</span>
-                        <p class="ma-0">Your phone number, where we can contact you</p>
+                        <p class="caption">Your phone number, where we can contact you</p>
                     </v-flex>
                     <v-flex xs12 md8>
                         <v-text-field
@@ -77,7 +77,7 @@
                 <v-layout row wrap>
                     <v-flex xs12 md12 class="valign-wrapper mt-4">
                         <span class="title">Password</span>
-                        <p class="ma-0">This is the password for your profile</p>
+                        <p class="caption">This is the password for your profile</p>
                     </v-flex>
                     <v-flex xs12 md8>
                         <v-text-field
@@ -92,7 +92,7 @@
                 <v-layout row wrap>
                     <v-flex xs12 md12 class="valign-wrapper mt-4">
                         <span class="title">Status</span>
-                        <p class="ma-0">This is your status (active or inactive)</p>
+                        <p class="caption">This is your status (active or inactive)</p>
                     </v-flex>
                     <v-flex xs12 md8 v-if="userDet.status == 0">
                         <v-chip small class="red white--text">
