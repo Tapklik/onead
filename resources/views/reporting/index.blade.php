@@ -1,11 +1,10 @@
 @extends('layouts.default')
 
 @section('content')
- <v-layout class="header">
-    <v-flex xs12>
-        <h4>REPORTS</h4>
-    </v-flex>
-</v-layout>
+
+@component('layouts.partials.title')
+    REPORTING
+@endcomponent
 <reporting :user="user" :token="token" :trialdate="trialdate" ></reporting>
 @stop
 

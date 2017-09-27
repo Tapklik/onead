@@ -1,10 +1,9 @@
 @extends('layouts.default')
 
 @section('content')
- <v-layout class="header">
-    <v-flex xs12>
-        <h4>SETTINGS</h4>
-    </v-flex>
-</v-layout>
+
+@component('layouts.partials.title')
+    SETTINGS
+@endcomponent
 <settings :user="user" :token="token" ></settings>
 @stop

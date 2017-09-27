@@ -2,15 +2,9 @@
 
 @section('content')
         
-        <v-layout row wrap class="mt-3 mb-4">
-            <v-flex xs12 md4>
-                <span class="display-1 grey--text text--lighten2">DASHBOARD</span>
-                
-                
-            </v-flex>
-            <v-spacer></v-spacer>
-            <controls></controls>
-         </v-layout>
+@component('layouts.partials.title')
+    DASHBOARD
+@endcomponent
 
         <dashboard :user="user" :token="token" :trialdate="trialdate"></dashboard>
 @stop

@@ -245,7 +245,7 @@
                 for (var s in selections) {
                     var id = selections[s];
                     for(var tech in technologiesList) {
-                        if(id == technologiesList[tech].type) {
+                        if(id == technologiesList[tech].device_id) {
 
                         os.push(technologiesList[tech]);
                         break;
@@ -277,7 +277,7 @@
                 for (var s in selections) {
                     var id = selections[s];
                     for(var tech in technologiesList) {
-                        if(id == technologiesList[tech].type) {
+                        if(id == technologiesList[tech].device_id) {
 
                         ua.push(technologiesList[tech]);
                         break;
