@@ -64,17 +64,16 @@
                 <v-layout row wrap>
                     <v-flex xs8>
                         <v-select
-                        @keyup="reloadGeo()"
+                          @keyup="reloadGeo()"
                           v-bind:items="geo"
                           v-model="campaign.geo.data"
-                          item-text="key"
                           return-object
-                          cache-items
-                          single-line
-                          prepernd-icon="add_location"
+                          prepend-icon="add_location"
                           :search-input.sync="searchCountry"
+                          item-text="key"
                           label="Select"
                           multiple
+                          chips
                           tags
                           autocomplete>
                             <template slot="item" scope="data">
@@ -86,13 +85,15 @@
                                     <v-list-tile-sub-title v-html="data.item.comment"></v-list-tile-sub-title>
                                 </v-list-tile-content>
                             </template>
-                        </v-select>
-                        <v-chip close v-for="g in campaign.geo.data" :key="geo.id" class="grey lighten-4">
-                            <v-avatar>
-                                <img :src='"/images/flags/" + g.country_iso2 + ".png"'>
-                            </v-avatar>
-                            {{g.key}}
+                            <template slot="selection" scope="data">
+                                <v-chip close class="grey lighten-4">
+                                <v-avatar>
+                                    <img :src='"/images/flags/" + data.item.country_iso2 + ".png"'>
+                                </v-avatar>
+                            {{data.item.key}}
                         </v-chip>
+                            </template>
+                        </v-select>
                     </v-flex>
                 </v-layout>
                 <v-divider class="mt-5"></v-divider>
@@ -229,14 +230,21 @@
                 });
             },
             reloadGeo() {
-                axios.get(this.$root.uri + '/core/search/geo?key=' + this.searchCountry, this.$root.config).then(response => {
-                this.geo = response.data.data;
-            }, error => {
-                    this.alert = true;
-                    this.error = true;
-                    this.success = false;
-                    this.alertMessage = 'Something went wrong';
-                })
+                if(!this.searchCountry) return;
+
+                else if(this.searchCountry.length >= 3){
+                    axios.get(this.$root.uri + '/core/search/geo?key=' + this.searchCountry, this.$root.config).then(response => {
+                            this.geo = response.data.data;
+                        }, error => {
+                            this.alert = true;
+                            this.error = true;
+                            this.success = false;
+                            this.alertMessage = 'Something went wrong';
+                        }
+                    )
+                }
+                
+                else return;
             },
 
 
@@ -265,14 +273,6 @@
                     this.campaign.user.data.age.max = parseInt(values[1]);
                 }.bind(this));
             },
-
-            getFlagPath(iso) {
-                if (iso) {
-                    return "/images/flags/" + iso.toLowerCase() + ".svg"
-                } else {
-                    return ""
-                }
-            }
 
         },
 

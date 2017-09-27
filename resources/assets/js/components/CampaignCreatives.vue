@@ -62,7 +62,6 @@
                                                 primary
                                                 hide-details
                                                 :value="props.item"
-                                                :key="props.item.id"
                                                 v-model="campaign.creatives.data"
                                                 ></v-checkbox>
                                             </td>
