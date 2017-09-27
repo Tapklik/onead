@@ -404,14 +404,20 @@
                     acceptedFiles: 'image/*',
                     headers: {"Authorization": 'Bearer ' + this.token},
                     autoProcessQueue: false,
-                    thumbnailWidth: 128,
-                    thumbnailHeight: 128
+                    thumbnailWidth: 120,
+                    thumbnailHeight: 120
                 });
 
                 this.dropzone.on("addedfile", function(file, thumb) {
                     var sizeInterval = setInterval(function () {
                         if(typeof file.width != 'undefined') {
-                            this.creativeAttributes = {w: file.width, h: file.height, name: file.name.slice(0,file.name.lastIndexOf('.')), class: 'banner'};
+                            
+                            this.creativeAttributes = {
+                                w: file.width, 
+                                h: file.height, 
+                                name: file.name.slice(0,file.name.lastIndexOf('.')), 
+                                class: 'banner'
+                            };
                             clearInterval(sizeInterval);
                         }
                     }.bind(this), 1000);
