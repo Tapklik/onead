@@ -86,7 +86,8 @@ const app = new Vue({
         alert1: false,
         success1: false,
         error1: false,
-        alertmessage1: ''
+        alertmessage1: '',
+        pagetitle: 'Something'
     },
 
     methods: {

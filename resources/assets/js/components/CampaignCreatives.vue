@@ -2,7 +2,7 @@
     <v-container fluid grid-list-xs>
         <v-layout row wrap>
             <v-flex xs12 class="valign-wrapper mb-1">
-                <h5>CAREATIVES VAULT</h5>
+                <h5>CREATIVES VAULT</h5>
             </v-flex>
         </v-layout>
         <v-layout row wrap>
@@ -62,6 +62,7 @@
                                                 primary
                                                 hide-details
                                                 :value="props.item"
+                                                :key="props.item.id"
                                                 v-model="campaign.creatives.data"
                                                 ></v-checkbox>
                                             </td>

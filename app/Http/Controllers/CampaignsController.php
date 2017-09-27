@@ -34,7 +34,7 @@ class CampaignsController extends Controller
      */
     public function show($id)
     {
-        return view('campaigns.create', compact('id'));
+        return view('campaigns.edit', compact('id'));
     }
 
     /**

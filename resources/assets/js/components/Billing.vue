@@ -123,6 +123,7 @@
     export default {
         created() {
             this.$root.isLoading = true;
+            this.pagetitle = 'Billing';
         },
 
         mounted() {

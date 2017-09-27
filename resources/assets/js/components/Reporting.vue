@@ -154,10 +154,15 @@
                     </v-card>
                 </v-tabs-content>
                 <v-tabs-content id="publisher-tab">
-                    <v-card flat>
+                    <v-card>
                         <v-card-text>
                             <v-container fluid grid-list-md>
                                 <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
+                                <v-layout row wrap>
+                                    <v-flex xs12 md4 lg2>
+                                        <v-select :items="publisherList" item-text="site" item-value="site" chips v-model="selectedPublishers1" label="Publisher Sites" multiple autocomplete></v-select>
+                                    </v-flex>
+                                </v-layout>
                                 <v-layout row wrap>
                                     <v-flex xs6 md4 lg2>
                                         <tk-widget
@@ -191,7 +196,7 @@
                                         <tk-widget
                                             icon="monetization_on"
                                             title="eCPM"
-                                            :value="responsePublishersSummary.ecpm "
+                                            :value="responsePublishersSummary.ecpm"
                                             unit="$"
                                             defaultValue="0.00"
                                             size="sm"
@@ -201,7 +206,7 @@
                                         <tk-widget
                                             icon="star_half"
                                             title="eCPC"
-                                            :value="responsePublishersSummary.ecpc "
+                                            :value="responsePublishersSummary.ecpc"
                                             unit="$"
                                             defaultValue="0.00"
                                             size="sm"
@@ -217,15 +222,15 @@
                                             size="sm"
                                         ></tk-widget>
                                     </v-flex>
+                                    <v-flex xs12>
+                                        <v-card class="elevation-1">
+                                            <v-card-media id="chart_publisher" class="tapklik-chart" height="350px"> 
+                                                <scale-loader :loading="true" color="#9e9e9e" height="15px" width="3px" class="mt-5"></scale-loader>
+                                            </v-card-media>
+                                        </v-card>
+                                    </v-flex>
                                 </v-layout>
                             </v-container>
-                            <v-layout row wrap>
-                                <v-flex xs12 md4>
-                                    <v-select :items="publisherList" item-text="site" item-value="site" chips v-model="selectedPublishers1" label="Publisher Sites" multiple autocomplete></v-select>
-                                </v-flex>
-                            </v-layout>
-                            
-                            <v-container id="chart_publisher" style="height: 500px;"></v-container>
                         </v-card-text>
                     </v-card>
                 </v-tabs-content>
@@ -234,6 +239,17 @@
                         <v-card-text>
                             <v-container fluid grid-list-md>
                                 <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
+                                <v-layout row wrap>
+                                    <v-flex xs12 md4 lg2>
+                                        <v-select :items="technologiesList.devices" item-text="type" item-value="device_id" chips v-model="selectedDevicesTypes1" label="Devices" multiple autocomplete></v-select>
+                                    </v-flex>
+                                    <v-flex xs12 md4 lg2>
+                                        <v-select :items="technologiesList.operatingsystems" item-text="type" chips item-value="type" v-model="selectedDevicesOs1" label="Operating Systems" multiple autocomplete></v-select>
+                                    </v-flex>
+                                    <v-flex xs12 md4 lg2>
+                                        <v-select :items="technologiesList.browsers" item-text="type" chips item-value="type" v-model="selectedDevicesUa1" label="Browsers" multiple autocomplete></v-select>
+                                    </v-flex>
+                                </v-layout>
                                 <v-layout row wrap>
                                     <v-flex xs6 md4 lg2>
                                         <tk-widget
@@ -267,7 +283,7 @@
                                         <tk-widget
                                             icon="monetization_on"
                                             title="eCPM"
-                                            :value="responseDevicesSummary.ecpm "
+                                            :value="responseDevicesSummary.ecpm"
                                             unit="$"
                                             defaultValue="0.00"
                                             size="sm"
@@ -277,7 +293,7 @@
                                         <tk-widget
                                             icon="star_half"
                                             title="eCPC"
-                                            :value="responseDevicesSummary.ecpc "
+                                            :value="responseDevicesSummary.ecpc"
                                             unit="$"
                                             defaultValue="0.00"
                                             size="sm"
@@ -293,29 +309,28 @@
                                             size="sm"
                                         ></tk-widget>
                                     </v-flex>
+                                    <v-flex xs12>
+                                        <v-card class="elevation-1">
+                                            <v-card-media id="chart_devices" class="tapklik-chart" height="350px"> 
+                                                <scale-loader :loading="true" color="#9e9e9e" height="15px" width="3px" class="mt-5"></scale-loader>
+                                            </v-card-media>
+                                        </v-card>
+                                    </v-flex>
                                 </v-layout>
-                            <v-layout row wrap>
-                                <v-flex xs12 md4>
-                            <v-select :items="technologiesList.devices" item-text="type" item-value="device_id" chips v-model="selectedDevicesTypes1" label="Devices" multiple autocomplete></v-select>
-                            </v-flex>
-                                <v-flex xs12 md4>
-                            <v-select :items="technologiesList.operatingsystems" item-text="type" chips item-value="type" v-model="selectedDevicesOs1" label="Operating Systems" multiple autocomplete></v-select>
-                            </v-flex>
-                                <v-flex xs12 md4>
-                            <v-select :items="technologiesList.browsers" item-text="type" chips item-value="type" v-model="selectedDevicesUa1" label="Browsers" multiple autocomplete></v-select>
-                            </v-flex>
-                            </v-layout>
-                            
-                                <v-container id="chart_devices" style="height: 500px;"></v-container>
                             </v-container>
                         </v-card-text>
                     </v-card>
                 </v-tabs-content>
                 <v-tabs-content id="geo-tab">
-                    <v-card flat>
+                    <v-card>
                         <v-card-text>
                             <v-container fluid grid-list-md>
                                 <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
+                                <v-layout row wrap>
+                                    <v-flex xs12 md4 lg2>
+                                        <v-select :items="countriesList" item-text="country_name" item-value="country" v-model="selectedGeoCountries1" label="Countries" chips multiple autocomplete></v-select>
+                                    </v-flex>
+                                </v-layout>
                                 <v-layout row wrap>
                                     <v-flex xs6 md4 lg2>
                                         <tk-widget
@@ -349,7 +364,7 @@
                                         <tk-widget
                                             icon="monetization_on"
                                             title="eCPM"
-                                            :value="responseGeoSummary.ecpm "
+                                            :value="responseGeoSummary.ecpm"
                                             unit="$"
                                             defaultValue="0.00"
                                             size="sm"
@@ -359,7 +374,7 @@
                                         <tk-widget
                                             icon="star_half"
                                             title="eCPC"
-                                            :value="responseGeoSummary.ecpc "
+                                            :value="responseGeoSummary.ecpc"
                                             unit="$"
                                             defaultValue="0.00"
                                             size="sm"
@@ -375,15 +390,14 @@
                                             size="sm"
                                         ></tk-widget>
                                     </v-flex>
+                                    <v-flex xs12>
+                                        <v-card class="elevation-1">
+                                            <v-card-media id="chart_geo" class="tapklik-chart" height="350px"> 
+                                                <scale-loader :loading="true" color="#9e9e9e" height="15px" width="3px" class="mt-5"></scale-loader>
+                                            </v-card-media>
+                                        </v-card>
+                                    </v-flex>
                                 </v-layout>
-
-                            <v-layout row wrap>
-                                <v-flex xs12 md4>
-                            <v-select :items="countriesList" item-text="country_name" item-value="country" v-model="selectedGeoCountries1" label="Countries" chips multiple autocomplete></v-select>
-                           
-                            </v-flex>
-                            </v-layout>
-                            <v-container id="chart_geo" style="height: 500px;"></v-container>
                             </v-container>
                         </v-card-text>
                     </v-card>
@@ -411,6 +425,7 @@
             this.loadCountries();
             this.loadPublishers();
             this.$root.isLoading = false;
+            this.drawDummy();
 
         },
 
@@ -558,55 +573,25 @@
                 return {
                     data: [
                     {
-                        clicks: [
-                        {
-                            date: this.date_from, 
-                            value: 0
-                        }, 
-                        {
-                            date: this.date_to,
-                            value:0
-                        }
-                        ]
+                        clicks: 0,
+                        imps: 0,
+                        date: this.date_from
                     },
                     {
-                        imps: [
-                        {
-                            date: this.date_from, 
-                            value: 0
-                        }, 
-                        {
-                            date: this.date_to,
-                            value:0
-                        }
-                        ] 
-                    },
-                    {
-                        spend: [
-                        {
-                            date: this.date_from, 
-                            value: 0
-                        }, 
-                        {
-                            date: this.date_to,
-                            value:0
-                        }
-                        ]
-                    }
-                    ]
+                        clicks: 0,
+                        imps: 0,
+                        date: this.date_from 
+                    }]
                 }
-
             }            
         },
 
         methods: {
 
             drawDummy() {
-                this.createChart('chart_devices', this.startingData.data[0].clicks)
-                this.createChart('chart_overall', this.startingData.data[0].clicks)
-                this.createChart('chart_geo', this.startingData.data[0].clicks)
-                this.createChart('chart_publisher', this.startingData.data[0].clicks)
-
+                this.createChart('chart_devices', this.startingData)
+                this.createChart('chart_geo', this.startingData)
+                this.createChart('chart_publisher', this.startingData)
             },
 
             getCreatives() {
