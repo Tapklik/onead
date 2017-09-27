@@ -75,7 +75,9 @@
                           multiple
                           chips
                           tags
-                          autocomplete>
+                          autocomplete
+                          clearable
+                          >
                             <template slot="item" scope="data">
                                 <v-list-tile-avatar>
                                     <img v-bind:src='"/images/flags/" + data.item.country_iso2 + ".png"'/>
@@ -86,7 +88,7 @@
                                 </v-list-tile-content>
                             </template>
                             <template slot="selection" scope="data">
-                                <v-chip close class="grey lighten-4">
+                                <v-chip class="grey lighten-4">
                                 <v-avatar>
                                     <img :src='"/images/flags/" + data.item.country_iso2 + ".png"'>
                                 </v-avatar>
