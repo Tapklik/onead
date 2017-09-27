@@ -86,19 +86,19 @@
                                     <v-flex xs6 md4 lg2>
                                         <tk-widget
                                             icon="photo"
-                                            title="Impressions"
+                                            title="IMPRESSIONS"
                                             :value="responseOverallSummary.imps"
                                             defaultValue="0.00"
-                                            size="lg"
+                                            size="sm"
                                         ></tk-widget>
                                     </v-flex>
                                     <v-flex xs6 md4 lg2>
                                         <tk-widget
                                             icon="monetization_on"
-                                            title="Clicks"
+                                            title="CLICKS"
                                             :value="responseOverallSummary.clicks"
                                             defaultValue="0.00"
-                                            size="lg"
+                                            size="sm"
                                         ></tk-widget>
                                     </v-flex>
                                     <v-flex xs6 md4 lg2>
@@ -108,7 +108,7 @@
                                             :value="$root.twoDecimalPlaces(responseOverallSummary.ctr * 100)"
                                             unit="%"
                                             defaultValue="0.00"
-                                            size="lg"
+                                            size="sm"
                                         ></tk-widget>
                                     </v-flex>
                                     <v-flex xs6 md4 lg2>
@@ -118,7 +118,7 @@
                                             :value="responseOverallSummary.ecpm "
                                             unit="$"
                                             defaultValue="0.00"
-                                            size="lg"
+                                            size="sm"
                                         ></tk-widget>
                                     </v-flex>
                                     <v-flex xs6 md4 lg2>
@@ -128,22 +128,22 @@
                                             :value="responseOverallSummary.ecpc "
                                             unit="$"
                                             defaultValue="0.00"
-                                            size="lg"
+                                            size="sm"
                                         ></tk-widget>
                                     </v-flex>
                                     <v-flex xs6 md4 lg2>
                                         <tk-widget
                                             icon="monetization_on"
-                                            title="Spend"
+                                            title="SPEND"
                                             :value="$root.fromMicroDollars(responseOverallSummary.spend)"
                                             unit="$"
                                             defaultValue="0.00"
-                                            size="lg"
+                                            size="sm"
                                         ></tk-widget>
                                     </v-flex>
                                     <v-flex xs12>
                                         <v-card class="elevation-1">
-                                            <v-card-media id="chart_overall" class="tapklik-chart" height="500px"> 
+                                            <v-card-media id="chart_overall" class="tapklik-chart" height="350px"> 
                                                 <scale-loader :loading="true" color="#9e9e9e" height="15px" width="3px" class="mt-5"></scale-loader>
                                             </v-card-media>
                                         </v-card>
@@ -162,19 +162,19 @@
                                     <v-flex xs6 md4 lg2>
                                         <tk-widget
                                             icon="photo"
-                                            title="Impressions"
+                                            title="IMPRESSIONS"
                                             :value="responsePublishersSummary.imps"
                                             defaultValue="0.00"
-                                            size="lg"
+                                            size="sm"
                                         ></tk-widget>
                                     </v-flex>
                                     <v-flex xs6 md4 lg2>
                                         <tk-widget
                                             icon="monetization_on"
-                                            title="Clicks"
+                                            title="CLICKS"
                                             :value="responsePublishersSummary.clicks"
                                             defaultValue="0.00"
-                                            size="lg"
+                                            size="sm"
                                         ></tk-widget>
                                     </v-flex>
                                     <v-flex xs6 md4 lg2>
@@ -184,7 +184,7 @@
                                             :value="$root.twoDecimalPlaces(responsePublishersSummary.ctr * 100)"
                                             unit="%"
                                             defaultValue="0.00"
-                                            size="lg"
+                                            size="sm"
                                         ></tk-widget>
                                     </v-flex>
                                     <v-flex xs6 md4 lg2>
@@ -194,7 +194,7 @@
                                             :value="responsePublishersSummary.ecpm "
                                             unit="$"
                                             defaultValue="0.00"
-                                            size="lg"
+                                            size="sm"
                                         ></tk-widget>
                                     </v-flex>
                                     <v-flex xs6 md4 lg2>
@@ -204,17 +204,17 @@
                                             :value="responsePublishersSummary.ecpc "
                                             unit="$"
                                             defaultValue="0.00"
-                                            size="lg"
+                                            size="sm"
                                         ></tk-widget>
                                     </v-flex>
                                     <v-flex xs6 md4 lg2>
                                         <tk-widget
                                             icon="monetization_on"
-                                            title="Spend"
+                                            title="SPEND"
                                             :value="$root.fromMicroDollars(responsePublishersSummary.spend)"
                                             unit="$"
                                             defaultValue="0.00"
-                                            size="lg"
+                                            size="sm"
                                         ></tk-widget>
                                     </v-flex>
                                 </v-layout>
@@ -238,19 +238,19 @@
                                     <v-flex xs6 md4 lg2>
                                         <tk-widget
                                             icon="photo"
-                                            title="Impressions"
+                                            title="IMPRESSIONS"
                                             :value="responseDevicesSummary.imps"
                                             defaultValue="0.00"
-                                            size="lg"
+                                            size="sm"
                                         ></tk-widget>
                                     </v-flex>
                                     <v-flex xs6 md4 lg2>
                                         <tk-widget
                                             icon="monetization_on"
-                                            title="Clicks"
+                                            title="CLICKS"
                                             :value="responseDevicesSummary.clicks"
                                             defaultValue="0.00"
-                                            size="lg"
+                                            size="sm"
                                         ></tk-widget>
                                     </v-flex>
                                     <v-flex xs6 md4 lg2>
@@ -260,7 +260,7 @@
                                             :value="$root.twoDecimalPlaces(responseDevicesSummary.ctr * 100)"
                                             unit="%"
                                             defaultValue="0.00"
-                                            size="lg"
+                                            size="sm"
                                         ></tk-widget>
                                     </v-flex>
                                     <v-flex xs6 md4 lg2>
@@ -270,7 +270,7 @@
                                             :value="responseDevicesSummary.ecpm "
                                             unit="$"
                                             defaultValue="0.00"
-                                            size="lg"
+                                            size="sm"
                                         ></tk-widget>
                                     </v-flex>
                                     <v-flex xs6 md4 lg2>
@@ -280,17 +280,17 @@
                                             :value="responseDevicesSummary.ecpc "
                                             unit="$"
                                             defaultValue="0.00"
-                                            size="lg"
+                                            size="sm"
                                         ></tk-widget>
                                     </v-flex>
                                     <v-flex xs6 md4 lg2>
                                         <tk-widget
                                             icon="monetization_on"
-                                            title="Spend"
+                                            title="SPEND"
                                             :value="$root.fromMicroDollars(responseDevicesSummary.spend)"
                                             unit="$"
                                             defaultValue="0.00"
-                                            size="lg"
+                                            size="sm"
                                         ></tk-widget>
                                     </v-flex>
                                 </v-layout>
@@ -320,19 +320,19 @@
                                     <v-flex xs6 md4 lg2>
                                         <tk-widget
                                             icon="photo"
-                                            title="Impressions"
+                                            title="IMPRESSIONS"
                                             :value="responseGeoSummary.imps"
                                             defaultValue="0.00"
-                                            size="lg"
+                                            size="sm"
                                         ></tk-widget>
                                     </v-flex>
                                     <v-flex xs6 md4 lg2>
                                         <tk-widget
                                             icon="monetization_on"
-                                            title="Clicks"
+                                            title="CLICKS"
                                             :value="responseGeoSummary.clicks"
                                             defaultValue="0.00"
-                                            size="lg"
+                                            size="sm"
                                         ></tk-widget>
                                     </v-flex>
                                     <v-flex xs6 md4 lg2>
@@ -342,7 +342,7 @@
                                             :value="$root.twoDecimalPlaces(responseGeoSummary.ctr * 100)"
                                             unit="%"
                                             defaultValue="0.00"
-                                            size="lg"
+                                            size="sm"
                                         ></tk-widget>
                                     </v-flex>
                                     <v-flex xs6 md4 lg2>
@@ -352,7 +352,7 @@
                                             :value="responseGeoSummary.ecpm "
                                             unit="$"
                                             defaultValue="0.00"
-                                            size="lg"
+                                            size="sm"
                                         ></tk-widget>
                                     </v-flex>
                                     <v-flex xs6 md4 lg2>
@@ -362,17 +362,17 @@
                                             :value="responseGeoSummary.ecpc "
                                             unit="$"
                                             defaultValue="0.00"
-                                            size="lg"
+                                            size="sm"
                                         ></tk-widget>
                                     </v-flex>
                                     <v-flex xs6 md4 lg2>
                                         <tk-widget
                                             icon="monetization_on"
-                                            title="Spend"
+                                            title="SPEND"
                                             :value="$root.fromMicroDollars(responseGeoSummary.spend)"
                                             unit="$"
                                             defaultValue="0.00"
-                                            size="lg"
+                                            size="sm"
                                         ></tk-widget>
                                     </v-flex>
                                 </v-layout>
@@ -770,6 +770,7 @@
                         "valueAxis": "v1",
                         "id": "g1",
                         "type" : "column",
+                        "fixedColumnWidth": 40,
                         "fillAlphas": 1,
                         "fillColors":"#ccc",
                         "lineColor":"#ccc",
@@ -795,7 +796,7 @@
                         "dashLength": 0,
                         "axisAlpha": 0,
                         "gridAlpha": 0,
-                        "minPeriod": "DD",
+                        "minPeriod": "hh",
                         "minorGridEnabled": false
                     },
                     "balloon": {

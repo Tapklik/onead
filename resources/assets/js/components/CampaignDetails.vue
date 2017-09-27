@@ -181,25 +181,25 @@
                                             </v-layout>
                                         </v-flex>  
                                         <v-flex xs12 md5 >
-                                            <v-card>
+                                            <v-card class="elevation-1">
                                                 <v-card-text>
                                                     <span class="title">Plan Preview</span>
                                                     <p class="caption ma-0">Here you can see your weekly budget pacing plan</p>
-                                                    <v-data-table class="mt-4" :items="timesOfDay" hide-actions>
+                                                    <v-data-table class="mt-4 pacing-preview" :items="timesOfDay" hide-actions>
                                                         <template slot="headers" scope="props">
                                                             <th>Time</th>
-                                                            <th>S</th>
-                                                            <th>M</th>
-                                                            <th>T</th>
-                                                            <th>W</th>
-                                                            <th>T</th>
-                                                            <th>F</th>
-                                                            <th>S</th>
+                                                            <th class="pa-0">S</th>
+                                                            <th class="pa-0">M</th>
+                                                            <th class="pa-0">T</th>
+                                                            <th class="pa-0">W</th>
+                                                            <th class="pa-0">T</th>
+                                                            <th class="pa-0">F</th>
+                                                            <th class="pa-0">S</th>
                                                         </template>
                                                         <template slot="items" scope="props">
                                                             <tr>
-                                                                <th>{{ props.item }}</th>
-                                                                <td v-for="day in days" v-html="getTimeActiveClass(days.indexOf(day), timesOfDay.indexOf(props.item))"></td>
+                                                                <th class="caption pa-0">{{ props.item }}</th>
+                                                                <td class="small pa-0" v-for="day in days" v-html="getTimeActiveClass(days.indexOf(day), timesOfDay.indexOf(props.item))"></td>
                                                             </tr>
                                                         </template>
                                                     </v-data-table>

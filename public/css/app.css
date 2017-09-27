@@ -184,6 +184,22 @@ h5 {
   display: none !important;
 }
 
+/*** TABLES: PACING PREVIEW ***/
+
+.pacing-preview table.table thead th {
+  text-align: left;
+}
+
+.pacing-preview table.table tbody td,
+.pacing-preview table.table tbody th {
+  height: 28px;
+  text-align: left;
+}
+
+.pacing-preview .material-icons {
+  font-size: 16px;
+}
+
 /*** FIXES ***/
 
 .radio-group .input-group__details,

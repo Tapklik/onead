@@ -1,12 +1,12 @@
 <template>
     <v-card :height="height" class="tapklik-card elevation-1">
-        <v-card-title>
+        <v-card-title :class="padding">
             <span class="subheading right orange--text text--darken-4">{{ title }}</span>
         </v-card-title>
         <v-card-text v-if="value >= 0" class="fixed-z-index">
             <v-flex xs12>
-                <v-icon x-large>{{ icon }}</v-icon>
-                <v-layout row>
+                <v-icon :class="size">{{ icon }}</v-icon>
+                <v-layout row v-show="showLg">
                     <v-flex xs12 class="pa-1">
                         <span class="caption right grey--text text--lighte-1">{{ subtitle }}</span>
                     </v-flex>
@@ -82,7 +82,24 @@ export default {
             } else {
                 return "100px" 
             }
-        }
+        },
+
+        showLg() {
+            if(this.size=="lg") {
+                return true
+            } else {
+                return false
+            }
+        },
+
+        padding() {
+            if(this.size=="lg") {
+                return ""
+            } else {
+                return "pb-0"
+            }
+        },
+
     },
 
     methods: {
@@ -98,18 +115,25 @@ export default {
 
 .tapklik-card span {
     position: relative;
-    z-index: 5500;
 }
     
 .tapklik-card .icon {
-    position: absolute;
-    left: -25px;
-    bottom: -25px;
+    position: absolute; 
     color: #f5f5f5;
-    font-size: 8rem;
     -ms-transform: rotate(17deg); /* IE 9 */
     -webkit-transform: rotate(17deg); /* Chrome, Safari, Opera */
     transform: rotate(17deg);
-    z-index: 3000;
+}
+
+.tapklik-card .icon.lg {
+    font-size: 8rem;
+    left: -25px;
+    bottom: -25px;
+}
+
+.tapklik-card .icon.sm {
+    font-size: 5rem;
+    left: -20px;
+    bottom: -25px;
 }
 </style>

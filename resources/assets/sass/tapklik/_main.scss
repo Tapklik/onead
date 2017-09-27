@@ -64,6 +64,24 @@ h1, h2, h3, h4, h5 {
 }
 
 
+
+/*** TABLES: PACING PREVIEW ***/
+
+.pacing-preview {
+	table.table thead th {
+		text-align: left;
+	}
+
+	table.table tbody td, table.table tbody th {
+		height:28px;
+		text-align: left;
+	}
+
+	.material-icons {
+		font-size: 16px;
+	}
+}
+
 /*** FIXES ***/
 
 .radio-group, .checkbox {
