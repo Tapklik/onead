@@ -433,8 +433,8 @@
             user(value) {
                 this.date_from = this.getDate(-10);
                 this.date_to = this.getDate(0);
-                this.loadMainGraph();
-                this.loadMainGraphData();
+                setTimeout(this.loadMainGraph(), 2000);
+                setTimeout(this.loadMainGraphData(), 2000);
             },
 
             chartLoaded(value) {
