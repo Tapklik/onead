@@ -59,8 +59,6 @@
                                         <tr @mouseenter="imageSource = props.item.thumb, sample= props.item.name, statusShow = props.item.approved, typeShow = props.item.class, dimensionsShow = props.item.w + 'x' + props.item.h" v-show="props.item.approved == 'approved'">
                                             <td width="40" class="text-xs-right">
                                                 <v-checkbox
-                                                primary
-                                                hide-details
                                                 :value="props.item"
                                                 v-model="campaign.creatives.data"
                                                 ></v-checkbox>
@@ -177,7 +175,6 @@
             },
 
             closeFolder() {
-                console.log("lcossssing")
                 this.currentFolder = {};
                 this.creatives = {};
             },

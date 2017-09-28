@@ -50,7 +50,7 @@
             this.loadTechnologies();
         },
 
-        props: ['token', 'user','alert1','error1','alertmessage1','success1'],
+        props: ['token', 'user'],
 
         data() {
             return {

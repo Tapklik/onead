@@ -28,7 +28,6 @@
                     </v-flex>
                     <v-flex xs6 md5 lg4>
                         <v-dialog
-                        persistent
                         :v-model="false"
                         lazy
                         full-width
@@ -47,7 +46,6 @@
                     </v-flex>
                     <v-flex xs6 md5 lg4>
                         <v-dialog
-
                         :v-model="false"
                         lazy
                         full-width

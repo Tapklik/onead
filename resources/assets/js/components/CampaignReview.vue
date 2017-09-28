@@ -19,7 +19,7 @@
                         <span>Campaign Flight:</span>
                     </v-flex>
                     <v-flex xs12 md8>
-                        <p> From: {{campaign.start_time}} to: {{campaign.end_time}}</p>
+                        <span> From: {{campaign.start_time}} to: {{campaign.end_time}}</span>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap>

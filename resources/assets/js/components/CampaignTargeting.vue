@@ -61,23 +61,20 @@
                         <p class="caption ma-0">Choose the countries or cities you want to target</p>
                     </v-flex>
                 </v-layout>
-                <v-layout row wrap>
-                    <v-flex xs8>
+                <v-layout row wrap xs12>
+                    <v-flex xs12>
                         <v-select
-                          @keyup="reloadGeo()"
+                        @keypress="reloadGeo()"
                           v-bind:items="geo"
                           v-model="campaign.geo.data"
-                          return-object
-                          prepend-icon="add_location"
-                          :search-input.sync="searchCountry"
                           item-text="key"
-                          label="Select"
+                          return-object
+                          prepernd-icon="add_location"
+                          :search-input.sync="searchCountry"
+                          label="Choose your locations"
                           multiple
-                          chips
-                          tags
-                          autocomplete
-                          clearable
-                          >
+                          single-line
+                          autocomplete>
                             <template slot="item" scope="data">
                                 <v-list-tile-avatar>
                                     <img v-bind:src='"/images/flags/" + data.item.country_iso2 + ".png"'/>
@@ -87,15 +84,13 @@
                                     <v-list-tile-sub-title v-html="data.item.comment"></v-list-tile-sub-title>
                                 </v-list-tile-content>
                             </template>
-                            <template slot="selection" scope="data">
-                                <v-chip class="grey lighten-4">
-                                <v-avatar>
-                                    <img :src='"/images/flags/" + data.item.country_iso2 + ".png"'>
-                                </v-avatar>
-                            {{data.item.key}}
-                        </v-chip>
-                            </template>
                         </v-select>
+                        <v-chip close v-for="g in campaign.geo.data" :key="geo.id">
+                            <v-avatar>
+                                <img :src='"/images/flags/" + g.country_iso2 + ".png"'>
+                            </v-avatar>
+                            {{g.key}}
+                        </v-chip>
                     </v-flex>
                 </v-layout>
                 <v-divider class="mt-5"></v-divider>
