@@ -90,18 +90,28 @@
                             <v-flex xs12 md3 offset-md1 class="valign-wrapper mt-4">                                
                                 <v-layout row wrap>
                                     <v-flex xs12>
-                                        <div v-show="imageSource!=''"class="preview" :style="'background-image:url('+imageSource+')'">
-                                            <!--    <img style="width: 128px; height: 128px;" :src="imageSource">-->
-                                            <v-layout row wrap class="thumbnail-details">
-                                                <v-flex xs12>
-                                                    <span class="title">Creative Details</span><br>
-                                                    <span class="body-1">Name : </span><span class="body-2">{{sample}}</span><br>
-                                                    <span class="body-1">Dimensions : </span><span class="body-2">{{dimensionsShow}}</span><br>
-                                                    <span class="body-1">Type : </span><span class="body-2">{{typeShow}}</span><br>
-                                                    <span class="body-1">Status : </span><span class="body-2">{{statusShow}}</span>
-                                                </v-flex>
-                                            </v-layout>
-                                        </div>
+                                        <v-card v-show="imageSource != ''">
+                                            <v-card-media
+                                              class="white--text"
+                                              height="200px"
+                                              :src="imageSource"
+                                            >
+                                              <v-container fill-height fluid>
+                                                <v-layout fill-height>
+                                                  <v-flex xs12 align-end flexbox>
+                                                    <span class="headline">{{sample}}</span>
+                                                  </v-flex>
+                                                </v-layout>
+                                              </v-container>
+                                            </v-card-media>
+                                            <v-card-title>
+                                              <div>
+                                                <span class="grey--text">{{typeShow | uppercase}}</span><br>
+                                                <span class="mt-4">Status: {{statusShow | uppercase}}</span><br>
+                                                <span class="mt-4">Dimensions: {{dimensionsShow}}</span>
+                                              </div>
+                                            </v-card-title>
+                                          </v-card>
                                     </v-flex>
                                 </v-layout>
                             </v-flex>
