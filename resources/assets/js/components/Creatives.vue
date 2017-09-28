@@ -300,20 +300,14 @@
                                     <v-flex xs12>
                                         <v-card v-show="imageSource != ''">
                                             <v-card-media
-                                              class="white--text"
-                                              height="200px"
-                                              :src="imageSource"
-                                            >
-                                              <v-container fill-height fluid>
-                                                <v-layout fill-height>
-                                                  <v-flex xs12 align-end flexbox>
-                                                    <span class="headline">{{sample}}</span>
-                                                  </v-flex>
-                                                </v-layout>
-                                              </v-container>
+                                                  class="white--text"
+                                                  height="128px"
+                                                  contain
+                                                  :src="imageSource">        
                                             </v-card-media>
                                             <v-card-title>
                                               <div>
+                                                <span class="title"> {{sample}}</span><br>
                                                 <span class="grey--text">{{typeShow | uppercase}}</span><br>
                                                 <span class="mt-4">Status: {{statusShow | uppercase}}</span><br>
                                                 <span class="mt-4">Dimensions: {{dimensionsShow}}</span>
