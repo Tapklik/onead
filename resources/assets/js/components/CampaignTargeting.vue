@@ -71,6 +71,7 @@
                           return-object
                           prepernd-icon="add_location"
                           :search-input.sync="searchCountry"
+                          @change="showNothing()"
                           label="Choose your locations"
                           multiple
                           single-line
@@ -83,6 +84,8 @@
                                     <v-list-tile-title v-html="data.item.key"></v-list-tile-title>
                                     <v-list-tile-sub-title v-html="data.item.comment"></v-list-tile-sub-title>
                                 </v-list-tile-content>
+                            </template>
+                            <template slot="selection" scope="data">
                             </template>
                         </v-select>
                         <v-chip close @input="removeGeo(g.id)" v-for="g in campaign.geo.data" :key="g.id">
@@ -158,6 +161,7 @@
 
         data() {
             return {
+                writtenCountries: '',
                 alert: false,
                 error: false,
                 success: false,
@@ -215,6 +219,11 @@
             }
         },
         methods: {
+            showNothing() {
+                var a = {key: ''};
+                return a;
+            },
+
             removeGeo(id) {
                 var locations = this.campaign.geo.data;
                 for(var l in locations) {
