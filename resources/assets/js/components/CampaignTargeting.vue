@@ -173,7 +173,7 @@
                 type: [],
                 os: [],
                 browser: [],
-                geo: [],
+                geo: this.campaign.geo.data,
                 searchCountry: '',
                 selectedLocations: this.campaign.geo.data,
                 geoTemplate: '<div class="geo-dropdown"><flag :iso2="item.country_iso2"></flag><div class="text"><span class="key">{{ item.key }}</span><br><span class="comment">{{ item.comment }}</span></div></div>',
@@ -220,6 +220,7 @@
             }
         },
         methods: {
+
             loadTechnologies() {
 
                 axios.get('/data/technologies.json').then(response => {
@@ -232,11 +233,19 @@
                 });
             },
             reloadGeo() {
-                if(!this.searchCountry) return;
+                var locations = this.campaign.geo.data;
+                if(!this.searchCountry) {
+                    for(var l in locations) {
+                        this.geo.push(locations[l]);
+                    }
+                }
 
                 else if(this.searchCountry.length >= 3){
                     axios.get(this.$root.uri + '/core/search/geo?key=' + this.searchCountry, this.$root.config).then(response => {
                             this.geo = response.data.data;
+                            for(var l in locations) {
+                                this.geo.push(locations[l]);
+                            }
                         }, error => {
                             this.alert = true;
                             this.error = true;
@@ -246,7 +255,11 @@
                     )
                 }
                 
-                else return;
+                else {
+                    for(var l in locations) {
+                        this.geo.push(locations[l]);
+                    }
+                }
             },
 
 
