@@ -64,7 +64,7 @@
                 <v-layout row wrap xs12>
                     <v-flex xs12>
                         <v-select
-                        @keypress="reloadGeo()"
+                        @keyup="reloadGeo()"
                           v-bind:items="geo"
                           v-model="campaign.geo.data"
                           item-text="key"
@@ -85,7 +85,7 @@
                                 </v-list-tile-content>
                             </template>
                         </v-select>
-                        <v-chip close v-for="g in campaign.geo.data" :key="geo.id">
+                        <v-chip close @input="removeGeo(g.id)" v-for="g in campaign.geo.data" :key="g.id">
                             <v-avatar>
                                 <img :src='"/images/flags/" + g.country_iso2 + ".png"'>
                             </v-avatar>
@@ -215,6 +215,15 @@
             }
         },
         methods: {
+            removeGeo(id) {
+                var locations = this.campaign.geo.data;
+                for(var l in locations) {
+                    if(id == locations[l].id) {
+                        locations.splice(l,1);
+                    }    
+                }
+                this.campaign.geo.data = locations;
+            },
 
             loadTechnologies() {
 
