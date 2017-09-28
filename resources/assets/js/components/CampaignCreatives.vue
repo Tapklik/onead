@@ -59,8 +59,9 @@
                                         <tr @mouseenter="imageSource = props.item.thumb, sample= props.item.name, statusShow = props.item.approved, typeShow = props.item.class, dimensionsShow = props.item.w + 'x' + props.item.h" v-show="props.item.approved == 'approved'">
                                             <td width="40" class="text-xs-right">
                                                 <v-checkbox
+                                                selected-key
                                                 :value="props.item"
-                                                v-model="campaign.creatives.data"
+                                                v-model="activeCreatives"
                                                 ></v-checkbox>
                                             </td>
                                             <td class="text-xs-left">
@@ -143,6 +144,7 @@
                     data: []
                 },
                 creatives: {},
+                activeCreatives: this.campaign.creatives.data,
                 currentFolder: {},
                 createFolderFlag: false,
                 creativeAttributes: {
@@ -158,6 +160,9 @@
         },
 
         methods: {
+            consoleLog(value) {
+                console.log(value);
+            },
             getFolders() {
 
                 axios.get(this.$root.uri + '/creatives/folders', this.$root.config).then(response => {

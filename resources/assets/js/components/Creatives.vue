@@ -237,7 +237,7 @@
                                     </template>
                                     <template slot="items" scope="props">
                                         <tr>
-                                            <td @mouseenter="imageSource = props.item.thumb, sample= props.item.name, statusShow = props.item.approved, typeShow = props.item.class, dimensionsShow = props.item.w + 'x' + props.item.h" class="text-xs-left">
+                                            <td @mouseenter="imageSource = props.item.image, sample= props.item.name, statusShow = props.item.approved, typeShow = props.item.class, dimensionsShow = props.item.w + 'x' + props.item.h" class="text-xs-left">
                                                 <span class="title">{{ props.item.name }}</span><br>
                                                 <span class="caption">{{ props.item.id }}</span>
                                             </td>

@@ -1,143 +1,114 @@
 <template>
-    <v-container>
+    <v-container fluid grid-list-xs>
         <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
         <v-layout row wrap>
-            <v-flex xs12 md6>
+            <v-flex xs2 md12>
                 <v-layout row wrap>
-                    <h4>CAMPAIGN DETAILS</h4>
-                </v-layout>
-                <v-layout row wrap>
-                    <v-flex xs12 md4>
-                        <span>Name:</span>
-                    </v-flex>
-                    <v-flex xs12 md8>
-                        <p> {{campaign.name}}</p>
+                    <v-flex xs2 class="valign-wrapper mb-1">
+                        <h5>CAMPAIGN DETAILS</h5>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap>
-                    <v-flex xs12 md4>
-                        <span>Campaign Flight:</span>
+                    <v-flex xs2 md4>
+                        <p>Name: <b>{{campaign.name}}</b></p>
                     </v-flex>
-                    <v-flex xs12 md8>
-                        <span> From: {{campaign.start_time}} to: {{campaign.end_time}}</span>
+                    <v-flex xs2 md4>
+                        <p>Campaign Flight: <b> From: {{campaign.start_time}} to: {{campaign.end_time}}</b></p>
                     </v-flex>
-                </v-layout>
-                <v-layout row wrap>
-                    <v-flex xs12 md4>
-                        <span>Advertiser Domain:</span>
+                    <v-flex xs2 md4>
+                        <p>Advertiser Domain: <b> {{campaign.adomain}}</b></p>
                     </v-flex>
-                    <v-flex xs12 md8>
-                        <p> {{campaign.adomain}}</p>
+                    <v-flex xs2 md4>
+                        <p>Click-through URL: <b> {{campaign.ctrurl}}</b></p>
                     </v-flex>
-                </v-layout>
-                <v-layout row wrap>
-                    <v-flex xs12 md4>
-                        <span>Click-through URL:</span>
+                    <v-flex xs2 md4>
+                        <p>Budget Type: <b> {{campaign.budget.data.type}}</b></p>
                     </v-flex>
-                    <v-flex xs12 md8>
-                        <p> {{campaign.ctrurl}}</p>
+                    <v-flex xs2 md4>
+                        <p>Budget: <b> {{$root.fromMicroDollars(campaign.budget.data.amount)}}</b></p>
                     </v-flex>
-                </v-layout>
-                <v-layout row wrap>
-                    <v-flex xs12 md4>
-                        <span>Budget Type:</span>
-                    </v-flex>
-                    <v-flex xs12 md8>
-                        <p> {{campaign.budget.data.type}}</p>
-                    </v-flex>
-                </v-layout>
-                <v-layout row wrap>
-                    <v-flex xs12 md4>
-                        <span>Budget:</span>
-                    </v-flex>
-                    <v-flex xs12 md8>
-                        <p> {{$root.fromMicroDollars(campaign.budget.data.amount)}}</p>
-                    </v-flex>
-                </v-layout>
-                <v-layout row wrap>
-                    <v-flex xs12 md4>
-                        <span>Target Bid:</span>
-                    </v-flex>
-                    <v-flex xs12 md8>
-                        <p> {{$root.fromMicroDollars(campaign.bid)}}</p>
-                    </v-flex>
-                </v-layout>
-                <v-layout row wrap>
-                    <v-flex xs12 md4>
-                        <span>Daily Budget Pacing:</span>
-                    </v-flex>
-                    <v-flex xs12 md8>
-                        <p></p>
-                    </v-flex>
-                </v-layout>
-            </v-flex>
-            <v-flex xs12 md6>
-                <v-layout row wrap>
-                    <h4>CAMPAIGN CATEGORIES</h4>
-                </v-layout>
-                <v-layout row wrap>
-                    <v-flex xs12 md4>
-                        <span>Chosen Categories: </span>
-                    </v-flex>                    
-                    <v-flex xs12 md8>
-                        <span v-for="category in selectedCategories">{{category}}<br> </span><br>
+                    <v-flex xs2 md4>
+                        <p>Target Bid: <b> {{$root.fromMicroDollars(campaign.bid)}}</b></p>
                     </v-flex>
                 </v-layout>
             </v-flex>
         </v-layout>
+        <v-divider></v-divider>
         <v-layout row wrap>
-            <v-flex xs12 md6>
+            <v-flex xs12 md12>
                 <v-layout row wrap>
-                    <h4>CAMPAIGN CREATIVES</h4>
+                    <v-flex xs2 class="valign-wrapper mt-4 mb-1">
+                        <h5>CAMPAIGN CATEGORIES</h5>
+                    </v-flex>
                 </v-layout>
-                <v-layout row wrap>
-                    <v-flex xs12 md4>
-                        <span>Chosen Creatives: </span>
-                    </v-flex>                    
-                    <v-flex xs12 md8>
-                        <span v-for="creative in campaign.creatives.data" :key="creative.id">{{creative.name}}<br> </span>
+                <v-layout row wrap>                    
+                    <v-flex v-for="category in selectedCategories" :key="category.code" xs12 md1>
+                        <v-icon large>{{category.img}}</v-icon>
                     </v-flex>
                 </v-layout>
             </v-flex>
-            <v-flex xs12 md6>
+        </v-layout>
+        <v-divider></v-divider>
+        <v-layout row wrap>
+            <v-flex xs12 md12>
                 <v-layout row wrap>
-                    <h4>CAMPAIGN TARGETING</h4>
+                    <v-flex xs2 class="valign-wrapper mt-4 mb-1">
+                        <h5>CAMPAIGN CREATIVES</h5>
+                    </v-flex>
+                </v-layout>
+                <v-layout row wrap>            
+                    <v-flex xs2 md2 offset-md1 v-for="creative in campaign.creatives.data" :key="creative.id">
+                        <v-card>
+                            <v-card-media
+                                  class="white--text"
+                                  height="128px"
+                                  contain
+                                  :src="creative.thumb">        
+                            </v-card-media>
+                            <v-card-title>
+                                <div>
+                                    <span class="title"> {{creative.name}}</span><br>
+                                    <span class="grey--text">{{creative.class | uppercase}}</span><br>
+                                    <span class="mt-4">Status: {{creative.approved | uppercase}}</span><br>
+                                    <span class="mt-4">Dimensions: {{creative.w}}x{{creative.h}}</span>
+                                </div>
+                            </v-card-title>
+                        </v-card>
+                    </v-flex>
+                </v-layout>
+            </v-flex>
+        </v-layout>
+        <v-divider></v-divider>
+        <v-layout row wrap>
+            <v-flex xs2 md12>
+                <v-layout row wrap>
+                    <v-flex xs2 class="valign-wrapper mt-4 mb-1">
+                        <h5>CAMPAIGN TARGETTING</h5>
+                    </v-flex>
                 </v-layout>
                 <v-layout row wrap>
                     <v-flex xs12 md4>
-                        <span>Chosen Devices:</span>
+                        <v-flex xs2 md1 v-for="device in selectedDevices" :key="device.device_id">
+                            <v-icon large>{{device.icon}}</v-icon>
+                        </v-flex>
+                    </v-flex> 
+                    <v-flex xs12 md4>
+                        <v-flex xs2 md1 v-for="device in selectedOs" :key="device.type">
+                            <v-icon large>{{device.icon}}</v-icon>
+                        </v-flex>
                     </v-flex>
-                    <v-flex xs12 md8>
-                        <p v-for="device in selectedDevices"> {{device}}</p>
+                    <v-flex xs12 md4>
+                        <v-flex v-for="device in selectedUa" :key="device.type">
+                            <v-icon large>{{device.icon}}</v-icon>
+                        </v-flex>
+                    </v-flex>
+                    <v-flex xs12 md4>
+                        <p>Target Audience: <b> From {{campaign.user.data.age.min}} to {{campaign.user.data.age.max}}</b></p>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap>
                     <v-flex xs12 md4>
-                        <span>Chosen Operating Systems:</span>
-                    </v-flex>
-                    <v-flex xs12 md8>
-                        <p v-for="os in selectedOs">{{os}}</p>
-                    </v-flex>
-                </v-layout>
-                <v-layout row wrap>
-                    <v-flex xs12 md4>
-                        <span>Chosen Browsers:</span>
-                    </v-flex>
-                    <v-flex xs12 md8>
-                        <p v-for="ua in selectedUa"> {{ua}}</p>
-                    </v-flex>
-                </v-layout>
-                <v-layout row wrap>
-                    <v-flex xs12 md4>
-                        <span>Target Audience: </span>
-                    </v-flex>
-                    <v-flex xs12 md8>
-                        <p> From {{campaign.user.data.age.min}} to {{campaign.user.data.age.max}}</p>
-                    </v-flex>
-                </v-layout>
-                <v-layout row wrap>
-                    <v-flex xs12 md4>
-                        <span>Selected Geo:</span>
+                        <p>Selected Geo:</p>
                     </v-flex>
                     <v-flex xs12 md8>
                         <p v-for="geo in campaign.geo.data" :key="geo.id"> {{geo.key}}</p>
@@ -419,6 +390,12 @@
             }
         },
 
+        filters: {
+            uppercase: function(v) {
+                return v.toUpperCase();
+            }
+        },
+        
         computed: {
 
             progress() {
