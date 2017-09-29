@@ -22,7 +22,9 @@
                                         </v-layout>
                                         <v-layout row wrap>
                                             <v-flex xs12 md12>
-                                                <div id="uploader" @mouseenter="dropzoneMaker()" style="width: 100%; background-color: grey; text-align: center; font-size: 16pt; padding-top:30px">Drop Files Here</div>
+                                                <v-card style="padding-left: 40%" id="uploader" height="400px" @mouseenter="dropzoneMaker()">
+                                                    <v-card-title>Drop Files Here</v-card-title>
+                                                </v-card>
                                             </v-flex>
                                         </v-layout>
                                         <v-layout row wrap>

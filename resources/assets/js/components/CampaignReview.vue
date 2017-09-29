@@ -25,10 +25,10 @@
                         <p>Budget Type: <b> {{campaign.budget.data.type}}</b></p>
                     </v-flex>
                     <v-flex xs2 md4>
-                        <p>Budget: <b> {{$root.fromMicroDollars(campaign.budget.data.amount)}}</b></p>
+                        <p>Budget: <b>${{$root.fromMicroDollars(campaign.budget.data.amount)}}</b></p>
                     </v-flex>
                     <v-flex xs2 md4>
-                        <p>Target Bid: <b> {{$root.fromMicroDollars(campaign.bid)}}</b></p>
+                        <p>Target Bid: $<b> {{$root.fromMicroDollars(campaign.bid)}}</b></p>
                     </v-flex>
                 </v-layout>
             </v-flex>
