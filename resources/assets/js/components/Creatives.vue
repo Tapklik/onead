@@ -71,7 +71,7 @@
                                                 <p class="ma-0">Is this creative responsive?</p>
                                             </v-flex>
                                             <v-flex xs12 md6>
-                                                <v-switch v-model="creativeAttributes.responsive" label="Responsive"></v-switch>
+                                                <v-switch v-model="responsiveData" label="Responsive"></v-switch>
                                             </v-flex>
                                         </v-layout>
                                         <v-layout row wrap>
@@ -342,6 +342,7 @@
         props: ['token', 'user'],
         data() {
             return {
+                responsiveData: false,
                 sample: 'sample',
                 dimensionsShow: '',
                 typeShow: '',
@@ -622,6 +623,9 @@
                     this.getFolders();
                 }
 
+            },
+            responsiveData(value) {
+                this.creativeAttributes.responsive = value;
             }
         }
     }
