@@ -46,6 +46,7 @@
                         <v-layout row wrap>
                             <v-flex xs12 md8 >
                             <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
+                            <div v-for="c in activeCreatives">{{c.id}}</div>
                                 <v-data-table                                        
                                 :items="creatives.data"
                                 hide-actions
@@ -59,7 +60,7 @@
                                         <tr @mouseenter="imageSource = props.item.thumb, sample= props.item.name, statusShow = props.item.approved, typeShow = props.item.class, dimensionsShow = props.item.w + 'x' + props.item.h" v-show="props.item.approved == 'approved'">
                                             <td width="40" class="text-xs-right">
                                                 <v-checkbox
-                                                selected-key
+                                                :selected-key="props.item.id"
                                                 :value="props.item"
                                                 v-model="activeCreatives"
                                                 ></v-checkbox>
@@ -283,7 +284,9 @@
                 return this.folders.filter(function (folder) {
                     return folder.name.toLowerCase().indexOf(obj.$root.search.toLowerCase())>=0;
                 });
-            }
+            },
+
+            
         },
 
         filters: {
