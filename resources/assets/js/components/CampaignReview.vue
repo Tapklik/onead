@@ -42,38 +42,30 @@
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap>                    
-                    <v-flex v-for="category in selectedCategories" :key="category.code" xs12 md1>
-                        <v-icon large>{{category.img}}</v-icon>
+                    <v-flex xs12 md12>
+                        <v-icon v-for="category in selectedCategories" :key="category.code" large>{{category.img}}</v-icon>
                     </v-flex>
                 </v-layout>
             </v-flex>
         </v-layout>
         <v-divider></v-divider>
         <v-layout row wrap>
-            <v-flex xs12 md12>
+            <v-flex xs2 md12>
                 <v-layout row wrap>
                     <v-flex xs2 class="valign-wrapper mt-4 mb-1">
                         <h5>CAMPAIGN CREATIVES</h5>
                     </v-flex>
                 </v-layout>
-                <v-layout row wrap>            
-                    <v-flex xs2 md2 offset-md1 v-for="creative in campaign.creatives.data" :key="creative.id">
-                        <v-card>
-                            <v-card-media
-                                  class="white--text"
-                                  height="128px"
-                                  contain
-                                  :src="creative.thumb">        
-                            </v-card-media>
-                            <v-card-title>
-                                <div>
-                                    <span class="title"> {{creative.name}}</span><br>
-                                    <span class="grey--text">{{creative.class | uppercase}}</span><br>
-                                    <span class="mt-4">Status: {{creative.approved | uppercase}}</span><br>
-                                    <span class="mt-4">Dimensions: {{creative.w}}x{{creative.h}}</span>
-                                </div>
-                            </v-card-title>
-                        </v-card>
+                <v-layout row wrap v-for="c in campaign.creatives.data" :key="c.id">  
+                    <v-flex xs2 md4>
+                        <span class="title">{{ c.name }}</span><br>
+                        <span class="caption">{{ c.id }}</span>
+                    </v-flex>
+                    <v-flex xs2 md4>
+                        {{ c.class | uppercase }}
+                    </v-flex>
+                    <v-flex xs2 md4>
+                        {{ c.w }} x {{ c.h }}
                     </v-flex>
                 </v-layout>
             </v-flex>
@@ -87,40 +79,27 @@
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap>
-                    <v-flex xs12 md4>
-                        <v-flex xs2 md1 v-for="device in selectedDevices" :key="device.device_id">
-                            <v-icon large>{{device.icon}}</v-icon>
+                        <v-flex xs2 md4>
+                            <p>Devices: 
+                            <v-icon :key="device.device_id" v-for="device in selectedDevices" large>{{device.icon}}</v-icon></p>
                         </v-flex>
-                    </v-flex> 
-                    <v-flex xs12 md4>
-                        <v-flex xs2 md1 v-for="device in selectedOs" :key="device.type">
-                            <v-icon large>{{device.icon}}</v-icon>
+                        <v-flex xs2 md4>
+                            <p>Operating Systems: 
+                            <v-icon v-for="device in selectedOs" :key="device.type" large>{{device.icon}}</v-icon></p>
                         </v-flex>
-                    </v-flex>
-                    <v-flex xs12 md4>
-                        <v-flex v-for="device in selectedUa" :key="device.type">
-                            <v-icon large>{{device.icon}}</v-icon>
+                        <v-flex xs2 md4>
+                            <p>Browsers: 
+                            <v-icon v-for="device in selectedUa" :key="device.type" large>{{device.icon}}</v-icon></p>
                         </v-flex>
-                    </v-flex>
-                    <v-flex xs12 md4>
-                        <p>Target Audience: <b> From {{campaign.user.data.age.min}} to {{campaign.user.data.age.max}}</b></p>
-                    </v-flex>
-                </v-layout>
-                <v-layout row wrap>
-                    <v-flex xs12 md4>
-                        <p>Selected Geo:</p>
-                    </v-flex>
-                    <v-flex xs12 md8>
-                        <p v-for="geo in campaign.geo.data" :key="geo.id"> {{geo.key}}</p>
-                    </v-flex>
-                </v-layout>
-                <v-layout row wrap>
-                    <v-flex xs12 md4>
-                        <span>Gender:</span>
-                    </v-flex>
-                    <v-flex xs12 md8>
-                        <p v-for="gender in campaign.user.data.gender"> {{gender}}</p>
-                    </v-flex>
+                        <v-flex xs2 md4>
+                            <p>Target Audience: <b> From {{campaign.user.data.age.min}} to {{campaign.user.data.age.max}}</b></p>
+                        </v-flex>
+                        <v-flex xs2 md4>
+                            <p>Selected Geo: <b v-for="g in campaign.geo.data" :key="g.id">{{g.key}}, </b></p>
+                        </v-flex>
+                        <v-flex xs12 md4>
+                            <p>Gender: <b v-for="gender in campaign.user.data.gender"> {{gender}}</b> </p>
+                        </v-flex>
                 </v-layout>
             </v-flex>
         </v-layout>
