@@ -1,5 +1,5 @@
 <template>
-    <v-container fluid grid-list-md>
+    <v-container grid-list-md>
          <v-layout row wrap>
             <v-flex xs12 class="valign-wrapper mb-1">
                 <h5>CAMPAIGN CATEGORIES</h5>

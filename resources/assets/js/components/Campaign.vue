@@ -1,6 +1,7 @@
 <template>
-    <div>
-        <v-stepper class="elevation-0" v-model="e1" alt-labels>
+    <v-container fluid grid-list-md>
+        <v-stepper class="elevation-0" v-model="e1">
+            <v-divider></v-divider>
             <v-stepper-header class="elevation-0">
                 <v-stepper-step step="1" :complete="e1 > 1" editable>DETAILS</v-stepper-step>
                 <v-divider></v-divider>
@@ -12,6 +13,7 @@
                 <v-divider></v-divider>
                 <v-stepper-step step="5" editable>REVIEW</v-stepper-step>
             </v-stepper-header>
+            <v-divider></v-divider>
             <v-stepper-content step="1">
                 <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
                 <campaign-details :campaign="campaign" :state="stateReady"
@@ -35,7 +37,7 @@
                 <campaign-review :selectedUa="selectedUa" :selectedOs="selectedOs" :selectedDevices="selectedDevices" :selectedCategories="selectedCategories" :user="user" :token="token" :campaign="campaign" :state="stateReady" :folder="currentFolder" :gender="selectedGender()"></campaign-review>
             </v-stepper-content>
         </v-stepper>
-    </div>         
+    </v-container>         
 </template>
 
 <script>

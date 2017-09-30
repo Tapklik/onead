@@ -1,110 +1,223 @@
 <template>
-    <v-container fluid grid-list-xs>
+    <v-container grid-list-xs>
         <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
         <v-layout row wrap>
-            <v-flex xs2 md12>
-                <v-layout row wrap>
-                    <v-flex xs2 class="valign-wrapper mb-1">
-                        <h5>CAMPAIGN DETAILS</h5>
-                    </v-flex>
-                </v-layout>
-                <v-layout row wrap>
-                    <v-flex xs2 md4>
-                        <p>Name: <b>{{campaign.name}}</b></p>
-                    </v-flex>
-                    <v-flex xs2 md4>
-                        <p>Campaign Flight: <b> From: {{campaign.start_time}} to: {{campaign.end_time}}</b></p>
-                    </v-flex>
-                    <v-flex xs2 md4>
-                        <p>Advertiser Domain: <b> {{campaign.adomain}}</b></p>
-                    </v-flex>
-                    <v-flex xs2 md4>
-                        <p>Click-through URL: <b> {{campaign.ctrurl}}</b></p>
-                    </v-flex>
-                    <v-flex xs2 md4>
-                        <p>Budget Type: <b> {{campaign.budget.data.type}}</b></p>
-                    </v-flex>
-                    <v-flex xs2 md4>
-                        <p>Budget: <b>${{$root.fromMicroDollars(campaign.budget.data.amount)}}</b></p>
-                    </v-flex>
-                    <v-flex xs2 md4>
-                        <p>Target Bid: $<b> {{$root.fromMicroDollars(campaign.bid)}}</b></p>
-                    </v-flex>
-                </v-layout>
+            <v-flex xs12 class="valign-wrapper mb-1">
+                <h5>REVIEW</h5>
             </v-flex>
         </v-layout>
-        <v-divider></v-divider>
+        <v-layout row wrap class="mt-4">
+            <v-flex xs12 class="valign-wrapper">
+                <span class="subheading">CAMPAIGN BASIC DETAILS</span>
+            </v-flex>
+        </v-layout>
         <v-layout row wrap>
-            <v-flex xs12 md12>
-                <v-layout row wrap>
-                    <v-flex xs2 class="valign-wrapper mt-4 mb-1">
-                        <h5>CAMPAIGN CATEGORIES</h5>
+            <v-flex xs12 md6>
+                <v-layout row wrap class="mt-4">
+                    <v-flex xs12 md4 lg3 class="valign-wrapper">
+                        <span class="caption">Campaign Name</span>
+                    </v-flex>
+                    <v-flex xs8 md5>
+                        <v-icon>mode_edit</v-icon>
+                        <span>{{campaign.name}}</span>
                     </v-flex>
                 </v-layout>
-                <v-layout row wrap>                    
-                    <v-flex xs12 md12>
-                        <v-icon v-for="category in selectedCategories" :key="category.code" large>{{category.img}}</v-icon>
+                <v-layout row wrap class="mt-4">
+                    <v-flex xs12 md4 lg3 class="valign-wrapper">
+                        <span class="caption">Campaign Flight</span>
+                    </v-flex>
+                    <v-flex xs8 md5>
+                        <v-icon>flight_takeoff</v-icon>
+                        <span>From {{campaign.start_time}} to {{campaign.end_time}}</span>
+                    </v-flex>
+                </v-layout>
+                <v-layout row wrap class="mt-4">
+                    <v-flex xs12 md4 lg3 class="valign-wrapper">
+                        <span class="caption">Advertiser Domain</span>
+                    </v-flex>
+                    <v-flex xs12 md8>
+                        <v-icon>language</v-icon>
+                        <span>{{campaign.adomain}}</span>
+                    </v-flex>
+                </v-layout>
+                <v-layout row wrap class="mt-4">
+                    <v-flex xs12 md4 lg3 class="valign-wrapper">
+                        <span class="caption">Click-through URL</span>
+                    </v-flex>
+                    <v-flex xs12 md8>
+                        <v-icon>language</v-icon>
+                        <span>{{campaign.ctrurl}}</span>
+                    </v-flex>
+                </v-layout>
+            </v-flex>
+            <v-flex xs12 md6>
+                <v-layout row wrap class="mt-4">
+                    <v-flex xs12 md4 lg3 class="valign-wrapper">
+                        <span class="caption">Budget Type</span>
+                    </v-flex>
+                    <v-flex xs8 md5>
+                        <v-icon>monetization_on</v-icon>
+                        <span>{{campaign.budget.data.type}}</span>
+                    </v-flex>
+                </v-layout>
+                <v-layout row wrap class="mt-4">
+                    <v-flex xs12 md4 lg3 class="valign-wrapper">
+                        <span class="caption">Budget</span>
+                    </v-flex>
+                    <v-flex xs8 md5>
+                        <v-icon>attach_money</v-icon>
+                        <span>{{$root.fromMicroDollars(campaign.budget.data.amount)}}</span>
+                    </v-flex>
+                </v-layout>
+                <v-layout row wrap class="mt-4">
+                    <v-flex xs12 md4 lg3 class="valign-wrapper">
+                        <span class="caption">Target Bid</span>
+                    </v-flex>
+                    <v-flex xs12 md8>
+                        <v-icon>attach_money</v-icon>
+                        <span>{{$root.fromMicroDollars(campaign.bid)}}</span>
+                    </v-flex>
+                </v-layout>
+                <v-layout row wrap class="mt-4">
+                    <v-flex xs12 md4 lg3 class="valign-wrapper">
+                        <span class="caption">Budget Pacing</span>
+                    </v-flex>
+                    <v-flex xs12 md8>
+                        <i>* view in campaign details</i>
                     </v-flex>
                 </v-layout>
             </v-flex>
         </v-layout>
-        <v-divider></v-divider>
+        <v-divider class="mt-4"></v-divider>
+        <v-layout row wrap class="mt-2">
+            <v-flex xs4 class="valign-wrapper mt-4">
+                <span class="subheading">CAMPAIGN CATEGORIES</span>
+            </v-flex>
+        </v-layout>
+        <v-layout row wrap>                    
+            <v-flex xs12>
+                <v-btn icon v-for="category in selectedCategories" :key="category.code">
+                    <v-icon>{{category.img}}</v-icon>
+                </v-btn>
+            </v-flex>
+        </v-layout>
+        <v-divider class="mt-4"></v-divider>
+        <v-layout row wrap class="mt-2">
+            <v-flex xs12 class="valign-wrapper mt-4">
+                <span class="subheading">CAMPAIGN CREATIVES</span>
+            </v-flex>
+        </v-layout>
         <v-layout row wrap>
-            <v-flex xs2 md12>
-                <v-layout row wrap>
-                    <v-flex xs2 class="valign-wrapper mt-4 mb-1">
-                        <h5>CAMPAIGN CREATIVES</h5>
-                    </v-flex>
-                </v-layout>
-                <v-layout row wrap v-for="c in campaign.creatives.data" :key="c.id">  
-                    <v-flex xs2 md4>
-                        <span class="title">{{ c.name }}</span><br>
-                        <span class="caption">{{ c.id }}</span>
-                    </v-flex>
-                    <v-flex xs2 md4>
-                        {{ c.class | uppercase }}
-                    </v-flex>
-                    <v-flex xs2 md4>
-                        {{ c.w }} x {{ c.h }}
+            <v-flex xs12>
+                <v-layout row wrap class="mt-4">
+                    <v-flex xs12>
+                        <v-list two-line>
+                            <span class="caption">Selected Creatives</span>
+                            <v-list-tile avatar v-for="c in campaign.creatives.data" :key="c.id">
+                                <v-list-tile-avatar>
+                                    <img v-bind:src="c.thumb"/>
+                                </v-list-tile-avatar>
+                                <v-list-tile-content>                                    
+                                    <v-list-tile-title>{{c.name}}</v-list-tile-title>
+                                    <v-list-tile-sub-title>{{c.id}}</v-list-tile-sub-title>
+                                </v-list-tile-content>
+                            </v-list-tile>
+                        </v-list>
                     </v-flex>
                 </v-layout>
             </v-flex>
         </v-layout>
-        <v-divider></v-divider>
+        <v-divider class="mt-4"></v-divider>
+        <v-layout row wrap class="mt-2">
+            <v-flex xs12 class="valign-wrapper mt-4">
+                <span class="subheading">CAMPAIGN TARGETING</span>
+            </v-flex>
+        </v-layout>
         <v-layout row wrap>
-            <v-flex xs2 md12>
-                <v-layout row wrap>
-                    <v-flex xs2 class="valign-wrapper mt-4 mb-1">
-                        <h5>CAMPAIGN TARGETTING</h5>
+            <v-flex xs12 md4>
+                <v-layout row wrap class="mt-4">
+                    <v-flex xs4 class="valign-wrapper">
+                        <span class="caption">Devices</span>
+                    </v-flex>
+                    <v-flex xs8>
+                        <v-btn icon :key="device.device_id" v-for="device in selectedDevices">
+                            <v-icon>{{device.icon}}</v-icon>
+                        </v-btn>
                     </v-flex>
                 </v-layout>
-                <v-layout row wrap>
-                        <v-flex xs2 md4>
-                            <p>Devices: 
-                            <v-icon :key="device.device_id" v-for="device in selectedDevices" large>{{device.icon}}</v-icon></p>
-                        </v-flex>
-                        <v-flex xs2 md4>
-                            <p>Operating Systems: 
-                            <v-icon v-for="device in selectedOs" :key="device.type" large>{{device.icon}}</v-icon></p>
-                        </v-flex>
-                        <v-flex xs2 md4>
-                            <p>Browsers: 
-                            <v-icon v-for="device in selectedUa" :key="device.type" large>{{device.icon}}</v-icon></p>
-                        </v-flex>
-                        <v-flex xs2 md4>
-                            <p>Target Audience: <b> From {{campaign.user.data.age.min}} to {{campaign.user.data.age.max}}</b></p>
-                        </v-flex>
-                        <v-flex xs2 md4>
-                            <p>Selected Geo: <b v-for="g in campaign.geo.data" :key="g.id">{{g.key}}, </b></p>
-                        </v-flex>
-                        <v-flex xs12 md4>
-                            <p>Gender: <b v-for="gender in campaign.user.data.gender"> {{gender}}</b> </p>
-                        </v-flex>
+                <v-layout row wrap class="mt-4">
+                    <v-flex xs4 class="valign-wrapper">
+                        <span class="caption">Operating Systems</span>
+                    </v-flex>
+                    <v-flex xs8>
+                        <v-btn icon :key="os.type" v-for="os in selectedOs">
+                            <v-icon>{{os.icon}}</v-icon>
+                        </v-btn>
+                    </v-flex>
+                </v-layout>
+                <v-layout row wrap class="mt-4">
+                    <v-flex xs4 class="valign-wrapper">
+                        <span class="caption">Browsers</span>
+                    </v-flex>
+                    <v-flex xs8>
+                        <v-btn icon :key="ua.type" v-for="ua in selectedUa">
+                            <v-icon>{{ua.icon}}</v-icon>
+                        </v-btn>
+                    </v-flex>
+                </v-layout>
+            </v-flex>
+            <v-flex xs12 md4>
+                <v-layout row wrap class="mt-4">
+                    <v-flex xs4 class="valign-wrapper">
+                        <span class="caption">Audience Gender</span>
+                    </v-flex>
+                    <v-flex xs8>
+                        <v-btn icon :key="gender" v-for="gender in campaign.user.data.gender">
+                            <v-icon>{{genderIcon(gender)}}</v-icon>
+                        </v-btn>
+                    </v-flex>
+                </v-layout>
+                <v-layout row wrap class="mt-4">
+                    <v-flex xs4 class="valign-wrapper">
+                        <span class="caption">Audience Age Group</span>
+                    </v-flex>
+                    <v-flex xs8>
+                        <v-icon>person</v-icon>
+                        <span>From {{campaign.user.data.age.min}} to {{campaign.user.data.age.max}}</span>
+                    </v-flex>
+                </v-layout>
+            </v-flex>
+            <v-flex xs12 md4>
+                <v-layout row wrap class="mt-4">
+                    <v-flex xs12>
+                        <v-list two-line>
+                            <span class="caption">Geo Location</span>
+                            <v-list-tile avatar v-for="g in campaign.geo.data" :key="g.id">
+                                <v-list-tile-content>
+                                    <v-list-tile-title>{{g.key}}</v-list-tile-title>
+                                    <v-list-tile-sub-title>{{g.comment}}</v-list-tile-sub-title>
+                                </v-list-tile-content>
+                            </v-list-tile>
+                        </v-list>
+                    </v-flex>
                 </v-layout>
             </v-flex>
         </v-layout>
-        <v-btn v-show="!$root.editMode" large primary @click="createCampaign()">Start Campaign</v-btn>
-        <v-btn v-show="$root.editMode" large primary @click="updateCampaign()">update {{campaign.name}}</v-btn>
+        <v-divider class="mt-4"></v-divider>
+        <v-layout row wrap class="mt-4 mb-b"> 
+            <v-flex xs12 class="text-xs-center">
+                <v-btn v-show="!$root.editMode" 
+                primary large 
+                @click="createCampaign()"
+                ><v-icon left class="white--text">cloud_upload</v-icon>Start Campaign
+                </v-btn>
+                <v-btn v-show="$root.editMode" 
+                primary large 
+                @click="updateCampaign()"
+                ><v-icon left class="white--text">cloud_upload</v-icon>Update {{campaign.name}}
+                </v-btn>
+            </v-flex>
+        </v-layout>
     </v-container>
 </template>
 
@@ -352,6 +465,14 @@
 
                 return ids;
             },
+
+            genderIcon(g) {
+                if (g == 'F') {
+                    return 'mdi-human-female'
+                } else {
+                    return 'mdi-human-male'
+                }
+            }
         },
 
         watch: {

@@ -3,6 +3,7 @@
         <v-layout>
             <v-flex xs12>
                 <v-card class="elevation-0">
+                    <v-divider></v-divider>
                     <v-card-title>
                         <v-flex xs12 md6 lg9>
                         <v-dialog v-model="showModal" lazy absolute width="35%">
@@ -67,6 +68,7 @@
                             </v-text-field>
                         </v-flex>
                     </v-card-title>
+                    <v-divider></v-divider>
                     <v-card-text>
                         <v-layout row wrap>
                             <v-flex xs12>
@@ -75,6 +77,7 @@
                                 v-bind:items="bills" 
                                 v-bind:search="search" 
                                 v-bind:rows-per-page-items="[10, 25, { text: 'All', value: -1 }]"
+                                class="no-headers"
                                 >
                                     <template slot="headers" scope="props">
                                         &nbsp;

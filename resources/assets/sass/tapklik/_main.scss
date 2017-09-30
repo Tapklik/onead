@@ -63,6 +63,34 @@ h1, h2, h3, h4, h5 {
 	}
 }
 
+i.icon.small {
+	font-size:15px;
+}
+
+
+/*** UPLOADER ***/
+#uploader {
+	background: repeating-linear-gradient(
+	  45deg,
+	  #dddddd,
+	  #dddddd 10px,
+	  #eeeeee 10px,
+	  #eeeeee 20px
+	);
+
+	.uploader-title {
+		width: 200px;
+		background-color: #eeeeee;
+		padding:2px;
+		margin-top: 29px;
+		text-align: center;
+		margin-left: auto;
+		margin-right: auto;
+		font-weight: bold;
+		font-size: 18px;
+		line-height:22px;
+	}
+}
 
 
 /*** TABLES: PACING PREVIEW ***/
@@ -79,6 +107,12 @@ h1, h2, h3, h4, h5 {
 
 	.material-icons {
 		font-size: 16px;
+	}
+}
+
+.no-headers {
+	table.table thead {
+		border: none !important;
 	}
 }
 

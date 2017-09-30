@@ -1,20 +1,22 @@
 <template>
     <v-container fluid grid-list-md>
 
-        <v-tabs light :scrollable="false">
-        <v-card light extended class="elevation-1">
-            <v-tabs-bar class="white">
-                <v-tabs-slider class="orange text--darken-3"></v-tabs-slider>
-                <v-tabs-item href="#account-tab">
-                    <v-icon class="orange--text text--darken-3">account_balance</v-icon>
-                    <span class="orange--text text--darken-3">Account Settings</span>
-                </v-tabs-item>
-                <v-tabs-item href="#user-tab">
-                    <v-icon class="orange--text text--darken-3">person</v-icon>
-                    <span class="orange--text text--darken-3">User Settings</span>
-                </v-tabs-item>
-            </v-tabs-bar>
+        <v-tabs icons light centered fixed :scrollable="false">
+            <v-divider></v-divider>
+            <v-card light extended  class="elevation-0">
+                <v-tabs-bar class="white">
+                    <v-tabs-slider class="orange darken-3"></v-tabs-slider>
+                    <v-tabs-item href="#account-tab">
+                        <v-icon class="orange--text text--darken-3">account_balance</v-icon>
+                        <span class="orange--text text--darken-3">Account Settings</span>
+                    </v-tabs-item>
+                    <v-tabs-item href="#user-tab">
+                        <v-icon class="orange--text text--darken-3">person</v-icon>
+                        <span class="orange--text text--darken-3">User Settings</span>
+                    </v-tabs-item>
+                </v-tabs-bar>
             </v-card>
+            <v-divider></v-divider>
             <v-tabs-items>
                 <v-tabs-content id="account-tab">
                     <settings-account :user="user" :token="token"></settings-account>

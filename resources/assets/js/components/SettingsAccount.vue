@@ -1,46 +1,51 @@
 <template>
-    <v-container fluid grid-list-md>
+    <v-container grid-list-md>
         <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
         <v-layout row wrap>
-            <v-flex xs12 md6 lg4>
-                <v-layout row wrap>
-                    <v-flex xs12 md4 class="mb-3 mt-4">
-                        <h4>Account Details</h4>
-                    </v-flex>
-                </v-layout>
-                <v-layout row wrap>
-                    <v-flex xs12 md9 class="valign-wrapper mt-4">
-                        <span class="title">Account Name</span>
-                        <p class="caption">This is the name of your account</p>
-                    </v-flex>
-                    <v-flex xs12 md8>
-                        <v-icon>perm_identity</v-icon>
-                        <span>{{account.name}}</span>
-                    </v-flex>
-                </v-layout>
-                <v-layout row wrap>
-                    <v-flex xs12 md4 class="valign-wrapper mt-4">
+            <v-flex xs12 class="valign-wrapper mb-1 mt-3">
+                <h5>ACCOUNT DETAILS</h5>
+            </v-flex>
+        </v-layout>
+        <v-layout row wrap>
+            <v-flex xs12 md6>
+                <v-layout row wrap class="mt-4">
+                    <v-flex xs12 md4 lg3 class="valign-wrapper">
                         <span class="title">Account ID</span>
                         <p class="caption">This is the unique ID of your account</p>
                     </v-flex>
-                    <v-flex xs12 md9>
+                    <v-flex xs8 md5>
                         <v-icon>perm_identity</v-icon>
                         <span>{{$root.getFirstUuidSegment}}</span>
                     </v-flex>
                 </v-layout>
-            </v-flex>
-            <v-flex xs12 md6 lg4>
-                <v-layout row wrap>
-                    <v-flex xs12 class="mb-3 mt-4">
-                        <h4></h4>
+                <v-layout row wrap class="mt-4">
+                    <v-flex xs12 md4 lg3 class="valign-wrapper">
+                        <span class="title">Account Name</span>
+                        <p class="caption">This is the name of your account</p>
+                    </v-flex>
+                    <v-flex xs8 md5>
+                        <v-icon>perm_identity</v-icon>
+                        <span>{{account.name}}</span>
                     </v-flex>
                 </v-layout>
-                <v-layout row wrap>
-                    <v-flex xs12 md4 class="valign-wrapper mt-4">
+                <v-layout row wrap class="mt-4">
+                    <v-flex xs12 md4 lg3 class="valign-wrapper">
+                        <span class="title">Account Currency</span>
+                        <p class="caption">Default is USD</p>
+                    </v-flex>
+                    <v-flex xs8 md5>
+                        <v-icon>monetization_on</v-icon>
+                        <span>USD</span>
+                    </v-flex>
+                </v-layout>
+            </v-flex>
+            <v-flex xs12 md6>
+                <v-layout row wrap class="mt-4">
+                    <v-flex xs12 md4 lg3 class="valign-wrapper">
                         <span class="title">Country</span>
                         <p class="caption">This is the country your account is located in</p>
                     </v-flex>
-                    <v-flex xs12 md9>
+                    <v-flex xs8 md5>
                         <v-select
                           v-bind:items="countriesList"
                           v-model="account.localization.country"
@@ -51,34 +56,26 @@
                         ></v-select>
                     </v-flex>
                 </v-layout>
-                <v-layout row wrap>
-                    <v-flex xs12 md4 class="valign-wrapper mt-4">
+                <v-layout row wrap class="mt-4">
+                    <v-flex xs12 md4 lg3 class="valign-wrapper">
                         <span class="title">City</span>
                         <p class="caption">This is the city your account is located in</p>
                     </v-flex>
-                    <v-flex xs12 md9>
+                    <v-flex xs8 md5>
                         <v-text-field
-                        label="Your first name"
-                        prepend-icon="person"
+                        label="City or Region"
+                        prepend-icon="language"
                         single-line
                         v-model="account.localization.city"
-                        v-on:blur="check = true"
                         ></v-text-field>
                     </v-flex>
                 </v-layout>
-            </v-flex>
-            <v-flex xs12 md6 lg4>
-                <v-layout row wrap>
-                    <v-flex xs12 class="mb-3 mt-4">
-                        <h4></h4>
-                    </v-flex>
-                </v-layout>
-                <v-layout row wrap>
-                    <v-flex xs12 md4 class="valign-wrapper mt-4">
+                <v-layout row wrap class="mt-4">
+                    <v-flex xs12 md4 lg3 class="valign-wrapper">
                         <span class="title">Timezone</span>
                         <p class="caption">This is the timezone your account is located in</p>
                     </v-flex>
-                    <v-flex xs12 md9>
+                    <v-flex xs8 md5>
                         <v-select
                           v-bind:items="timezoneList"
                           v-model="account.localization.timezone"
@@ -89,22 +86,22 @@
                         ></v-select>
                     </v-flex>
                 </v-layout>
-                <v-layout row wrap>
-                    <v-flex xs12 md4 class="valign-wrapper mt-4">
+                <v-layout row wrap class="mt-4">
+                    <v-flex xs12 md4 lg3 class="valign-wrapper">
                         <span class="title">Language</span>
                         <p class="caption">This is the language your account operates with</p>
                     </v-flex>
-                    <v-flex xs12 md9>
+                    <v-flex xs8 md5>
                         <v-icon>language</v-icon>
                         <span>{{account.localization.language}}</span>
                     </v-flex>
                 </v-layout>
             </v-flex>
         </v-layout>
-        <v-layout row wrap>
-            <v-flex xs12 md6 lg4></v-flex>
-            <v-flex xs12 md6 lg4>
-                <v-btn primary @click="updateAccount()">Update you details</v-btn>
+        <v-divider class="mt-4"></v-divider>
+        <v-layout row wrap class="mt-4"> 
+            <v-flex xs12>
+                <v-btn primary large @click="updateAccount()"><v-icon left class="white--text">cloud_upload</v-icon>Update Account Details</v-btn>
             </v-flex>
         </v-layout>
     </v-container>

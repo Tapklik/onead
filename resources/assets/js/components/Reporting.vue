@@ -1,62 +1,67 @@
 <template>
     <v-container fluid grid-list-md>
-        <v-tabs icons v-model="tabIndex" light :scrollable="false">
-            <v-card light extended class="elevation-1">
+        <v-tabs icons v-model="tabIndex" light fixed centered :scrollable="false">
+            <v-divider></v-divider>
+            <v-card light extended class="elevation-0">
                 <v-card-text>
                     <v-layout row wrap>
-                        <v-flex xs-12 md6 lg4>
-                            <v-select :items="campaignList" item-text="name" prepend-icon="important_devices" item-value="id" chips v-model="selectedCampaigns1" label="Campaigns" multiple autocomplete></v-select>
-                            <v-select :items="creativesList" item-text="name" prepend-icon="photo_library" item-value="id" chips v-model="selectedCreatives1" label="Creatives" multiple autocomplete></v-select>
-                        </v-flex>
-                        <v-spacer></v-spacer>
-                        <v-flex xs-12 md6 lg4>
+                        <v-flex xs12 md10 lg8 offset-md1 offset-lg2>
                             <v-layout row wrap>
-                                <v-flex xs6>
-                                    <v-dialog
-                                    :v-model="false"
-                                    lazy
-                                    full-width
-                                    >
-                                        <v-text-field
-                                        label="From"
-                                        prepend-icon="flight_takeoff"
-                                        append-icon="date_range"
-                                        readonly
-                                        v-model="date_from"
-                                        slot="activator"
-                                        ></v-text-field>
-                                        <v-date-picker v-model="date_from" no-title scrollable autosave></v-date-picker>
-                                    </v-dialog>
+                                <v-flex xs-12 md6 lg4>
+                                    <v-select :items="campaignList" item-text="name" prepend-icon="important_devices" item-value="id" chips v-model="selectedCampaigns1" label="Campaigns" multiple autocomplete></v-select>
+                                    <v-select :items="creativesList" item-text="name" prepend-icon="photo_library" item-value="id" chips v-model="selectedCreatives1" label="Creatives" multiple autocomplete></v-select>
                                 </v-flex>
-                                <v-flex xs6>
-                                    <v-dialog :v-model="false" lazy full-width>
-                                        <v-text-field
-                                        label="From"
-                                        prepend-icon="flight_takeoff"
-                                        append-icon="date_range"
-                                        readonly
-                                        v-model="date_to"
-                                        slot="activator"
-                                        ></v-text-field>
-                                        <v-date-picker v-model="date_to" no-title scrollable autosave></v-date-picker>
-                                    </v-dialog>
-                                </v-flex>
-                            </v-layout>
-                            <v-layout row wrap>
-                                <v-flex xs6>
-                                    <v-select :items="stats" prepend-icon="insert_chart" v-model="column" label="Column" autocomplete></v-select>
-                                           
-                                </v-flex>
-                                <v-flex xs6>
-                                    <v-select :items="stats" prepend-icon="show_chart" v-model="line" label="Line" autocomplete></v-select>
-                           
+                                <v-spacer></v-spacer>
+                                <v-flex xs-12 md6>
+                                    <v-layout row wrap>
+                                        <v-flex xs6>
+                                            <v-dialog
+                                            :v-model="false"
+                                            lazy
+                                            full-width
+                                            >
+                                                <v-text-field
+                                                label="From"
+                                                prepend-icon="flight_takeoff"
+                                                append-icon="date_range"
+                                                readonly
+                                                v-model="date_from"
+                                                slot="activator"
+                                                ></v-text-field>
+                                                <v-date-picker v-model="date_from" no-title scrollable autosave></v-date-picker>
+                                            </v-dialog>
+                                        </v-flex>
+                                        <v-flex xs6>
+                                            <v-dialog :v-model="false" lazy full-width>
+                                                <v-text-field
+                                                label="From"
+                                                prepend-icon="flight_takeoff"
+                                                append-icon="date_range"
+                                                readonly
+                                                v-model="date_to"
+                                                slot="activator"
+                                                ></v-text-field>
+                                                <v-date-picker v-model="date_to" no-title scrollable autosave></v-date-picker>
+                                            </v-dialog>
+                                        </v-flex>
+                                    </v-layout>
+                                    <v-layout row wrap>
+                                        <v-flex xs6>
+                                            <v-select :items="stats" prepend-icon="insert_chart" v-model="column" label="Column" autocomplete></v-select>
+                                                   
+                                        </v-flex>
+                                        <v-flex xs6>
+                                            <v-select :items="stats" prepend-icon="show_chart" v-model="line" label="Line" autocomplete></v-select>
+                                   
+                                        </v-flex>
+                                    </v-layout>
                                 </v-flex>
                             </v-layout>
                         </v-flex>
                     </v-layout>
                 </v-card-text>
             <v-divider></v-divider>
-            <v-tabs-bar class="transparent" slot="extension">
+            <v-tabs-bar class="white" slot="extension">
                 <v-tabs-slider class="orange darken-3"></v-tabs-slider>
                 <v-tabs-item href="#overall-tab">
                     <v-icon class="orange--text text--darken-3">present_to_all</v-icon>
@@ -76,6 +81,7 @@
                 </v-tabs-item>
             </v-tabs-bar>
             </v-card>
+            <v-divider class="elevation-1"></v-divider>
             <v-tabs-items>
                 <v-tabs-content id="overall-tab">
                     <v-card>

@@ -1,5 +1,5 @@
 <template>
-    <v-container fluid grid-list-xs>
+    <v-container grid-list-xs>
         <v-layout row wrap>
             <v-flex xs12 class="valign-wrapper mb-1">
                 <h5>CREATIVES VAULT</h5>
@@ -15,7 +15,7 @@
                                 <v-data-table 
                                 :items="folders.data"
                                 hide-actions
-                                class="creatives-explorer"
+                                class="creatives-explorer no-headers"
                                 >
                                     <template slot="headers" scope="props">
                                         &nbsp;
@@ -50,7 +50,7 @@
                                 <v-data-table                                        
                                 :items="creatives.data"
                                 hide-actions
-                                class="creatives-explorer"
+                                class="creatives-explorer no-headers"
                                 v-bind:rows-per-page-items="[10, 25, { text: 'All', value: -1 }]"
                                 >
                                     <template slot="headers" scope="props">

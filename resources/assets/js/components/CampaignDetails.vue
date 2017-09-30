@@ -1,5 +1,5 @@
 <template>
-    <v-container fluid grid-list-md>
+    <v-container grid-list-md>
         <v-layout row wrap>
             <v-flex xs12 class="valign-wrapper mb-1">
                 <h5>CAMPAIGN DETAILS</h5>
@@ -7,12 +7,12 @@
         </v-layout>
         <v-layout row wrap>
             <v-flex xs12 md6>
-                <v-layout row wrap>
-                    <v-flex xs12 md9 class="valign-wrapper mt-4">
+                <v-layout row wrap class="mt-4">
+                    <v-flex xs12 md5 lg4 class="valign-wrapper">
                         <span class="title">Campaign Name</span>
                         <p class="caption ma-0">Set a name for your campaign to be identified with</p>
                     </v-flex>
-                    <v-flex xs12 md6>
+                    <v-flex xs8 md6>
                         <v-text-field
                         label="Campaign Name"
                         prepend-icon="mode_edit"
@@ -22,11 +22,11 @@
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap>
-                    <v-flex xs12 md12 class="valign-wrapper mt-4">
+                    <v-flex xs12 class="valign-wrapper mt-4">
                         <span class="title">Campaign Flight</span>
                         <p class="caption ma-0">Define campaign start and end dates</p>
                     </v-flex>
-                    <v-flex xs6 md5 lg4>
+                    <v-flex xs12 md5>
                         <v-dialog
                         :v-model="false"
                         lazy
@@ -44,7 +44,7 @@
                             <v-date-picker v-model="campaign.start_time" no-title scrollable autosave></v-date-picker>
                         </v-dialog>
                     </v-flex>
-                    <v-flex xs6 md5 lg4>
+                    <v-flex xs12 md5>
                         <v-dialog
                         :v-model="false"
                         lazy
@@ -63,12 +63,12 @@
                         </v-dialog>
                     </v-flex>
                 </v-layout>
-                <v-layout row wrap>
-                    <v-flex xs12 md9 class="valign-wrapper mt-4">
+                <v-layout row wrap class="mt-4">
+                    <v-flex xs12 md5 lg4 class="valign-wrapper">
                         <span class="title">Advertiser Domain</span>
                         <p class="caption ma-0">Insert advertiser’s TLD (company.com)</p>
                     </v-flex>
-                    <v-flex xs12 md8>
+                    <v-flex xs12 md6>
                         <v-text-field
                         label="advertiser.com"
                         prepend-icon="language"
@@ -82,7 +82,7 @@
                         <span class="title">Click-through URL</span>
                         <p class="caption ma-0">Set the default click through URL for your creatives</p>
                     </v-flex>
-                    <v-flex xs12 md8>
+                    <v-flex xs12 md10>
                         <v-text-field
                         label="http://advertiser.com/landing"
                         prepend-icon="language"
@@ -93,8 +93,8 @@
                 </v-layout>
             </v-flex>
             <v-flex xs12 md6>
-                <v-layout row wrap>
-                    <v-flex xs12 md9 class="valign-wrapper mt-4">
+                <v-layout row wrap class="mt-4">
+                    <v-flex xs12 md8 class="valign-wrapper">
                         <span class="title">Budget Type</span>
                         <p class="caption ma-0">Set budget to "daily" or "campaign"; "campaign" budget spans the budget across the lifetime of the campaign</p>
                     </v-flex>
@@ -107,12 +107,12 @@
                         </v-radio-group>
                     </v-flex>
                 </v-layout>
-                <v-layout row wrap>
-                    <v-flex xs12 md9 class="valign-wrapper mt-4">
+                <v-layout row wrap class="mt-4">
+                    <v-flex xs12 md5 lg4 class="valign-wrapper">
                         <span class="title">Budget</span>
                         <p class="caption ma-0">Set budget for your campaign</p>
                     </v-flex>
-                    <v-flex xs12 md6>
+                    <v-flex xs8 md5>
                         <v-text-field
                         label="0.00"
                         prepend-icon="attach_money"
@@ -121,12 +121,12 @@
                         ></v-text-field>
                     </v-flex>
                 </v-layout>
-                <v-layout row wrap>
-                    <v-flex xs12 md9 class="valign-wrapper mt-4">
+                <v-layout row wrap class="mt-4">
+                    <v-flex xs12 md5 lg4 class="valign-wrapper">
                         <span class="title">Target Bid (CPM)</span>
                         <p class="caption ma-0">Allocate the target bid price per 1000 impressions</p>
                     </v-flex>
-                    <v-flex xs12 md6>
+                    <v-flex xs8 md5>
                         <v-text-field
                         label="0.00"
                         prepend-icon="attach_money"
@@ -135,18 +135,19 @@
                         ></v-text-field>
                     </v-flex>
                 </v-layout>
-                <v-layout row wrap>
-                    <v-flex xs12 md9 class="valign-wrapper mt-4">
+                <v-layout row wrap class="mt-5">
+                    <v-flex xs12 md5 lg4 class="valign-wrapper">
                         <span class="title">Daily Budget Pacing</span>
                         <p class="caption ma-0">Default pacing is enabled every day between 7:00AM and 1:00AM next day</p>
                     </v-flex>
-                    <v-flex xs12 md9>
+                    <v-flex xs8 md5>
                         <v-dialog v-model="showModal" lazy absolute width="70%">
-                            <v-btn slot="activator" small class="elevation-0 grey lighten-2 mt-3">Set Budget Pacing</v-btn>
+                            <v-btn slot="activator"><v-icon left class="small">monetization_on</v-icon>Set Budget Pacing</v-btn>
                             <v-card>
                                 <v-card-title>
                                     <h4>Budget Pacing</h4>
                                 </v-card-title>
+                                <v-divider></v-divider>
                                 <v-card-text>
                                     <v-layout row wrap>
                                         <v-flex xs12 md7>
@@ -179,7 +180,7 @@
                                             </v-layout>
                                         </v-flex>  
                                         <v-flex xs12 md5 >
-                                            <v-card class="elevation-1">
+                                            <v-card class="elevation-0 border">
                                                 <v-card-text>
                                                     <span class="title">Plan Preview</span>
                                                     <p class="caption ma-0">Here you can see your weekly budget pacing plan</p>
@@ -206,6 +207,7 @@
                                         </v-flex>  
                                     </v-layout>        
                                 </v-card-text>
+                                 <v-divider></v-divider>
                                 <v-card-actions>
                                     <v-spacer></v-spacer>
                                     <v-btn @click="showModal = false" class="elevation-0">

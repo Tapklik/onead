@@ -3,7 +3,8 @@
         <v-layout>
             <v-flex xs12>
                 <v-card class="elevation-0">    
-                    <v-card-title>
+                    <v-divider></v-divider>
+                    <v-card-title dark class="">
                         <v-flex xs12 md6 lg9>
                             <v-btn primary dark class="elevation-0" :href="createCampaignRouter">
                                 <v-icon>add</v-icon> Add campaign
@@ -20,6 +21,7 @@
                             </v-text-field>
                         </v-flex>
                     </v-card-title>
+                    <v-divider></v-divider>
                     <v-card-text>
                         <v-layout row wrap>
                             <v-flex xs12>   
@@ -29,6 +31,7 @@
                                 v-bind:items="campaigns" 
                                 v-bind:search="search"
                                 v-bind:rows-per-page-items="[10, 25, { text: 'All', value: -1 }]"
+                                class="no-headers"
                                 >
                                     <template slot="headers" scope="props">
                                         &nbsp;
