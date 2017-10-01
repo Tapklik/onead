@@ -27,6 +27,7 @@
                 <!-- MAIN CONTENT -->
                 <div id="content">
                     @yield('layouts.partials.title')
+
                     @yield('content')
                 </div>
                 <!-- END MAIN CONTENT -->

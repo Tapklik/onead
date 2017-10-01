@@ -188,6 +188,11 @@ i.icon.small {
   font-size: 15px;
 }
 
+.valign-middle {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
 /*** UPLOADER ***/
 
 #uploader {

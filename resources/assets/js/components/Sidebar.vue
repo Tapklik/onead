@@ -4,18 +4,56 @@
 			<img width="50" src="/images/tapklik-logo-square-inner.png">
 		</div>
 		<v-list three-line class="pt-5">
-			<template v-for="item in items">
-				<v-list-tile v-bind:key="item.title" tag="a" v-bind:href="item.link" @click="">
-					<v-list-tile-content>
-						<v-list-tile-title href="item.link" class="text-xs-center">
-							<v-icon>{{ item.icon }}</v-icon>
-						</v-list-tile-title>
-						<v-list-tile-title class="text-xs-center">
-							<span class="item-title">{{ item.title }}</span>
-						</v-list-tile-title>
-					</v-list-tile-content>
-				</v-list-tile>
-			</template>
+			<v-list-tile tag="a" href="/admin/dashboard" @click="">
+				<v-list-tile-content>
+					<v-list-tile-title href="/admin/dashboard" class="text-xs-center">
+						<v-icon>apps</v-icon>
+					</v-list-tile-title>
+					<v-list-tile-title class="text-xs-center">
+						<span class="item-title">Dashboard</span>
+					</v-list-tile-title>
+				</v-list-tile-content>
+			</v-list-tile>
+			<v-list-tile tag="a" href="/admin/campaigns" @click="">
+				<v-list-tile-content>
+					<v-list-tile-title href="/admin/campaigns" class="text-xs-center">
+						<v-icon>add_to_queue</v-icon>
+					</v-list-tile-title>
+					<v-list-tile-title class="text-xs-center">
+						<span class="item-title">Campaigns</span>
+					</v-list-tile-title>
+				</v-list-tile-content>
+			</v-list-tile>
+			<v-list-tile tag="a" href="/admin/creatives" @click="">
+				<v-list-tile-content>
+					<v-list-tile-title href="/admin/creatives" class="text-xs-center">
+						<v-icon>crop_original</v-icon>
+					</v-list-tile-title>
+					<v-list-tile-title class="text-xs-center">
+						<span class="item-title">Creatives</span>
+					</v-list-tile-title>
+				</v-list-tile-content>
+			</v-list-tile>
+			<v-list-tile tag="a" href="/admin/reports" @click="">
+				<v-list-tile-content>
+					<v-list-tile-title href="/admin/reports" class="text-xs-center">
+						<v-icon>insert_chart</v-icon>
+					</v-list-tile-title>
+					<v-list-tile-title class="text-xs-center">
+						<span class="item-title">Reports</span>
+					</v-list-tile-title>
+				</v-list-tile-content>
+			</v-list-tile>
+			<v-list-tile tag="a" href="/admin/billing" @click="">
+				<v-list-tile-content>
+					<v-list-tile-title href="/admin/billing" class="text-xs-center">
+						<v-icon>monetization_on</v-icon>
+					</v-list-tile-title>
+					<v-list-tile-title class="text-xs-center">
+						<span class="item-title">Billing</span>
+					</v-list-tile-title>
+				</v-list-tile-content>
+			</v-list-tile>
 		</v-list>
 	</v-navigation-drawer>
 </template>
@@ -25,13 +63,7 @@
 		data () {
 			return {
 				drawer: true,
-				items: [
-				{ title: 'Dashboard', icon: 'apps', link: '/admin/dashboard' },
-				{ title: 'Campaigns', icon: 'add_to_queue', link: '/admin/campaigns' },
-				{ title: 'Creatives', icon: 'crop_original', link: '/admin/creatives' },
-				{ title: 'Reports', icon: 'insert_chart', link: '/admin/reports' },
-				{ title: 'Billing', icon: 'monetization_on', link: '/admin/billing' },
-				],
+				
 			}
 		},
 
