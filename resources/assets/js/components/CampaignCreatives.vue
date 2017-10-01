@@ -62,7 +62,7 @@
                                                 <v-checkbox
                                                 :selected-key="props.item.id"
                                                 :value="props.item"
-                                                v-model="activeCreatives"
+                                                v-model="campaign.creatives.data"
                                                 ></v-checkbox>
                                             </td>
                                             <td class="text-xs-left">
