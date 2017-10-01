@@ -13,6 +13,9 @@
                 	</v-card-title>
                 	<v-card-text>
                 		<v-layout row wrap>
+		                	<v-flex xs12 md8 offset-sm2 class="red--text" v-show="errorMessageDisplay">
+		                		You entered an incorrect password or username.
+		                	</v-flex>
 		                    <v-flex xs12 sm8 offset-sm2 class="pt-4">
 								<p class="body-2 text-xs-justify">
 								Login to your Tapklik Client account. In case you don't have your access details please get in contact with your Account Manager or the Sales team at <a href="mailto:sales@tapklik.com">sales@tapklik.com</a>
@@ -75,6 +78,7 @@
 		data() {
 
 	        return {
+	        	errorMessageDisplay: false,
 	            token: false,
 	            email: '',
 				password: '',
@@ -98,8 +102,9 @@
 					this.token = atob(response.data.token);
                     this.isLoading = false;
 				}, error => {
+					this.errorMessageDisplay = true;
 				    this.error = error.data.error;
-                     this.isLoading = false;
+                    this.isLoading = false;
 				});
 			}
 		},
@@ -115,8 +120,6 @@
 
 				    window.location = '/admin/dashboard';
 				}, error => {
-
-				   swal('Error', error.data.error, 'error');
 				});
 			}
 		}
