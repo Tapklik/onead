@@ -14,7 +14,7 @@
                 	<v-card-text>
                 		<v-layout row wrap>
 		                	<v-flex xs12 md8 offset-sm2 class="red--text" v-show="errorMessageDisplay">
-		                		You entered an incorrect password or username.
+		                		You entered an incorrect username or password.
 		                	</v-flex>
 		                    <v-flex xs12 sm8 offset-sm2 class="pt-4">
 								<p class="body-2 text-xs-justify">
