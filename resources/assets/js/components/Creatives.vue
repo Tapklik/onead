@@ -193,7 +193,7 @@
                     <v-divider></v-divider>
                     <v-card-text v-if="!currentFolder.id">
                         <v-layout row wrap>
-                            <v-flex xs12 md10 offset-md1 lg8>
+                            <v-flex xs12 md10 lg8>
                                 <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">
                                 {{alertMessage}}
                                 </v-alert>
@@ -263,7 +263,7 @@
                             </v-flex>
                         </v-layout>
                         <v-layout row wrap>
-                            <v-flex xs12 md8 offset-md1>
+                            <v-flex xs12 md9>
                                 <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
                                 <v-data-table :items="creatives.data" hide-actions class="creatives-explorer no-headers" v-bind:rows-per-page-items="[10, 25, { value: -1 }]">
                                     <template slot="headers" scope="props">

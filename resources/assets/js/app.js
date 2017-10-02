@@ -117,7 +117,7 @@ const app = new Vue({
             if(value) {
                 return (value / 1000000).toFixed(2);
             } else {
-                return null;
+                return 0.00;
             }
         },
 
@@ -126,7 +126,7 @@ const app = new Vue({
             if(value) {
                 return (value * 1000000);
             } else {
-                return null
+                return 0
             }
         },
 

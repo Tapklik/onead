@@ -3,9 +3,6 @@
 		<div class="logo">
 			<img width="60" src="/images/tapklik-logo-square-inner.png">
 		</div>
-		<div class="text-xs-center">
-			<span class="white--text caption">v0.5.0 BETA</span>
-		</div>
 		<v-list three-line class="pt-5">
 			<v-list-tile tag="a" href="/admin/dashboard" @click="">
 				<v-list-tile-content>

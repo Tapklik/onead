@@ -5,5 +5,5 @@
         
     </v-flex>
     <v-spacer></v-spacer>
-    <controls></controls>
+    <controls :user="user"></controls>
  </v-layout>

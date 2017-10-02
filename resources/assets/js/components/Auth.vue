@@ -6,7 +6,9 @@
                 	<v-card-title>
                 		<v-layout row wrap>
 		                    <v-flex xs12 class="pt-1 pb-2">
-								<img width="40%" src="/images/tapklik-logo-grey.png">
+								<img width="40%" src="/images/tapklik-onead-logo.png">
+									
+								<span class="right caption">v0.5.1 BETA</span>
 		                    </v-flex>
 		                </v-layout>
 		              	<v-divider></v-divider>
