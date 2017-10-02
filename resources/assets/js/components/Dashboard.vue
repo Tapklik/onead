@@ -222,7 +222,7 @@
             }
         },
         
-        props: ['user', 'token','trialdate'],
+        props: ['user', 'token'],
 
         methods: {
             Slice(value) {
@@ -298,9 +298,8 @@
 
             getDate(days) {
                 const toTwoDigits = num => num < 10 ? '0' + num : num;
-                var a = this.$root.trialdate;
-                let today =  new Date(a);
-                let date = new Date(a);
+                let today =  new Date();
+                let date = new Date();
                 date.setDate(today.getDate() + days);
                 let year = date.getFullYear();
                 let month = toTwoDigits(date.getMonth() + 1);

@@ -435,7 +435,7 @@
 
         },
 
-        props: ['user', 'token','trialdate'],
+        props: ['user', 'token'],
 
         data() {
             return {
@@ -448,8 +448,8 @@
                 line: 'imps',
                 column: 'clicks',
                 dateFormat: 'yyyy-MM-dd',
-                date_from: '',
-                date_to: '',
+                date_from: this.getDate(-10),
+                date_to: this.getDate(0),
                 selectedCampaigns1: [],
                 selectedCreatives1: [],
                 selectedDevicesTypes1: [],
@@ -822,9 +822,8 @@ function removeLogo() {
 
 getDate(days) {
     const toTwoDigits = num => num < 10 ? '0' + num : num;
-    var a = this.$root.trialdate;
-    let today =  new Date(a);
-    let date = new Date(a);
+    let today =  new Date();
+    let date = new Date();
     date.setDate(today.getDate() + days);
     let year = date.getFullYear();
     let month = toTwoDigits(date.getMonth() + 1);

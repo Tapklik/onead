@@ -93,8 +93,6 @@
 	            this.isLoading = true;
 	            this.error = '';
 
-	            console.log(this.$http)
-
 	            axios.post(this.$root.uri + '/auth', {
 	                'email': this.email,
 					'password': this.password

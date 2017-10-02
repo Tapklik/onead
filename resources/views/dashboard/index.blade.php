@@ -6,7 +6,7 @@
     DASHBOARD
 @endcomponent
 
-        <dashboard :user="user" :token="token" :trialdate="trialdate"></dashboard>
+        <dashboard :user="user" :token="token"></dashboard>
 @stop
 
 @section('footer-js-header')

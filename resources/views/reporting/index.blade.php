@@ -5,7 +5,7 @@
 @component('layouts.partials.title')
     REPORTING
 @endcomponent
-<reporting :user="user" :token="token" :trialdate="trialdate"></reporting>
+<reporting :user="user" :token="token"></reporting>
 @stop
 
 @section('footer-js-header')

@@ -60,19 +60,18 @@ Vue.component('scale-loader', require('vue-spinner/src/ScaleLoader.vue'));
 
 
 //var envUri = (window.location.hostname.search('local') == -1) ? '//api.tapklik.com/v1' : '//local.api.tapklik.com/v1';
-var envUri = '//api.tapklik.com/v1';
+var envUri = 'https://api.tapklik.com/v1';
 
 const app = new Vue({
     el: '#app',
 
     mounted() {
       this.getApiToken();
-      this.loadDate();
     },
 
     data: {
         uri: envUri,
-        reportUri: '//app.dcos.service.tapklik.com:10002/api/query',
+        reportUri: 'https://reports.tapklik.com/api/query',
         user: false,
         search: '',
         section: '',
@@ -80,7 +79,6 @@ const app = new Vue({
         modalIsOpen: false,
         token: false,
         config: {},
-        trialdate:'',
         editMode: (window.location.pathname.search('/edit/') == -1) ? false : true,
         isLoading: true,
         alert1: false,
@@ -92,16 +90,6 @@ const app = new Vue({
 
     methods: {
 
-        loadDate() {
-            axios.get('http://45.76.95.115:2302/api/date', this.$root.config).then(response=>{
-                var serverDate = response.data;
-             
-                this.trialdate = new Date(serverDate);
-            }, error=> {
-                console.log('error:' + error);
-                alert(error)
-            })
-        },
         getApiToken() {
 
             axios.get('/core/token').then(response => {
