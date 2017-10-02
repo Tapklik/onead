@@ -90,7 +90,7 @@
                                                     <v-text-field
                                                     label="New Password (Re-type)"
                                                     prepend-icon="lock"
-                                                    v-model="password"
+                                                    v-model="confPassword"
                                                     hint="Retype your new password"
                                                     ></v-text-field>
                                                 </v-flex>
@@ -174,6 +174,7 @@
                 account: false,
                 userDet: {},
                 password: '',
+                confPassword: '',
                 showModal: false,
                 oldPassword: '',
                 ajax: false
@@ -181,10 +182,18 @@
         },
 
         computed: {
-            fullName() {
+            fullName: {
+                get() {
                 var a = this.userDet.first_name;
                 var b = this.userDet.last_name;
                 return a + ' ' + b;
+                },
+             
+                set(value) {
+                    var names = value.split(' ')
+                    this.userDet.first_name = names[0]
+                    this.userDet.last_name = names[names.length - 1]
+                }
             }
         },
 
