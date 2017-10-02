@@ -28,9 +28,14 @@
 
 <script>
     export default {
-        mounted() {
-            console.log('Categories component mounted.');
+        created() {
+            this.$root.isLoading = true;
         },
+
+        mounted() {
+            this.$root.isLoading = false;
+        },
+
 
         props: ['campaign'],
 

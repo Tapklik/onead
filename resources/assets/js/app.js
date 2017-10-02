@@ -104,7 +104,7 @@ const app = new Vue({
                 this.user = response.data;
                 
             }, error => {
-                swal('error', error, 'error');
+                swal('Error', error, 'error');
             });
         },
 

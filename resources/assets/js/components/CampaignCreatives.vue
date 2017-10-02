@@ -92,21 +92,31 @@
                             <v-flex xs12 md3 offset-md1 class="valign-wrapper mt-4">                                
                                 <v-layout row wrap>
                                     <v-flex xs12>
-                                        <v-card v-show="imageSource != ''">
-                                            <v-card-media
-                                                  class="white--text"
-                                                  height="128px"
-                                                  contain
-                                                  :src="imageSource">        
-                                            </v-card-media>
+                                        <v-card class="elevation-0 left-border pl-3" height="500px">
                                             <v-card-title>
-                                              <div>
-                                                <span class="title"> {{sample}}</span><br>
-                                                <span class="grey--text">{{typeShow | uppercase}}</span><br>
-                                                <span class="mt-4">Status: {{statusShow | uppercase}}</span><br>
-                                                <span class="mt-4">Dimensions: {{dimensionsShow}}</span>
-                                              </div>
+                                                <span class="title">Creative Details</span>
                                             </v-card-title>
+                                            <v-card-text>
+                                                <v-layout row wrap>
+                                                    <v-flex xs12>
+                                                        <div class="preview">
+                                                            <img width="128" :src="imageSource">
+                                                        </div>
+                                                    </v-flex>
+                                                </v-layout>
+                                                <v-layout row wrap>
+                                                    <v-flex xs12>
+                                                        <span v-if="sample != 'sample'"> {{sample}}</span>
+                                                        <span v-else> Creative </span>
+                                                        <br>
+                                                        <span v-if="typeShow != ''" class="grey--text">{{typeShow | uppercase}}</span>
+                                                        <span v-else class="grey--text">TYPE</span>
+                                                        <br><br>
+                                                        <span class="caption"><b>Status:</b> {{statusShow | uppercase}}</span><br>
+                                                        <span class="caption"><b>Dimensions:</b> {{dimensionsShow}}</span>
+                                                    </v-flex>
+                                                </v-layout>
+                                            </v-card-text>
                                           </v-card>
                                     </v-flex>
                                 </v-layout>
@@ -122,10 +132,16 @@
 <script>
 
     export default {
-        mounted() {
-
+        created() {
+            this.$root.isLoading = true;
         },
+
+        mounted() {
+            this.$root.isLoading = false;
+        },
+
         props:['token','user','campaign'],
+
         data() {
             return {
                 dimensionsShow: '',

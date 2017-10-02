@@ -6,56 +6,7 @@
                     <v-divider></v-divider>
                     <v-card-title>
                         <v-flex xs12 md6 lg9>
-                        <v-dialog v-model="showModal" lazy absolute width="35%">
-                            <v-btn primary dark class="elevation-0" slot="activator">
-                                <v-icon>add</v-icon> New Payment
-                            </v-btn>
-                            <v-card>
-                                <v-card-title>
-                                    <h4>Method of payment</h4>
-                                </v-card-title>
-                                <v-card-text>
-                                    <v-layout row wrap>
-                                        <v-flex xs12 md7 class="valign-wrapper">
-                                            <span class="title">Method</span><br>
-                                            <p class="caption">Payment through credit card or paypal</p>
-                                        </v-flex>
-                                        <v-flex xs12 md9 class="valign-wrapper">
-                                            <v-radio-group v-model="paymentMethod" row class="pa-1">
-                                                <v-radio label="Credit Card" value="cc payment" ></v-radio>
-                                                <v-radio label="Paypal" value="paypal payment"></v-radio>
-                                            </v-radio-group>
-                                        </v-flex>
-                                    </v-layout>
-                                    <v-layout row wrap>
-                                        <v-flex xs12 md7 class="valign-wrapper mt-4">
-                                            <span class="title">Amount</span><br>
-                                            <p class="caption">The amount you are paying</p>
-                                        </v-flex>
-                                        <v-flex xs12 md9 class="valign-wrapper">
-                                            <v-text-field
-                                            label="0.00"
-                                            prepend-icon="attach_money"
-                                            v-model="payment"
-                                            single-line
-                                            type="number"
-                                            ></v-text-field>
-                                        </v-flex>
-                                    </v-layout>
-                                </v-card-text>
-                                <v-card-actions>
-                                    <v-spacer></v-spacer>
-                                    <v-btn @click="showModal = false" class="elevation-0">
-                                        <v-icon>close</v-icon>                                    
-                                        Cancel
-                                    </v-btn>
-                                    <v-btn primary dark @click="processPayment(), showModal = false" class="elevation-0">
-                                        <v-icon>done</v-icon>
-                                        Save
-                                    </v-btn>
-                                </v-card-actions>
-                            </v-card>   
-                        </v-dialog>
+                       
                         </v-flex>
                         <v-flex xs12 md6 lg3>
                             <v-text-field 

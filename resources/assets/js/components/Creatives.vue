@@ -193,7 +193,7 @@
                     <v-divider></v-divider>
                     <v-card-text v-if="!currentFolder.id">
                         <v-layout row wrap>
-                            <v-flex xs12 md10 lg8>
+                            <v-flex xs12 md10 offset-md1 lg8>
                                 <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">
                                 {{alertMessage}}
                                 </v-alert>
@@ -210,7 +210,7 @@
                                                 <span class="title">{{ props.item.name }}</span>
                                             </td>
                                             <td class="text-xs-right">
-                                                <v-dialog v-model="showModal2" lazy absolute width="70%">
+                                                <v-dialog v-model="showModal2" lazy absolute width="400px">
                                                     <v-btn icon class="grey--text" @click="deleteFolderId = props.item.id, deleteFolderName = props.item.name" slot="activator">
                                                         <v-icon>delete</v-icon>
                                                     </v-btn>
@@ -218,13 +218,17 @@
                                                         <v-card-title>
                                                             <h4>Delete Folder</h4>
                                                         </v-card-title>
+                                                        <v-divider></v-divider>
                                                         <v-card-text>
                                                             <v-layout row wrap>
-                                                                <v-flex xs12 md12 class="valign-wrapper text-xs-center">
-                                                                    <span class="">ARE YOU SURE YOU WANT TO DELETE {{deleteFolderName | uppercase}}?</span><br>
+                                                                <v-flex xs12 md12 class="valign-wrapper px-4">
+                                                                    <span class="">Please, make sure that your folder is empty and that the creatives are not used in any campaigns.</span>
+                                                                    <br><br>
+                                                                    <span>To proceed with deleting folder: {{deleteFolderName | uppercase}}, click DELETE below.</span><br>
                                                                 </v-flex>
                                                             </v-layout>
                                                         </v-card-text>
+                                                         <v-divider></v-divider>
                                                         <v-card-actions>
                                                             <v-spacer></v-spacer>
                                                             <v-btn class="elevation-0" @click="showModal2 = false">
@@ -259,19 +263,24 @@
                             </v-flex>
                         </v-layout>
                         <v-layout row wrap>
-                            <v-flex xs12 md8>
+                            <v-flex xs12 md8 offset-md1>
                                 <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
-                                <v-data-table :items="creatives.data" hide-actions class="creatives-explorer no-headers" v-bind:rows-per-page-items="[10, 25, { text: 'All', value: -1 }]">
+                                <v-data-table :items="creatives.data" hide-actions class="creatives-explorer no-headers" v-bind:rows-per-page-items="[10, 25, { value: -1 }]">
                                     <template slot="headers" scope="props">
                                         &nbsp;
                                     </template>
                                     <template slot="items" scope="props">
-                                        <tr>
-                                            <td @mouseenter="imageSource = props.item.thumb, sample= props.item.name, statusShow = props.item.approved, typeShow = props.item.class, dimensionsShow = props.item.w + 'x' + props.item.h" class="text-xs-left">
+                                        <tr 
+                                        @mouseenter="imageSource = props.item.thumb, sample= props.item.name, statusShow = props.item.approved, 
+                                        typeShow = props.item.class, dimensionsShow = props.item.w + 'x' + props.item.h"
+                                        @mouseleave="imageSource = '', sample='sample', statusShow = '', 
+                                        typeShow = 'TYPE', dimensionsShow = ''"
+                                        >
+                                            <td class="text-xs-left">
                                                 <span class="title">{{ props.item.name }}</span><br>
                                                 <span class="caption">{{ props.item.id }}</span>
                                             </td>
-                                            <td @mouseenter="imageSource = props.item.thumb, sample= props.item.name, statusShow = props.item.approved, typeShow = props.item.class, dimensionsShow = props.item.w + 'x' + props.item.h">
+                                            <td>
                                                 <v-chip v-if="props.item.approved == 'approved'" small class="green white--text">
                                                     <small>APPROVED</small>
                                                 </v-chip>
@@ -282,10 +291,10 @@
                                                     <small>DECLINED</small>
                                                 </v-chip>
                                             </td>
-                                            <td @mouseenter="imageSource = props.item.thumb, sample= props.item.name, statusShow = props.item.approved, typeShow = props.item.class, dimensionsShow = props.item.w + 'x' + props.item.h">
+                                            <td>
                                                 {{ props.item.class | uppercase }}
                                             </td>
-                                            <td @mouseenter="imageSource = props.item.thumb, sample= props.item.name, statusShow = props.item.approved, typeShow = props.item.class, dimensionsShow = props.item.w + 'x' + props.item.h">
+                                            <td>
                                                 {{ props.item.w }} x {{ props.item.h }}
                                             </td>
                                             <td>
@@ -325,24 +334,34 @@
                                     </template>
                                 </v-data-table>
                             </v-flex>
-                            <v-flex xs12 md3 offset-md1 class="valign-wrapper mt-4">                                
+                            <v-flex xs12 md3 class="valign-wrapper mt-4">                                
                                 <v-layout row wrap>
                                     <v-flex xs12>
-                                        <v-card v-show="imageSource != ''">
-                                            <v-card-media
-                                                  class="white--text"
-                                                  height="128px"
-                                                  contain
-                                                  :src="imageSource">        
-                                            </v-card-media>
+                                        <v-card class="elevation-0 left-border pl-3" height="500px">
                                             <v-card-title>
-                                              <div>
-                                                <span class="title"> {{sample}}</span><br>
-                                                <span class="grey--text">{{typeShow | uppercase}}</span><br>
-                                                <span class="mt-4">Status: {{statusShow | uppercase}}</span><br>
-                                                <span class="mt-4">Dimensions: {{dimensionsShow}}</span>
-                                              </div>
+                                                <span class="title">Creative Details</span>
                                             </v-card-title>
+                                            <v-card-text>
+                                                <v-layout row wrap>
+                                                    <v-flex xs12>
+                                                        <div class="preview">
+                                                            <img width="128" :src="imageSource">
+                                                        </div>
+                                                    </v-flex>
+                                                </v-layout>
+                                                <v-layout row wrap>
+                                                    <v-flex xs12>
+                                                        <span v-if="sample != 'sample'"> {{sample}}</span>
+                                                        <span v-else> Creative </span>
+                                                        <br>
+                                                        <span v-if="typeShow != ''" class="grey--text">{{typeShow | uppercase}}</span>
+                                                        <span v-else class="grey--text">TYPE</span>
+                                                        <br><br>
+                                                        <span class="caption"><b>Status:</b> {{statusShow | uppercase}}</span><br>
+                                                        <span class="caption"><b>Dimensions:</b> {{dimensionsShow}}</span>
+                                                    </v-flex>
+                                                </v-layout>
+                                            </v-card-text>
                                           </v-card>
                                     </v-flex>
                                 </v-layout>

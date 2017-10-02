@@ -3,7 +3,7 @@
             <div class="tk-select-wrapper" @mouseenter="toggleHover()" @mouseleave="toggleHover()" v-bind:class="{active: 
                 checked, hovered: hovering }">         
                 <v-icon large :class="textColor">{{ icon }}</v-icon>  
-                <v-checkbox v-model="checked" class="tk-select-checkbox" color="orange darken-4"></v-checkbox>
+                <v-checkbox :input-value="checked" :true-value="trueValue" :false-value="falseValue" class="tk-select-checkbox" color="orange darken-4"></v-checkbox>
                 <p class="body-1" :class="textColor"><slot></slot></p>
             </div>      
         </v-card>
@@ -43,7 +43,7 @@ export default {
         return {
             hovering: false,
             checked: function() {
-                return this.value === this.trueValue
+                return this.parentValue
             }
         }
 

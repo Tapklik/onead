@@ -30,7 +30,7 @@
                                 <v-data-table 
                                 v-bind:items="campaigns" 
                                 v-bind:search="search"
-                                v-bind:rows-per-page-items="[10, 25, { text: 'All', value: -1 }]"
+                                v-bind:rows-per-page-items="[10, 25, { value: -1 }]"
                                 class="no-headers"
                                 >
                                     <template slot="headers" scope="props">

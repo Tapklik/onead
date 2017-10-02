@@ -72,7 +72,8 @@
                           prepernd-icon="add_location"
                           :search-input.sync="searchCountry"
                           @change="showNothing()"
-                          label="Choose your locations"
+                          label="Country or city name"
+                          hint="Start typing location name to see the list..."
                           multiple
                           single-line
                           autocomplete>
