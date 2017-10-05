@@ -42,15 +42,16 @@
 		                        hint="At least 8 characters"
 		                        type="password"
 		                        v-model="password"
+								@keydown.enter="login"
 		                        ></v-text-field>
 		                    </v-flex>
 		                </v-layout>
 		                <v-layout row wrap>
 		                    <v-flex xs12 sm8 offset-sm2 class="pt-2 pb-5">
-		                        <v-btn 
+		                        <v-btn
 		                        primary
-		                        large 
-		                        dark 
+		                        large
+		                        dark
 		                        class="elevation-0 pl-4 pr-4 ma-0 right"
 		                        @click="login()"
 		                        > LOGIN </v-btn>
