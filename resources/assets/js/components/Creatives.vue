@@ -592,6 +592,10 @@
                             this.success = true;
                             this.alertMessage = 'Uploaded successfully';
 
+                            setTimeout(function () {
+                                this.alert = false;
+                            }.bind(this), 2000);
+
                             if(typeof this.currentFolder.id == 'string') {
                                 this.getFolderCreatives(this.currentFolder.id);
                             } else {
@@ -602,7 +606,7 @@
                             this.alert = true;
                             this.error = true;
                             this.success = false;
-                            this.alertMessage = 'Boom';
+                            this.alertMessage = 'Please choose a folder you wish to upload a creative to.';
                         }
                     }.bind(this));
                 }
