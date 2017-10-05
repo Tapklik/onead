@@ -97,6 +97,16 @@
 
         mounted() {
             this.$root.isLoading = false;
+
+            if(typeof data !== 'undefined') {
+                this.alert = true;
+                this.success = true;
+                this.alertMessage = data.message;
+
+                setTimeout(function () {
+                    this.alert = false;
+                }.bind(this), 2000);
+            }
         },
 
         props: ['token','alert1', 'error1', 'success1', 'alertmessage1'],

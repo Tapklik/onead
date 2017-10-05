@@ -272,6 +272,8 @@
                     this.success = true;
                     this.error = false;
                     this.alertMessage = 'Successfully created a new campaign';
+
+                    window.location = '/admin/campaigns?m=' + this.alertMessage;
                     
                 }, error => {
                     this.alert = true;
