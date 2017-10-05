@@ -121,7 +121,7 @@
                                         <tk-widget
                                             icon="monetization_on"
                                             title="eCPM"
-                                            :value="responseOverallSummary.ecpm "
+                                            :value="$root.twoDecimalPlaces(responseOverallSummary.ecpm)"
                                             unit="$"
                                             defaultValue="0.00"
                                             size="sm"
@@ -131,7 +131,7 @@
                                         <tk-widget
                                             icon="star_half"
                                             title="eCPC"
-                                            :value="responseOverallSummary.ecpc "
+                                            :value="$root.twoDecimalPlaces(responseOverallSummary.ecpc)"
                                             unit="$"
                                             defaultValue="0.00"
                                             size="sm"
@@ -141,7 +141,7 @@
                                         <tk-widget
                                             icon="monetization_on"
                                             title="SPEND"
-                                            :value="$root.fromMicroDollars(responseOverallSummary.spend)"
+                                            :value="$root.twoDecimalPlaces($root.fromMicroDollars(responseOverallSummary.spend))"
                                             unit="$"
                                             defaultValue="0.00"
                                             size="sm"
@@ -202,7 +202,7 @@
                                         <tk-widget
                                             icon="monetization_on"
                                             title="eCPM"
-                                            :value="responsePublishersSummary.ecpm"
+                                            :value="$root.twoDecimalPlaces(responsePublishersSummary.ecpm)"
                                             unit="$"
                                             defaultValue="0.00"
                                             size="sm"
@@ -212,7 +212,7 @@
                                         <tk-widget
                                             icon="star_half"
                                             title="eCPC"
-                                            :value="responsePublishersSummary.ecpc"
+                                            :value="$root.twoDecimalPlaces(responsePublishersSummary.ecpc)"
                                             unit="$"
                                             defaultValue="0.00"
                                             size="sm"
@@ -222,7 +222,7 @@
                                         <tk-widget
                                             icon="monetization_on"
                                             title="SPEND"
-                                            :value="$root.fromMicroDollars(responsePublishersSummary.spend)"
+                                            :value="$root.twoDecimalPlaces($root.fromMicroDollars(responsePublishersSummary.spend))"
                                             unit="$"
                                             defaultValue="0.00"
                                             size="sm"
@@ -289,7 +289,7 @@
                                         <tk-widget
                                             icon="monetization_on"
                                             title="eCPM"
-                                            :value="responseDevicesSummary.ecpm"
+                                            :value="$root.twoDecimalPlaces(responseDevicesSummary.ecpm)"
                                             unit="$"
                                             defaultValue="0.00"
                                             size="sm"
@@ -299,7 +299,7 @@
                                         <tk-widget
                                             icon="star_half"
                                             title="eCPC"
-                                            :value="responseDevicesSummary.ecpc"
+                                            :value="$root.twoDecimalPlaces(responseDevicesSummary.ecpc)"
                                             unit="$"
                                             defaultValue="0.00"
                                             size="sm"
@@ -309,7 +309,7 @@
                                         <tk-widget
                                             icon="monetization_on"
                                             title="SPEND"
-                                            :value="$root.fromMicroDollars(responseDevicesSummary.spend)"
+                                            :value="$root.twoDecimalPlaces($root.fromMicroDollars(responseDevicesSummary.spend))"
                                             unit="$"
                                             defaultValue="0.00"
                                             size="sm"
@@ -370,7 +370,7 @@
                                         <tk-widget
                                             icon="monetization_on"
                                             title="eCPM"
-                                            :value="responseGeoSummary.ecpm"
+                                            :value="$root.twoDecimalPlaces(responseGeoSummary.ecpm)"
                                             unit="$"
                                             defaultValue="0.00"
                                             size="sm"
@@ -380,7 +380,7 @@
                                         <tk-widget
                                             icon="star_half"
                                             title="eCPC"
-                                            :value="responseGeoSummary.ecpc"
+                                            :value="$root.twoDecimalPlaces(responseGeoSummary.ecpc)"
                                             unit="$"
                                             defaultValue="0.00"
                                             size="sm"
@@ -390,7 +390,7 @@
                                         <tk-widget
                                             icon="monetization_on"
                                             title="SPEND"
-                                            :value="$root.fromMicroDollars(responseGeoSummary.spend)"
+                                            :value="$root.twoDecimalPlaces($root.fromMicroDollars(responseGeoSummary.spend))"
                                             unit="$"
                                             defaultValue="0.00"
                                             size="sm"
