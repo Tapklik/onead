@@ -587,11 +587,16 @@
                     this.dropzone.on("complete", function (file) {
                         if (file.status == 'success') {
                             this.dropzone.removeFile(file);
-                            console.log(file);
                             this.alert = true;
                             this.error = false;
                             this.success = true;
                             this.alertMessage = 'Uploaded successfully';
+
+                            if(typeof this.currentFolder.id == 'string') {
+                                this.getFolderCreatives(this.currentFolder.id);
+                            } else {
+                                this.getFolders();
+                            }
                         } 
                         else {
                             this.alert = true;
