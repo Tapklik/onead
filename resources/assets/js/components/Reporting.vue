@@ -47,11 +47,11 @@
                                     </v-layout>
                                     <v-layout row wrap>
                                         <v-flex xs6>
-                                            <v-select :items="stats" prepend-icon="insert_chart" v-model="column" label="Column" autocomplete></v-select>
+                                            <v-select :items="stats" prepend-icon="insert_chart" v-model="column" label="Column"></v-select>
                                                    
                                         </v-flex>
                                         <v-flex xs6>
-                                            <v-select :items="stats" prepend-icon="show_chart" v-model="line" label="Line" autocomplete></v-select>
+                                            <v-select :items="stats" prepend-icon="show_chart" v-model="line" label="Line"></v-select>
                                    
                                         </v-flex>
                                     </v-layout>
@@ -141,7 +141,7 @@
                                         <tk-widget
                                             icon="monetization_on"
                                             title="SPEND"
-                                            :value="$root.twoDecimalPlaces($root.fromMicroDollars(responseOverallSummary.spend))"
+                                            :value="$root.fromMicroDollars(responseOverallSummary.spend)"
                                             unit="$"
                                             defaultValue="0.00"
                                             size="sm"
@@ -222,7 +222,7 @@
                                         <tk-widget
                                             icon="monetization_on"
                                             title="SPEND"
-                                            :value="$root.twoDecimalPlaces($root.fromMicroDollars(responsePublishersSummary.spend))"
+                                            :value="$root.fromMicroDollars(responsePublishersSummary.spend)"
                                             unit="$"
                                             defaultValue="0.00"
                                             size="sm"
@@ -309,7 +309,7 @@
                                         <tk-widget
                                             icon="monetization_on"
                                             title="SPEND"
-                                            :value="$root.twoDecimalPlaces($root.fromMicroDollars(responseDevicesSummary.spend))"
+                                            :value="$root.fromMicroDollars(responseDevicesSummary.spend)"
                                             unit="$"
                                             defaultValue="0.00"
                                             size="sm"
@@ -390,7 +390,7 @@
                                         <tk-widget
                                             icon="monetization_on"
                                             title="SPEND"
-                                            :value="$root.twoDecimalPlaces($root.fromMicroDollars(responseGeoSummary.spend))"
+                                            :value="$root.fromMicroDollars(responseGeoSummary.spend)"
                                             unit="$"
                                             defaultValue="0.00"
                                             size="sm"
@@ -431,7 +431,6 @@
             this.loadCountries();
             this.loadPublishers();
             this.$root.isLoading = false;
-            this.drawDummy();
 
         },
 
@@ -476,7 +475,11 @@
                 reportGeo: [],
                 reportOverall: [],
                 reportPublishers: [],
-                request: ''
+                request: '',
+                overallLsit: [],
+                publishersList: [],
+                geoList: [],
+                devicesList: []
             }
         },
         
@@ -586,19 +589,13 @@
                     {
                         clicks: 0,
                         imps: 0,
-                        date: this.date_from 
+                        date: this.date_to 
                     }]
                 }
             }            
         },
 
         methods: {
-
-            drawDummy() {
-                this.createChart('chart_devices', this.startingData)
-                this.createChart('chart_geo', this.startingData)
-                this.createChart('chart_publisher', this.startingData)
-            },
 
             getCreatives() {
                 var listOfCreatives = []
@@ -745,16 +742,14 @@
                         "axisAlpha": 0,
                         "gridAlpha": 0,
                         "position": "left",
-                        "labelsEnabled": false,
-                        "ignoreAxisWidth":true
+                        "title": column
                     },
                     {
                         "id": "v2",
                         "axisAlpha": 0,
                         "gridAlpha": 0,
                         "position": "right",
-                        "labelsEnabled": false,
-                        "ignoreAxisWidth":true
+                        "title": line
                     }
                     ],
                     "graphs": [{
@@ -766,9 +761,9 @@
                         "fillColors":"#ccc",
                         "lineColor":"#ccc",
                         "lineThickness": 2,
-                        "balloonText": "[[date]] <br> ---------------- <br>"+column+" :[[clicks]]<br>"+line+": [[imps]]",
+                        "balloonText": "[[date]] <br> ---------------- <br>"+column+" :[["+column+"]]<br>"+line+": [["+line+"]]",
                         "title": column,
-                        "valueField": column,
+                        "valueField": column
                     },
                     {   
                         "valueAxis": "v2",
@@ -778,7 +773,7 @@
                         "showBalloon": false,
                         "lineThickness": 2,
                         "title": line,
-                        "valueField": line,
+                        "valueField": line
                         
                     }],
                     "categoryField": "date",
@@ -942,7 +937,17 @@ range() {
 dataCall(report, responseList, responseListSummary, chart) {
     axios.get(this.$root.reportUri + this.generateQuery(report, 'sum'))
     .then(response => {
-        this[responseList] = response.data.data;
+        var results = response.data.data;
+        for(var v in results) {
+            results[v].imps = results[v].imps;
+            results[v].clicks = results[v].clicks;
+            results[v].ecpc = this.$root.twoDecimalPlaces(results[v].ecpc);
+            results[v].ecpm = this.$root.twoDecimalPlaces(results[v].ecpm);
+            results[v].ctr = this.$root.twoDecimalPlaces(results[v].ctr * 100);
+            results[v].spend = this.$root.fromMicroDollars(results[v].spend);
+        }
+        this[responseList] = results;
+
 
         if(this[responseList] == undefined) {
             this.createChart(chart, this.startingData.data[0].clicks, this.column, this.line);

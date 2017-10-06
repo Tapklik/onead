@@ -43,7 +43,7 @@
                                         </td>
                                         <td>
                                             <v-chip v-if="props.item.status == 'active'" small class="green white--text">
-                                                <small>APPROVED</small>
+                                                <small>ACTIVE</small>
                                             </v-chip>
 
                                             <v-chip v-else-if="props.item.status == 'archived'" small class="yellow darken-2 white--text">
@@ -56,6 +56,10 @@
 
                                             <v-chip v-else small class="red white--text">
                                                 <small>DECLINED</small>
+                                            </v-chip>
+
+                                            <v-chip v-else small class="grey white--text">
+                                                <small>DRAFT</small>
                                             </v-chip>
                                         </td>
                                         <td class="text-xs-right">
