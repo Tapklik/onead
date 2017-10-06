@@ -47,11 +47,11 @@
                                     </v-layout>
                                     <v-layout row wrap>
                                         <v-flex xs6>
-                                            <v-select :items="stats" prepend-icon="insert_chart" v-model="column" label="Column" autocomplete></v-select>
+                                            <v-select :items="stats" prepend-icon="insert_chart" v-model="column" label="Column"></v-select>
                                                    
                                         </v-flex>
                                         <v-flex xs6>
-                                            <v-select :items="stats" prepend-icon="show_chart" v-model="line" label="Line" autocomplete></v-select>
+                                            <v-select :items="stats" prepend-icon="show_chart" v-model="line" label="Line"></v-select>
                                    
                                         </v-flex>
                                     </v-layout>
@@ -141,7 +141,7 @@
                                         <tk-widget
                                             icon="monetization_on"
                                             title="SPEND"
-                                            :value="$root.twoDecimalPlaces($root.fromMicroDollars(responseOverallSummary.spend))"
+                                            :value="$root.fromMicroDollars(responseOverallSummary.spend)"
                                             unit="$"
                                             defaultValue="0.00"
                                             size="sm"
@@ -222,7 +222,7 @@
                                         <tk-widget
                                             icon="monetization_on"
                                             title="SPEND"
-                                            :value="$root.twoDecimalPlaces($root.fromMicroDollars(responsePublishersSummary.spend))"
+                                            :value="$root.fromMicroDollars(responsePublishersSummary.spend)"
                                             unit="$"
                                             defaultValue="0.00"
                                             size="sm"
@@ -309,7 +309,7 @@
                                         <tk-widget
                                             icon="monetization_on"
                                             title="SPEND"
-                                            :value="$root.twoDecimalPlaces($root.fromMicroDollars(responseDevicesSummary.spend))"
+                                            :value="$root.fromMicroDollars(responseDevicesSummary.spend)"
                                             unit="$"
                                             defaultValue="0.00"
                                             size="sm"
@@ -390,7 +390,7 @@
                                         <tk-widget
                                             icon="monetization_on"
                                             title="SPEND"
-                                            :value="$root.twoDecimalPlaces($root.fromMicroDollars(responseGeoSummary.spend))"
+                                            :value="$root.fromMicroDollars(responseGeoSummary.spend)"
                                             unit="$"
                                             defaultValue="0.00"
                                             size="sm"
