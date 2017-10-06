@@ -45,9 +45,15 @@
                                             <v-chip v-if="props.item.status == 'active'" small class="green white--text">
                                                 <small>APPROVED</small>
                                             </v-chip>
+
                                             <v-chip v-else-if="props.item.status == 'archived'" small class="yellow darken-2 white--text">
                                                 <small>PENDING</small>
-                                            </v-chip>   
+                                            </v-chip>
+
+                                            <v-chip v-else-if="props.item.status == 'paused'" small class="blue darken-2 white--text">
+                                                <small>PAUSED</small>
+                                            </v-chip>
+
                                             <v-chip v-else small class="red white--text">
                                                 <small>DECLINED</small>
                                             </v-chip>
@@ -61,11 +67,10 @@
                                             <span class="caption">TO</span>&nbsp; <span class="title">{{ props.item.end_time }}</span>
                                         </td>
                                          <td class="text-xs-center">
-
-                                            <v-btn icon class="grey--text" v-if="props.item.status == 'active'">
+                                            <v-btn icon class="grey--text" v-if="props.item.status == 'active'" @click="toggleCampaignStatus(props.index, props.item.id, props.item.status)">
                                                 <v-icon>pause_circle_outline</v-icon>
                                             </v-btn>
-                                            <v-btn icon class="grey--text" v-else>
+                                            <v-btn icon class="grey--text" v-else  @click="toggleCampaignStatus(props.index, props.item.id, props.item.status)">
                                                 <v-icon>play_circle_outline</v-icon>
                                             </v-btn>
                                             <v-btn icon class="grey--text" @click="deleteCampaign(props.item.id)">
@@ -129,6 +134,15 @@
         },
 
         methods: {
+            toggleCampaignStatus(index, id, status) {
+                var changeStatusTo = (status == 'active') ? 'paused' : 'active';
+
+                axios.put(this.$root.uri + '/campaigns/' + id, {status: changeStatusTo}, this.$root.config).then(response => {
+                    this.fetchCampaigns();
+                }, error => {
+                   console.log(error);
+                });
+            },
 
             fetchCampaigns() {
 
