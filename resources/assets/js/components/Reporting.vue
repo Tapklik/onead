@@ -745,16 +745,14 @@
                         "axisAlpha": 0,
                         "gridAlpha": 0,
                         "position": "left",
-                        "labelsEnabled": false,
-                        "ignoreAxisWidth":true
+                        "title": column
                     },
                     {
                         "id": "v2",
                         "axisAlpha": 0,
                         "gridAlpha": 0,
                         "position": "right",
-                        "labelsEnabled": false,
-                        "ignoreAxisWidth":true
+                        "title": line
                     }
                     ],
                     "graphs": [{
@@ -768,7 +766,7 @@
                         "lineThickness": 2,
                         "balloonText": "[[date]] <br> ---------------- <br>"+column+" :[[clicks]]<br>"+line+": [[imps]]",
                         "title": column,
-                        "valueField": column,
+                        "valueField": column
                     },
                     {   
                         "valueAxis": "v2",
@@ -778,7 +776,7 @@
                         "showBalloon": false,
                         "lineThickness": 2,
                         "title": line,
-                        "valueField": line,
+                        "valueField": line
                         
                     }],
                     "categoryField": "date",
