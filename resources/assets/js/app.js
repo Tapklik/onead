@@ -60,7 +60,7 @@ Vue.component('scale-loader', require('vue-spinner/src/ScaleLoader.vue'));
 
 
 //var envUri = (window.location.hostname.search('local') == -1) ? '//api.tapklik.com/v1' : '//local.api.tapklik.com/v1';
-var envUri = 'http://local.api.tapklik.com/v1';
+var envUri = 'https://api.tapklik.com/v1';
 
 const app = new Vue({
     el: '#app',
