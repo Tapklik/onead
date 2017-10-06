@@ -431,7 +431,6 @@
             this.loadCountries();
             this.loadPublishers();
             this.$root.isLoading = false;
-            this.drawDummy();
 
         },
 
@@ -476,7 +475,11 @@
                 reportGeo: [],
                 reportOverall: [],
                 reportPublishers: [],
-                request: ''
+                request: '',
+                overallLsit: [],
+                publishersList: [],
+                geoList: [],
+                devicesList: []
             }
         },
         
@@ -586,19 +589,13 @@
                     {
                         clicks: 0,
                         imps: 0,
-                        date: this.date_from 
+                        date: this.date_to 
                     }]
                 }
             }            
         },
 
         methods: {
-
-            drawDummy() {
-                this.createChart('chart_devices', this.startingData)
-                this.createChart('chart_geo', this.startingData)
-                this.createChart('chart_publisher', this.startingData)
-            },
 
             getCreatives() {
                 var listOfCreatives = []
@@ -764,7 +761,7 @@
                         "fillColors":"#ccc",
                         "lineColor":"#ccc",
                         "lineThickness": 2,
-                        "balloonText": "[[date]] <br> ---------------- <br>"+column+" :[[clicks]]<br>"+line+": [[imps]]",
+                        "balloonText": "[[date]] <br> ---------------- <br>"+column+" :[["+column+"]]<br>"+line+": [["+line+"]]",
                         "title": column,
                         "valueField": column
                     },
@@ -940,7 +937,17 @@ range() {
 dataCall(report, responseList, responseListSummary, chart) {
     axios.get(this.$root.reportUri + this.generateQuery(report, 'sum'))
     .then(response => {
-        this[responseList] = response.data.data;
+        var results = response.data.data;
+        for(var v in results) {
+            results[v].imps = results[v].imps;
+            results[v].clicks = results[v].clicks;
+            results[v].ecpc = this.$root.twoDecimalPlaces(results[v].ecpc);
+            results[v].ecpm = this.$root.twoDecimalPlaces(results[v].ecpm);
+            results[v].ctr = this.$root.twoDecimalPlaces(results[v].ctr * 100);
+            results[v].spend = this.$root.fromMicroDollars(results[v].spend);
+        }
+        this[responseList] = results;
+
 
         if(this[responseList] == undefined) {
             this.createChart(chart, this.startingData.data[0].clicks, this.column, this.line);
