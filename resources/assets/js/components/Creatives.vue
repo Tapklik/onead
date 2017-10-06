@@ -107,10 +107,12 @@
                                                     <v-flex xs12 md4 lg3  class="valign-wrapper">
                                                         <span class="title">Click-Through URL</span><br>
                                                         <p class="ma-0">Click-through url per creative</p>
-                                                    </v-flex>
+                                                    </v-flex>    
                                                     <v-flex xs12 md8>
-                                                        <v-text-field prepend-icon="language" v-model="creativeAttributes.url"
-                                                        placeholder="URL" type="url"></v-text-field>
+                                                        <form>
+                                                            <v-text-field prepend-icon="language" v-model="creativeAttributes.url"
+                                                            placeholder="URL" type="url"></v-text-field>
+                                                        </form>
                                                     </v-flex>
                                                 </v-layout>
                                                 <v-layout row wrap class="mt-4">

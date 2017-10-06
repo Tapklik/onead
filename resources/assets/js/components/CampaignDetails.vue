@@ -69,13 +69,15 @@
                         <p class="caption ma-0">Insert advertiser’s TLD (company.com)</p>
                     </v-flex>
                     <v-flex xs12 md6>
-                        <v-text-field
-                        label="advertiser.com"
-                        prepend-icon="language"
-                        single-line
-                        type="url"
-                        v-model="campaign.adomain"
-                        ></v-text-field>
+                        <form>
+                            <v-text-field
+                            label="advertiser.com"
+                            prepend-icon="language"
+                            single-line
+                            type="url"
+                            v-model="campaign.adomain"
+                            ></v-text-field>
+                        </form>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap>
@@ -84,13 +86,15 @@
                         <p class="caption ma-0">Set the default click through URL for your creatives</p>
                     </v-flex>
                     <v-flex xs12 md10>
-                        <v-text-field
-                        label="http://advertiser.com/landing"
-                        prepend-icon="language"
-                        single-line
-                        type="url"
-                        v-model="campaign.ctrurl"
-                        ></v-text-field>
+                        <form>
+                            <v-text-field
+                            label="http://advertiser.com/landing"
+                            prepend-icon="language"
+                            single-line
+                            type="url"
+                            v-model="campaign.ctrurl"
+                            ></v-text-field>
+                        </form>
                     </v-flex>
                 </v-layout>
             </v-flex>
