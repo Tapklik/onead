@@ -73,6 +73,7 @@
                         label="advertiser.com"
                         prepend-icon="language"
                         single-line
+                        type="url"
                         v-model="campaign.adomain"
                         ></v-text-field>
                     </v-flex>
@@ -87,6 +88,7 @@
                         label="http://advertiser.com/landing"
                         prepend-icon="language"
                         single-line
+                        type="url"
                         v-model="campaign.ctrurl"
                         ></v-text-field>
                     </v-flex>
@@ -118,6 +120,7 @@
                         prepend-icon="attach_money"
                         v-model="budgetUsd"
                         single-line
+                        type="number"
                         ></v-text-field>
                     </v-flex>
                 </v-layout>
@@ -132,6 +135,7 @@
                         prepend-icon="attach_money"
                         v-model="bidUsd"
                         single-line
+                        type="number"
                         ></v-text-field>
                     </v-flex>
                 </v-layout>
@@ -184,7 +188,7 @@
                                                 <v-card-text>
                                                     <span class="title">Plan Preview</span>
                                                     <p class="caption ma-0">Here you can see your weekly budget pacing plan</p>
-                                                    <v-data-table class="mt-4 pacing-preview" :items="timesOfDay" hide-actions>
+                                                    <v-data-table class="mt-4 @blurpacing-preview" :items="timesOfDay" hide-actions>
                                                         <template slot="headers" scope="props">
                                                             <th>Time</th>
                                                             <th class="pa-0">S</th>
@@ -250,7 +254,8 @@
                 '7:00PM - 10:00PM', '10:00PM - 12:00AM'],
                 selectedDays: [0, 1, 2, 3, 4, 5, 6],
                 selectedTimes: [1, 2, 3, 4, 5, 6],
-                pacing: this.campaign.budget.data.pacing
+                pacing: this.campaign.budget.data.pacing,
+                ctrurlCheck: false 
             }
         },
         
@@ -281,6 +286,7 @@
                 this.$root.modalIsOpen = true;
                 return false;
             },
+            
             getTimeActiveClass(d, t) {
                 var timeActiveClass = false
                 var hPlan = this.pacing

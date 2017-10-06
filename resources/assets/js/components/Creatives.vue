@@ -59,7 +59,7 @@
                                                                 <p class="caption ma-0">The folder where your creative will be uploaded</p>
                                                             </v-flex>
                                                             <v-flex xs12 md5>
-                                                                <v-select prepend-icon="folder" :items="folders.data" item-text="name" item-value="key" v-model="folderId" autocomplete placeholder="Folder"></v-select>
+                                                                <v-select prepend-icon="folder" :items="folders.data" item-text="name" item-value="key" v-model="folderId" placeholder="Folder"></v-select>
                                                             </v-flex>
                                                         </v-layout>
                                                     </v-flex>
@@ -70,7 +70,7 @@
                                                                 <p class="caption ma-0">(Banner, Video, Native)</p>
                                                             </v-flex>
                                                             <v-flex xs12 md5>
-                                                                <v-select prepend-icon="photo" :items="classList" v-model="creativeAttributes.class" autocomplete></v-select>
+                                                                <v-select prepend-icon="photo" :items="classList" v-model="creativeAttributes.class"></v-select>
                                                             </v-flex>
                                                         </v-layout>
                                                         <v-layout row wrap class="mt-4">
@@ -79,11 +79,11 @@
                                                                 <p class="caption ma-0">Edit default dimensions in px</p>
                                                             </v-flex>
                                                             <v-flex xs5 md3 lg2>
-                                                                <v-text-field prepend-icon="code" v-model="creativeAttributes.w" placeholder="W"></v-text-field>
+                                                                <v-text-field prepend-icon="code" v-model="creativeAttributes.w" type="number" placeholder="W"></v-text-field>
                                                             </v-flex>
                                                             <v-flex xs1></v-flex>
                                                             <v-flex xs5 md3 lg2>
-                                                                <v-text-field prepend-icon="unfold_more" v-model="creativeAttributes.h" placeholder="H"></v-text-field>
+                                                                <v-text-field prepend-icon="unfold_more" v-model="creativeAttributes.h" type="number" placeholder="H"></v-text-field>
                                                             </v-flex>
                                                         </v-layout>
                                                         <v-layout row wrap class="mt-4">
@@ -110,7 +110,7 @@
                                                     </v-flex>
                                                     <v-flex xs12 md8>
                                                         <v-text-field prepend-icon="language" v-model="creativeAttributes.url"
-                                                        placeholder="URL"></v-text-field>
+                                                        placeholder="URL" type="url"></v-text-field>
                                                     </v-flex>
                                                 </v-layout>
                                                 <v-layout row wrap class="mt-4">
