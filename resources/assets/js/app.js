@@ -85,7 +85,8 @@ const app = new Vue({
         success1: false,
         error1: false,
         alertmessage1: '',
-        pagetitle: 'Something'
+        pagetitle: 'Something',
+        balance: 0
     },
 
     methods: {
@@ -102,6 +103,15 @@ const app = new Vue({
         getUserInfo() {
             axios.get(this.uri + '/accounts/info', this.config).then(response => {
                 this.user = response.data;
+                
+            }, error => {
+                swal('Error', error, 'error');
+            });
+        },
+
+        getAccountBalance() {
+            axios.get(this.uri + '/accounts/' + this.user.accountUuId + '/banker/main?query=balance', this.config).then(response => {
+                this.balance = response.data.data.balance;
                 
             }, error => {
                 swal('Error', error, 'error');
@@ -147,6 +157,10 @@ const app = new Vue({
             this.config = {headers: {'Authorization': "Bearer " + this.token}};
 
             this.getUserInfo();
+        },
+
+        user(value) {
+            this.getAccountBalance();
         }
     },
     computed: {
