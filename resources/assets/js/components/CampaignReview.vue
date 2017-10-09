@@ -413,6 +413,23 @@
             },
 
             collectCampaign() {
+                if (this.campaign.status == 'draft') {   
+                    return {
+                        name: this.campaign.name,
+                        description: '',
+                        start: this.campaign.start_time,
+                        end: this.campaign.end_time,
+                        bid: this.campaign.bid,
+                        ctrurl: this.campaign.ctrurl,
+                        adomain: this.campaign.adomain,
+                        test: this.campaign.test,
+                        status: 'active',
+                        weight: this.campaign.weight,
+                        node: this.campaign.node
+                    };
+                }
+                else {
+
                 return {
                     name: this.campaign.name,
                     description: '',
@@ -427,6 +444,7 @@
                     node: this.campaign.node,
                     account_id: 1
                 };
+                }
             },
 
             collectCategories() {

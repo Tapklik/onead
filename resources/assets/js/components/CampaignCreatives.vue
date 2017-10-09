@@ -60,6 +60,7 @@
                                         <tr @mouseenter="imageSource = props.item.thumb, sample= props.item.name, statusShow = props.item.approved, typeShow = props.item.class, dimensionsShow = props.item.w + 'x' + props.item.h" v-show="props.item.approved == 'approved'">
                                             <td width="40" class="text-xs-right">
                                                 <v-checkbox
+                                                @change="updateDraftCreatives()"
                                                 :selected-key="props.item.id"
                                                 :value="props.item"
                                                 v-model="campaign.creatives.data"
@@ -177,6 +178,32 @@
         },
 
         methods: {
+
+            collectCreatives() {
+
+                var ids = [];
+
+                for(var i in this.campaign.creatives.data)
+                {
+                    ids.push(this.campaign.creatives.data[i].id);
+                }
+
+                return ids;
+            },
+
+            updateDraftCreatives() {
+
+                var payload = this.collectCreatives();
+
+                axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/creatives', {creatives: payload}, this.$root.config).then(response => {
+                }, error => {
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
+                });
+            },
+
             consoleLog(value) {
                 console.log(value);
             },
@@ -311,13 +338,13 @@
           }
       },
 
-      watch: {
+    watch: {
         token(value) {
 
             if(typeof value != 'undefined') {
                 this.getFolders();
             }
+            }
         }
     }
-}
 </script>

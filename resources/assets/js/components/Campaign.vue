@@ -22,7 +22,7 @@
             </v-stepper-content>
             <v-stepper-content step="2">
                 <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
-                <campaign-categories :campaign="campaign" :state="stateReady"></campaign-categories>
+                <campaign-categories :campaign="campaign" :selectedCategories="selectedCategories" :state="stateReady"></campaign-categories>
             </v-stepper-content>
             <v-stepper-content step="3">
                 <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
@@ -30,7 +30,7 @@
             </v-stepper-content>
             <v-stepper-content step="4">
                 <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
-                <campaign-targeting :campaign="campaign" :state="stateReady"></campaign-targeting>
+                <campaign-targeting :campaign="campaign" :selectedUa="selectedUa" :selectedOs="selectedOs" :selectedDevices="selectedDevices" :state="stateReady"></campaign-targeting>
             </v-stepper-content>
             <v-stepper-content step="5">
                 <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
@@ -122,6 +122,35 @@
         },
 
         methods: {
+            startDraft() {
+                if(this.$root.editMode == false){
+                    axios.post(this.$root.uri + '/campaigns', this.draftStartData(), this.$root.config).then(response => {
+                        this.campaign.id = response.data.data.id;
+                    }, error => {
+                        this.alert = true;
+                        this.success = false;
+                        this.error = true;
+                        this.alertMessage = 'Something went wrong';
+                    });
+                }
+            },
+
+            draftStartData() {
+                return {
+                    name: 'Draft',
+                    description: '',
+                    start: this.campaign.start_time,
+                    end: this.campaign.end_time,
+                    bid: this.campaign.bid,
+                    ctrurl: this.campaign.ctrurl,
+                    adomain: this.campaign.adomain,
+                    test: this.campaign.test,
+                    status: 'draft',
+                    weight: this.campaign.weight,
+                    node: this.campaign.node,
+                    account_id: 1
+                }
+            },
 
             loadCategories() {
 
@@ -315,6 +344,8 @@
 
                     this.fetchCampaign(campaignId);
                 }
+
+            this.startDraft();
             },
 
             editMode(value) {

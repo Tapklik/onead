@@ -125,7 +125,6 @@
                     description: this.paymentMethod,
                     type: "billing"
                 }
-                
             },
 
             fetchBills() {

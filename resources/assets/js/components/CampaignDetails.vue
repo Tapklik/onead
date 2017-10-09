@@ -18,6 +18,7 @@
                         prepend-icon="mode_edit"
                         v-model="campaign.name"
                         single-line
+                        v-on:blur="updateDetailsDraft()"
                         ></v-text-field>
                     </v-flex>
                 </v-layout>
@@ -40,6 +41,7 @@
                             readonly
                             slot="activator"
                             v-model="campaign.start_time"
+                            v-on:change="updateDetailsDraft()"
                             ></v-text-field>
                             <v-date-picker v-model="campaign.start_time" no-title scrollable autosave></v-date-picker>
                         </v-dialog>
@@ -57,6 +59,7 @@
                             single-line
                             readonly
                             slot="activator"
+                            v-on:change="updateDetailsDraft()"
                             v-model="campaign.end_time"
                             ></v-text-field>
                             <v-date-picker v-model="campaign.end_time" no-title scrollable autosave></v-date-picker>
@@ -75,6 +78,7 @@
                             prepend-icon="language"
                             single-line
                             type="url"
+                            v-on:blur="updateDetailsDraft()"
                             v-model="campaign.adomain"
                             ></v-text-field>
                         </form>
@@ -92,6 +96,7 @@
                             prepend-icon="language"
                             single-line
                             type="url"
+                            v-on:blur="updateDetailsDraft()"
                             v-model="campaign.ctrurl"
                             ></v-text-field>
                         </form>
@@ -107,7 +112,7 @@
                 </v-layout>
                 <v-layout>
                     <v-flex xs12 md9 class="valign-wrapper">
-                        <v-radio-group v-model="campaign.budget.data.type" row class="pa-1">
+                        <v-radio-group v-model="campaign.budget.data.type" v-on:change="updateDraftBudget()"row class="pa-1">
                             <v-radio label="Daily" value="daily" ></v-radio>
                             <v-radio label="Campaign" value="campaign"></v-radio>
                         </v-radio-group>
@@ -121,6 +126,7 @@
                     <v-flex xs8 md5>
                         <v-text-field
                         label="0.00"
+                        v-on:blur="updateDraftBudget()"
                         prepend-icon="attach_money"
                         v-model="budgetUsd"
                         single-line
@@ -136,6 +142,7 @@
                     <v-flex xs8 md5>
                         <v-text-field
                         label="0.00"
+                        v-on:change="updateDetailsDraft()"
                         prepend-icon="attach_money"
                         v-model="bidUsd"
                         single-line
@@ -222,7 +229,7 @@
                                         <v-icon>close</v-icon>                                    
                                         Cancel
                                     </v-btn>
-                                    <v-btn primary dark @click="applyPlan(),showModal=false" class="elevation-0">
+                                    <v-btn primary dark @click="applyPlan(),showModal=false, updateDraftBudget()" class="elevation-0">
                                         <v-icon>done</v-icon>
                                         Save
                                     </v-btn>
@@ -289,6 +296,47 @@
             openModal() {
                 this.$root.modalIsOpen = true;
                 return false;
+            },
+
+            draftData() {
+                return {
+                    name: this.campaign.name,
+                    description: '',
+                    start: this.campaign.start_time,
+                    end: this.campaign.end_time,
+                    bid: this.campaign.bid,
+                    ctrurl: this.campaign.ctrurl,
+                    adomain: this.campaign.adomain,
+                    test: this.campaign.test,
+                    status: 'draft',
+                    weight: this.campaign.weight,
+                    node: this.campaign.node
+                }
+            },
+
+            updateDetailsDraft() {
+
+                var payload = this.draftData();
+
+                axios.put(this.$root.uri + '/campaigns/' + this.campaign.id, payload, this.$root.config).then(response => {
+                }, error => {
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
+                });  
+            },
+
+            updateDraftBudget() {
+                var payload = this.campaign.budget.data;
+
+                axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/budget', payload, this.$root.config).then(response => {
+                }, error => {
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
+                });
             },
             
             getTimeActiveClass(d, t) {

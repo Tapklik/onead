@@ -72,6 +72,7 @@
                           prepernd-icon="add_location"
                           :search-input.sync="searchCountry"
                           @change="showNothing()"
+                          @blur="updateDraftGeography()"
                           label="Country or city name"
                           hint="Start typing location name to see the list..."
                           multiple
@@ -158,7 +159,7 @@
             vueSlider
         },
 
-        props: ['campaign'],
+        props: ['campaign', 'selectedDevices','selectedUa','selectedOs'],
 
         data() {
             return {
@@ -276,6 +277,41 @@
                 }
             },
 
+            updateDraftDevice(){
+
+                var payload = this.collectDevices();
+
+                axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/device/type', {types: payload.types}, this.$root.config).then(response => {
+                }, error => {
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
+                });
+                axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/device/model', {models: payload.models}, this.$root.config).then(response => {
+                }, error => {
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
+                });
+                axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/device/os', {os: payload.os}, this.$root.config).then(response => {
+                }, error => {
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
+                });
+            },
+
+            collectDevices() {
+                return {
+                    types: this.campaign.device.data.type,
+                    models: this.campaign.device.data.ua,
+                    os: this.campaign.device.data.os,
+                };
+            },
+
 
             createSlider(from, to) {
                 var ageSlider = document.getElementById('age-slider');
@@ -302,6 +338,40 @@
                     this.campaign.user.data.age.max = parseInt(values[1]);
                 }.bind(this));
             },
+
+            collectGeography() {
+                return this.campaign.geo.data.map(function (geo) {
+                    return geo.id;
+                });
+            },
+
+            updateDraftGeography(){
+
+                var payload = this.collectGeography();
+
+                axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/geo', {geo: payload}, this.$root.config).then(response => {
+                }, error => {
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
+                });
+            },
+            collectUser() {
+                return this.campaign.user.data;
+            },
+
+            updateDraftUser(){
+                var payload = this.collectUser();
+
+                axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/users', payload, this.$root.config).then(response => {
+                }, error => {
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
+                });
+            }
 
         },
 
@@ -334,10 +404,29 @@
                 console.log(value);
             },
             ageRange(value) {
-
+                if(this.campaign.id == undefined) return;
                 this.campaign.user.data.age.min = value[0];
                 this.campaign.user.data.age.max = value[1];
-            }
+                this.updateDraftUser();
+            },
+            selectedUa(value) {
+                if(this.campaign.id == undefined) return;
+                this.updateDraftDevice();
+            },
+
+            selectedOs(value) {
+                if(this.campaign.id == undefined) return;
+                this.updateDraftDevice();
+            },
+            
+            selectedDevices(value) {
+                if(this.campaign.id == undefined) return;
+                this.updateDraftDevice();
+            },
+            gender(value) {
+                if(this.campaign.id) return;
+                this.updateDraftUser();
+            },
         }
     }
 </script>

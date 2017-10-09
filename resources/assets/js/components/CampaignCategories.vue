@@ -14,13 +14,13 @@
         <v-layout row wrap>
             <v-flex xs12 class="mt-3">
                 <tk-select-list v-model="campaign.cat.data">
-                <tk-select v-for="category in $parent.$parent.$parent.categoriesList" 
-                :key="category.code" :icon="category.img" 
-                :trueValue="category.code" 
-                :subtitle="category.code">
-                    {{ category.type }}
-                </tk-select>
-            </tk-select-list>
+                    <tk-select v-for="category in $parent.$parent.$parent.categoriesList" 
+                    :key="category.code" :icon="category.img" 
+                    :trueValue="category.code" 
+                    :subtitle="category.code">
+                        {{ category.type }}
+                    </tk-select>
+                </tk-select-list>
             </v-flex>
         </v-layout>
     </v-container>
@@ -37,7 +37,7 @@
         },
 
 
-        props: ['campaign'],
+        props: ['campaign','selectedCategories'],
 
         data() {
            return {
@@ -45,6 +45,19 @@
         },
 
         methods: {
+
+            updateDraftCategories(){
+
+                var payload = this.campaign.cat.data;
+
+                axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/cat', payload, this.$root.config).then(response => {
+                }, error => {
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
+                });
+            },
            
         },
 
@@ -52,6 +65,12 @@
             lowercase(input) {
 
                 return input.toLowerCase();
+            }
+        },
+        watch: {
+            selectedCategories(value) {
+                if(this.campaign.id == undefined) return;
+                this.updateDraftCategories();
             }
         }
     }
