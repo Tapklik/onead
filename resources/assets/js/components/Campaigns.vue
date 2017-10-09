@@ -5,12 +5,15 @@
                 <v-card class="elevation-0">    
                     <v-divider></v-divider>
                     <v-card-title dark class="">
-                        <v-flex xs12 md6 lg9>
+                        <v-flex xs12 md6>
                             <v-btn primary dark class="elevation-0" :href="createCampaignRouter">
                                 <v-icon>add</v-icon> Add campaign
                             </v-btn> 
                         </v-flex>
-                        <v-flex xs12 md6 lg3>
+                        <v-flex xs12 md3 lg3>
+                            <v-select :items="statusFilter" prepend-icon="search" chips v-model="selectedStatuses" label="Status" multiple></v-select>
+                        </v-flex>
+                        <v-flex xs12 md3 lg3>
                             <v-text-field 
                                 append-icon="search" 
                                 label="Search" 
@@ -28,7 +31,7 @@
                                 <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
                                 <v-alert dismissible v-bind:success='success1' v-bind:error='error1' v-model="alert1" transition="scale-transition">{{alertmessage1}}</v-alert>
                                 <v-data-table 
-                                v-bind:items="campaigns" 
+                                v-bind:items="filteredCampaigns" 
                                 v-bind:search="search"
                                 v-bind:rows-per-page-items="[10, 25, { value: -1 }]"
                                 class="no-headers"
@@ -46,15 +49,15 @@
                                                 <small>ACTIVE</small>
                                             </v-chip>
 
-                                            <v-chip v-else-if="props.item.status == 'archived'" small class="yellow darken-2 white--text">
-                                                <small>PENDING</small>
+                                            <v-chip v-else-if="props.item.status == 'archived'" small class="black darken-2 white--text">
+                                                <small>ARCHIVED</small>
                                             </v-chip>
 
                                             <v-chip v-else-if="props.item.status == 'paused'" small class="blue darken-2 white--text">
                                                 <small>PAUSED</small>
                                             </v-chip>
 
-                                            <v-chip v-else small class="red white--text">
+                                            <v-chip v-else-if="props.item.status == 'declined'" small class="red white--text">
                                                 <small>DECLINED</small>
                                             </v-chip>
 
@@ -132,7 +135,9 @@
                 search: '',
                 pagination: {},
                 createCampaignRouter: "/admin/campaigns/create",
-                editCampaignRouter: "/admin/campaigns/edit/"
+                editCampaignRouter: "/admin/campaigns/edit/",
+                statusFilter: ['active', 'archived', 'draft','declined', 'paused'],
+                selectedStatuses: []
                 
             }
         },
@@ -208,15 +213,33 @@
         },
 
         computed: {
+
             filteredCampaigns() {
 
                 if(!this.campaigns) return this.campaigns;
 
-                var obj = this;
+                var campaigns = this.campaigns;
+                var statuses = this.selectedStatuses;
+                var result = [];
+                if(statuses == '') {
+                    for(var c in campaigns) {
+                        if(campaigns[c].status != 'archived') {
+                            result.push(campaigns[c]);
+                        }
+                    }
+                    return result;
+                }
 
-                return this.campaigns.filter(function (campaign) {
-                    return campaign.name.toLowerCase().indexOf(obj.$root.search.toLowerCase())>=0;
-                });
+                else {
+                    for(var c in campaigns) {
+                        for(var s in statuses) {
+                            if(campaigns[c].status == statuses[s]) {
+                                result.push(campaigns[c]);
+                            }
+                        }   
+                    }
+                    return result;
+                }
             }
         },
 
