@@ -315,28 +315,33 @@
             },
 
             updateDetailsDraft() {
+                if(this.$root.editMode == true) return;
+                else {
+                    var payload = this.draftData();
 
-                var payload = this.draftData();
-
-                axios.put(this.$root.uri + '/campaigns/' + this.campaign.id, payload, this.$root.config).then(response => {
-                }, error => {
-                    this.alert = true;
-                    this.error = true;
-                    this.success = false;
-                    this.alertMessage = 'Something went wrong';
-                });  
+                    axios.put(this.$root.uri + '/campaigns/' + this.campaign.id, payload, this.$root.config).then(response => {
+                    }, error => {
+                        this.alert = true;
+                        this.error = true;
+                        this.success = false;
+                        this.alertMessage = 'Something went wrong';
+                    });  
+                }
             },
 
             updateDraftBudget() {
-                var payload = this.campaign.budget.data;
-
-                axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/budget', payload, this.$root.config).then(response => {
-                }, error => {
-                    this.alert = true;
-                    this.error = true;
-                    this.success = false;
-                    this.alertMessage = 'Something went wrong';
-                });
+                if(this.$root.editMode == true) return;
+                else {
+                    var payload = this.campaign.budget.data;
+    
+                    axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/budget', payload, this.$root.config).then(response => {
+                    }, error => {
+                        this.alert = true;
+                        this.error = true;
+                        this.success = false;
+                        this.alertMessage = 'Something went wrong';
+                    });
+                }
             },
             
             getTimeActiveClass(d, t) {

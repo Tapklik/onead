@@ -48,15 +48,19 @@
 
             updateDraftCategories(){
 
-                var payload = this.campaign.cat.data;
+                if(this.$root.editMode == true) return;
 
-                axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/cat', payload, this.$root.config).then(response => {
-                }, error => {
-                    this.alert = true;
-                    this.error = true;
-                    this.success = false;
-                    this.alertMessage = 'Something went wrong';
-                });
+                else {
+                    var payload = this.campaign.cat.data;
+    
+                    axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/cat', payload, this.$root.config).then(response => {
+                    }, error => {
+                        this.alert = true;
+                        this.error = true;
+                        this.success = false;
+                        this.alertMessage = 'Something went wrong';
+                    });
+                }
             },
            
         },

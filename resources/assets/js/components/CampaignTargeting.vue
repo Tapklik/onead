@@ -279,29 +279,33 @@
 
             updateDraftDevice(){
 
-                var payload = this.collectDevices();
+                if(this.$root.editMode == true) return;
 
-                axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/device/type', {types: payload.types}, this.$root.config).then(response => {
-                }, error => {
-                    this.alert = true;
-                    this.error = true;
-                    this.success = false;
-                    this.alertMessage = 'Something went wrong';
-                });
-                axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/device/model', {models: payload.models}, this.$root.config).then(response => {
-                }, error => {
-                    this.alert = true;
-                    this.error = true;
-                    this.success = false;
-                    this.alertMessage = 'Something went wrong';
-                });
-                axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/device/os', {os: payload.os}, this.$root.config).then(response => {
-                }, error => {
-                    this.alert = true;
-                    this.error = true;
-                    this.success = false;
-                    this.alertMessage = 'Something went wrong';
-                });
+                else {
+                    var payload = this.collectDevices();
+    
+                    axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/device/type', {types: payload.types}, this.$root.config).then(response => {
+                    }, error => {
+                        this.alert = true;
+                        this.error = true;
+                        this.success = false;
+                        this.alertMessage = 'Something went wrong';
+                    });
+                    axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/device/model', {models: payload.models}, this.$root.config).then(response => {
+                    }, error => {
+                        this.alert = true;
+                        this.error = true;
+                        this.success = false;
+                        this.alertMessage = 'Something went wrong';
+                    });
+                    axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/device/os', {os: payload.os}, this.$root.config).then(response => {
+                    }, error => {
+                        this.alert = true;
+                        this.error = true;
+                        this.success = false;
+                        this.alertMessage = 'Something went wrong';
+                    });
+                }
             },
 
             collectDevices() {
@@ -347,30 +351,39 @@
 
             updateDraftGeography(){
 
-                var payload = this.collectGeography();
+                if(this.$root.editMode == true) return;
 
-                axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/geo', {geo: payload}, this.$root.config).then(response => {
-                }, error => {
-                    this.alert = true;
-                    this.error = true;
-                    this.success = false;
-                    this.alertMessage = 'Something went wrong';
-                });
+                else {
+                    var payload = this.collectGeography();
+    
+                    axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/geo', {geo: payload}, this.$root.config).then(response => {
+                    }, error => {
+                        this.alert = true;
+                        this.error = true;
+                        this.success = false;
+                        this.alertMessage = 'Something went wrong';
+                    });
+                }
             },
             collectUser() {
                 return this.campaign.user.data;
             },
 
             updateDraftUser(){
-                var payload = this.collectUser();
+                
+                if(this.$root.editMode == true) return;
 
-                axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/users', payload, this.$root.config).then(response => {
-                }, error => {
-                    this.alert = true;
-                    this.error = true;
-                    this.success = false;
-                    this.alertMessage = 'Something went wrong';
-                });
+                else {
+                    var payload = this.collectUser();
+    
+                    axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/users', payload, this.$root.config).then(response => {
+                    }, error => {
+                        this.alert = true;
+                        this.error = true;
+                        this.success = false;
+                        this.alertMessage = 'Something went wrong';
+                    });
+                }
             }
 
         },
