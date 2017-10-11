@@ -14,6 +14,7 @@
                     </v-flex>
                     <v-flex xs8 md6>
                         <v-text-field
+                        :rules="campaignNameRules()"
                         label="Campaign Name"
                         prepend-icon="mode_edit"
                         v-model="campaign.name"
@@ -39,6 +40,7 @@
                             append-icon="date_range"
                             single-line
                             readonly
+                            :rules="startDateRules()"
                             slot="activator"
                             v-model="campaign.start_time"
                             v-on:change="updateDetailsDraft()"
@@ -58,6 +60,7 @@
                             append-icon="date_range"
                             single-line
                             readonly
+                            :rules="endDateRules()"
                             slot="activator"
                             v-on:change="updateDetailsDraft()"
                             v-model="campaign.end_time"
@@ -79,6 +82,7 @@
                             single-line
                             type="url"
                             v-on:blur="updateDetailsDraft()"
+                            :rules="domainRules()"
                             v-model="campaign.adomain"
                             ></v-text-field>
                         </form>
@@ -97,6 +101,7 @@
                             single-line
                             type="url"
                             v-on:blur="updateDetailsDraft()"
+                            :rules="urlRules()"
                             v-model="campaign.ctrurl"
                             ></v-text-field>
                         </form>
@@ -129,6 +134,7 @@
                         v-on:blur="updateDraftBudget()"
                         prepend-icon="attach_money"
                         v-model="budgetUsd"
+                        :rules="budgetBidrules()"
                         single-line
                         type="number"
                         ></v-text-field>
@@ -141,6 +147,7 @@
                     </v-flex>
                     <v-flex xs8 md5>
                         <v-text-field
+                        :rules="budgetBidrules()"
                         label="0.00"
                         v-on:change="updateDetailsDraft()"
                         prepend-icon="attach_money"
@@ -236,6 +243,7 @@
                                 </v-card-actions>
                             </v-card>   
                         </v-dialog>
+                        <br> <span class="red--text" v-show="daysAndTimesRules()">You must select days and times</span>
                     </v-flex>
                 </v-layout>
             </v-flex>
@@ -293,6 +301,61 @@
             }
         },
         methods: {
+            campaignNameRules() {
+                var name = ['too short'];
+                if(this.campaign.name.length < 4) {
+                    return name;
+                }
+            },
+
+            budgetBidrules() {
+                var bid = ['budget must be higher than bid'];
+                if(this.campaign.bid > this.campaign.budget.data.amount) {
+                    return bid;
+                }
+            },
+
+            startDateRules() {
+                var date = ['start before end'];
+                var todayDate = ['this date is before today']
+                var today = this.$parent.$parent.$parent.getDate(0);
+                if (this.campaign.start_time >= this.campaign.end_time) {
+                    return date;
+                }
+                else if(this.campaign.start_time < today && this.$root.editMode == false) {
+                    return todayDate;
+                }
+            },
+
+            domainRules() {
+                var domain = ['not a valid domain'];
+                if(this.campaign.adomain.includes(".")) return;
+                else return domain;
+            },
+
+            urlRules() {
+                var url = ['not a valid url'];
+                if((this.campaign.ctrurl.startsWith("http://") && this.campaign.ctrurl.includes("."))|| (this.campaign.ctrurl.startsWith("https://") && this.campaign.ctrurl.includes("."))) return;
+                else return url;
+            },
+
+            endDateRules() {
+                var date = ['start before end'];
+                var todayDate = ['this date is before today'];
+                var today = this.$parent.$parent.$parent.getDate(0);
+                if (this.campaign.start_time >= this.campaign.end_time) {
+                    return date;
+                }
+                else if(this.campaign.end_time < today && this.$root.editMode == false) {
+                    return todayDate;
+                }
+            },
+
+            daysAndTimesRules() {
+                if(this.selectedTimes == '' || this.selectedDays=='') return true;
+                else return false
+            },
+
             openModal() {
                 this.$root.modalIsOpen = true;
                 return false;

@@ -207,7 +207,7 @@
         <v-layout row wrap class="mt-4 mb-b"> 
             <v-flex xs12 class="text-xs-center">
                 <v-btn v-show="!$root.editMode" 
-                primary large 
+                primary large
                 @click="createCampaign()"
                 ><v-icon left class="white--text">cloud_upload</v-icon>Start Campaign
                 </v-btn>
@@ -253,6 +253,7 @@
         },
 
         methods: {
+
             createCampaign () {
                 this.batch.push(0);
                 this.ajax = true;

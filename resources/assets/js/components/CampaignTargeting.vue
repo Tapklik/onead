@@ -12,6 +12,7 @@
                     <v-flex xs12 class="mt-4">
                         <span class="title">Devices</span>
                         <p class="caption ma-0">Select device types</p>
+                        <span class="red--text" v-show="devicesRules()">You must select at least one type, operating system or browser</span>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap>
@@ -67,6 +68,7 @@
                         @keyup="reloadGeo()"
                           v-bind:items="geo"
                           v-model="campaign.geo.data"
+                          :rules="geoRules()"
                           item-text="key"
                           return-object
                           prepernd-icon="add_location"
@@ -103,6 +105,7 @@
                     <v-flex xs12>
                         <span class="title">Target Audience Gender</span>
                         <p class="caption ma-0">Set gender for target audience</p>
+                        <span class="red--text" v-show="genderRules()">You must select at least one gender</span>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap>
@@ -221,6 +224,22 @@
             }
         },
         methods: {
+            geoRules() {
+                var geo = ['you must select at least one location']
+                if(this.campaign.geo.data == '') return geo;
+                else return;
+            },
+
+            devicesRules() {
+                if(this.campaign.device.data.type == '' && this.campaign.device.data.os == '' && this.campaign.device.data.ua == '') return true;
+                else return false;
+            },
+
+            genderRules() {
+                if(this.campaign.user.data.gender == '') return true;
+                else return false;
+            },
+
             showNothing() {
                 var a = {key: ''};
                 return a;
