@@ -214,6 +214,7 @@
                 </v-btn>
                 <v-btn v-show="$root.editMode" 
                 primary large 
+                :disabled="!validCampaign()"
                 @click="updateCampaign()"
                 ><v-icon left class="white--text">cloud_upload</v-icon>Update {{campaign.name}}
                 </v-btn>
