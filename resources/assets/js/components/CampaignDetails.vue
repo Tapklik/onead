@@ -304,14 +304,24 @@
             campaignNameRules() {
                 var name = ['too short'];
                 if(this.campaign.name.length < 4) {
+                    this.$parent.$parent.$parent.validName = false;
                     return name;
+                }
+                else {
+                    this.$parent.$parent.$parent.validName = true;   
                 }
             },
 
             budgetBidrules() {
                 var bid = ['budget must be higher than bid'];
                 if(this.campaign.bid > this.campaign.budget.data.amount) {
+                    this.$parent.$parent.$parent.validBid = false;   
+                    this.$parent.$parent.$parent.validBudget = false;   
                     return bid;
+                }
+                else {
+                    this.$parent.$parent.$parent.validBid = true;   
+                    this.$parent.$parent.$parent.validBudget = true;
                 }
             },
 
@@ -321,22 +331,39 @@
                 var today = this.$parent.$parent.$parent.getDate(0);
                 if (this.campaign.start_time >= this.campaign.end_time) {
                     return date;
+                    this.$parent.$parent.$parent.validStart = false;
                 }
                 else if(this.campaign.start_time < today && this.$root.editMode == false) {
                     return todayDate;
+                    this.$parent.$parent.$parent.validStart = false;
+                }
+
+                else {
+                    this.$parent.$parent.$parent.validStart = true;
                 }
             },
 
             domainRules() {
-                var domain = ['not a valid domain'];
-                if(this.campaign.adomain.includes(".")) return;
-                else return domain;
+                var url = ['not a valid domain'];
+                if((this.campaign.ctrurl.startsWith("http://") && this.campaign.ctrurl.includes("."))|| (this.campaign.ctrurl.startsWith("https://") && this.campaign.ctrurl.includes("."))) {
+                    this.$parent.$parent.$parent.validDomain = true;
+                }
+                else { 
+                    this.$parent.$parent.$parent.validDomain = false;
+                    return url;
+                }
             },
 
             urlRules() {
                 var url = ['not a valid url'];
-                if((this.campaign.ctrurl.startsWith("http://") && this.campaign.ctrurl.includes("."))|| (this.campaign.ctrurl.startsWith("https://") && this.campaign.ctrurl.includes("."))) return;
-                else return url;
+                if((this.campaign.ctrurl.startsWith("http://") && this.campaign.ctrurl.includes("."))|| (this.campaign.ctrurl.startsWith("https://") && this.campaign.ctrurl.includes("."))) { 
+                    this.$parent.$parent.$parent.validUrl = true;
+                }
+
+                else { 
+                    this.$parent.$parent.$parent.validUrl = false;
+                    return url;
+                }
             },
 
             endDateRules() {
@@ -344,16 +371,29 @@
                 var todayDate = ['this date is before today'];
                 var today = this.$parent.$parent.$parent.getDate(0);
                 if (this.campaign.start_time >= this.campaign.end_time) {
+                    this.$parent.$parent.$parent.validEnd = false;
                     return date;
                 }
                 else if(this.campaign.end_time < today && this.$root.editMode == false) {
+                    this.$parent.$parent.$parent.validEnd = false;
                     return todayDate;
+                }
+                else {
+                    this.$parent.$parent.$parent.validEnd = true;
                 }
             },
 
             daysAndTimesRules() {
-                if(this.selectedTimes == '' || this.selectedDays=='') return true;
-                else return false
+                if(this.selectedTimes == '' || this.selectedDays=='') {
+                    this.$parent.$parent.$parent.validPacing = false;
+                    return true;
+                }
+       
+                else {
+                    this.$parent.$parent.$parent.validPacing = true;
+                    return false
+                }
+            
             },
 
             openModal() {

@@ -56,6 +56,19 @@
 
         data() {
             return {
+                validName: false,
+                validBid: false,
+                validBudget: false,
+                validStart: false,
+                validEnd: false,
+                validDomain: false,
+                validUrl: false,
+                validPacing: false,
+                validCreatives: false,
+                validCategories: false,
+                validGeo: false,
+                validGender: false,
+                validDevices: false,
                 technologiesList: [],
                 alert: false,
                 error: false,

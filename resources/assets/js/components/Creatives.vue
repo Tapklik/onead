@@ -450,14 +450,14 @@
             },
 
             domainRules() {
-                var domain = ['not a valid domain'];
-                if(this.creativeAttributes.url.includes(".")) {
+                var url = ['not a valid url'];
+                if((this.creativeAttributes.url.startsWith("http://") && this.creativeAttributes.url.includes("."))|| (this.creativeAttributes.url.startsWith("https://") && this.creativeAttributes.url.includes("."))) {
                     this.validUrl = true;
-                    return;
                 }
+                
                 else {
                     this.validUrl = false;
-                    return domain;
+                    return url;
                 }
             },
 

@@ -226,18 +226,35 @@
         methods: {
             geoRules() {
                 var geo = ['you must select at least one location']
-                if(this.campaign.geo.data == '') return geo;
-                else return;
+                if(this.campaign.geo.data == '') {
+                    this.$parent.$parent.$parent.validGeo = false;
+                    return geo;
+                }
+                else {
+                    this.$parent.$parent.$parent.validGeo = true;
+                }
             },
 
             devicesRules() {
-                if(this.campaign.device.data.type == '' && this.campaign.device.data.os == '' && this.campaign.device.data.ua == '') return true;
-                else return false;
+                if(this.campaign.device.data.type == '' && this.campaign.device.data.os == '' && this.campaign.device.data.ua == '') {
+                    this.$parent.$parent.$parent.validDevices = false;
+                    return true;
+                }
+                else {
+                    this.$parent.$parent.$parent.validDevices = true; 
+                    return false;
+                }
             },
 
             genderRules() {
-                if(this.campaign.user.data.gender == '') return true;
-                else return false;
+                if(this.campaign.user.data.gender == '') {
+                    this.$parent.$parent.$parent.validGender = false;
+                    return true;
+                }
+                else {
+                    this.$parent.$parent.$parent.validGender = true;
+                    return false;
+                }
             },
 
             showNothing() {

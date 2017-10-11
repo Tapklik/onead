@@ -47,8 +47,14 @@
 
         methods: {
             categoriesRules() {
-                if(this.selectedCategories == '') return true
-                else return false;
+                if(this.selectedCategories == '') {
+                    this.$parent.$parent.$parent.validCategories = false; 
+                    return true
+                }
+                else {
+                    this.$parent.$parent.$parent.validCategories = true;
+                    return false;
+                }
             },
 
             updateDraftCategories(){

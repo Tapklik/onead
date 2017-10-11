@@ -180,8 +180,16 @@
 
         methods: {
             creativesRules() {
-                if(this.campaign.creatives.data == '') return true;
-                else return false;
+                if(this.campaign.creatives.data == '') {
+                    this.$parent.$parent.$parent.validCreatives = false;
+                    return true;
+                }
+                
+                else {
+                    this.$parent.$parent.$parent.validCreatives = true;
+                    return false;
+                }
+            
             },
 
             collectCreatives() {

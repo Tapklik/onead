@@ -208,6 +208,7 @@
             <v-flex xs12 class="text-xs-center">
                 <v-btn v-show="!$root.editMode" 
                 primary large
+                :disabled="!validCampaign()"
                 @click="createCampaign()"
                 ><v-icon left class="white--text">cloud_upload</v-icon>Start Campaign
                 </v-btn>
@@ -241,7 +242,8 @@
                 error: false,
                 alertMessage: '',
                 ajax: false,
-                batch: []
+                batch: [],
+                something: 0
             }
         },
 
@@ -253,22 +255,30 @@
         },
 
         methods: {
+            validCampaign() {
+                if (this.$parent.$parent.$parent.validName == true &&
+                    this.$parent.$parent.$parent.validBid == true &&
+                    this.$parent.$parent.$parent.validBudget == true &&
+                    this.$parent.$parent.$parent.validStart == true &&
+                    this.$parent.$parent.$parent.validEnd == true &&
+                    this.$parent.$parent.$parent.validDomain == true &&
+                    this.$parent.$parent.$parent.validUrl == true &&
+                    this.$parent.$parent.$parent.validPacing == true &&
+                    this.$parent.$parent.$parent.validCreatives == true &&
+                    this.$parent.$parent.$parent.validCategories == true &&
+                    this.$parent.$parent.$parent.validGeo == true &&
+                    this.$parent.$parent.$parent.validGender == true &&
+                    this.$parent.$parent.$parent.validDevices == true) {
+                    return true;      
+                }
+                else return false;
+            },
 
             createCampaign () {
                 this.batch.push(0);
                 this.ajax = true;
 
-                axios.post(this.$root.uri + '/campaigns', this.collectCampaign(), this.$root.config).then(response => {
-                    this.campaign.id = response.data.data.id;
-
-
-                    this.updateCampaignCategories();
-                    this.updateCampaignUser();
-                    this.updateCampaignGeography();
-                    this.updateCampaignDevice();
-                    this.updateCampaignBudget();
-                    this.updateCampaignCreatives();
-                    
+                axios.put(this.$root.uri + '/campaigns/' + this.campaign.id, {status: 'active'}, this.$root.config).then(response => {                    
                     this.alert = true;
                     this.success = true;
                     this.error = false;
@@ -284,6 +294,11 @@
                 });
             },
 
+            updateMessage() {
+                this.alertMessage = 'Successfully updated campaign';
+                window.location = '/admin/campaigns?m=' + this.alertMessage;
+            },
+
             updateCampaign () {
                 this.ajax = true;
 
@@ -294,8 +309,6 @@
                 this.updateCampaignDevice();
                 this.updateCampaignBudget();
                 this.updateCampaignCreatives();
-
-                
             },
 
             updateCampaignDetails(){
@@ -305,6 +318,8 @@
 
                 axios.put(this.$root.uri + '/campaigns/' + this.campaign.id, payload, this.$root.config).then(response => {
                     this.batch.push(0);
+                    this.something = this.something + 1;
+
                 }, error => {
                     this.alert = true;
                     this.error = true;
@@ -319,6 +334,7 @@
 
                 axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/cat', payload, this.$root.config).then(response => {
                     this.batch.push(1);
+                    this.something = this.something + 1;
                 }, error => {
                     this.alert = true;
                     this.error = true;
@@ -332,6 +348,7 @@
 
                 axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/users', payload, this.$root.config).then(response => {
                     this.batch.push(2);
+                    this.something = this.something + 1;
                 }, error => {
                     this.alert = true;
                     this.error = true;
@@ -346,6 +363,7 @@
 
                 axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/geo', {geo: payload}, this.$root.config).then(response => {
                     this.batch.push(3);
+                    this.something = this.something + 1;
                 }, error => {
                     this.alert = true;
                     this.error = true;
@@ -360,6 +378,7 @@
 
                 axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/device/type', {types: payload.types}, this.$root.config).then(response => {
                     this.batch.push(4);
+                    this.something = this.something + 1;
                 }, error => {
                     this.alert = true;
                     this.error = true;
@@ -368,7 +387,7 @@
                 });
                 axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/device/model', {models: payload.models}, this.$root.config).then(response => {
                     this.batch.push(5);
-
+                    this.something = this.something + 1;
                 }, error => {
                     this.alert = true;
                     this.error = true;
@@ -377,6 +396,7 @@
                 });
                 axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/device/os', {os: payload.os}, this.$root.config).then(response => {
                     this.batch.push(6);
+                    this.something = this.something + 1;
                 }, error => {
                     this.alert = true;
                     this.error = true;
@@ -391,6 +411,7 @@
 
                 axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/budget', payload, this.$root.config).then(response => {
                     this.batch.push(7);
+                    this.something = this.something + 1;
                 }, error => {
                     this.alert = true;
                     this.error = true;
@@ -405,6 +426,7 @@
 
                 axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/creatives', {creatives: payload}, this.$root.config).then(response => {
                     this.batch.push(8);
+                    this.something = this.something + 1;
                 }, error => {
                     this.alert = true;
                     this.error = true;
@@ -442,8 +464,7 @@
                     test: this.campaign.test,
                     status: this.campaign.status,
                     weight: this.campaign.weight,
-                    node: this.campaign.node,
-                    account_id: 1
+                    node: this.campaign.node
                 };
                 }
             },
@@ -508,6 +529,9 @@
                     this.ajax = false;
                     this.batch = [];
                 }
+            },
+            something(value) {
+                if (value == 9) this.updateMessage();
             }
         },
 
