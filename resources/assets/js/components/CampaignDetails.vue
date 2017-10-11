@@ -345,7 +345,7 @@
 
             domainRules() {
                 var url = ['not a valid domain'];
-                if((this.campaign.ctrurl.startsWith("http://") && this.campaign.ctrurl.includes("."))|| (this.campaign.ctrurl.startsWith("https://") && this.campaign.ctrurl.includes("."))) {
+                if((this.campaign.adomain.startsWith("http://") && this.campaign.adomain.includes("."))|| (this.campaign.adomain.startsWith("https://") && this.campaign.adomain.includes("."))) {
                     this.$parent.$parent.$parent.validDomain = true;
                 }
                 else { 
