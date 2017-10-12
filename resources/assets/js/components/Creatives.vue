@@ -34,6 +34,7 @@
                                                         >
                                                             <div class="uploader-title"><v-icon>cloud_upload</v-icon> Drop Files Here</div>
                                                         </v-card>
+                                                        <span class="red--text" v-show="!validFile">You must upload an image</span>
                                                     </v-flex>
                                                 </v-layout>
                                                 <v-divider class="mt-4"></v-divider>
@@ -396,6 +397,7 @@
                 validUrl: false,
                 validFolder: false,
                 validClass: false,
+                validFile: false,
                 responsiveData: false,
                 sample: 'sample',
                 dimensionsShow: '',
@@ -537,7 +539,9 @@
                 this.dropzone.on("addedfile", function(file, thumb) {
                     var sizeInterval = setInterval(function () {
                         if(typeof file.width != 'undefined') {
-                            
+
+                            this.validFile = true;
+
                             this.creativeAttributes = {
                                 w: file.width, 
                                 h: file.height, 
