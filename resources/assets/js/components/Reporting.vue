@@ -580,20 +580,38 @@
             },
 
             startingData() {
-                return {
-                    data: [
+                return [
                     {
                         clicks: 0,
+                        ctr: 0,
+                        date: this.date_from,
+                        ecpc: 0,
+                        ecpm: 0,
                         imps: 0,
-                        date: this.date_from
+                        spend: 0
                     },
                     {
                         clicks: 0,
+                        ctr: 0,
+                        date: this.date_to,
+                        ecpc: 0,
+                        ecpm: 0,
                         imps: 0,
-                        date: this.date_to 
-                    }]
+                        spend: 0 
+                    }
+                ]
+            },
+
+            startingDataSummary() {
+                return {
+                    clicks: 0,
+                    ctr: 0,
+                    ecpc: 0,
+                    ecpm: 0,
+                    imps: 0,
+                    spend: 0
                 }
-            }            
+            }
         },
 
         methods: {
@@ -947,17 +965,18 @@ dataCall(report, responseList, responseListSummary, chart) {
             results[v].ctr = this.$root.twoDecimalPlaces(results[v].ctr * 100);
             results[v].spend = this.$root.fromMicroDollars(results[v].spend);
         }
-        this[responseList] = results;
 
-
-        if(this[responseList] == undefined) {
-            this.createChart(chart, this.startingData.data[0].clicks, this.column, this.line);
+        if(results == undefined) {
+            this[responseList] = this.startingData;
+            this.createChart(chart, this[responseList], this.column, this.line);
         }
         else {
+            this[responseList] = results;
             this.createChart(chart, this[responseList], this.column, this.line);
         }
     }, error => {
-        this.createChart(chart, this.startingData.data[0].clicks);
+            this[responseList] = this.startingData;
+            this.createChart(chart, this[responseList], this.column, this.line);
                     this.alert = true;
                     this.error = true;
                     this.success = false;
@@ -965,8 +984,15 @@ dataCall(report, responseList, responseListSummary, chart) {
     });
     axios.get(this.$root.reportUri + this.generateQuery(report, 'summary'))
     .then(response => {
+        var summary = response.data.data;
+        if(summary == undefined) {
+            this[responseListSummary] = this.startingDataSummary;
+        }
+        else {
         this[responseListSummary] = response.data.data;
+        }
     }, error => {
+                    this[responseListSummary] = this.startingDataSummary;
                     this.alert = true;
                     this.error = true;
                     this.success = false;
@@ -1032,6 +1058,9 @@ watch: {
         // HERE YOU CREATE FIRST VERSION OF THE CHART ONCE THE DATA IS LOADED
         this.generateCharts()
     },
+    tabIndex(value) {
+        this.generateCharts();
+    }
 }
 }
 </script>
