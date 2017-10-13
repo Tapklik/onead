@@ -23,13 +23,20 @@
                     <v-card-text>
                         <v-layout row wrap>
                             <v-flex xs12>
-                                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
+                                <v-alert 
+                                dismissible 
+                                v-bind:success='success'
+                                v-bind:error='error' 
+                                v-model="alert" 
+                                transition="scale-transition">
+                                    {{alertMessage}}
+                                </v-alert>
+                                
                                 <v-data-table 
                                 v-bind:items="bills" 
                                 v-bind:search="search" 
                                 v-bind:rows-per-page-items="[10, 25, { text: 'All', value: -1 }]"
-                                class="no-headers"
-                                >
+                                class="no-headers">
                                     <template slot="headers" scope="props">
                                         &nbsp;
                                     </template>

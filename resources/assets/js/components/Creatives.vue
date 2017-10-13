@@ -539,7 +539,7 @@
                 this.dropzone.on("addedfile", function(file, thumb) {
                     var sizeInterval = setInterval(function () {
                         if(typeof file.width != 'undefined') {
-
+                            console.log(file);
                             this.validFile = true;
 
                             this.creativeAttributes = {
@@ -759,7 +759,16 @@
             },
             responsiveData(value) {
                 this.creativeAttributes.responsive = value;
+            },
+
+            folders(value) {
+                this.folderId = value.data[0].key;
             }
         }
     }
 </script>
+<style type="text/css">
+    .dz-preview {
+        display:none;
+    }
+</style>
