@@ -108,19 +108,22 @@
                                 <span class="title">{{ props.item.name }}</span>
                             </td>
                             <td>
-                                <v-chip v-if="props.item.status == 'active'" small class="green white--text">
+                                <v-chip v-if="props.item.status == 'active'" small class="green lighten-1 white--text">
                                     <small>ACTIVE</small>
                                 </v-chip>
-                                <v-chip v-else-if="props.item.status == 'archived'" small class="black darken-2 white--text">
+                                <v-chip v-else-if="props.item.status == 'archived'" small class="grey lighten-1 white--text">
                                     <small>ARCHIVED</small>
                                 </v-chip>
-                                <v-chip v-else-if="props.item.status == 'paused'" small class="yellow darken-2 white--text">
+
+                                <v-chip v-else-if="props.item.status == 'paused'" small class="yellow darken-1 white--text">
                                     <small>PAUSED</small>
                                 </v-chip>
-                                <v-chip v-else-if="props.item.status == 'stopped'" small class="red darken-2 white--text">
-                                    <small>STOPPED</small>
+
+                                <v-chip v-else-if="props.item.status == 'declined'" small class="red lighten-1 white--text">
+                                    <small>DECLINED</small>
                                 </v-chip>
-                                <v-chip v-else small class="grey white--text">
+
+                                <v-chip v-else small class="grey lighten-2 white--text">
                                     <small>DRAFT</small>
                                 </v-chip>
                             </td>
@@ -150,11 +153,14 @@
                                 <span class="title">{{ props.item.name }}</span>
                             </td>
                             <td>
-                                <v-chip v-if="props.item.approved == 'approved'" small class="green white--text">
+                                <v-chip v-if="props.item.approved == 'approved'" small class="green lighten-1 white--text">
                                     <small>APPROVED</small>
                                 </v-chip>
-                                <v-chip v-else small class="yellow darken-2 white--text">
-                                    <small>NOT APPROVED</small>
+                                <v-chip v-else-if="props.item.approved == 'pending'" small class="yellow darken-1 white--text">
+                                    <small>PENDING</small>
+                                </v-chip>
+                                <v-chip v-else small class="red lighten-1 white--text">
+                                    <small>DECLINED</small>
                                 </v-chip>
                             </td>
                             <td class="text-xs-right">

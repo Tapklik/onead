@@ -283,13 +283,13 @@
                                                 <span class="caption">{{ props.item.id }}</span>
                                             </td>
                                             <td>
-                                                <v-chip v-if="props.item.approved == 'approved'" small class="green white--text">
+                                                <v-chip v-if="props.item.approved == 'approved'" small class="green lighten-1 white--text">
                                                     <small>APPROVED</small>
                                                 </v-chip>
-                                                <v-chip v-else-if="props.item.approved == 'pending'" small class="yellow darken-2 white--text">
+                                                <v-chip v-else-if="props.item.approved == 'pending'" small class="yellow darken-1 white--text">
                                                     <small>PENDING</small>
                                                 </v-chip>
-                                                <v-chip v-else small class="red white--text">
+                                                <v-chip v-else small class="red lighten-1 white--text">
                                                     <small>DECLINED</small>
                                                 </v-chip>
                                             </td>
