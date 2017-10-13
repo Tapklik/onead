@@ -9,7 +9,7 @@
                             <v-layout row wrap>
                                 <v-flex xs-12 md6 lg4>
                                     <v-select :items="campaignList" item-text="name" prepend-icon="important_devices" item-value="id" chips v-model="selectedCampaigns1" label="Campaigns" multiple autocomplete></v-select>
-                                    <v-select :items="creativesList" item-text="name" prepend-icon="photo_library" item-value="id" chips v-model="selectedCreatives1" label="Creatives" multiple autocomplete></v-select>
+                                    <v-select :items="creativesList" item-text="name" prepend-icon="photo_library" item-value="id" chips v-model="selectedCreatives1" :disabled="!campaignsPresent" label="Creatives" multiple autocomplete></v-select>
                                 </v-flex>
                                 <v-spacer></v-spacer>
                                 <v-flex xs-12 md6>
@@ -479,7 +479,8 @@
                 overallLsit: [],
                 publishersList: [],
                 geoList: [],
-                devicesList: []
+                devicesList: [],
+                campaignsPresent: false,
             }
         },
         
@@ -991,6 +992,8 @@ watch: {
         this.fetchCampaigns();
     },
     selectedCampaigns1(value) {
+        if(value != '') this.campaignsPresent = true;
+        else this.campaignsPresent = false;
         this.generateCharts(); 
     },
     selectedCreatives1(value) {
