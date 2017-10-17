@@ -14,7 +14,7 @@
             	<v-card-text>
             		<v-layout row wrap>
 	                	<v-flex xs12 md8 offset-sm2 class="red--text" v-show="errorMessageDisplay">
-	                		You entered an incorrect username or password.
+	                		{{errorMessage}}
 	                	</v-flex>
 	                    <v-flex xs12 sm8 offset-sm2 class="pt-4">
 							<p class="body-2 text-xs-justify">
@@ -84,7 +84,8 @@
 	            email: '',
 				password: '',
 				isLoading: false,
-				error: ''
+				error: '',
+				errorMessage: ''
 			}
 		},
 
@@ -101,6 +102,7 @@
 					this.token = atob(response.data.token);
                     this.isLoading = false;
 				}, error => {
+				    this.errorMessage = error.response.data.error.details;
 					this.errorMessageDisplay = true;
 				    this.error = error.data.error;
                     this.isLoading = false;
