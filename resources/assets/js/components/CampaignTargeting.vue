@@ -65,13 +65,12 @@
                 <v-layout row wrap xs12>
                     <v-flex xs12>
                         <v-select
-                        @keyup="reloadGeo()"
                           v-bind:items="geo"
                           v-model="campaign.geo.data"
                           :rules="geoRules()"
                           item-text="key"
                           return-object
-                          prepernd-icon="add_location"
+                          prepend-icon="add_location"
                           :search-input.sync="searchCountry"
                           @change="showNothing()"
                           @blur="updateDraftGeography()"
@@ -476,6 +475,9 @@
                 if(this.campaign.id) return;
                 this.updateDraftUser();
             },
+            searchCountry(value) {
+                this.reloadGeo();
+            }
         }
     }
 </script>
