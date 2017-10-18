@@ -10,19 +10,20 @@
                                 <v-icon>add</v-icon> Add campaign
                             </v-btn> 
                         </v-flex>
-                        <v-flex xs12 md3 lg3>
-                            <v-select :items="statusFilter" prepend-icon="search" chips v-model="selectedStatuses" label="Status" multiple></v-select>
-                        </v-flex>
-                        <v-flex xs12 md3 lg3>
-                            <v-text-field 
-                                append-icon="search" 
-                                label="Search" 
-                                single-line 
-                                hide-details 
-                                class="right"
-                                v-model="search">
-                            </v-text-field>
-                        </v-flex>
+                        <v-layout row wrap justify-space-between>
+                            <v-flex xs12 md6 lg6>
+                                <v-select :items="statusFilter" chips v-model="selectedStatuses" label="Status" multiple></v-select>
+                            </v-flex>
+                            <v-flex xs12 md5 lg5>
+                                <v-text-field 
+                                    label="Search" 
+                                    single-line 
+                                    hide-details 
+                                    class="right"
+                                    v-model="search">
+                                </v-text-field>
+                            </v-flex>
+                        </v-layout>
                     </v-card-title>
                     <v-divider></v-divider>
                     <v-card-text>
