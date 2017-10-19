@@ -209,13 +209,15 @@
                 <v-btn v-show="!$root.editMode" 
                 primary large
                 :disabled="!validCampaign()"
-                @click="createCampaign()"
+                @click="loading = true, createCampaign()"
+                :loading="loading"
                 ><v-icon left class="white--text">cloud_upload</v-icon>Start Campaign
                 </v-btn>
                 <v-btn v-show="$root.editMode" 
                 primary large 
                 :disabled="!validCampaign()"
-                @click="updateCampaign()"
+                @click="loading = true, updateCampaign()"
+                :loading="loading"
                 ><v-icon left class="white--text">cloud_upload</v-icon>Update {{campaign.name}}
                 </v-btn>
             </v-flex>
@@ -292,6 +294,7 @@
                     this.success = false;
                     this.error = true;
                     this.alertMessage = 'Something went wrong';
+                    this.loading = false;
                 });
             },
 
@@ -326,6 +329,7 @@
                     this.error = true;
                     this.success = false;
                     this.alertMessage = 'Something went wrong';
+                    this.loading = false;
                 });
             },
 
@@ -341,6 +345,7 @@
                     this.error = true;
                     this.success = false;
                     this.alertMessage = 'Something went wrong';
+                    this.loading = false;
                 });
             },
 
@@ -355,6 +360,7 @@
                     this.error = true;
                     this.success = false;
                     this.alertMessage = 'Something went wrong';
+                    this.loading = false;
                 });
             },
 
@@ -370,6 +376,7 @@
                     this.error = true;
                     this.success = false;
                     this.alertMessage = 'Something went wrong';
+                    this.loading = false;
                 });
             },
 
@@ -385,6 +392,7 @@
                     this.error = true;
                     this.success = false;
                     this.alertMessage = 'Something went wrong';
+                    this.loading = false;
                 });
                 axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/device/model', {models: payload.models}, this.$root.config).then(response => {
                     this.batch.push(5);
@@ -394,6 +402,7 @@
                     this.error = true;
                     this.success = false;
                     this.alertMessage = 'Something went wrong';
+                    this.loading = false;
                 });
                 axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/device/os', {os: payload.os}, this.$root.config).then(response => {
                     this.batch.push(6);
@@ -403,6 +412,7 @@
                     this.error = true;
                     this.success = false;
                     this.alertMessage = 'Something went wrong';
+                    this.loading = false;
                 });
             },
 
@@ -418,6 +428,7 @@
                     this.error = true;
                     this.success = false;
                     this.alertMessage = 'Something went wrong';
+                    this.loading = false;
                 });
             },
 
@@ -433,6 +444,7 @@
                     this.error = true;
                     this.success = false;
                     this.alertMessage = 'Something went wrong';
+                    this.loading = false;
                 });
             },
 

@@ -134,7 +134,7 @@
                                             <v-icon>close</v-icon>                                    
                                             Cancel
                                         </v-btn>
-                                        <v-btn primary dark :disabled="!(validClass && validWidth && validHeight && validName && validUrl && validFolder)" @click="uploadCreative(), showModal = false" class="elevation-0">
+                                        <v-btn :loading="loading" primary dark :disabled="!(validClass && validWidth && validHeight && validName && validUrl && validFolder)" @click="loading = true, uploadCreative()" class="elevation-0">
                                             <v-icon>done</v-icon>
                                             Save
                                         </v-btn>
@@ -436,7 +436,8 @@
                     class: 'banner',
                 },
                 thumb: '',
-                search: ''
+                search: '',
+                loading: false
             }
         },
         
@@ -656,6 +657,8 @@
                     this.error = true;
                     this.success = false;
                     this.alertMessage = 'The dimensions are not qualified and not up to iab standard';
+                    this.loading = false;
+                    this.showModal = false;
                 }
                 else
                 {
@@ -668,6 +671,8 @@
                             this.error = false;
                             this.success = true;
                             this.alertMessage = 'Uploaded successfully';
+                            this.loading = false;
+                            this.showModal = false;
 
                             setTimeout(function () {
                                 this.alert = false;
@@ -683,6 +688,8 @@
                             this.alert = true;
                             this.error = true;
                             this.success = false;
+                            this.loading = false;
+                            this.showModal = false;
                             this.alertMessage = 'Please choose a folder you wish to upload a creative to.';
                         }
                     }.bind(this));

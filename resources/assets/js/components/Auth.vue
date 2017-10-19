@@ -50,8 +50,9 @@
 	                        primary
 	                        large
 	                        dark
+	                        :loading = "loading"
 	                        class="elevation-0 pl-4 pr-4 ma-0 right"
-	                        @click="login()"
+	                        @click="loading = true, login()"
 	                        > LOGIN </v-btn>
 	                    </v-flex>
 	                </v-layout>
@@ -83,9 +84,8 @@
 	            token: false,
 	            email: '',
 				password: '',
-				isLoading: false,
-				error: '',
-				errorMessage: ''
+				errorMessage: '',
+				loading: false
 			}
 		},
 
@@ -102,10 +102,9 @@
 					this.token = atob(response.data.token);
                     this.isLoading = false;
 				}, error => {
+                    this.loading = false;
 				    this.errorMessage = error.response.data.error.details;
 					this.errorMessageDisplay = true;
-				    this.error = error.data.error;
-                    this.isLoading = false;
 				});
 			}
 		},
