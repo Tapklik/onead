@@ -246,7 +246,8 @@
                 alertMessage: '',
                 ajax: false,
                 batch: [],
-                something: 0
+                something: 0,
+                loading: false
             }
         },
 
