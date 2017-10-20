@@ -86,7 +86,8 @@ const app = new Vue({
         error1: false,
         alertmessage1: '',
         pagetitle: 'Something',
-        balance: 0
+        balance: 0,
+        flight: 0
     },
 
     methods: {
@@ -112,6 +113,12 @@ const app = new Vue({
         getAccountBalance() {
             axios.get(this.uri + '/accounts/' + this.user.accountUuId + '/banker/main?query=balance', this.config).then(response => {
                 this.balance = response.data.data.balance;
+                
+            }, error => {
+                swal('Error', error, 'error');
+            });
+            axios.get(this.uri + '/accounts/' + this.user.accountUuId + '/banker/flight?query=balance', this.config).then(response => {
+                this.flight = response.data.data.balance;
                 
             }, error => {
                 swal('Error', error, 'error');
