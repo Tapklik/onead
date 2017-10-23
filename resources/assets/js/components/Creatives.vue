@@ -267,26 +267,26 @@
                         <v-layout row wrap>
                             <v-flex xs12 md9>
                                 <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
-                                <v-data-table :items="creatives.data" hide-actions class="creatives-explorer no-headers" v-bind:rows-per-page-items="[10, 25, { value: -1 }]">
+                                <v-data-table :items="folderCreatives" hide-actions class="creatives-explorer no-headers" v-bind:rows-per-page-items="[10, 25, { value: -1 }]">
                                     <template slot="headers" scope="props">
                                         &nbsp;
                                     </template>
                                     <template slot="items" scope="props">
                                         <tr 
-                                        @mouseenter="imageSource = props.item.thumb, sample= props.item.name, statusShow = props.item.approved, 
-                                        typeShow = props.item.class, dimensionsShow = props.item.w + 'x' + props.item.h"
+                                        @mouseenter="imageSource = props.item.id.thumb, sample= props.item.id.name, statusShow = props.item.id.approved, 
+                                        typeShow = props.item.id.class, dimensionsShow = props.item.id.w + 'x' + props.item.id.h"
                                         @mouseleave="imageSource = '', sample='sample', statusShow = '', 
                                         typeShow = 'TYPE', dimensionsShow = ''"
                                         >
                                             <td class="text-xs-left">
-                                                <span class="title">{{ props.item.name }}</span><br>
-                                                <span class="caption">{{ props.item.id }}</span>
+                                                <span class="title">{{ props.item.id.name }}</span><br>
+                                                <span class="caption">{{ props.item.id.id }}</span>
                                             </td>
                                             <td>
-                                                <v-chip v-if="props.item.approved == 'approved'" small class="green lighten-1 white--text">
+                                                <v-chip v-if="props.item.id.approved == 'approved'" small class="green lighten-1 white--text">
                                                     <small>APPROVED</small>
                                                 </v-chip>
-                                                <v-chip v-else-if="props.item.approved == 'pending'" small class="yellow darken-1 white--text">
+                                                <v-chip v-else-if="props.item.id.approved == 'pending'" small class="yellow darken-1 white--text">
                                                     <small>PENDING</small>
                                                 </v-chip>
                                                 <v-chip v-else small class="red lighten-1 white--text">
@@ -294,14 +294,14 @@
                                                 </v-chip>
                                             </td>
                                             <td>
-                                                {{ props.item.class | uppercase }}
+                                                {{ props.item.id.class | uppercase }}
                                             </td>
                                             <td>
-                                                {{ props.item.w }} x {{ props.item.h }}
+                                                {{ props.item.id.w }} x {{ props.item.id.h }}
                                             </td>
                                             <td>
-                                                <v-dialog v-model="showModal3" lazy absolute width="70%">
-                                                    <v-btn icon class="grey--text" @click="deleteCreativeId = props.item.id, deleteCreativeName = props.item.name" slot="activator">
+                                                <v-dialog v-model="props.item.modal" lazy absolute width="70%">
+                                                    <v-btn icon class="grey--text" @click="deleteCreativeId = props.item.id.id, deleteCreativeName = props.item.id.name" slot="activator">
                                                         <v-icon>delete</v-icon>
                                                     </v-btn>
                                                     <v-card>
@@ -317,11 +317,11 @@
                                                         </v-card-text>
                                                         <v-card-actions>
                                                             <v-spacer></v-spacer>
-                                                            <v-btn class="elevation-0" @click="showModal3 = false">
+                                                            <v-btn class="elevation-0" @click="props.item.modal = false">
                                                                 <v-icon>close</v-icon>                                   
                                                                 Cancel
                                                             </v-btn>
-                                                            <v-btn primary dark class="elevation-0" @click="deleteCreative(deleteCreativeId, deleteCreativeName), showModal3=false">
+                                                            <v-btn primary dark class="elevation-0" @click="deleteCreative(deleteCreativeId, deleteCreativeName), props.item.modal=false">
                                                                 <v-icon>done</v-icon>
                                                                 Delete
                                                             </v-btn>
@@ -346,7 +346,7 @@
                                             <v-card-text>
                                                 <v-layout row wrap>
                                                     <v-flex xs12>
-                                                        <div style="display:flex; align-items: center; justify-content: center;" class="preview">
+                                                        <div class="preview">
                                                             <img width="128" :src="imageSource">
                                                         </div>
                                                     </v-flex>
@@ -387,6 +387,7 @@
 
         mounted() {
            this.$root.isLoading = false;
+           console.log(this.deleteCreatives);
         },
         props: ['token', 'user'],
         data() {
@@ -437,11 +438,20 @@
                 },
                 thumb: '',
                 search: '',
-                loading: false
+                loading: false,
+                folderCreatives: []
             }
         },
         
         methods: {
+            defineCreatives() {
+                var creatives = this.creatives.data;
+                var boolCreatives = [];
+                for(var c in creatives) {
+                    boolCreatives.push({"id": creatives[c], "modal": false});
+                }
+                this.folderCreatives = boolCreatives;
+            },
 
             creativeNameRules() {
                 var name = ['too short'];
@@ -770,6 +780,9 @@
 
             folders(value) {
                 this.folderId = value.data[0].key;
+            },
+            creatives(value) {
+                this.defineCreatives();
             }
         }
     }
