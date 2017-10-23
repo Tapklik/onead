@@ -346,7 +346,7 @@
                                             <v-card-text>
                                                 <v-layout row wrap>
                                                     <v-flex xs12>
-                                                        <div class="preview">
+                                                        <div style="display:flex; align-items: center; justify-content: center;" class="preview">
                                                             <img width="128" :src="imageSource">
                                                         </div>
                                                     </v-flex>
