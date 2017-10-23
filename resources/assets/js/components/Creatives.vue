@@ -93,7 +93,7 @@
                                                                 <p class="caption ma-0">Is this creative responsive?</p>
                                                             </v-flex>
                                                             <v-flex xs12 md6>
-                                                                <v-switch v-model="responsiveData" label="Responsive"></v-switch>
+                                                                <v-switch :false-value="0" :true-value="1" v-model="responsiveData" label="Responsive"></v-switch>
                                                             </v-flex>
                                                         </v-layout>
                                                     </v-flex>
@@ -293,8 +293,11 @@
                                                     <small>DECLINED</small>
                                                 </v-chip>
                                             </td>
-                                            <td>
-                                                {{ props.item.id.class | uppercase }}
+                                            <td v-if="props.item.id.responsive == 1">
+                                                {{ props.item.id.class | uppercase }} (R)
+                                            </td>
+                                            <td v-else>
+                                                {{ props.item.id.class | uppercase }} (NR)
                                             </td>
                                             <td>
                                                 {{ props.item.id.w }} x {{ props.item.id.h }}
@@ -399,7 +402,7 @@
                 validFolder: false,
                 validClass: false,
                 validFile: false,
-                responsiveData: false,
+                responsiveData: 0,
                 sample: 'sample',
                 dimensionsShow: '',
                 typeShow: '',
@@ -431,7 +434,7 @@
                 creativeAttributes: {
                     name: '',
                     url: '',
-                    responsive: false,
+                    responsive: 0,
                     h: 0,
                     w: 0,
                     class: 'banner',

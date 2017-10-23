@@ -17,36 +17,52 @@
                     <v-flex xs12 md4 lg3 class="valign-wrapper">
                         <span class="caption">Campaign Name</span>
                     </v-flex>
-                    <v-flex xs8 md5>
+                    <v-flex xs8 md5 v-if="$parent.$parent.$parent.validName == true">
                         <v-icon>mode_edit</v-icon>
                         <span>{{campaign.name}}</span>
+                    </v-flex>
+                    <v-flex xs8 md5 v-else>
+                        <v-icon class="red--text">mode_edit</v-icon>
+                        <span class="red--text">Type a valid campaign name</span>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap class="mt-4">
                     <v-flex xs12 md4 lg3 class="valign-wrapper">
                         <span class="caption">Campaign Flight</span>
                     </v-flex>
-                    <v-flex xs8 md5>
+                    <v-flex xs8 md5 v-if="$parent.$parent.$parent.validStart == true && $parent.$parent.$parent.validEnd == true">
                         <v-icon>flight_takeoff</v-icon>
                         <span>From {{campaign.start_time}} to {{campaign.end_time}}</span>
+                    </v-flex>
+                    <v-flex xs8 md5 v-else>
+                        <v-icon class="red--text">flight_takeoff</v-icon>
+                        <span class="red--text">Please enter valid dates</span>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap class="mt-4">
                     <v-flex xs12 md4 lg3 class="valign-wrapper">
                         <span class="caption">Advertiser Domain</span>
                     </v-flex>
-                    <v-flex xs12 md8>
+                    <v-flex xs12 md8 v-if="$parent.$parent.$parent.validDomain == true">
                         <v-icon>language</v-icon>
                         <span>{{campaign.adomain}}</span>
+                    </v-flex>
+                    <v-flex xs12 md8 v-else>
+                        <v-icon class="red--text">language</v-icon>
+                        <span class="red--text">Type a valid advertiser domain</span>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap class="mt-4">
                     <v-flex xs12 md4 lg3 class="valign-wrapper">
                         <span class="caption">Click-through URL</span>
                     </v-flex>
-                    <v-flex xs12 md8>
+                    <v-flex xs12 md8 v-if="$parent.$parent.$parent.validUrl == true">
                         <v-icon>language</v-icon>
                         <span>{{campaign.ctrurl}}</span>
+                    </v-flex>
+                    <v-flex xs12 md8 v-else>
+                        <v-icon class="red--text">language</v-icon>
+                        <span class="red--text">Type a valid click-through url</span>
                     </v-flex>
                 </v-layout>
             </v-flex>
@@ -64,18 +80,26 @@
                     <v-flex xs12 md4 lg3 class="valign-wrapper">
                         <span class="caption">Budget</span>
                     </v-flex>
-                    <v-flex xs8 md5>
+                    <v-flex xs8 md5 v-if="$parent.$parent.$parent.validBudget == true">
                         <v-icon>attach_money</v-icon>
                         <span>{{$root.fromMicroDollars(campaign.budget.data.amount)}}</span>
+                    </v-flex>
+                    <v-flex xs8 md5 v-else>
+                        <v-icon class="red--text">attach_money</v-icon>
+                        <span class="red--text">Type a valid budget</span>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap class="mt-4">
                     <v-flex xs12 md4 lg3 class="valign-wrapper">
                         <span class="caption">Target Bid</span>
                     </v-flex>
-                    <v-flex xs12 md8>
+                    <v-flex xs12 md8 v-if="$parent.$parent.$parent.validBid == true">
                         <v-icon>attach_money</v-icon>
                         <span>{{$root.fromMicroDollars(campaign.bid)}}</span>
+                    </v-flex>
+                    <v-flex xs12 md8 v-else>
+                        <v-icon class="red--text">attach_money</v-icon>
+                        <span class="red--text">Type a valid bid</span>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap class="mt-4">
@@ -95,10 +119,16 @@
             </v-flex>
         </v-layout>
         <v-layout row wrap>                    
-            <v-flex xs12>
+            <v-flex xs12 v-if="$parent.$parent.$parent.validCategories == true">
                 <v-btn icon v-for="category in selectedCategories" :key="category.code">
                     <v-icon>{{category.img}}</v-icon>
                 </v-btn>
+            </v-flex>
+            <v-flex xs12 v-else>
+                <v-btn icon>
+                    <v-icon class="red--text">help</v-icon>
+                </v-btn>
+                <span class="red--text">Choose categories</span>
             </v-flex>
         </v-layout>
         <v-divider class="mt-4"></v-divider>
@@ -108,7 +138,7 @@
             </v-flex>
         </v-layout>
         <v-layout row wrap>
-            <v-flex xs12>
+            <v-flex xs12 v-if="$parent.$parent.$parent.validCreatives == true">
                 <v-layout row wrap class="mt-4">
                     <v-flex xs12>
                         <v-list two-line>
@@ -125,6 +155,12 @@
                         </v-list>
                     </v-flex>
                 </v-layout>
+            </v-flex>
+            <v-flex xs12 v-else>
+                <v-btn icon>
+                    <v-icon class="red--text">help</v-icon>
+                </v-btn>
+                <span  class="red--text">Choose creatives</span>
             </v-flex>
         </v-layout>
         <v-divider class="mt-4"></v-divider>
@@ -149,10 +185,13 @@
                     <v-flex xs4 class="valign-wrapper">
                         <span class="caption">Operating Systems</span>
                     </v-flex>
-                    <v-flex xs8>
+                    <v-flex xs8 v-if="$parent.$parent.$parent.validDevices == true">
                         <v-btn icon :key="os.type" v-for="os in selectedOs">
                             <v-icon>{{os.icon}}</v-icon>
                         </v-btn>
+                    </v-flex>
+                    <v-flex xs8 v-else>
+                        <span class="red--text">Select any device category</span>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap class="mt-4">
@@ -171,10 +210,13 @@
                     <v-flex xs4 class="valign-wrapper">
                         <span class="caption">Audience Gender</span>
                     </v-flex>
-                    <v-flex xs8>
+                    <v-flex xs8 v-if="$parent.$parent.$parent.validGender == true">
                         <v-btn icon :key="gender" v-for="gender in campaign.user.data.gender">
                             <v-icon>{{genderIcon(gender)}}</v-icon>
                         </v-btn>
+                    </v-flex>
+                    <v-flex xs8 v-else>
+                        <span class="red--text">Select a Gender</span>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap class="mt-4">
@@ -189,7 +231,7 @@
             </v-flex>
             <v-flex xs12 md4>
                 <v-layout row wrap class="mt-4">
-                    <v-flex xs12>
+                    <v-flex xs12 v-if="$parent.$parent.$parent.validGeo == true">
                         <v-list two-line>
                             <span class="caption">Geo Location</span>
                             <v-list-tile avatar v-for="g in campaign.geo.data" :key="g.id">
@@ -199,6 +241,10 @@
                                 </v-list-tile-content>
                             </v-list-tile>
                         </v-list>
+                    </v-flex>
+                    <v-flex xs12 v-else>
+                        <span class="caption">Geo Location</span><br>
+                        <span class="red--text">Select a Location</span>
                     </v-flex>
                 </v-layout>
             </v-flex>

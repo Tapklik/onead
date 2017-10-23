@@ -314,10 +314,21 @@
 
             budgetBidrules() {
                 var bid = ['budget must be higher than bid'];
-                if(this.campaign.bid > this.campaign.budget.data.amount) {
-                    this.$parent.$parent.$parent.validBid = false;   
-                    this.$parent.$parent.$parent.validBudget = false;   
+                var zero = ['neither budget or bid can be 0'];
+                if(this.campaign.bid > this.campaign.budget.data.amount || (this.campaign.bid == 0 && this.campaign.budget.data.amount == 0)) {
+                    this.$parent.$parent.$parent.validBid = false;
+                    this.$parent.$parent.$parent.validBudget = false;
                     return bid;
+                }
+                else if(this.campaign.budget.data.amount == 0) {
+                    this.$parent.$parent.$parent.validBid = true;
+                    this.$parent.$parent.$parent.validBudget = false;
+                    return zero;
+                }
+                else if(this.campaign.bid == 0) {
+                    this.$parent.$parent.$parent.validBid = false;
+                    this.$parent.$parent.$parent.validBudget = true;
+                    return zero;
                 }
                 else {
                     this.$parent.$parent.$parent.validBid = true;   
