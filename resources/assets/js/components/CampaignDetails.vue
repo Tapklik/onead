@@ -134,7 +134,7 @@
                         v-on:blur="updateDraftBudget()"
                         prepend-icon="attach_money"
                         v-model="budgetUsd"
-                        :rules="budgetBidrules()"
+                        :rules="budgetRules()"
                         single-line
                         type="number"
                         ></v-text-field>
@@ -147,7 +147,7 @@
                     </v-flex>
                     <v-flex xs8 md5>
                         <v-text-field
-                        :rules="budgetBidrules()"
+                        :rules="bidRules()"
                         label="0.00"
                         v-on:change="updateDetailsDraft()"
                         prepend-icon="attach_money"
@@ -312,27 +312,37 @@
                 }
             },
 
-            budgetBidrules() {
-                var bid = ['budget must be higher than bid'];
-                var zero = ['neither budget or bid can be 0'];
-                if(this.campaign.bid > this.campaign.budget.data.amount || (this.campaign.bid == 0 && this.campaign.budget.data.amount == 0)) {
-                    this.$parent.$parent.$parent.validBid = false;
+            budgetRules() {
+                var budget = ['budget must be higher than bid'];
+                var zero = ['Budget can not be 0'];
+                if(this.campaign.bid > this.campaign.budget.data.amount || this.campaign.budget.data.amount == 0) {
                     this.$parent.$parent.$parent.validBudget = false;
-                    return bid;
-                }
-                else if(this.campaign.budget.data.amount == 0) {
-                    this.$parent.$parent.$parent.validBid = true;
-                    this.$parent.$parent.$parent.validBudget = false;
-                    return zero;
-                }
-                else if(this.campaign.bid == 0) {
-                    this.$parent.$parent.$parent.validBid = false;
-                    this.$parent.$parent.$parent.validBudget = true;
-                    return zero;
+                    if(this.campaign.budget.data.amount == 0) {
+                        return zero;
+                    }
+                    else {
+                        return budget;
+                    }
                 }
                 else {
-                    this.$parent.$parent.$parent.validBid = true;   
                     this.$parent.$parent.$parent.validBudget = true;
+                }
+            },
+
+            bidRules() {
+                var bid = ['budget must be higher than bid'];
+                var zero = ['Bid can not be 0'];
+                if(this.campaign.bid > this.campaign.budget.data.amount || this.campaign.bid == 0) {
+                    this.$parent.$parent.$parent.validBid = false;
+                    if(this.campaign.bid == 0) {
+                        return zero;
+                    }
+                    else {
+                        return bid;
+                    }
+                }
+                else {
+                    this.$parent.$parent.$parent.validBid = true;
                 }
             },
 

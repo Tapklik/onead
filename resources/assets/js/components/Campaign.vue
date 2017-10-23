@@ -135,6 +135,35 @@
         },
 
         methods: {
+
+            validDetailsPage() {
+                var a = [true];
+                var b = [false];
+                if (this.validName == true && this.validBid == true && this.validBudget == true && this.validStart == true && this.validEnd == true && this.validDomain == true && this.validUrl == true && this.validPacing == true){
+                    return a;      
+                }
+                else return b;
+            },
+
+            validCreativesPage() {
+                if (this.validCreatives == true) {
+                    return true;      
+                }
+                else return false;
+            },
+            validCategoriesPage() {
+                if (this.validCategories == true) {
+                    return true;      
+                }
+                else return false;
+            },
+            validTargettingPage() {
+                if(this.validGeo == true && this.validGender == true && this.validDevices == true) {
+                    return true;      
+                }
+                else return false;
+            },
+            
             startDraft() {
                 if(this.$root.editMode == false){
                     axios.post(this.$root.uri + '/campaigns', this.draftStartData(), this.$root.config).then(response => {

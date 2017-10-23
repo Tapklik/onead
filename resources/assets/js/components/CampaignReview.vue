@@ -106,8 +106,11 @@
                     <v-flex xs12 md4 lg3 class="valign-wrapper">
                         <span class="caption">Budget Pacing</span>
                     </v-flex>
-                    <v-flex xs12 md8>
+                    <v-flex xs12 md8 v-if="$parent.$parent.$parent.validPacing == true">
                         <i>* view in campaign details</i>
+                    </v-flex>
+                    <v-flex xs12 md8 v-else>
+                        <span class="red--text">Select a valid budget pace</span>
                     </v-flex>
                 </v-layout>
             </v-flex>
