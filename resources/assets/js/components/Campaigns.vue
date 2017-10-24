@@ -42,22 +42,22 @@
                                     </template>
                                     <template slot="items" scope="props">
                                         <td>
-                                            <span class="title">{{ props.item.name }}</span> <br>
-                                            <span class="caption">{{props.item.id}}</span>
+                                            <span class="title">{{ props.item.id.name }}</span> <br>
+                                            <span class="caption">{{props.item.id.id}}</span>
                                         </td>
                                         <td>
-                                            <v-chip v-if="props.item.status == 'active'" small class="green lighten-1 white--text">
+                                            <v-chip v-if="props.item.id.status == 'active'" small class="green lighten-1 white--text">
                                                 <small>ACTIVE</small>
                                             </v-chip>
-                                            <v-chip v-else-if="props.item.status == 'archived'" small class="grey lighten-1 white--text">
+                                            <v-chip v-else-if="props.item.id.status == 'archived'" small class="grey lighten-1 white--text">
                                                 <small>ARCHIVED</small>
                                             </v-chip>
 
-                                            <v-chip v-else-if="props.item.status == 'paused'" small class="yellow darken-1 white--text">
+                                            <v-chip v-else-if="props.item.id.status == 'paused'" small class="yellow darken-1 white--text">
                                                 <small>PAUSED</small>
                                             </v-chip>
 
-                                            <v-chip v-else-if="props.item.status == 'declined'" small class="red lighten-1 white--text">
+                                            <v-chip v-else-if="props.item.id.status == 'declined'" small class="red lighten-1 white--text">
                                                 <small>DECLINED</small>
                                             </v-chip>
 
@@ -66,24 +66,24 @@
                                             </v-chip>
                                         </td>
                                         <td class="text-xs-right">
-                                            <span class="title"> $ {{$root.fromMicroDollars(props.item.budget.data.amount) }}</span><br>
-                                            <span class="caption"> {{ props.item.budget.data.type  | uppercase }}</span>
+                                            <span class="title"> $ {{$root.fromMicroDollars(props.item.id.budget.data.amount) }}</span><br>
+                                            <span class="caption"> {{ props.item.id.budget.data.type  | uppercase }}</span>
                                         </td>
                                         <td class="text-xs-right">
-                                            <span class="caption">FROM</span>&nbsp; <span class="title">{{ props.item.start_time }}</span><br>
-                                            <span class="caption">TO</span>&nbsp; <span class="title">{{ props.item.end_time }}</span>
+                                            <span class="caption">FROM</span>&nbsp; <span class="title">{{ props.item.id.start_time }}</span><br>
+                                            <span class="caption">TO</span>&nbsp; <span class="title">{{ props.item.id.end_time }}</span>
                                         </td>
                                          <td class="text-xs-center">
-                                            <v-btn icon class="grey--text" v-if="props.item.status == 'active'" @click="toggleCampaignStatus(props.index, props.item.id, props.item.status)">
+                                            <v-btn :loading="props.item.loading" icon class="grey--text" v-if="props.item.id.status == 'active'" @click="props.item.loading= true, toggleCampaignStatus(props.index, props.item.id.id, props.item.id.status, props.item.loading)">
                                                 <v-icon>pause_circle_outline</v-icon>
                                             </v-btn>
-                                            <v-btn icon class="grey--text" v-else  @click="toggleCampaignStatus(props.index, props.item.id, props.item.status)">
+                                            <v-btn :loading="props.item.loading" icon class="grey--text" v-else  @click="props.item.loading= true, toggleCampaignStatus(props.index, props.item.id.id, props.item.id.status, props.item.loading)">
                                                 <v-icon>play_circle_outline</v-icon>
                                             </v-btn>
-                                            <v-btn icon class="grey--text" @click="deleteCampaign(props.item.id)">
+                                            <v-btn icon class="grey--text" @click="deleteCampaign(props.item.id.id)">
                                                 <v-icon>delete</v-icon>
                                             </v-btn>
-                                            <v-btn icon class="grey--text" :href="editCampaignRouter + props.item.id">
+                                            <v-btn icon class="grey--text" :href="editCampaignRouter + props.item.id.id">
                                                 <v-icon>edit</v-icon>
                                             </v-btn>
                                         </td>
@@ -125,6 +125,7 @@
 
         data() {
             return {
+                loadingPress: false,
                 alert: false,
                 error: false,
                 success: false,
@@ -143,24 +144,30 @@
         },
 
         methods: {
-            toggleCampaignStatus(index, id, status) {
+            toggleCampaignStatus(index, id, status, loading) {
                 var changeStatusTo = (status == 'active') ? 'paused' : 'active';
 
                 axios.put(this.$root.uri + '/campaigns/' + id, {status: changeStatusTo}, this.$root.config).then(response => {
                     this.fetchCampaigns();
+                    loading = false;
                 }, error => {
                    console.log(error);
+                    loading = false;
                 });
             },
 
             fetchCampaigns() {
-
+                var a = [];
                 axios.get(this.$root.uri + '/campaigns', {
                     headers: {
                         'Authorization': 'Bearer ' + this.token
                     }
                 }).then(response => {
-                    this.campaigns = response.data.data;
+                    var campaigns = response.data.data;
+                    for(var c in campaigns) {
+                        a.push({id: campaigns[c], loading: false})
+                    }
+                    this.campaigns = a;
                 }, error => {
                     this.alert = true;
                     this.error = true;
@@ -223,7 +230,7 @@
                 var result = [];
                 if(statuses == '') {
                     for(var c in campaigns) {
-                        if(campaigns[c].status != 'archived') {
+                        if(campaigns[c].id.status != 'archived') {
                             result.push(campaigns[c]);
                         }
                     }
@@ -233,7 +240,7 @@
                 else {
                     for(var c in campaigns) {
                         for(var s in statuses) {
-                            if(campaigns[c].status == statuses[s]) {
+                            if(campaigns[c].id.status == statuses[s]) {
                                 result.push(campaigns[c]);
                             }
                         }   
