@@ -134,10 +134,37 @@
                                             <v-icon>close</v-icon>                                    
                                             Cancel
                                         </v-btn>
-                                        <v-btn :loading="loading" primary dark :disabled="!(validClass && validWidth && validHeight && validName && validUrl && validFolder)" @click="loading = true, uploadCreative()" class="elevation-0">
+                                        <v-btn v-if="checkDimensions() == true" :loading="loading" primary dark :disabled="!(validClass && validWidth && validHeight && validName && validUrl && validFolder)" @click="loading = true, uploadCreative()" class="elevation-0">
                                             <v-icon>done</v-icon>
                                             Save
                                         </v-btn>
+                                        <v-dialog v-else v-model="showModalDimensionsCheck" lazy absolute width="100%">
+                                            <v-btn slot="activator" :loading="loading" primary dark :disabled="!(validClass && validWidth && validHeight && validName && validUrl && validFolder)" @click="showModal = false" class="elevation-0">
+                                                <v-icon>done</v-icon>
+                                                Save
+                                            </v-btn>
+                                            <v-card>
+                                                <v-card-title>
+                                                    <h4>Custom Creative Size</h4>
+                                                </v-card-title>
+                                                <v-divider></v-divider>
+                                                <v-card-text>
+                                                    <span>Are you sure you want to upload a creative with dimensions that are not up to IAB standard</span>
+                                                </v-card-text>
+                                                <v-divider></v-divider>
+                                                <v-card-actions>
+                                                    <v-spacer></v-spacer>
+                                                    <v-btn @click="showModal = false" class="elevation-0">
+                                                        <v-icon>close</v-icon>                                    
+                                                        Cancel
+                                                    </v-btn>
+                                                    <v-btn :loading="loading" primary dark :disabled="!(validClass && validWidth && validHeight && validName && validUrl && validFolder)" @click="loading = true, uploadCreative()" class="elevation-0">
+                                                        <v-icon>done</v-icon>
+                                                        Save
+                                                    </v-btn>
+                                                </v-card-actions>
+                                            </v-card>
+                                        </v-dialog>
                                     </v-card-actions>
                                 </v-card>   
                             </v-dialog>
@@ -398,6 +425,7 @@
         props: ['token', 'user'],
         data() {
             return {
+                showModalDimensionsCheck: false,
                 validName: false,
                 validHeight: false,
                 validWidth: false,
@@ -564,7 +592,8 @@
                                 h: file.height, 
                                 name: file.name.slice(0,file.name.lastIndexOf('.')), 
                                 class: 'banner',
-                                url: ''
+                                url: '',
+                                responsive: 0
                             };
                             clearInterval(sizeInterval);
                         }
@@ -668,16 +697,6 @@
                     class: this.creativeAttributes.class,
                     thumb: this.thumb
                 };
-                if(this.checkDimensions() == false) {
-                    this.alert = true;
-                    this.error = true;
-                    this.success = false;
-                    this.alertMessage = 'The dimensions are not qualified and not up to iab standard';
-                    this.loading = false;
-                    this.showModal = false;
-                }
-                else
-                {
                 this.dropzone.processQueue();
                 
                     this.dropzone.on("complete", function (file) {
@@ -689,6 +708,7 @@
                             this.alertMessage = 'Uploaded successfully';
                             this.loading = false;
                             this.showModal = false;
+                            this.showModalDimensionsCheck = false;
 
                             setTimeout(function () {
                                 this.alert = false;
@@ -709,7 +729,6 @@
                             this.alertMessage = 'Please choose a folder you wish to upload a creative to.';
                         }
                     }.bind(this));
-                }
             },
 
             storeNewFolder() {
