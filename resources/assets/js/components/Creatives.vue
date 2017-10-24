@@ -649,7 +649,7 @@
             },
 
             deleteCreative(creativeId, creativeName) {
-                axios.delete(this.$root.uri + '/creatives/' + creativeId +'', this.$root.config).then(response => {
+                axios.delete(this.$root.uri + '/creatives/' + creativeId, this.$root.config).then(response => {
                     this.alert = true;
                     this.success = true;
                     this.error = false;
