@@ -747,6 +747,10 @@
                     this.success = true;
                     this.alert = true;
                     this.alertMessage = 'You have successfully created a new folder';
+
+                    setTimeout(function () {
+                        this.alert = false;
+                    }.bind(this), 2000);
                 }, error => {
                     this.error = true;
                     this.success = false;
