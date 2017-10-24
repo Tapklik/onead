@@ -155,11 +155,7 @@
 
             fetchCampaigns() {
 
-                axios.get(this.$root.uri + '/campaigns', {
-                    headers: {
-                        'Authorization': 'Bearer ' + this.token
-                    }
-                }).then(response => {
+                axios.get(this.$root.uri + '/campaigns', this.$root.config).then(response => {
                     this.campaigns = response.data.data;
                 }, error => {
                     this.alert = true;
@@ -169,9 +165,14 @@
                 })
             },
 
-            deleteCampaign(campaignId) {
+            deleteCampaign(campaignId, index) {
 
-                alert('This will delete campaign. But not yet. If you want to delete it send DELETE request to api @ api.tapklik.com/v1/campaigns/' + campaignId + ' endpoint');
+                axios.put(this.$root.uri + '/campaigns/' + campaignId, {status: 'archived'}, this.$root.config).then(response => {
+                    this.fetchCampaigns();
+                }, error => {
+                    alert(error);
+                }).bind(this);
+                
                 return false;
             },
 
