@@ -51,6 +51,7 @@
                                 <v-data-table                                        
                                 :items="creatives.data"
                                 hide-actions
+                                v-model="campaign.creatives.data"
                                 class="creatives-explorer no-headers"
                                 v-bind:rows-per-page-items="[10, 25, { text: 'All', value: -1 }]"
                                 >
@@ -61,10 +62,10 @@
                                         <tr @mouseenter="imageSource = props.item.thumb, sample= props.item.name, statusShow = props.item.approved, typeShow = props.item.class, dimensionsShow = props.item.w + 'x' + props.item.h" v-show="props.item.approved == 'approved'">
                                             <td width="40" class="text-xs-right">
                                                 <v-checkbox
+                                                @click="props.selected = !props.selected"
                                                 @change="updateDraftCreatives()"
-                                                :selected-key="props.item.id"
-                                                :value="props.item"
-                                                v-model="campaign.creatives.data"
+                                                :input-value="props.selected"
+                                                hide-details
                                                 ></v-checkbox>
                                             </td>
                                             <td class="text-xs-left">
