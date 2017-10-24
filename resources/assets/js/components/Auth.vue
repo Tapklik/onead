@@ -6,7 +6,7 @@
             		<v-layout row wrap>
 	                    <v-flex xs12 class="pt-1 pb-2">
 							<img width="40%" src="/images/tapklik-onead-logo.png">	
-							<span class="right caption">v0.6.0 BETA</span>
+							<span class="right caption">{{ $root.version }}</span>
 	                    </v-flex>
 	                </v-layout>
 	              	<v-divider></v-divider>
