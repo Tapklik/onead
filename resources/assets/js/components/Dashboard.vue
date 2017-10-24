@@ -93,7 +93,7 @@
             <v-flex d-flex xs12 md4>
                 <v-card height="350px" class="elevation-1">
                     <v-card-title>
-                        <span class="subheading orange--text text--darken-4">RECENT CAMPAIGNS</span>
+                        <span class="subheading orange--text text--darken-4">RECENT ACTIVE CAMPAIGNS</span>
                         <v-spacer></v-spacer>
                         <v-btn icon class="orange--text text--darken-3 ma-0" href="/admin/campaigns">
                             <v-icon>search</v-icon>
@@ -230,7 +230,9 @@
                 overallList: false,
                 search: '',
                 pagination: {},
-                overallSummaryList: {}
+                overallSummaryList: {},
+                folders: [],
+                something: []
             }
         },
         
@@ -240,31 +242,66 @@
             Slice(value) {
                 return value.slice(0,9)
             },
+
+            getFolders() {
+                this.loading = true;
+                var self = this;
+                var folders = [];
+                axios.get(this.$root.uri + '/creatives/folders', this.$root.config).then(response => {
+                    this.folders = response.data.data;
+                    folders = response.data.data;
+                    
+                    this.loading = false;
+                }, error => {
+                    alert(error);
+                });
+                var creatives = [];
+                for (var f in folders) {
+                    axios.get(this.$root.uri + '/creatives/' +  this.user.accountUuId + '/folders/' + folders[f].id, this.$root.config).then(response => {
+                    var a = response.data;
+                    creatives.push(a);
+                    
+                    this.loading = false;
+                }, error => {
+                    alert(error);
+                });
+                }
+                this.something = creatives;
+            },
+
+            getCreatives() {
+                var folders = this.folders;
+                var creatives = [];
+                for (var f in folders) {
+                    axios.get(this.$root.uri + '/creatives/' +  this.user.accountUuId + '/folders/' + folders[f].id, this.$root.config).then(response => {
+                        var a = response.data.data;
+                        var c = a.length -1;
+                        for (var i = c; i > 0; i--) {
+                            creatives.push(a[i]);
+                            if(creatives.length == 5) break;
+                        }
+                }, error => {
+                    this.error = true;
+                    this.success = false;
+                    this.alert = true;
+                    this.alertMessage = 'Something went wrong';
+                });
+                }
+                this.creativeList = creatives;
+            },
+
             loadCampaignsAndCreatives() {
-                axios.get(this.$root.uri + '/campaigns', this.$root.config).then(response => {
+                axios.get(this.$root.uri + '/accounts/' + this.user.accountUuId + '/campaigns', this.$root.config).then(response => {
                     var a = response.data.data;
+                    var c = a.length - 1;
                     var b = [];
-                    for (var item in a) {
-
-                        b.push(a[item]);
-                        if(b.length == 5) break;
-                    }
-                    this.campaignList = b;
-
-                    var listOfCreatives = []
-                    var campaigns = this.campaignList
-                    for (var c in campaigns) {
-                        if(listOfCreatives.length == 5) break;
-                        var campaignId = campaigns[c].value
-                        var campaignObj = this.findCampaignById(campaignId)
-                        
-                        var creatives = campaigns[c].creatives.data
-                        for (var cr in creatives) {
-                            if(listOfCreatives.length == 5) break;
-                            listOfCreatives.push(creatives[cr])
+                    for (var item = c; item > 0; item--) {
+                        if(a[item].status == 'active') {
+                            b.push(a[item]);
+                            if(b.length == 5) break;
                         }
                     }
-                    this.creativeList = listOfCreatives;
+                    this.campaignList = b;
                 }, error => {
                     this.error = true;
                     this.success = false;
@@ -444,8 +481,10 @@
             user(value) {
                 this.date_from = this.getDate(-10);
                 this.date_to = this.getDate(0);
+                this.loadCampaignsAndCreatives();
                 setTimeout(this.loadMainGraph(), 2000);
                 setTimeout(this.loadMainGraphData(), 2000);
+                this.getFolders();
             },
 
             chartLoaded(value) {
@@ -453,8 +492,11 @@
             },
 
             token(value) {
-                this.loadCampaignsAndCreatives();
                 this.loadLog();
+            },
+
+            folders(value) {
+                this.getCreatives();
             }
         }
     }
