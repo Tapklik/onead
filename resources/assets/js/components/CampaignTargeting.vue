@@ -12,7 +12,6 @@
                     <v-flex xs12 class="mt-4">
                         <span class="title">Devices</span>
                         <p class="caption ma-0">Select device types</p>
-                        <span class="red--text" v-show="devicesRules()">You must select at least one type, operating system or browser</span>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap>
@@ -104,7 +103,6 @@
                     <v-flex xs12>
                         <span class="title">Target Audience Gender</span>
                         <p class="caption ma-0">Set gender for target audience</p>
-                        <span class="red--text" v-show="genderRules()">You must select at least one gender</span>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap>

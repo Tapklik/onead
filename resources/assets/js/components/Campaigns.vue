@@ -74,10 +74,10 @@
                                             <span class="caption">TO</span>&nbsp; <span class="title">{{ props.item.id.end_time }}</span>
                                         </td>
                                          <td class="text-xs-center">
-                                            <v-btn :loading="props.item.loading" icon class="grey--text" v-if="props.item.id.status == 'active'" @click="props.item.loading= true, toggleCampaignStatus(props.index, props.item.id.id, props.item.id.status, props.item.loading)">
+                                            <v-btn :loading="props.item.loading" icon class="grey--text" v-if="props.item.id.status == 'active'" @click="props.item.loading= true, toggleCampaignStatus(props.index, props.item.id.id, props.item.id.status)">
                                                 <v-icon>pause_circle_outline</v-icon>
                                             </v-btn>
-                                            <v-btn :loading="props.item.loading" icon class="grey--text" v-else  @click="props.item.loading= true, toggleCampaignStatus(props.index, props.item.id.id, props.item.id.status, props.item.loading)">
+                                            <v-btn :loading="props.item.loading" icon class="grey--text" v-else  @click="props.item.loading= true, toggleCampaignStatus(props.index, props.item.id.id, props.item.id.status)">
                                                 <v-icon>play_circle_outline</v-icon>
                                             </v-btn>
                                             <v-btn icon class="grey--text" @click="deleteCampaign(props.item.id.id)">
@@ -144,16 +144,20 @@
         },
 
         methods: {
-            toggleCampaignStatus(index, id, status, loading) {
-                var changeStatusTo = (status == 'active') ? 'paused' : 'active';
+            toggleCampaignStatus(index, id, status) {
+                if(status == 'active' || status == 'paused') {
+                    var changeStatusTo = (status == 'active') ? 'paused' : 'active';
 
-                axios.put(this.$root.uri + '/campaigns/' + id, {status: changeStatusTo}, this.$root.config).then(response => {
+                    axios.put(this.$root.uri + '/campaigns/' + id, {status: changeStatusTo}, this.$root.config).then(response => {
+                        this.fetchCampaigns();
+                    }, error => {
+                       console.log(error);
+                        this.fetchCampaigns();
+                    });
+                }
+                else {
                     this.fetchCampaigns();
-                    loading = false;
-                }, error => {
-                   console.log(error);
-                    loading = false;
-                });
+                }
             },
 
             fetchCampaigns() {
