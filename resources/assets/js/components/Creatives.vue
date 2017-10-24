@@ -293,11 +293,14 @@
                                                     <small>DECLINED</small>
                                                 </v-chip>
                                             </td>
+                                            <td>
+                                                {{ props.item.id.class | uppercase }}
+                                            </td>
                                             <td v-if="props.item.id.responsive == 1">
-                                                {{ props.item.id.class | uppercase }} (R)
+                                                <b>R</b>
                                             </td>
                                             <td v-else>
-                                                {{ props.item.id.class | uppercase }} (NR)
+                                                <b>NR</b>
                                             </td>
                                             <td>
                                                 {{ props.item.id.w }} x {{ props.item.id.h }}
