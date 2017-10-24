@@ -8,7 +8,6 @@
         <v-layout row wrap>
             <v-flex xs12>
                 <v-card class="elevation-0">
-                    <span class="red--text" v-show="creativesRules()">You must select at least one creative</span>
                     <v-card-text v-if="!currentFolder.id">
                         <v-layout row wrap>
                             <v-flex xs12>                      

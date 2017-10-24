@@ -9,7 +9,6 @@
             <v-flex xs12 md9 class="valign-wrapper mt-4">
                 <span class="title">IAB Campaign Categories</span>
                 <p class="caption ma-0">Select major IAB categories into which your campaign and target audience best fits</p>
-                <span v-show="categoriesRules()" class="red--text">You must select at least one category</span>
             </v-flex>
         </v-layout>
         <v-layout row wrap>

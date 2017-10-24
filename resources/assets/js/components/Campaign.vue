@@ -3,15 +3,29 @@
         <v-stepper class="elevation-0" v-model="e1">
             <v-divider></v-divider>
             <v-stepper-header class="elevation-0">
-                <v-stepper-step step="1" :complete="e1 > 1" editable>DETAILS</v-stepper-step>
+                <v-stepper-step step="1" :complete="e1 > 1" editable>
+                    DETAILS
+                    <small class="red--text" v-if="validDetailsPage() == false  && e1 >1">Fill out everything</small>
+                </v-stepper-step>
                 <v-divider></v-divider>
-                <v-stepper-step step="2" :complete="e1 > 2" editable>CATEGORIES</v-stepper-step>
+                <v-stepper-step step="2" :complete="e1 > 2" editable>
+                    CATEGORIES
+                    <small class="red--text" v-if="validCategoriesPage() == false && e1 >2">Select categories</small>
+                </v-stepper-step>
                 <v-divider></v-divider>
-                <v-stepper-step step="3" :complete="e1 > 3" editable>CREATIVES</v-stepper-step>
+                <v-stepper-step step="3" :complete="e1 > 3" editable>
+                    CREATIVES
+                    <small class="red--text" v-if="validCreativesPage() == false && e1 >3">Select creatives</small>
+                </v-stepper-step>
                 <v-divider></v-divider>
-                <v-stepper-step step="4" :complete="e1 > 4" editable>TARGETING</v-stepper-step>
+                <v-stepper-step step="4" :complete="e1 > 4" editable>
+                    TARGETING
+                    <small class="red--text" v-if="validTargettingPage() == false && e1 >4">Fill out everything</small>
+                </v-stepper-step>
                 <v-divider></v-divider>
-                <v-stepper-step step="5" editable>REVIEW</v-stepper-step>
+                <v-stepper-step step="5" editable>
+                    REVIEW
+                </v-stepper-step>
             </v-stepper-header>
             <v-divider></v-divider>
             <v-stepper-content step="1">
@@ -137,10 +151,10 @@
         methods: {
 
             validDetailsPage() {
-                var a = [true];
-                var b = [false];
+                var a = true;
+                var b = false;
                 if (this.validName == true && this.validBid == true && this.validBudget == true && this.validStart == true && this.validEnd == true && this.validDomain == true && this.validUrl == true && this.validPacing == true){
-                    return a;      
+                    return a;
                 }
                 else return b;
             },
