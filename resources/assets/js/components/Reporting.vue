@@ -52,7 +52,6 @@
                                         </v-flex>
                                         <v-flex xs6>
                                             <v-select :items="stats" prepend-icon="show_chart" v-model="line" label="Line"></v-select>
-                                   
                                         </v-flex>
                                     </v-layout>
                                 </v-flex>

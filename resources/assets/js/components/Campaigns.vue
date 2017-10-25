@@ -32,6 +32,7 @@
                                 <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
                                 <v-alert dismissible v-bind:success='success1' v-bind:error='error1' v-model="alert1" transition="scale-transition">{{alertmessage1}}</v-alert>
                                 <v-data-table 
+                                :pagination.sync="pagination"
                                 v-bind:items="filteredCampaigns" 
                                 v-bind:search="search"
                                 v-bind:rows-per-page-items="[10, 25, { value: -1 }]"
@@ -271,9 +272,13 @@
       watch: {
         token(value) {
             this.fetchCampaigns();
+            console.log(this.pageStart);
         },
         campaigns(value) {
             this.populateStatuses();
+        },
+        selectedStatuses(value) {
+            this.pagination.page = 1;
         }
     }
 }
