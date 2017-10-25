@@ -12,7 +12,7 @@
                         </v-flex>
                         <v-layout row wrap justify-space-between>
                             <v-flex xs12 md6 lg6>
-                                <v-select :items="statusFilter" chips v-model="selectedStatuses" label="Status" multiple></v-select>
+                                <v-select :items="statuses" item-text="status" item-value="status" chips v-model="selectedStatuses" label="Status" multiple></v-select>
                             </v-flex>
                             <v-flex xs12 md5 lg5>
                                 <v-text-field 
@@ -46,23 +46,8 @@
                                             <span class="caption">{{props.item.id.id}}</span>
                                         </td>
                                         <td>
-                                            <v-chip v-if="props.item.id.status == 'active'" small class="green lighten-1 white--text">
-                                                <small>ACTIVE</small>
-                                            </v-chip>
-                                            <v-chip v-else-if="props.item.id.status == 'archived'" small class="grey lighten-1 white--text">
-                                                <small>ARCHIVED</small>
-                                            </v-chip>
-
-                                            <v-chip v-else-if="props.item.id.status == 'paused'" small class="yellow darken-1 white--text">
-                                                <small>PAUSED</small>
-                                            </v-chip>
-
-                                            <v-chip v-else-if="props.item.id.status == 'declined'" small class="red lighten-1 white--text">
-                                                <small>DECLINED</small>
-                                            </v-chip>
-
-                                            <v-chip v-else small class="grey lighten-2 white--text">
-                                                <small>DRAFT</small>
+                                            <v-chip v-for="s in statuses" :key="s.status" v-if="props.item.id.status == s.status" small :class="s.color">
+                                                <small>{{s.status}}</small>
                                             </v-chip>
                                         </td>
                                         <td class="text-xs-right">
@@ -138,12 +123,35 @@
                 createCampaignRouter: "/admin/campaigns/create",
                 editCampaignRouter: "/admin/campaigns/edit/",
                 statusFilter: ['active', 'archived', 'draft','declined', 'paused'],
-                selectedStatuses: []
-                
+                statuses: [],
+                selectedStatuses: [],
+                statusColors: {active: 'green lighten-1 white--text', paused: 'yellow darken-1 white--text', archived: 'grey lighten-1 white--text', declined: 'red lighten-1 white--text', deleted: 'red darken-1 white--text', draft: 'grey lighten-2 white--text'}                
             }
         },
 
         methods: {
+            populateStatuses() {
+                var statuses = [];
+                var a = 0;
+                var campaigns = this.campaigns;
+                var colors = this.statusColors;
+                for(var c in campaigns) {
+                    for(var s in statuses) {
+                        if(statuses[s].status == campaigns[c].id.status) a++;
+                    }
+                   
+                    if(a == 0) {
+                        var b = campaigns[c].id.status;
+                        statuses.push({status: b, color: colors[b]});
+                        a = 0;
+                    }
+                    else {
+                        a = 0
+                    }    
+                }
+                this.statuses = statuses;
+            },
+
             toggleCampaignStatus(index, id, status) {
                 if(status == 'active' || status == 'paused') {
                     var changeStatusTo = (status == 'active') ? 'paused' : 'active';
@@ -263,6 +271,9 @@
       watch: {
         token(value) {
             this.fetchCampaigns();
+        },
+        campaigns(value) {
+            this.populateStatuses();
         }
     }
 }
