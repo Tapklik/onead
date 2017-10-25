@@ -191,7 +191,12 @@
 
             deleteCampaign(campaignId) {
 
-                alert('This will delete campaign. But not yet. If you want to delete it send DELETE request to api @ api.tapklik.com/v1/campaigns/' + campaignId + ' endpoint');
+                axios.put(this.$root.uri + '/campaigns/' + campaignId, {status: 'deleted'}, this.$root.config).then(response => {
+                    this.fetchCampaigns();
+                }, error => {
+                    alert(error);
+                }).bind(this);
+
                 return false;
             },
 
