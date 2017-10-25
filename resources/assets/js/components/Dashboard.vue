@@ -111,21 +111,6 @@
                                 <v-chip v-if="props.item.status == 'active'" small class="green lighten-1 white--text">
                                     <small>ACTIVE</small>
                                 </v-chip>
-                                <v-chip v-else-if="props.item.status == 'archived'" small class="grey lighten-1 white--text">
-                                    <small>ARCHIVED</small>
-                                </v-chip>
-
-                                <v-chip v-else-if="props.item.status == 'paused'" small class="yellow darken-1 white--text">
-                                    <small>PAUSED</small>
-                                </v-chip>
-
-                                <v-chip v-else-if="props.item.status == 'declined'" small class="red lighten-1 white--text">
-                                    <small>DECLINED</small>
-                                </v-chip>
-
-                                <v-chip v-else small class="grey lighten-2 white--text">
-                                    <small>DRAFT</small>
-                                </v-chip>
                             </td>
                             <td class="text-xs-right">
                                 <span class="caption">{{ props.item.start_time }}</span> 
