@@ -28,7 +28,10 @@
                         </v-flex>
                     </v-card-title>
                     <v-divider></v-divider>
-                    <v-card-text>
+                    <v-card-text v-if="campaigns == ''">
+                        <scale-loader :loading="true" color="#9e9e9e" height="15px" width="3px" class="mt-5"></scale-loader>
+                    </v-card-text>
+                    <v-card-text v-else>
                         <v-layout row wrap>
                             <v-flex xs12>   
                                 <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
@@ -36,6 +39,8 @@
                                 <v-data-table 
                                 :pagination.sync="pagination"
                                 v-bind:items="filteredCampaigns"
+                                :loading="loading"
+                                no-data-text=""
                                 v-bind:rows-per-page-items="[10, 25, { value: -1 }]"
                                 class="no-headers"
                                 >
@@ -117,6 +122,7 @@
                 error: false,
                 success: false,
                 alertMessage: '',
+                loading: true,
                 campaigns: [],
                 max25chars: (v) => v.length <= 25 || 'Input too long!',
                 tmp: '',
@@ -182,11 +188,13 @@
                         a.push({id: campaigns[c], loading: false})
                     }
                     this.campaigns = a;
+                    this.loading = false;
                 }, error => {
                     this.alert = true;
                     this.error = true;
                     this.success = false;
                     this.alertMessage = 'Something went wrong';
+                    this.loading = false;
                 })
             },
 

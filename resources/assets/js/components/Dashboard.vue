@@ -229,14 +229,11 @@
             },
 
             getFolders() {
-                this.loading = true;
                 var self = this;
                 var folders = [];
                 axios.get(this.$root.uri + '/creatives/folders', this.$root.config).then(response => {
                     this.folders = response.data.data;
                     folders = response.data.data;
-                    
-                    this.loading = false;
                 }, error => {
                     alert(error);
                 });
@@ -245,8 +242,6 @@
                     axios.get(this.$root.uri + '/creatives/' +  this.user.accountUuId + '/folders/' + folders[f].id, this.$root.config).then(response => {
                     var a = response.data;
                     creatives.push(a);
-                    
-                    this.loading = false;
                 }, error => {
                     alert(error);
                 });

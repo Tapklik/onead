@@ -220,7 +220,10 @@
                         </v-flex>
                     </v-card-title>
                     <v-divider></v-divider>
-                    <v-card-text v-if="!currentFolder.id">
+                    <v-card-text v-if="trueFolders == ''">
+                        <scale-loader :loading="true" color="#9e9e9e" height="15px" width="3px" class="mt-5"></scale-loader>
+                    </v-card-text>
+                    <v-card-text v-else-if="!currentFolder.id">
                         <v-layout row wrap>
                             <v-flex xs12 md10 lg8>
                                 <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">
@@ -231,16 +234,16 @@
                                         &nbsp;
                                     </template>
                                     <template slot="items" scope="props">
-                                        <tr :active="props.selected" @click="openFolder(props.item)">
+                                        <tr :active="props.selected" @click="openFolder(props.item.id)">
                                             <td width="40" class="text-xs-right">
                                                 <v-icon>folder</v-icon>
                                             </td>
                                             <td class="text-xs-left">
-                                                <span class="title">{{ props.item.name }}</span>
+                                                <span class="title">{{ props.item.id.name }}</span>
                                             </td>
                                             <td class="text-xs-right">
-                                                <v-dialog v-model="showModal2" lazy absolute width="400px">
-                                                    <v-btn icon class="grey--text" @click="deleteFolderId = props.item.id, deleteFolderName = props.item.name" slot="activator">
+                                                <v-dialog v-model="props.item.modal" lazy absolute width="400px">
+                                                    <v-btn icon class="grey--text" @click="deleteFolderId = props.item.id.id, deleteFolderName = props.item.id.name" slot="activator">
                                                         <v-icon>delete</v-icon>
                                                     </v-btn>
                                                     <v-card>
@@ -260,7 +263,7 @@
                                                          <v-divider></v-divider>
                                                         <v-card-actions>
                                                             <v-spacer></v-spacer>
-                                                            <v-btn class="elevation-0" @click="showModal2 = false">
+                                                            <v-btn class="elevation-0" @click="props.item.modal = false">
                                                                 <v-icon>close</v-icon>                                   
                                                                 Cancel
                                                             </v-btn>
@@ -277,6 +280,9 @@
                                 </v-data-table>
                             </v-flex>
                         </v-layout>
+                    </v-card-text>
+                    <v-card-text v-else-if="folderCreatives == ''">
+                        <scale-loader :loading="true" color="#9e9e9e" height="15px" width="3px" class="mt-5"></scale-loader>
                     </v-card-text>
                     <v-card-text v-else>
                         <v-layout row wrap>
@@ -473,7 +479,8 @@
                 thumb: '',
                 search: '',
                 loading: false,
-                folderCreatives: []
+                folderCreatives: [],
+                trueFolders: []
             }
         },
         
@@ -485,6 +492,15 @@
                     boolCreatives.push({"id": creatives[c], "modal": false});
                 }
                 this.folderCreatives = boolCreatives;
+            },
+
+            defineFolders() {
+                var folders = this.folders.data;
+                var boolFolders = [];
+                for(var f in folders) {
+                    boolFolders.push({"id": folders[f], "modal": false});
+                }
+                this.trueFolders = boolFolders;
             },
 
             creativeNameRules() {
@@ -790,10 +806,10 @@
             filteredFolders() {
                 if(!this.folders) return this.folders;
                 var search = this.search;
-                var folders = this.folders.data;
+                var folders = this.trueFolders;
                 var result = [];
                 for(var f in folders) {
-                    var name = folders[f].name.toLowerCase();
+                    var name = folders[f].id.name.toLowerCase();
                     var searchLower = search.toLowerCase();
                     if(name.includes(searchLower)) {
                         result.push(folders[f]);
@@ -829,6 +845,7 @@
 
             folders(value) {
                 this.folderId = value.data[0].key;
+                this.defineFolders();
             },
             creatives(value) {
                 this.defineCreatives();

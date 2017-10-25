@@ -8,7 +8,10 @@
         <v-layout row wrap>
             <v-flex xs12>
                 <v-card class="elevation-0">
-                    <v-card-text v-if="!currentFolder.id">
+                    <v-card-text v-if="loading">
+                        <scale-loader :loading="true" color="#9e9e9e" height="15px" width="3px" class="mt-5"></scale-loader>
+                    </v-card-text>
+                    <v-card-text v-else-if="!currentFolder.id">
                         <v-layout row wrap>
                             <v-flex xs12>                      
                             <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
@@ -147,6 +150,7 @@
         data() {
             return {
                 dimensionsShow: '',
+                loading: true,
                 typeShow: '',
                 statusShow: '',
                 sample:'sample',
@@ -227,8 +231,10 @@
             getFolders() {
 
                 axios.get(this.$root.uri + '/creatives/folders', this.$root.config).then(response => {
-
                     this.folders = response.data;
+                    if(!this.currentFolder.id) {
+                        this.loading = false;
+                    }
                 }, error => {
                     this.alert = true;
                     this.error = true;
@@ -240,6 +246,7 @@
             openFolder(folderObj) {
 
                 this.currentFolder = folderObj;
+                this.loading=true;
 
                 this.getFolderCreatives(this.currentFolder.id);
             },
@@ -252,11 +259,13 @@
             getFolderCreatives(folderId) {
                 axios.get(this.$root.uri + '/creatives/folders/' + folderId, this.$root.config).then(response => {
                     this.creatives = response.data;
+                    this.loading=false;
                 }, error => {
                     this.alert = true;
                     this.error = true;
                     this.success = false;
                     this.alertMessage = 'Something went wrong';
+                    this.loading=false;
                 });
             },
 
