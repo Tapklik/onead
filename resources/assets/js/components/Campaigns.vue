@@ -33,8 +33,7 @@
                                 <v-alert dismissible v-bind:success='success1' v-bind:error='error1' v-model="alert1" transition="scale-transition">{{alertmessage1}}</v-alert>
                                 <v-data-table 
                                 :pagination.sync="pagination"
-                                v-bind:items="filteredCampaigns" 
-                                v-bind:search="search"
+                                v-bind:items="filteredCampaigns"
                                 v-bind:rows-per-page-items="[10, 25, { value: -1 }]"
                                 class="no-headers"
                                 >
@@ -48,7 +47,7 @@
                                         </td>
                                         <td>
                                             <v-chip v-for="s in statuses" :key="s.status" v-if="props.item.id.status == s.status" small :class="s.color">
-                                                <small>{{s.status}}</small>
+                                                <small>{{s.status  | uppercase}}</small>
                                             </v-chip>
                                         </td>
                                         <td class="text-xs-right">
@@ -246,9 +245,12 @@
                 var campaigns = this.campaigns;
                 var statuses = this.selectedStatuses;
                 var result = [];
+                var search = this.search;
                 if(statuses == '') {
                     for(var c in campaigns) {
-                        if(campaigns[c].id.status != 'archived') {
+                        var name = campaigns[c].id.name.toLowerCase();
+                        var searchLower = search.toLowerCase();
+                        if(campaigns[c].id.status != 'archived' && name.includes(searchLower)) {
                             result.push(campaigns[c]);
                         }
                     }
@@ -258,7 +260,9 @@
                 else {
                     for(var c in campaigns) {
                         for(var s in statuses) {
-                            if(campaigns[c].id.status == statuses[s]) {
+                            var name = campaigns[c].id.name.toLowerCase();
+                            var searchLower = search.toLowerCase();
+                            if(campaigns[c].id.status == statuses[s] && name.includes(searchLower)) {
                                 result.push(campaigns[c]);
                             }
                         }   
@@ -277,7 +281,6 @@
       watch: {
         token(value) {
             this.fetchCampaigns();
-            console.log(this.pageStart);
         },
         campaigns(value) {
             this.populateStatuses();

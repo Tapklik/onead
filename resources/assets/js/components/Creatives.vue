@@ -226,7 +226,7 @@
                                 <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">
                                 {{alertMessage}}
                                 </v-alert>
-                                <v-data-table :items="folders.data" hide-actions class="no-headers creatives-explorer">
+                                <v-data-table :items="filteredFolders" hide-actions class="no-headers creatives-explorer">
                                     <template slot="headers" scope="props">
                                         &nbsp;
                                     </template>
@@ -294,7 +294,7 @@
                         <v-layout row wrap>
                             <v-flex xs12 md9>
                                 <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
-                                <v-data-table :items="folderCreatives" hide-actions class="creatives-explorer no-headers" v-bind:rows-per-page-items="[10, 25, { value: -1 }]">
+                                <v-data-table :items="filteredCreatives" hide-actions class="creatives-explorer no-headers" v-bind:rows-per-page-items="[10, 25, { value: -1 }]">
                                     <template slot="headers" scope="props">
                                         &nbsp;
                                     </template>
@@ -773,13 +773,33 @@
         computed: {
 
             filteredCreatives() {
-                if (!this.folders) return this.folders;
+                if(!this.folderCreatives) return this.folderCreatives;
+                var creatives = this.folderCreatives;
+                var result = [];
+                var search = this.search;
+                for(var c in creatives) {
+                    var name = creatives[c].id.name.toLowerCase();
+                    var searchLower = search.toLowerCase();
+                    if(name.includes(searchLower)) {
+                        result.push(creatives[c]);
+                    }
+                }
+                return result;
+            },
 
-                var obj = this;
-
-                return this.folders.filter(function (folder) {
-                    return folder.name.toLowerCase().indexOf(obj.$root.search.toLowerCase()) >= 0;
-                });
+            filteredFolders() {
+                if(!this.folders) return this.folders;
+                var search = this.search;
+                var folders = this.folders.data;
+                var result = [];
+                for(var f in folders) {
+                    var name = folders[f].name.toLowerCase();
+                    var searchLower = search.toLowerCase();
+                    if(name.includes(searchLower)) {
+                        result.push(folders[f]);
+                    }    
+                }
+                return result;
             },
             
             dimension() {
