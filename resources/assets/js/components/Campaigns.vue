@@ -10,20 +10,22 @@
                                 <v-icon>add</v-icon> Add campaign
                             </v-btn> 
                         </v-flex>
-                        <v-layout row wrap justify-space-between>
-                            <v-flex xs12 md6 lg6>
-                                <v-select :items="statuses" item-text="status" item-value="status" chips v-model="selectedStatuses" label="Status" multiple></v-select>
-                            </v-flex>
-                            <v-flex xs12 md5 lg5>
-                                <v-text-field 
-                                    label="Search" 
-                                    single-line 
-                                    hide-details 
-                                    class="right"
-                                    v-model="search">
-                                </v-text-field>
-                            </v-flex>
-                        </v-layout>
+                        <v-flex xs12 md6>
+                            <v-layout row wrap justify-space-between>
+                                    <v-flex xs12 md6 lg6>
+                                        <v-select :items="statuses" item-text="status" item-value="status" chips v-model="selectedStatuses" label="Status" multiple></v-select>
+                                    </v-flex>
+                                    <v-flex xs12 md5 lg5>
+                                        <v-text-field 
+                                            label="Search" 
+                                            single-line 
+                                            hide-details 
+                                            class="right"
+                                            v-model="search">
+                                        </v-text-field>
+                                    </v-flex>
+                            </v-layout>
+                        </v-flex>
                     </v-card-title>
                     <v-divider></v-divider>
                     <v-card-text>
