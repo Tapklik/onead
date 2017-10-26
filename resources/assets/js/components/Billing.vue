@@ -33,7 +33,7 @@
                                 </v-alert>
                                 
                                 <v-data-table 
-                                v-bind:items="bills" 
+                                v-bind:items="trueBills" 
                                 v-bind:search="search" 
                                 v-bind:rows-per-page-items="[10, 25, { text: 'All', value: -1 }]"
                                 class="no-headers">
@@ -42,7 +42,7 @@
                                     </template>
                                     <template slot="items" scope="props">
                                         <td width="40px">
-                                            <v-chip v-if="props.item.debit == 0" small class="green white--text">
+                                            <v-chip v-if="props.item.id.debit == 0" small class="green white--text">
                                                 <v-icon class="white--text">add</v-icon>
                                             </v-chip>
                                             <v-chip v-else small class="red white--text">
@@ -50,19 +50,19 @@
                                             </v-chip>
                                         </td> 
                                         <td>
-                                            <span class="title">{{ props.item.id }}</span> <br>
-                                            <span class="caption">{{props.item.description | uppercase}}</span>
+                                            <span class="title">{{ props.item.id.id }}</span> <br>
+                                            <span class="caption">{{props.item.id.description | uppercase}}</span>
                                         </td>
                                         <td class="text-xs-left">
-                                            <span class="title">{{ props.item.timestamp }}</span>
+                                            <span class="title">{{ props.item.id.timestamp }}</span>
                                         </td>
                                         <td class="text-xs-right">
-                                            <span v-if="props.item.debit == 0" class="title"> $ {{$root.fromMicroDollars(props.item.credit) }}</span>
-                                            <span v-else class="title"> $ {{$root.fromMicroDollars(props.item.debit) }}</span>
+                                            <span v-if="props.item.id.debit == 0" class="title"> $ {{$root.fromMicroDollars(props.item.id.credit) }}</span>
+                                            <span v-else class="title"> $ {{$root.fromMicroDollars(props.item.id.debit) }}</span>
                                         </td>
                                         <td>
-                                            <v-dialog v-model="showModal1" lazy absolute width="1500px">
-                                                <v-btn icon @click="selectedBill = props.item" slot="activator" class="grey--text">
+                                            <v-dialog v-model="props.item.modal" lazy absolute width="1500px">
+                                                <v-btn icon @click="selectedBill = props.item.id" slot="activator" class="grey--text">
                                                     <v-icon>search</v-icon>
                                                 </v-btn>
                                                 <v-card>
@@ -74,7 +74,7 @@
                                                         <v-layout row wrap mt-1>
                                                             <v-flex md8>
                                                                 <h2> Invoice </h2>
-                                                                <span>Invoice no: {{props.item.id}}</span>
+                                                                <span>Invoice no: {{props.item.id.id}}</span>
                                                             </v-flex>
                                                             <v-flex md4>
                                                                 <span>Tapklik Technologies DWC-LLC</span><br>
@@ -91,15 +91,15 @@
                                                                 <span>To: {{user.name}}</span>
                                                             </v-flex>
                                                             <v-flex md4>
-                                                                <span>Date: {{props.item.timestamp}}</span>
+                                                                <span>Date: {{props.item.id.timestamp}}</span>
                                                             </v-flex>
                                                         </v-layout>
                                                         <v-layout row wrap mt-4 mb-4>
-                                                            <h4 v-if="props.item.credit != 0">Amount: ${{$root.fromMicroDollars(props.item.credit)}}(Credit)</h4>
-                                                            <h4 v-else>Amount: ${{$root.fromMicroDollars(props.item.debit)(Debit)}}</h4>
+                                                            <h4 v-if="props.item.id.credit != 0">Amount: ${{$root.fromMicroDollars(props.item.id.credit)}}(Credit)</h4>
+                                                            <h4 v-else>Amount: ${{$root.fromMicroDollars(props.item.id.debit)(Debit)}}</h4>
                                                         </v-layout>
                                                         <v-layout row wrap>
-                                                            <span v-if="props.item.credit != 0">
+                                                            <span v-if="props.item.id.credit != 0">
                                                                 
                                                             </span>
                                                             <span v-else>
@@ -185,13 +185,23 @@
                 payment: '',
                 tabIndex: 0,
                 search: '',
-                showModal1: false
+                showModal1: false,
+                trueBills: []
             }
         },
 
         props: ['token', 'user'],
 
         methods: {
+
+            defineBills() {
+                var bills = this.bills;
+                var boolBills = [];
+                for(var b in bills) {
+                    boolBills.push({"id": bills[b], "modal": false});
+                }
+                this.trueBills = boolBills;
+            },
 
             processPayment() {
                 axios.post(this.$root.uri + '/accounts/' + this.user.accountUuId + '/banker/main' , this.collectBill(), this.$root.config).then(response => {
@@ -255,6 +265,9 @@
             if(!value) return;
 
             this.fetchBills();
+        },
+        bills(value) {
+            this.defineBills();
         }
     }
 }
