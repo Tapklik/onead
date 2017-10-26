@@ -37,7 +37,6 @@
 	                        <v-text-field
 	                        label="Password"
 	                        prepend-icon="lock"
-	                        hint="At least 8 characters"
 	                        type="password"
 	                        v-model="password"
 							@keydown.enter="login"
