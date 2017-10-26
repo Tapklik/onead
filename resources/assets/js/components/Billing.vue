@@ -61,9 +61,90 @@
                                             <span v-else class="title"> $ {{$root.fromMicroDollars(props.item.debit) }}</span>
                                         </td>
                                         <td>
-                                            <v-btn icon @click="selectedBill = props.item" class="grey--text">
-                                                <v-icon>search</v-icon>
-                                            </v-btn>
+                                            <v-dialog v-model="showModal1" lazy absolute width="1500px">
+                                                <v-btn icon @click="selectedBill = props.item" slot="activator" class="grey--text">
+                                                    <v-icon>search</v-icon>
+                                                </v-btn>
+                                                <v-card>
+                                                    <v-card-title>
+                                                        <h4>Additional Details</h4>
+                                                    </v-card-title>
+                                                    <v-divider></v-divider>
+                                                    <v-card-text>
+                                                        <v-layout row wrap mt-1>
+                                                            <v-flex md8>
+                                                                <h2> Invoice </h2>
+                                                                <span>Invoice no: {{props.item.id}}</span>
+                                                            </v-flex>
+                                                            <v-flex md4>
+                                                                <span>Tapklik Technologies DWC-LLC</span><br>
+                                                                <span>Business Center</span><br>
+                                                                <span>Dubai World Central</span><br>
+                                                                <span>P.O.Box 390667</span><br>
+                                                                <span>Dubai, UAE</span><br><br>
+
+                                                                <span>Registration Number: 3438</span>
+                                                            </v-flex>
+                                                        </v-layout>
+                                                        <v-layout row wrap>
+                                                            <v-flex md8>
+                                                                <span>To: {{user.name}}</span>
+                                                            </v-flex>
+                                                            <v-flex md4>
+                                                                <span>Date: {{props.item.timestamp}}</span>
+                                                            </v-flex>
+                                                        </v-layout>
+                                                        <v-layout row wrap mt-4 mb-4>
+                                                            <h4 v-if="props.item.credit != 0">Amount: ${{$root.fromMicroDollars(props.item.credit)}}(Credit)</h4>
+                                                            <h4 v-else>Amount: ${{$root.fromMicroDollars(props.item.debit)(Debit)}}</h4>
+                                                        </v-layout>
+                                                        <v-layout row wrap>
+                                                            <span v-if="props.item.credit != 0">
+                                                                
+                                                            </span>
+                                                            <span v-else>
+                                                            </span>               
+                                                        </v-layout>
+                                                        <v-layout row wrap mb-4>
+                                                            <ol>
+                                                                <li>
+                                                                    <span class="title">Payment is due in 7 days from the date this invoice is issued</span>   
+                                                                </li>  
+                                                                <li>
+                                                                    <span class="title">Payment shall be made through a bank wire transfer to the bank account of Tapklik Technologies DWC-LLC listed below
+                                                                    </span>                                           
+                                                                </li>
+                                                            </ol>
+                                                        </v-layout>
+                                                        <v-divider></v-divider>
+                                                        <v-layout row wrap mt-4>
+                                                            <v-flex md12>
+                                                                <span>Payments can be made by direct transfer to Tapklik Technologies DWC-LLC account details as listed below:</span>
+                                                            </v-flex>
+                                                            <v-flex md12>
+                                                                <ul>
+                                                                    <li>
+                                                                        <span class="title"> Bank:</span><span> Mashreq Bank, Mall of the Emirates, Dubai, United Arab Emirates</span> 
+                                                                    </li>
+                                                                    <li>
+                                                                        <span class="title">Account Name:</span><span> TAPKLIK TECHNOLOGIES DWC LLC</span>    
+                                                                    </li>
+                                                                    <li>
+                                                                        <span class="title">Account Number:</span><span> 019100114240</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <span class="title">IBAN:</span><span> AE020330000019100114240</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <span class="title">Swift Code:</span><span> BOMLAEAD</span>
+                                                                    </li>
+                                                                </ul>
+                                                            </v-flex>
+                                                            <span>Please ONLY quote our invoice number as payment reference to avoid any processing delay</span>
+                                                        </v-layout>
+                                                    </v-card-text>
+                                                </v-card>   
+                                            </v-dialog>
                                         </td>
                                     </template>
                                     <template slot="pageText" scope="{ pageStart, pageStop }">
@@ -103,7 +184,8 @@
                 paymentMethod: 'cc payment',
                 payment: '',
                 tabIndex: 0,
-                search: ''
+                search: '',
+                showModal1: false
             }
         },
 
