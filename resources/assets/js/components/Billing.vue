@@ -71,76 +71,210 @@
                                                     </v-card-title>
                                                     <v-divider></v-divider>
                                                     <v-card-text>
-                                                        <v-layout row wrap mt-1>
-                                                            <v-flex md8>
-                                                                <h2> Invoice </h2>
-                                                                <span>Invoice no: {{props.item.id.id}}</span>
-                                                            </v-flex>
-                                                            <v-flex md4>
-                                                                <span>Tapklik Technologies DWC-LLC</span><br>
-                                                                <span>Business Center</span><br>
-                                                                <span>Dubai World Central</span><br>
-                                                                <span>P.O.Box 390667</span><br>
-                                                                <span>Dubai, UAE</span><br><br>
-
-                                                                <span>Registration Number: 3438</span>
+                                                        <v-layout row wrap>
+                                                            <v-flex xs12 class="valign-wrapper mb-1 mt-3">
+                                                                <h5>INVOICE DETAILS</h5>
                                                             </v-flex>
                                                         </v-layout>
                                                         <v-layout row wrap>
-                                                            <v-flex md8>
-                                                                <span>To: {{user.name}}</span>
+                                                            <v-flex xs12 md6>
+                                                                <v-layout row wrap class="mt-4">
+                                                                    <v-flex xs12 md4 lg3 class="valign-wrapper">
+                                                                        <span class="title">Registration Number: </span>
+                                                                    </v-flex>
+                                                                    <v-flex xs8 md5>
+                                                                        <v-icon>perm_identity</v-icon>
+                                                                        <span>3438</span>
+                                                                    </v-flex>
+                                                                </v-layout>
+                                                                <v-layout row wrap class="mt-4">
+                                                                    <v-flex xs12 md4 lg3 class="valign-wrapper">
+                                                                        <span class="title">Invoice ID: </span>
+                                                                    </v-flex>
+                                                                    <v-flex xs8 md5>
+                                                                        <v-icon>perm_identity</v-icon>
+                                                                        <span>{{props.item.id.id}}</span>
+                                                                    </v-flex>
+                                                                </v-layout>
                                                             </v-flex>
-                                                            <v-flex md4>
-                                                                <span>Date: {{props.item.id.timestamp}}</span>
+                                                            <v-flex xs12 md6>
+                                                                <v-layout row wrap class="mt-4">
+                                                                    <v-flex xs12 md4 lg3 class="valign-wrapper">
+                                                                        <span class="title">Registration Number: </span>
+                                                                    </v-flex>
+                                                                    <v-flex xs8 md5>
+                                                                        <v-icon>perm_identity</v-icon>
+                                                                        <span>3393</span>
+                                                                    </v-flex>
+                                                                </v-layout>
+                                                                <v-layout row wrap class="mt-4">
+                                                                    <v-flex xs12 md4 lg3 class="valign-wrapper">
+                                                                        <span class="title">To: </span>
+                                                                    </v-flex>
+                                                                    <v-flex xs8 md5>
+                                                                        <v-icon>perm_identity</v-icon>
+                                                                        <span>{{user.name}}</span>
+                                                                    </v-flex>
+                                                                </v-layout>
                                                             </v-flex>
-                                                        </v-layout>
-                                                        <v-layout row wrap mt-4 mb-4>
-                                                            <h4 v-if="props.item.id.credit != 0">Amount: ${{$root.fromMicroDollars(props.item.id.credit)}}(Credit)</h4>
-                                                            <h4 v-else>Amount: ${{$root.fromMicroDollars(props.item.id.debit)(Debit)}}</h4>
                                                         </v-layout>
                                                         <v-layout row wrap>
-                                                            <span v-if="props.item.id.credit != 0">
-                                                                
-                                                            </span>
-                                                            <span v-else>
-                                                            </span>               
-                                                        </v-layout>
-                                                        <v-layout row wrap mb-4>
-                                                            <ol>
-                                                                <li>
-                                                                    <span class="title">Payment is due in 7 days from the date this invoice is issued</span>   
-                                                                </li>  
-                                                                <li>
-                                                                    <span class="title">Payment shall be made through a bank wire transfer to the bank account of Tapklik Technologies DWC-LLC listed below
-                                                                    </span>                                           
-                                                                </li>
-                                                            </ol>
-                                                        </v-layout>
-                                                        <v-divider></v-divider>
-                                                        <v-layout row wrap mt-4>
-                                                            <v-flex md12>
-                                                                <span>Payments can be made by direct transfer to Tapklik Technologies DWC-LLC account details as listed below:</span>
+                                                            <v-flex xs12 class="valign-wrapper mb-1 mt-3">
+                                                                <h5>OUR DETAILS</h5>
                                                             </v-flex>
-                                                            <v-flex md12>
-                                                                <ul>
-                                                                    <li>
-                                                                        <span class="title"> Bank:</span><span> Mashreq Bank, Mall of the Emirates, Dubai, United Arab Emirates</span> 
-                                                                    </li>
-                                                                    <li>
-                                                                        <span class="title">Account Name:</span><span> TAPKLIK TECHNOLOGIES DWC LLC</span>    
-                                                                    </li>
-                                                                    <li>
-                                                                        <span class="title">Account Number:</span><span> 019100114240</span>
-                                                                    </li>
-                                                                    <li>
-                                                                        <span class="title">IBAN:</span><span> AE020330000019100114240</span>
-                                                                    </li>
-                                                                    <li>
-                                                                        <span class="title">Swift Code:</span><span> BOMLAEAD</span>
-                                                                    </li>
-                                                                </ul>
+                                                        </v-layout>
+                                                        <v-layout row wrap>
+                                                            <v-flex xs12 md6>
+                                                                <v-layout row wrap class="mt-4">
+                                                                    <v-flex xs12 md4 lg3 class="valign-wrapper">
+                                                                        <span class="title">Name: </span>
+                                                                    </v-flex>
+                                                                    <v-flex xs8 md5>
+                                                                        <v-icon>perm_identity</v-icon>
+                                                                        <span>Tapklik Technologies DWC-LLC</span>
+                                                                    </v-flex>
+                                                                </v-layout>
+                                                                <v-layout row wrap class="mt-4">
+                                                                    <v-flex xs12 md4 lg3 class="valign-wrapper">
+                                                                        <span class="title">Base of operation: </span>
+                                                                    </v-flex>
+                                                                    <v-flex xs8 md5>
+                                                                        <v-icon>perm_identity</v-icon>
+                                                                        <span>Business Center, Dubai World Central</span>
+                                                                    </v-flex>
+                                                                </v-layout>
                                                             </v-flex>
-                                                            <span>Please ONLY quote our invoice number as payment reference to avoid any processing delay</span>
+                                                            <v-flex xs12 md6>
+                                                                <v-layout row wrap class="mt-4">
+                                                                    <v-flex xs12 md4 lg3 class="valign-wrapper">
+                                                                        <span class="title">P.O. BOX: </span>
+                                                                    </v-flex>
+                                                                    <v-flex xs8 md5>
+                                                                        <v-icon>perm_identity</v-icon>
+                                                                        <span>3393</span>
+                                                                    </v-flex>
+                                                                </v-layout>
+                                                                <v-layout row wrap class="mt-4">
+                                                                    <v-flex xs12 md4 lg3 class="valign-wrapper">
+                                                                        <span class="title">Location: </span>
+                                                                    </v-flex>
+                                                                    <v-flex xs8 md5>
+                                                                        <v-icon>perm_identity</v-icon>
+                                                                        <span>Dubai, UAE</span>
+                                                                    </v-flex>
+                                                                </v-layout>
+                                                            </v-flex>
+                                                        </v-layout>
+                                                        <v-layout row wrap>
+                                                            <v-flex xs12 class="valign-wrapper mb-1 mt-3">
+                                                                <h5>SERVICE</h5>
+                                                            </v-flex>
+                                                        </v-layout>
+                                                        <v-layout row wrap>
+                                                            <v-flex xs12 md12>
+                                                                <v-layout row wrap class="mt-4">
+                                                                    <v-flex xs12 md4 lg3 class="valign-wrapper">
+                                                                        <span class="title">Description: </span>
+                                                                    </v-flex>
+                                                                    <v-flex xs8 md5>
+                                                                        <v-icon>perm_identity</v-icon>
+                                                                        <span>{{props.item.id.description}}</span>
+                                                                    </v-flex>
+                                                                </v-layout>
+                                                                <v-layout row wrap class="mt-4">
+                                                                    <v-flex xs12 md4 lg3 class="valign-wrapper">
+                                                                        <span class="title">Amount: </span>
+                                                                    </v-flex>
+                                                                    <v-flex xs8 md5 v-if="props.item.id.debit != 0">
+                                                                        <v-icon>perm_identity</v-icon>
+                                                                        <span> ${{$root.fromMicroDollars(props.item.id.debit)}} (Debit)</span>
+                                                                    </v-flex>
+                                                                    <v-flex xs8 md5 v-else>
+                                                                        <v-icon>perm_identity</v-icon>
+                                                                        <span> ${{$root.fromMicroDollars(props.item.id.credit)}} (Credit)</span>
+                                                                    </v-flex>
+                                                                </v-layout>
+                                                            </v-flex>
+                                                        </v-layout>
+                                                        <v-layout row wrap>
+                                                            <v-flex xs12 class="valign-wrapper mb-1 mt-3">
+                                                                <h5>PAYMENT DETAILS</h5>
+                                                            </v-flex>
+                                                        </v-layout>
+                                                        <v-layout row wrap>
+                                                            <v-flex xs12 md6>
+                                                                <v-layout row wrap class="mt-4">
+                                                                    <v-flex xs12 md4 lg3 class="valign-wrapper">
+                                                                        <span class="title">Bank: </span>
+                                                                    </v-flex>
+                                                                    <v-flex xs8 md5>
+                                                                        <v-icon>perm_identity</v-icon>
+                                                                        <span>Mashreq Bank, Mall of the Emirates, Dubai, United Arab Emirates</span>
+                                                                    </v-flex>
+                                                                </v-layout>
+                                                                <v-layout row wrap class="mt-4">
+                                                                    <v-flex xs12 md4 lg3 class="valign-wrapper">
+                                                                        <span class="title">Account Name: </span>
+                                                                    </v-flex>
+                                                                    <v-flex xs8 md5>
+                                                                        <v-icon>perm_identity</v-icon>
+                                                                        <span>TAPKLIK TECHNOLOGIES DWC LLC</span>
+                                                                    </v-flex>
+                                                                </v-layout>
+                                                                <v-layout row wrap class="mt-4">
+                                                                    <v-flex xs12 md4 lg3 class="valign-wrapper">
+                                                                        <span class="title">Account Number: </span>
+                                                                    </v-flex>
+                                                                    <v-flex xs8 md5>
+                                                                        <v-icon>perm_identity</v-icon>
+                                                                        <span>019100114240</span>
+                                                                    </v-flex>
+                                                                </v-layout>
+                                                            </v-flex>
+                                                            <v-flex xs12 md6>
+                                                                <v-layout row wrap class="mt-4">
+                                                                    <v-flex xs12 md4 lg3 class="valign-wrapper">
+                                                                        <span class="title">IBAN: </span>
+                                                                    </v-flex>
+                                                                    <v-flex xs8 md5>
+                                                                        <v-icon>perm_identity</v-icon>
+                                                                        <span>AE020330000019100114240</span>
+                                                                    </v-flex>
+                                                                </v-layout>
+                                                                <v-layout row wrap class="mt-4">
+                                                                    <v-flex xs12 md4 lg3 class="valign-wrapper">
+                                                                        <span class="title">SWIFT Code: </span>
+                                                                    </v-flex>
+                                                                    <v-flex xs8 md5>
+                                                                        <v-icon>perm_identity</v-icon>
+                                                                        <span>BOMLAEAD</span>
+                                                                    </v-flex>
+                                                                </v-layout>
+                                                            </v-flex>
+                                                        </v-layout>
+                                                        <v-layout row wrap>
+                                                            <v-flex xs12 class="valign-wrapper mb-1 mt-3">
+                                                                <h5>COMMENTS</h5>
+                                                            </v-flex>
+                                                        </v-layout>
+                                                        <v-layout row wrap>
+                                                            <v-flex xs12 md12>
+                                                                <v-layout row wrap class="mt-4">
+                                                                    <v-flex xs12 md12 lg12 class="valign-wrapper">
+                                                                        <span class="title">* Payment is due in 7 days from the date this invoice is issued</span>
+                                                                    </v-flex>
+                                                                </v-layout>
+                                                                <v-layout row wrap class="mt-4">
+                                                                    <v-flex xs12 md12 lg12 class="valign-wrapper">
+                                                                        <span class="title">* Payment shall be made through a bank wire transfer to the bank account of Tapklik Technologies DWC-LLC listed below</span>
+                                                                    </v-flex>
+                                                                </v-layout>
+                                                                <v-layout row wrap class="mt-4">
+                                                                    <v-flex xs12 md12 lg12 class="valign-wrapper">
+                                                                        <span class="title">* Please ONLY quote our invoice number as payment reference to avoid any processing delay</span>
+                                                                    </v-flex>
+                                                                </v-layout>
+                                                            </v-flex>
                                                         </v-layout>
                                                     </v-card-text>
                                                 </v-card>   
