@@ -176,7 +176,7 @@
                     <v-card>
                         <v-card-text>
                             <v-container fluid grid-list-md>
-                                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
+                                <v-alert dismissible v-bind:success='this.$root.alert.success' v-bind:error='this.$root.alert.error' v-model="this.$root.alert.alert" transition="scale-transition">{{this.$root.alert.alertMessage}}</v-alert>
                                 <v-layout row wrap>
                                     <v-flex xs12 md4 lg2>
                                         <v-select :items="publisherList" item-text="site" item-value="site" chips v-model="selectedPublishers1" label="Publisher Sites" multiple autocomplete></v-select>
@@ -655,10 +655,7 @@
             axios.get(this.$root.uri + '/campaigns', this.$root.config).then(response => {
                 this.campaignList = response.data.data;
             }, error => {
-                    this.alert = true;
-                    this.error = true;
-                    this.success = false;
-                    this.alertMessage = 'Something went wrong';
+                this.$root.showAlert('error', 'Something went wrong.');
             })
         },
 
@@ -667,10 +664,7 @@
             axios.get('/data/categories.json').then(response => {
                 this.categoriesList = response.data;
             }, error => {
-                    this.alert = true;
-                    this.error = true;
-                    this.success = false;
-                    this.alertMessage = 'Something went wrong';
+                this.$root.showAlert('error', 'Something went wrong.');
             });
         },
 
@@ -679,10 +673,7 @@
             axios.get('/data/technologies.json').then(response => {
                 this.technologiesList = response.data;
             }, error => {
-                    this.alert = true;
-                    this.error = true;
-                    this.success = false;
-                    this.alertMessage = 'Something went wrong';
+                this.$root.showAlert('error', 'Something went wrong.');
             });
         },
 
@@ -691,10 +682,7 @@
             axios.get('/data/countries.json').then(response => {
                 this.countriesList = response.data;
             }, error => {
-                    this.alert = true;
-                    this.error = true;
-                    this.success = false;
-                    this.alertMessage = 'Something went wrong';
+                this.$root.showAlert('error', 'Something went wrong.');
             });
         },
 
@@ -703,10 +691,7 @@
             axios.get('/data/publishers.json').then(response => {
                 this.publisherList = response.data;
             }, error => {
-                    this.alert = true;
-                    this.error = true;
-                    this.success = false;
-                    this.alertMessage = 'Something went wrong';
+                this.$root.showAlert('error', 'Something went wrong.');
             });
         },
 
@@ -715,10 +700,7 @@
             axios.get('/data/reportGeo.json').then(response => {
                 this.reportGeo = response.data;
             }, error => {
-                    this.alert = true;
-                    this.error = true;
-                    this.success = false;
-                    this.alertMessage = 'Something went wrong';
+                this.$root.showAlert('error', 'Something went wrong.');
             });
         },
 
@@ -727,10 +709,7 @@
             axios.get('/data/reportOverall.json').then(response => {
                 this.reportOverall = response.data;
             }, error => {
-                    this.alert = true;
-                    this.error = true;
-                    this.success = false;
-                    this.alertMessage = 'Something went wrong';
+                this.$root.showAlert('error', 'Something went wrong.');
             });
         },
 
@@ -739,10 +718,7 @@
             axios.get('/data/reportDevices.json').then(response => {
                 this.reportDevices = response.data;
             }, error => {
-                    this.alert = true;
-                    this.error = true;
-                    this.success = false;
-                    this.alertMessage = 'Something went wrong';
+                this.$root.showAlert('error', 'Something went wrong.');
             });
         },
 
@@ -751,10 +727,7 @@
             axios.get('/data/reportPublishers.json').then(response => {
                 this.reportPublishers = response.data;
             }, error => {
-                    this.alert = true;
-                    this.error = true;
-                    this.success = false;
-                    this.alertMessage = 'Something went wrong';
+                this.$root.showAlert('error', 'Something went wrong.');
             });
         },
 
@@ -990,28 +963,22 @@ dataCall(report, responseList, responseListSummary, chart) {
             this.createChart(chart, this[responseList], this.column, this.line);
         }
     }, error => {
-            this[responseList] = this.startingData;
-            this.createChart(chart, this[responseList], this.column, this.line);
-                    this.alert = true;
-                    this.error = true;
-                    this.success = false;
-                    this.alertMessage = 'Something went wrong';
+        this[responseList] = this.startingData;
+        this.createChart(chart, this[responseList], this.column, this.line);
+        this.$root.showAlert('error', 'Something went wrong.');
     });
+
     axios.get(this.$root.reportUri + this.generateQuery(report, 'summary'))
     .then(response => {
         var summary = response.data.data;
         if(summary == undefined) {
             this[responseListSummary] = this.startingDataSummary;
-        }
-        else {
-        this[responseListSummary] = response.data.data;
+        } else {
+            this[responseListSummary] = response.data.data;
         }
     }, error => {
-                    this[responseListSummary] = this.startingDataSummary;
-                    this.alert = true;
-                    this.error = true;
-                    this.success = false;
-                    this.alertMessage = 'Something went wrong';
+        this[responseListSummary] = this.startingDataSummary;
+        this.$root.showAlert('error', 'Something went wrong.');
     });
 }
 },

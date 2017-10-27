@@ -653,7 +653,7 @@
                     this.$root.showAlert('success', 'You have successfully deleted ' + folderName + '.');
                 }, error => {
 
-                    this.$root.showAlert('success', 'Something went wrong.');
+                    this.$root.showAlert('error', 'Something went wrong.');
                 });
             },
 
@@ -663,7 +663,7 @@
                     this.$root.showAlert('success', 'You have successfully deleted ' + creativeName + '.');
                 }, error => {
 
-                    this.$root.showAlert('success', 'Something went wrong.');
+                    this.$root.showAlert('error', 'Something went wrong.');
                 });
             },
 
@@ -674,7 +674,7 @@
                 }, error => {
                     this.creativesLoader = false;
 
-                    this.$root.showAlert('success', 'Something went wrong.');
+                    this.$root.showAlert('error', 'Something went wrong.');
                 });
             },
 
