@@ -134,12 +134,12 @@
                                             <v-icon>close</v-icon>                                    
                                             Cancel
                                         </v-btn>
-                                        <v-btn v-if="checkDimensions() == true" :loading="loading" primary dark :disabled="!(validClass && validWidth && validHeight && validName && validUrl && validFolder)" @click="loading = true, uploadCreative()" class="elevation-0">
+                                        <v-btn v-if="checkDimensions() == true" :loading="loading" primary :disabled="!(validClass && validWidth && validHeight && validName && validUrl && validFolder)" @click="loading = true, uploadCreative()" class="elevation-0">
                                             <v-icon>done</v-icon>
                                             Save
                                         </v-btn>
                                         <v-dialog v-else v-model="showModalDimensionsCheck" lazy absolute width="100%">
-                                            <v-btn slot="activator" :loading="loading" primary dark :disabled="!(validClass && validWidth && validHeight && validName && validUrl && validFolder)" @click="showModal = false" class="elevation-0">
+                                            <v-btn slot="activator" :loading="loading" primary :disabled="!(validClass && validWidth && validHeight && validName && validUrl && validFolder)" @click="showModal = false" class="elevation-0">
                                                 <v-icon>done</v-icon>
                                                 Save
                                             </v-btn>
@@ -158,7 +158,7 @@
                                                         <v-icon>close</v-icon>                                    
                                                         Cancel
                                                     </v-btn>
-                                                    <v-btn :loading="loading" primary dark :disabled="!(validClass && validWidth && validHeight && validName && validUrl && validFolder)" @click="loading = true, uploadCreative()" class="elevation-0">
+                                                    <v-btn :loading="loading" primary :disabled="!(validClass && validWidth && validHeight && validName && validUrl && validFolder)" @click="loading = true, uploadCreative()" class="elevation-0">
                                                         <v-icon>done</v-icon>
                                                         Save
                                                     </v-btn>

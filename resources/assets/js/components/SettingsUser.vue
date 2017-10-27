@@ -71,7 +71,8 @@
                                                     label="Old password"
                                                     prepend-icon="lock"
                                                     v-model="oldPassword"
-                                                    hint="Type your old password"
+                                                    :rules="checkOldPassword()"
+                                                    type="password"
                                                     ></v-text-field>
                                                 </v-flex>
                                             </v-layout>
@@ -81,7 +82,7 @@
                                                     label="New Password"
                                                     prepend-icon="lock"
                                                     v-model="password"
-                                                    hint="Type your new password. Minimum 8 characters"
+                                                    type="password"
                                                     ></v-text-field>
                                                 </v-flex>
                                             </v-layout>
@@ -91,7 +92,8 @@
                                                     label="New Password (Re-type)"
                                                     prepend-icon="lock"
                                                     v-model="confPassword"
-                                                    hint="Retype your new password"
+                                                    :rules="checkNewPassword()"
+                                                    type="password"
                                                     ></v-text-field>
                                                 </v-flex>
                                             </v-layout>
@@ -105,7 +107,7 @@
                                         <v-icon>close</v-icon>                                    
                                         Cancel
                                     </v-btn>
-                                    <v-btn primary dark @click="applyPlan(),showModal=false" class="elevation-0">
+                                    <v-btn primary :disabled="true" @click="changePassword(), showModal=false" class="elevation-0">
                                         <v-icon>done</v-icon>
                                         Save
                                     </v-btn>
@@ -149,7 +151,7 @@
         <v-divider class="mt-4"></v-divider>
         <v-layout row wrap class="mt-4"> 
             <v-flex xs12>
-                <v-btn primary large @click="updateUser()"><v-icon left class="white--text">cloud_upload</v-icon>Update you details</v-btn>
+                <v-btn primary large :loading="loading" @click="loading = true, updateUser()"><v-icon left class="white--text">cloud_upload</v-icon>Update you details</v-btn>
             </v-flex>
         </v-layout>
     </v-container>
@@ -177,7 +179,10 @@
                 confPassword: '',
                 showModal: false,
                 oldPassword: '',
-                ajax: false
+                ajax: false,
+                loading: false,
+                validOldPassword: false,
+                validNewPassword: false
             }
         },
 
@@ -198,6 +203,24 @@
         },
 
         methods: {
+            checkOldPassword() {
+                var password = this.oldPassword;
+                var message = ["Your password is incorrect"] 
+
+            },
+
+            checkNewPassword() {
+                var password = this.password;
+                var password2 = this.confPassword;
+                var message = ['The passwords do not match'];
+                if(password != password2) {
+                    this.validNewPassword = false;
+                    return message;
+                }
+                else {
+                    this.validNewPassword = true;
+                }
+            },
 
             fetchUsersDet() {
                 var self = this;
@@ -226,11 +249,13 @@
                     this.error = false;
                     this.success = true;
                     this.alertMessage = 'Succesful';
+                    this.loading = false;
                 }, error => {
                     this.alert = true;
                     this.error = true;
                     this.success = false;
                     this.alertMessage = 'Something went wrong';
+                    this.loading = false;
                 });
             },
 
@@ -242,7 +267,6 @@
                     email: this.userDet.email,
                     phone: this.userDet.phone,
                     status: this.userDet.status,
-                    password: this.password
                 };
             },
 

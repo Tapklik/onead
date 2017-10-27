@@ -8,8 +8,22 @@
                         <v-flex xs12 md10 lg8 offset-md1 offset-lg2>
                             <v-layout row wrap>
                                 <v-flex xs-12 md6 lg4>
-                                    <v-select :items="campaignList" item-text="name" prepend-icon="important_devices" item-value="id" chips v-model="selectedCampaigns1" label="Campaigns" multiple autocomplete></v-select>
-                                    <v-select :items="creativesList" item-text="name" prepend-icon="photo_library" item-value="id" chips v-model="selectedCreatives1" :disabled="!campaignsPresent" label="Creatives" multiple autocomplete></v-select>
+                                    <v-select :items="campaignList" item-text="name" prepend-icon="important_devices" item-value="id" chips v-model="selectedCampaigns1" label="Campaigns" multiple>
+                                        <template slot="item" scope="data">
+                                            <v-list-tile-content>
+                                                <v-list-tile-title v-html="data.item.name"></v-list-tile-title>
+                                                <v-list-tile-sub-title v-html="data.item.id"></v-list-tile-sub-title>
+                                            </v-list-tile-content>
+                                        </template>
+                                    </v-select>
+                                    <v-select :items="creativesList" item-text="name" prepend-icon="photo_library" item-value="id" chips v-model="selectedCreatives1" :disabled="!campaignsPresent" label="Creatives" multiple>
+                                        <template slot="item" scope="data">
+                                            <v-list-tile-content>
+                                                <v-list-tile-title v-html="data.item.name"></v-list-tile-title>
+                                                <v-list-tile-sub-title v-html="data.item.id"></v-list-tile-sub-title>
+                                            </v-list-tile-content>
+                                        </template>
+                                    </v-select>
                                 </v-flex>
                                 <v-spacer></v-spacer>
                                 <v-flex xs-12 md6>
