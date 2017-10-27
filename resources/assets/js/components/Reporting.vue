@@ -788,7 +788,9 @@
                         "id": "g2",
                         "type" : "smoothedLine",
                         "lineColor":"#f76c06",
-                        "showBalloon": false,
+                        "balloonText": "[[date]] <br> ---------------- <br>"+column+" :[["+column+"]]<br>"+line+": [["+line+"]]",
+                        "bullet": "round",
+                        "bulletSize": 4,
                         "lineThickness": 2,
                         "title": line,
                         "valueField": line
