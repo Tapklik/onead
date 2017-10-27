@@ -329,12 +329,6 @@
                                             <td>
                                                 {{ props.item.id.class | uppercase }}
                                             </td>
-                                            <td v-if="props.item.id.responsive == 1">
-                                                <b>R</b>
-                                            </td>
-                                            <td v-else>
-                                                <b>NR</b>
-                                            </td>
                                             <td>
                                                 {{ props.item.id.w }} x {{ props.item.id.h }}
                                             </td>
