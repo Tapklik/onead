@@ -136,7 +136,7 @@
                                             Save
                                         </v-btn>
                                         <v-dialog v-else v-model="showModalDimensionsCheck" lazy absolute width="100%">
-                                            <v-btn slot="activator" :loading="loading" primary :disabled="!(validClass && validWidth && validHeight && validName && validUrl && validFolder)" @click="showModal = false" class="elevation-0">
+                                            <v-btn slot="activator" :loading="loading" primary :disabled="!(validClass && validWidth && validHeight && validName && validFolder)" @click="showModal = false" class="elevation-0">
                                                 <v-icon>done</v-icon>
                                                 Save
                                             </v-btn>
@@ -155,7 +155,7 @@
                                                         <v-icon>close</v-icon>                                    
                                                         Cancel
                                                     </v-btn>
-                                                    <v-btn :loading="loading" primary :disabled="!(validClass && validWidth && validHeight && validName && validUrl && validFolder)" @click="loading = true, uploadCreative()" class="elevation-0">
+                                                    <v-btn :loading="loading" primary :disabled="!(validClass && validWidth && validHeight && validName && validFolder)" @click="loading = true, uploadCreative()" class="elevation-0">
                                                         <v-icon>done</v-icon>
                                                         Save
                                                     </v-btn>
@@ -426,7 +426,6 @@
                 validName: false,
                 validHeight: false,
                 validWidth: false,
-                validUrl: false,
                 validFolder: false,
                 validClass: false,
                 validFile: false,
@@ -504,7 +503,7 @@
                 }
                 else this.validName = true;
             },
-            
+
             heightRules() {
                 var dimensions = ['This must be filled in'];
 
