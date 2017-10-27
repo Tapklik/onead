@@ -109,7 +109,7 @@
                                                         <span class="caption ma-0">Click-through url per creative</span>
                                                     </v-flex>    
                                                     <v-flex xs12 md9>
-                                                        <v-text-field prepend-icon="language" :rules="domainRules()" v-model="creativeAttributes.url" placeholder="URL"></v-text-field>
+                                                        <v-text-field prepend-icon="language" v-model="creativeAttributes.url" placeholder="URL"></v-text-field>
                                                     </v-flex>
                                                 </v-layout>
                                                 <v-layout row wrap class="mt-4">
@@ -131,7 +131,7 @@
                                             <v-icon>close</v-icon>                                    
                                             Cancel
                                         </v-btn>
-                                        <v-btn v-if="checkDimensions() == true" :loading="loading" primary :disabled="!(validClass && validWidth && validHeight && validName && validUrl && validFolder)" @click="loading = true, uploadCreative()" class="elevation-0">
+                                        <v-btn v-if="checkDimensions() == true" :loading="loading" primary :disabled="!(validClass && validWidth && validHeight && validName && validFolder)" @click="loading = true, uploadCreative()" class="elevation-0">
                                             <v-icon>done</v-icon>
                                             Save
                                         </v-btn>
@@ -503,18 +503,6 @@
                     return name;
                 }
                 else this.validName = true;
-            },
-
-            domainRules() {
-                var url = ['not a valid url'];
-                if((this.creativeAttributes.url.startsWith("http://") && this.creativeAttributes.url.includes("."))|| (this.creativeAttributes.url.startsWith("https://") && this.creativeAttributes.url.includes("."))) {
-                    this.validUrl = true;
-                }
-                
-                else {
-                    this.validUrl = false;
-                    return url;
-                }
             },
 
             heightRules() {
