@@ -589,7 +589,8 @@
                     headers: {"Authorization": 'Bearer ' + this.token},
                     autoProcessQueue: false,
                     thumbnailWidth: 120,
-                    thumbnailHeight: 120
+                    thumbnailHeight: 120,
+                    clickable: ['.uploader-title', '#uploader']
                 });
 
                 this.dropzone.on("addedfile", function(file, thumb) {

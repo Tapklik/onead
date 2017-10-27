@@ -201,6 +201,7 @@ i.icon.small {
 
 #uploader {
   background: repeating-linear-gradient(45deg, #dddddd, #dddddd 10px, #eeeeee 10px, #eeeeee 20px);
+  cursor: pointer;
 }
 
 #uploader .uploader-title {
