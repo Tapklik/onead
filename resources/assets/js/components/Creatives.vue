@@ -220,7 +220,7 @@
                         </v-flex>
                     </v-card-title>
                     <v-divider></v-divider>
-                    <v-card-text v-if="trueFolders == ''">
+                    <v-card-text v-if="folderLoader == true">
                         <scale-loader :loading="true" color="#9e9e9e" height="15px" width="3px" class="mt-5"></scale-loader>
                     </v-card-text>
                     <v-card-text v-else-if="!currentFolder.id">
@@ -281,7 +281,7 @@
                             </v-flex>
                         </v-layout>
                     </v-card-text>
-                    <v-card-text v-else-if="folderCreatives == ''">
+                    <v-card-text v-else-if="creativesLoader == true">
                         <scale-loader :loading="true" color="#9e9e9e" height="15px" width="3px" class="mt-5"></scale-loader>
                     </v-card-text>
                     <v-card-text v-else>
@@ -474,7 +474,9 @@
                 search: '',
                 loading: false,
                 folderCreatives: [],
-                trueFolders: []
+                trueFolders: [],
+                folderLoader: true,
+                creativesLoader: true
             }
         },
         
@@ -565,15 +567,17 @@
             },
 
             getFolders() {
-
+                this.folderLoader = true;
                 axios.get(this.$root.uri + '/creatives/folders', this.$root.config).then(response => {
 
                     this.folders = response.data;
+                    this.folderLoader = false;
                 }, error => {
                     this.alert = true;
                     this.error = true;
                     this.success = false;
                     this.alertMessage = 'Bim';
+                    this.folderLoader = false;
                 });
             },
 
@@ -616,6 +620,7 @@
             },
 
             openFolder(folderObj) {
+                this.creativesLoader = true;
                 this.currentFolder = folderObj;
                 this.getFolderCreatives(folderObj.id);
                 this.folderId = this.currentFolder.key;
@@ -675,11 +680,13 @@
             getFolderCreatives(folderId) {
                 axios.get(this.$root.uri + '/creatives/folders/' + folderId, this.$root.config).then(response => {
                     this.creatives = response.data;
+                    this.creativesLoader = false;
                 }, error => {
                     this.alert = true;
                     this.error = true;
                     this.success = false;
                     this.alertMessage = 'Bam';
+                    this.creativesLoader = false;
                 });
             },
 

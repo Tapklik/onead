@@ -20,7 +20,10 @@
                         </v-flex>
                     </v-card-title>
                     <v-divider></v-divider>
-                    <v-card-text>
+                    <v-card-text v-if="billLoader == true">
+                        <scale-loader :loading="true" color="#9e9e9e" height="15px" width="3px" class="mt-5"></scale-loader>
+                    </v-card-text>
+                    <v-card-text v-else>
                         <v-layout row wrap>
                             <v-flex xs12>
                                 <v-alert 
@@ -320,7 +323,8 @@
                 tabIndex: 0,
                 search: '',
                 showModal1: false,
-                trueBills: []
+                trueBills: [],
+                billLoader: true
             }
         },
 
@@ -364,12 +368,14 @@
 
             axios.get(this.$root.uri + '/accounts/' + this.user.accountUuId + '/banker/main?type=billing', this.$root.config).then(response => {
                 this.bills = response.data.data;
+                this.billLoader = false;
 
             }, error => {
                 this.success = false;
                 this.error = true;
                 this.alert = true;
                 this.alertMessage = 'Something went wrong!';
+                this.billLoader = false;
             
             })
         }
