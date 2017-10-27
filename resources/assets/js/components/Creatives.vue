@@ -30,8 +30,7 @@
                                                         id="uploader" 
                                                         height="80px" 
                                                         class="elevation-0"
-                                                        @mouseenter="dropzoneMaker()"
-                                                        >
+                                                        @mouseenter="dropzoneMaker()">
                                                             <div class="uploader-title"><v-icon>cloud_upload</v-icon> Drop Files Here</div>
                                                         </v-card>
                                                         <span class="red--text" v-show="!validFile">You must upload an image</span>
@@ -105,22 +104,20 @@
                                                     </v-flex>
                                                 </v-layout>
                                                 <v-layout row wrap class="mt-4">
-                                                    <v-flex xs12 md4 lg3  class="valign-wrapper">
+                                                    <v-flex xs12 md3 lg2 class="valign-wrapper">
                                                         <span class="title">Click-Through URL</span><br>
-                                                        <p class="ma-0">Click-through url per creative</p>
+                                                        <span class="caption ma-0">Click-through url per creative</span>
                                                     </v-flex>    
-                                                    <v-flex xs12 md8>
-                                                        <form>
-                                                            <v-text-field prepend-icon="language" :rules="domainRules()" v-model="creativeAttributes.url" placeholder="URL" type="url"></v-text-field>
-                                                        </form>
+                                                    <v-flex xs12 md9>
+                                                        <v-text-field prepend-icon="language" :rules="domainRules()" v-model="creativeAttributes.url" placeholder="URL"></v-text-field>
                                                     </v-flex>
                                                 </v-layout>
                                                 <v-layout row wrap class="mt-4">
-                                                    <v-flex xs12 md4 lg3 class="valign-wrapper">
+                                                    <v-flex xs12 md3 lg2 class="valign-wrapper">
                                                         <span class="title">Ad Markup</span><br>
-                                                        <p class="ma-0">Set iframe or HTML markup</p>
+                                                        <p class="caption ma-0">Set iframe or HTML markup</p>
                                                     </v-flex>
-                                                    <v-flex xs12 md8>
+                                                    <v-flex xs12 md9>
                                                         <v-text-field prepend-icon="language" placeholder="Ad Markup"></v-text-field>
                                                     </v-flex>
                                                 </v-layout>
