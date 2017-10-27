@@ -29,25 +29,25 @@
             </v-stepper-header>
             <v-divider></v-divider>
             <v-stepper-content step="1">
-                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
+                <v-alert dismissible v-bind:success='$root.alert.success' v-bind:error='$root.alert.error' v-model="$root.alert.alert" transition="scale-transition">{{$root.alert.alertMessage}}</v-alert>
                 <campaign-details :campaign="campaign" :state="stateReady"
                 :startTime="campaign.start_time"
                 :endTime="campaign.end_time"></campaign-details>
             </v-stepper-content>
             <v-stepper-content step="2">
-                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
+                <v-alert dismissible v-bind:success='$root.alert.success' v-bind:error='$root.alert.error' v-model="$root.alert.alert" transition="scale-transition">{{$root.alert.alertMessage}}</v-alert>
                 <campaign-categories :campaign="campaign" :selectedCategories="selectedCategories" :state="stateReady"></campaign-categories>
             </v-stepper-content>
             <v-stepper-content step="3">
-                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
+                <v-alert dismissible v-bind:success='$root.alert.success' v-bind:error='$root.alert.error' v-model="$root.alert.alert" transition="scale-transition">{{$root.alert.alertMessage}}</v-alert>
                <campaign-creatives :user="user" :token="token" :campaign="campaign"></campaign-creatives>
             </v-stepper-content>
             <v-stepper-content step="4">
-                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
+                <v-alert dismissible v-bind:success='$root.alert.success' v-bind:error='$root.alert.error' v-model="$root.alert.alert" transition="scale-transition">{{$root.alert.alertMessage}}</v-alert>
                 <campaign-targeting :campaign="campaign" :selectedUa="selectedUa" :selectedOs="selectedOs" :selectedDevices="selectedDevices" :state="stateReady"></campaign-targeting>
             </v-stepper-content>
             <v-stepper-content step="5">
-                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
+                <v-alert dismissible v-bind:success='$root.alert.success' v-bind:error='$root.alert.error' v-model="$root.alert.alert" transition="scale-transition">{{$root.alert.alertMessage}}</v-alert>
                 <campaign-review :selectedUa="selectedUa" :selectedOs="selectedOs" :selectedDevices="selectedDevices" :selectedCategories="selectedCategories" :user="user" :token="token" :campaign="campaign" :state="stateReady" :folder="currentFolder" :gender="selectedGender()"></campaign-review>
             </v-stepper-content>
         </v-stepper>
@@ -83,10 +83,6 @@
                 validGeo: false,
                 validDevices: false,
                 technologiesList: [],
-                alert: false,
-                error: false,
-                success: false,
-                alertMessage: '',
                 e1: 1,
                 campaignId: null,
                 campaign: {
@@ -182,10 +178,7 @@
                     axios.post(this.$root.uri + '/campaigns', this.draftStartData(), this.$root.config).then(response => {
                         this.campaign.id = response.data.data.id;
                     }, error => {
-                        this.alert = true;
-                        this.success = false;
-                        this.error = true;
-                        this.alertMessage = 'Something went wrong';
+                        this.$root.showAlert('error', 'Something went wrong');
                     });
                 }
             },
@@ -212,10 +205,7 @@
                 axios.get('/data/categories.json').then(response => {
                     this.categoriesList = response.data;
                 }, error => {
-                    this.alert = true;
-                    this.error = true;
-                    this.success = false;
-                    this.alertMessage = 'Something went wrong';
+                    this.$root.showAlert('error', 'Something went wrong');
                 });
             },
 
@@ -227,10 +217,7 @@
 
                     this.fetchCampaignCategories(id);
                 }, error => {
-                    this.alert = true;
-                    this.error = true;
-                    this.success = false;
-                    this.alertMessage = 'Something went wrong';
+                    this.$root.showAlert('error', 'Something went wrong');
                 });
             },
 
@@ -242,10 +229,7 @@
 
                     this.fetchCampaignUser(id);
                 }, error => {
-                    this.alert = true;
-                    this.error = true;
-                    this.success = false;
-                    this.alertMessage = 'Something went wrong';
+                    this.$root.showAlert('error', 'Something went wrong');
                 });
             },
             
@@ -256,10 +240,7 @@
 
                     this.fetchCampaignBudget(id);
                 }, error => {
-                    this.alert = true;
-                    this.error = true;
-                    this.success = false;
-                    this.alertMessage = 'Something went wrong';
+                    this.$root.showAlert('error', 'Something went wrong');
                 });
             },
 
@@ -269,10 +250,7 @@
                     this.campaign.budget = response.data;
 
                 }, error => {
-                    this.alert = true;
-                    this.error = true;
-                    this.success = false;
-                    this.alertMessage = 'Something went wrong';
+                    this.$root.showAlert('error', 'Something went wrong');
                 });
             },
 
@@ -316,10 +294,7 @@
                 axios.get('/data/technologies.json').then(response => {
                     this.technologiesList = response.data;
                 }, error => {
-                    this.alert = true;
-                    this.error = true;
-                    this.success = false;
-                    this.alertMessage = 'Something went wrong';
+                    this.$root.showAlert('error', 'Something went wrong');
                 });
             },
         },

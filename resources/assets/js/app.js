@@ -88,7 +88,13 @@ const app = new Vue({
         alertmessage1: '',
         pagetitle: 'Something',
         balance: 0,
-        flight: 0
+        flight: 0,
+        alert: {
+            alert: false,
+            error: false,
+            success: false,
+            alertMessage: ''
+        }
     },
 
     methods: {
@@ -139,7 +145,6 @@ const app = new Vue({
             }
         },
 
-
         toMicroDollars(value) {
             if(value) {
                 return (value * 1000000);
@@ -154,6 +159,20 @@ const app = new Vue({
             } else {
                 return null;
             }
+        },
+
+        showAlert(type, message, timeout) {
+
+            var timeout = (!timeout) ? 2000 : parseInt(timeout);
+
+            this.alert.alert = true;
+            this.alert.success = (type == 'success') ? true : false;
+            this.alert.error = (type == 'error') ? true : false;
+            this.alert.alertMessage = message;
+
+            setTimeout(function () {
+                this.alert.alert = false;
+            }.bind(this), timeout);
         }
 
     },

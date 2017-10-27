@@ -34,9 +34,8 @@
                     <v-card-text v-else>
                         <v-layout row wrap>
                             <v-flex xs12>   
-                                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
-                                <v-alert dismissible v-bind:success='success1' v-bind:error='error1' v-model="alert1" transition="scale-transition">{{alertmessage1}}</v-alert>
-                                <v-data-table 
+                                <v-alert dismissible v-bind:success='this.$root.alert.success' v-bind:error='this.$root.alert.error' v-model="this.$root.alert.alert" transition="scale-transition">{{this.$root.alert.alertMessage}}</v-alert>
+                                <v-data-table
                                 :pagination.sync="pagination"
                                 v-bind:items="filteredCampaigns"
                                 no-data-text=""
@@ -102,13 +101,7 @@
             this.$root.isLoading = false;
 
             if(typeof data !== 'undefined') {
-                this.alert = true;
-                this.success = true;
-                this.alertMessage = data.message;
-
-                setTimeout(function () {
-                    this.alert = false;
-                }.bind(this), 2000);
+                this.$root.showAlert('success', data.message);
             }
         },
 
@@ -117,10 +110,6 @@
         data() {
             return {
                 loadingPress: false,
-                alert: false,
-                error: false,
-                success: false,
-                alertMessage: '',
                 campaigns: [],
                 max25chars: (v) => v.length <= 25 || 'Input too long!',
                 tmp: '',
@@ -166,7 +155,6 @@
                     axios.put(this.$root.uri + '/campaigns/' + id, {status: changeStatusTo}, this.$root.config).then(response => {
                         this.fetchCampaigns();
                     }, error => {
-                       console.log(error);
                         this.fetchCampaigns();
                     });
                 }
@@ -177,11 +165,7 @@
 
             fetchCampaigns() {
                 var a = [];
-                axios.get(this.$root.uri + '/campaigns', {
-                    headers: {
-                        'Authorization': 'Bearer ' + this.token
-                    }
-                }).then(response => {
+                axios.get(this.$root.uri + '/campaigns', this.$root.config).then(response => {
                     var campaigns = response.data.data;
                     for(var c in campaigns) {
                         a.push({id: campaigns[c], loading: false})
@@ -189,11 +173,8 @@
                     this.campaigns = a;
                     this.campaignsLoader = false;
                 }, error => {
-                    this.alert = true;
-                    this.error = true;
-                    this.success = false;
-                    this.alertMessage = 'Something went wrong';
                     this.campaignsLoader = false;
+                    this.$root.showAlert('error', 'Error fetching folders.');
                 })
             },
 
