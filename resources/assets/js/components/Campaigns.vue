@@ -70,7 +70,7 @@
                                             <v-btn :loading="props.item.loading" icon class="grey--text" v-else  @click="props.item.loading= true, toggleCampaignStatus(props.index, props.item.id.id, props.item.id.status)">
                                                 <v-icon>play_circle_outline</v-icon>
                                             </v-btn>
-                                            <v-btn icon class="grey--text" @click="deleteCampaign(props.item.id.id)">
+                                            <v-btn icon class="grey--text" @click="deleteCampaign(props.item.id.id, props.item.id.status)">
                                                 <v-icon>delete</v-icon>
                                             </v-btn>
                                             <v-btn icon class="grey--text" :href="editCampaignRouter + props.item.id.id">
@@ -178,15 +178,26 @@
                 })
             },
 
-            deleteCampaign(campaignId) {
-
-                axios.put(this.$root.uri + '/campaigns/' + campaignId, {status: 'deleted'}, this.$root.config).then(response => {
-                    this.fetchCampaigns();
-                }, error => {
-                    alert(error);
-                }).bind(this);
-
-                return false;
+            deleteCampaign(campaignId, status) {
+                if(status != 'draft'){
+                    axios.put(this.$root.uri + '/campaigns/' + campaignId, {status: 'deleted'}, this.$root.config).then(response => {
+                        this.fetchCampaigns();
+                    }, error => {
+                        alert(error);
+                    }).bind(this);
+    
+                    return false;
+                }
+                else {
+                    axios.delete(this.$root.uri + '/campaigns/' + campaignId, this.$root.config).then(
+                        response => {
+                            this.fetchCampaigns();
+                    }, error => {
+                        alert(error);
+                    });
+            
+                    return false;
+                }
             },
 
             getCampaignProgress(campaign) {

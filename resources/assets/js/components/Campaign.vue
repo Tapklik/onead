@@ -5,7 +5,7 @@
             <v-stepper-header class="elevation-0">
                 <v-stepper-step step="1" :complete="e1 > 1" editable>
                     DETAILS
-                    <small class="red--text" v-if="validDetailsPage() == false  && e1 >1">Fill out everything</small>
+                    <small class="red--text" v-if="validDetailsPage() == false  && e1 >1">Errors Found</small>
                 </v-stepper-step>
                 <v-divider></v-divider>
                 <v-stepper-step step="2" :complete="e1 > 2" editable>
@@ -20,7 +20,7 @@
                 <v-divider></v-divider>
                 <v-stepper-step step="4" :complete="e1 > 4" editable>
                     TARGETING
-                    <small class="red--text" v-if="validTargettingPage() == false && e1 >4">Fill out everything</small>
+                    <small class="red--text" v-if="validTargettingPage() == false && e1 >4">Errors Found</small>
                 </v-stepper-step>
                 <v-divider></v-divider>
                 <v-stepper-step step="5" editable>
@@ -81,7 +81,6 @@
                 validCreatives: false,
                 validCategories: false,
                 validGeo: false,
-                validGender: false,
                 validDevices: false,
                 technologiesList: [],
                 e1: 1,
@@ -168,7 +167,7 @@
                 else return false;
             },
             validTargettingPage() {
-                if(this.validGeo == true && this.validGender == true && this.validDevices == true) {
+                if(this.validGeo == true && this.validDevices == true) {
                     return true;      
                 }
                 else return false;

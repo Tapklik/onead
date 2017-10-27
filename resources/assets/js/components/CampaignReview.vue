@@ -213,13 +213,10 @@
                     <v-flex xs4 class="valign-wrapper">
                         <span class="caption">Audience Gender</span>
                     </v-flex>
-                    <v-flex xs8 v-if="$parent.$parent.$parent.validGender == true">
+                    <v-flex xs8>
                         <v-btn icon :key="gender" v-for="gender in campaign.user.data.gender">
                             <v-icon>{{genderIcon(gender)}}</v-icon>
                         </v-btn>
-                    </v-flex>
-                    <v-flex xs8 v-else>
-                        <span class="red--text">Select a Gender</span>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap class="mt-4">
@@ -316,7 +313,6 @@
                     this.$parent.$parent.$parent.validCreatives == true &&
                     this.$parent.$parent.$parent.validCategories == true &&
                     this.$parent.$parent.$parent.validGeo == true &&
-                    this.$parent.$parent.$parent.validGender == true &&
                     this.$parent.$parent.$parent.validDevices == true) {
                     return true;      
                 }
