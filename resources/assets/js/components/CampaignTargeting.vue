@@ -233,24 +233,11 @@
             },
 
             devicesRules() {
-                if(this.campaign.device.data.type == '' && this.campaign.device.data.os == '' && this.campaign.device.data.ua == '') {
+                if(this.campaign.device.data.type == '') {
                     this.$parent.$parent.$parent.validDevices = false;
-                    return true;
                 }
                 else {
-                    this.$parent.$parent.$parent.validDevices = true; 
-                    return false;
-                }
-            },
-
-            genderRules() {
-                if(this.campaign.user.data.gender == '') {
-                    this.$parent.$parent.$parent.validGender = false;
-                    return true;
-                }
-                else {
-                    this.$parent.$parent.$parent.validGender = true;
-                    return false;
+                    this.$parent.$parent.$parent.validDevices = true;
                 }
             },
 
@@ -468,6 +455,7 @@
             selectedDevices(value) {
                 if(this.campaign.id == undefined) return;
                 this.updateDraftDevice();
+                this.devicesRules();
             },
             gender(value) {
                 if(this.campaign.id) return;

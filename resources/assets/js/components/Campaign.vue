@@ -81,7 +81,6 @@
                 validCreatives: false,
                 validCategories: false,
                 validGeo: false,
-                validGender: false,
                 validDevices: false,
                 technologiesList: [],
                 alert: false,
@@ -172,7 +171,7 @@
                 else return false;
             },
             validTargettingPage() {
-                if(this.validGeo == true && this.validGender == true && this.validDevices == true) {
+                if(this.validGeo == true && this.validDevices == true) {
                     return true;      
                 }
                 else return false;

@@ -47,12 +47,10 @@
         methods: {
             categoriesRules() {
                 if(this.selectedCategories == '') {
-                    this.$parent.$parent.$parent.validCategories = false; 
-                    return true
+                    this.$parent.$parent.$parent.validCategories = false;
                 }
                 else {
                     this.$parent.$parent.$parent.validCategories = true;
-                    return false;
                 }
             },
 
@@ -85,6 +83,7 @@
             selectedCategories(value) {
                 if(this.campaign.id == undefined) return;
                 this.updateDraftCategories();
+                this.categoriesRules();
             }
         }
     }

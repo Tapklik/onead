@@ -64,7 +64,7 @@
                                         <tr @mouseenter="imageSource = props.item.thumb, sample= props.item.name, statusShow = props.item.approved, typeShow = props.item.class, dimensionsShow = props.item.w + 'x' + props.item.h" v-show="props.item.approved == 'approved'">
                                             <td width="40" class="text-xs-right">
                                                 <v-checkbox
-                                                @click="props.selected = !props.selected"
+                                                @click="props.selected = !props.selected, creativesRules()"
                                                 @change="updateDraftCreatives()"
                                                 :input-value="props.selected"
                                                 hide-details
@@ -186,12 +186,10 @@
             creativesRules() {
                 if(this.campaign.creatives.data == '') {
                     this.$parent.$parent.$parent.validCreatives = false;
-                    return true;
                 }
                 
                 else {
                     this.$parent.$parent.$parent.validCreatives = true;
-                    return false;
                 }
             
             },
@@ -366,11 +364,13 @@
 
     watch: {
         token(value) {
-
             if(typeof value != 'undefined') {
                 this.getFolders();
             }
-            }
+        },
+        campaign(value) {
+            this.creativesRules();
         }
-    }
+    },
+}
 </script>
