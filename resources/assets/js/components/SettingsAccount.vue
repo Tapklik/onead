@@ -165,6 +165,10 @@
                     this.error = true;
                     this.success = false;
                     this.alertMessage = 'Something went wrong';
+
+                    setTimeout(function () {
+                        this.alert = false;
+                    }.bind(this), 2000);
                 });
             },
 
@@ -178,6 +182,10 @@
                     this.error = true;
                     this.success = false;
                     this.alertMessage = 'Something went wrong';
+
+                    setTimeout(function () {
+                        this.alert = false;
+                    }.bind(this), 2000);
                 });
             },
 
@@ -202,6 +210,10 @@
                     this.error = true;
                     this.success = false;
                     this.alertMessage = 'Something went wrong';
+
+                    setTimeout(function () {
+                        this.alert = false;
+                    }.bind(this), 2000);
                 });
             },
             updateAccountDetails() {
@@ -212,11 +224,19 @@
                     this.error = false;
                     this.success = true;
                     this.alertMessage = 'Succesful';
+
+                    setTimeout(function () {
+                        this.alert = false;
+                    }.bind(this), 2000);
                 }, error => {
                     this.alert = true;
                     this.error = true;
                     this.success = false;
                     this.alertMessage = 'Something went wrong';
+
+                    setTimeout(function () {
+                        this.alert = false;
+                    }.bind(this), 2000);
                 });
             },
 
@@ -254,6 +274,10 @@
                     this.error = true;
                     this.success = false;
                     this.alertMessage = 'Something went wrong';
+
+                  setTimeout(function () {
+                      this.alert = false;
+                  }.bind(this), 2000);
             });
           },
 
@@ -266,6 +290,10 @@
                     this.error = true;
                     this.success = false;
                     this.alertMessage = 'Something went wrong';
+
+                setTimeout(function () {
+                    this.alert = false;
+                }.bind(this), 2000);
             });
         },
 

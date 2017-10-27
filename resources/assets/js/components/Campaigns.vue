@@ -194,6 +194,10 @@
                     this.success = false;
                     this.alertMessage = 'Something went wrong';
                     this.campaignsLoader = false;
+
+                    setTimeout(function () {
+                        this.alert = false;
+                    }.bind(this), 2000);
                 })
             },
 

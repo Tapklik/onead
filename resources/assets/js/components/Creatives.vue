@@ -226,8 +226,8 @@
                     <v-card-text v-else-if="!currentFolder.id">
                         <v-layout row wrap>
                             <v-flex xs12 md10 lg8>
-                                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">
-                                {{alertMessage}}
+                                <v-alert dismissible v-bind:success='this.$root.alert.success' v-bind:error='this.$root.alert.error' v-model="this.$root.alert.alert" transition="scale-transition">
+                                {{this.$root.alert.alertMessage}}
                                 </v-alert>
                                 <v-data-table :items="filteredFolders" hide-actions class="no-headers creatives-explorer">
                                     <template slot="headers" scope="props">
@@ -264,7 +264,7 @@
                                                         <v-card-actions>
                                                             <v-spacer></v-spacer>
                                                             <v-btn class="elevation-0" @click="props.item.modal = false">
-                                                                <v-icon>close</v-icon>                                   
+                                                                <v-icon>close</v-icon>
                                                                 Cancel
                                                             </v-btn>
                                                             <v-btn primary dark class="elevation-0" @click="deleteFolder(deleteFolderId, deleteFolderName), showModal2=false">
@@ -272,8 +272,8 @@
                                                                 Delete
                                                             </v-btn>
                                                         </v-card-actions>
-                                                    </v-card>   
-                                                </v-dialog> 
+                                                    </v-card>
+                                                </v-dialog>
                                             </td>
                                         </tr>
                                     </template>
@@ -299,16 +299,16 @@
                         </v-layout>
                         <v-layout row wrap>
                             <v-flex xs12 md9>
-                                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
+                                <v-alert dismissible v-bind:success='this.$root.alert.success' v-bind:error='this.$root.alert.error' v-model="this.$root.alert.alert" transition="scale-transition">{{this.$root.alert.alertMessage}}</v-alert>
                                 <v-data-table :items="filteredCreatives" hide-actions class="creatives-explorer no-headers" v-bind:rows-per-page-items="[10, 25, { value: -1 }]">
                                     <template slot="headers" scope="props">
                                         &nbsp;
                                     </template>
                                     <template slot="items" scope="props">
-                                        <tr 
-                                        @mouseenter="imageSource = props.item.id.thumb, sample= props.item.id.name, statusShow = props.item.id.approved, 
+                                        <tr
+                                        @mouseenter="imageSource = props.item.id.thumb, sample= props.item.id.name, statusShow = props.item.id.approved,
                                         typeShow = props.item.id.class, dimensionsShow = props.item.id.w + 'x' + props.item.id.h"
-                                        @mouseleave="imageSource = '', sample='sample', statusShow = '', 
+                                        @mouseleave="imageSource = '', sample='sample', statusShow = '',
                                         typeShow = 'TYPE', dimensionsShow = ''"
                                         >
                                             <td class="text-xs-left">
@@ -351,7 +351,7 @@
                                                         <v-card-actions>
                                                             <v-spacer></v-spacer>
                                                             <v-btn class="elevation-0" @click="props.item.modal = false">
-                                                                <v-icon>close</v-icon>                                   
+                                                                <v-icon>close</v-icon>
                                                                 Cancel
                                                             </v-btn>
                                                             <v-btn primary dark class="elevation-0" @click="deleteCreative(deleteCreativeId, deleteCreativeName), props.item.modal=false">
@@ -359,7 +359,7 @@
                                                                 Delete
                                                             </v-btn>
                                                         </v-card-actions>
-                                                    </v-card>   
+                                                    </v-card>
                                                 </v-dialog>
                                             </td>
                                         </tr>
@@ -369,7 +369,7 @@
                                     </template>
                                 </v-data-table>
                             </v-flex>
-                            <v-flex xs12 md3 class="valign-wrapper mt-4">                                
+                            <v-flex xs12 md3 class="valign-wrapper mt-4">
                                 <v-layout row wrap>
                                     <v-flex xs12>
                                         <v-card class="elevation-0 left-border pl-3" height="500px">
@@ -479,7 +479,7 @@
                 creativesLoader: true
             }
         },
-        
+
         methods: {
             defineCreatives() {
                 var creatives = this.creatives.data;
@@ -513,7 +513,7 @@
                 if((this.creativeAttributes.url.startsWith("http://") && this.creativeAttributes.url.includes("."))|| (this.creativeAttributes.url.startsWith("https://") && this.creativeAttributes.url.includes("."))) {
                     this.validUrl = true;
                 }
-                
+
                 else {
                     this.validUrl = false;
                     return url;
@@ -522,7 +522,7 @@
 
             heightRules() {
                 var dimensions = ['This must be filled in'];
-                
+
                 if(this.creativeAttributes.h == '') {
                     this.validHeight = false;
                     return dimensions;
@@ -534,7 +534,7 @@
 
             widthRules() {
                 var dimensions = ['This must be filled in'];
-                
+
                 if(this.creativeAttributes.w == '') {
                     this.validWidth = false;
                     return dimensions;
@@ -573,11 +573,9 @@
                     this.folders = response.data;
                     this.folderLoader = false;
                 }, error => {
-                    this.alert = true;
-                    this.error = true;
-                    this.success = false;
-                    this.alertMessage = 'Bim';
                     this.folderLoader = false;
+
+                    this.$root.showAlert('error', 'Error fetching folders.');
                 });
             },
 
@@ -602,9 +600,9 @@
                             this.validFile = true;
 
                             this.creativeAttributes = {
-                                w: file.width, 
-                                h: file.height, 
-                                name: file.name.slice(0,file.name.lastIndexOf('.')), 
+                                w: file.width,
+                                h: file.height,
+                                name: file.name.slice(0,file.name.lastIndexOf('.')),
                                 class: 'banner',
                                 url: '',
                                 responsive: 0
@@ -638,7 +636,7 @@
                 if (check > 0) {
                     return true;
                 }
-                else { 
+                else {
                     return false
                 }
             },
@@ -651,29 +649,21 @@
 
             deleteFolder(folderId, folderName) {
                 axios.delete(this.$root.uri + '/creatives/folders/' + folderId, this.$root.config).then(response => {
-                    this.alert = true;
-                    this.success = true;
-                    this.error = false;
-                    this.alertMessage = 'You have successfully deleted ' + folderName;
+
+                    this.$root.showAlert('success', 'You have successfully deleted ' + folderName + '.');
                 }, error => {
-                    this.alert = true;
-                    this.error = true;
-                    this.success = false;
-                    this.alertMessage = 'Something went wrong'; 
+
+                    this.$root.showAlert('success', 'Something went wrong.');
                 });
             },
 
             deleteCreative(creativeId, creativeName) {
                 axios.delete(this.$root.uri + '/creatives/' + creativeId, this.$root.config).then(response => {
-                    this.alert = true;
-                    this.success = true;
-                    this.error = false;
-                    this.alertMessage = 'You have successfully deleted ' + creativeName;
+
+                    this.$root.showAlert('success', 'You have successfully deleted ' + creativeName + '.');
                 }, error => {
-                    this.alert = true;
-                    this.error = true;
-                    this.success = false;
-                    this.alertMessage = 'Something went wrong'; 
+
+                    this.$root.showAlert('success', 'Something went wrong.');
                 });
             },
 
@@ -682,11 +672,9 @@
                     this.creatives = response.data;
                     this.creativesLoader = false;
                 }, error => {
-                    this.alert = true;
-                    this.error = true;
-                    this.success = false;
-                    this.alertMessage = 'Bam';
                     this.creativesLoader = false;
+
+                    this.$root.showAlert('success', 'Something went wrong.');
                 });
             },
 
@@ -715,35 +703,26 @@
                     thumb: this.thumb
                 };
                 this.dropzone.processQueue();
-                
+
                     this.dropzone.on("complete", function (file) {
                         if (file.status == 'success') {
+
                             this.dropzone.removeFile(file);
-                            this.alert = true;
-                            this.error = false;
-                            this.success = true;
-                            this.alertMessage = 'Uploaded successfully';
                             this.loading = false;
                             this.showModal = false;
                             this.showModalDimensionsCheck = false;
 
-                            setTimeout(function () {
-                                this.alert = false;
-                            }.bind(this), 2000);
+                            this.$root.showAlert('success', 'Uploaded successfully');
 
                             if(typeof this.currentFolder.id == 'string') {
                                 this.getFolderCreatives(this.currentFolder.id);
                             } else {
                                 this.getFolders();
                             }
-                        } 
+                        }
                         else {
-                            this.alert = true;
-                            this.error = true;
-                            this.success = false;
-                            this.loading = false;
-                            this.showModal = false;
-                            this.alertMessage = 'Please choose a folder you wish to upload a creative to.';
+
+                            this.$root.showAlert('error', 'Please choose a folder you wish to upload a creative to.');
                         }
                     }.bind(this));
             },
@@ -760,19 +739,11 @@
                     this.getFolders();
                     this.currentFolder = {};
                     this.createFolderFlag = false;
-                    this.error = false;
-                    this.success = true;
-                    this.alert = true;
-                    this.alertMessage = 'You have successfully created a new folder';
 
-                    setTimeout(function () {
-                        this.alert = false;
-                    }.bind(this), 2000);
+                    this.$root.showAlert('success', 'You have successfully created a new folder.');
                 }, error => {
-                    this.error = true;
-                    this.success = false;
-                    this.alert = true;
-                    this.alertMessage = 'Bem';
+
+                    this.$root.showAlert('error', 'Error creating folder.');
                 });
             },
 
