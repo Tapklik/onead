@@ -71,7 +71,8 @@
                                                     label="Old password"
                                                     prepend-icon="lock"
                                                     v-model="oldPassword"
-                                                    :rules="checkOldPassword()"
+                                                    @blur="checkOldPassword()"
+                                                    :rules="oldPasswordError()"
                                                     type="password"
                                                     ></v-text-field>
                                                 </v-flex>
@@ -107,7 +108,7 @@
                                         <v-icon>close</v-icon>                                    
                                         Cancel
                                     </v-btn>
-                                    <v-btn primary :disabled="true" @click="changePassword(), showModal=false" class="elevation-0">
+                                    <v-btn primary :loading="loading" :disabled="!(validNewPassword && validOldPassword)" @click="changePassword()" class="elevation-0">
                                         <v-icon>done</v-icon>
                                         Save
                                     </v-btn>
@@ -203,10 +204,46 @@
         },
 
         methods: {
-            checkOldPassword() {
-                var password = this.oldPassword;
-                var message = ["Your password is incorrect"] 
+            changePassword() {
+                var payload = {password: this.confPassword};
 
+                axios.put(this.$root.uri + '/accounts/' + this.user.accountUuId + '/users/' + this.user.uuid, payload, this.$root.config).then(response => {
+                    this.alert = true;
+                    this.error = false;
+                    this.success = true;
+                    this.alertMessage = 'Succesful';
+                    this.loading = false;
+                    this.showModal = false;
+                }, error => {
+                    this.alert = true;
+                    this.error = true;
+                    this.success = false;
+                    this.alertMessage = 'Something went wrong';
+                    this.loading = false;
+                    this.showModal= false;
+                });
+            },
+            
+            oldPasswordError() {
+                var valid = this.validOldPassword;
+                var message = ['Your password is incorrect']; 
+                if(valid == false) {
+                    return message;
+                }
+            },
+
+            checkOldPassword() {
+                var username = this.userDet.email;
+                var password = this.oldPassword;
+
+                axios.post(this.$root.uri + '/auth', {
+                    'email': username,
+                    'password': password
+                }).then(response => {
+                    this.validOldPassword = true;
+                }, error => {
+                    this.validOldPassword = false;
+                });
             },
 
             checkNewPassword() {
