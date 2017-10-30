@@ -63,10 +63,7 @@
     
                     axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/cat', payload, this.$root.config).then(response => {
                     }, error => {
-                        this.alert = true;
-                        this.error = true;
-                        this.success = false;
-                        this.alertMessage = 'Something went wrong';
+                        this.$root.showAlert('error', 'Something went wrong');
                     });
                 }
             },

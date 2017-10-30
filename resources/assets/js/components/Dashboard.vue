@@ -1,6 +1,6 @@
 <template>
     <v-container fluid grid-list-lg>
-        <v-alert class="mb-2" dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
+        <v-alert class="mb-2" dismissible v-bind:success='$root.alert.success' v-bind:error='$root.alert.error' v-model="$root.alert.alert" transition="scale-transition">{{$root.alert.alertMessage}}</v-alert>
         <v-layout row wrap>
             <v-flex d-flex md12 lg6>
                 <v-card height="300px" class="elevation-1">
@@ -198,10 +198,6 @@
         
         data() {
             return {
-                alert: false,
-                success: false,
-                error: false,
-                alertMessage: '',
                 chartLoaded: false,
                 totalItems: 5,
                 password: '',
@@ -234,8 +230,8 @@
                 axios.get(this.$root.uri + '/creatives/folders', this.$root.config).then(response => {
                     this.folders = response.data.data;
                     folders = response.data.data;
-                }, error => {
-                    alert(error);
+                }, error => {     
+                    this.$root.showAlert('error', 'Something went wrong.');
                 });
                 var creatives = [];
                 for (var f in folders) {
@@ -243,7 +239,7 @@
                     var a = response.data;
                     creatives.push(a);
                 }, error => {
-                    alert(error);
+                    this.$root.showAlert('error', 'Something went wrong.');
                 });
                 }
                 this.something = creatives;
@@ -261,10 +257,7 @@
                             if(creatives.length == 5) break;
                         }
                 }, error => {
-                    this.error = true;
-                    this.success = false;
-                    this.alert = true;
-                    this.alertMessage = 'Something went wrong';
+                    this.$root.showAlert('error', 'Something went wrong.');
                 });
                 }
                 this.creativeList = creatives;
@@ -283,10 +276,7 @@
                     }
                     this.campaignList = b;
                 }, error => {
-                    this.error = true;
-                    this.success = false;
-                    this.alert = true;
-                    this.alertMessage = 'Something went wrong';
+                    this.$root.showAlert('error', 'Something went wrong.');
                 })
             },
 
@@ -300,10 +290,7 @@
                     }
                     this.logList = b;
                 }, error => {
-                    this.error = true;
-                    this.success = false;
-                    this.alert = true;
-                    this.alertMessage = 'Something went wrong';
+                    this.$root.showAlert('error', 'Something went wrong.');
                 })
             },
 
@@ -342,10 +329,7 @@
                     this.overallList = response.data.data;
                     this.chartLoaded = true;
                 }, error => {
-                    this.error = true;
-                    this.success = false;
-                    this.alert = true;
-                    this.alertMessage = 'Something went wrong';
+                    this.$root.showAlert('error', 'Something went wrong.');
                 })
             },
 
@@ -354,10 +338,7 @@
                 axios.get(this.$root.reportUri + '?table=wins&acc=' + this.user.accountUuId + '&field=clicks,imps,spend&op=summary&from=' + this.date_from + ' 00:00:00&to=' + this.date_to + ' 00:00:00', this.$root.config).then(response => {
                     this.overallSummaryList = response.data.data;
                 }, error => {
-                    this.error = true;
-                    this.success = false;
-                    this.alert = true;
-                    this.alertMessage = 'Something went wrong';
+                    this.$root.showAlert('error', 'Something went wrong.');
                 })
             },
 

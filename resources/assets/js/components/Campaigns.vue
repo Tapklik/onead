@@ -105,7 +105,7 @@
             }
         },
 
-        props: ['token','alert1', 'error1', 'success1', 'alertmessage1'],
+        props: ['token'],
 
         data() {
             return {
@@ -183,7 +183,7 @@
                     axios.put(this.$root.uri + '/campaigns/' + campaignId, {status: 'deleted'}, this.$root.config).then(response => {
                         this.fetchCampaigns();
                     }, error => {
-                        alert(error);
+                        this.$root.showAlert('error', 'Something went wrong');
                     }).bind(this);
     
                     return false;
@@ -192,8 +192,8 @@
                     axios.delete(this.$root.uri + '/campaigns/' + campaignId, this.$root.config).then(
                         response => {
                             this.fetchCampaigns();
-                    }, error => {
-                        alert(error);
+                    }, error => {  
+                        this.$root.showAlert('error', 'Something went wrong');
                     });
             
                     return false;

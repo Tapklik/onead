@@ -447,10 +447,7 @@
 
                     axios.put(this.$root.uri + '/campaigns/' + this.campaign.id, payload, this.$root.config).then(response => {
                     }, error => {
-                        this.alert = true;
-                        this.error = true;
-                        this.success = false;
-                        this.alertMessage = 'Something went wrong';
+                        this.$root.showAlert('error', 'Something went wrong');
                     });  
                 }
             },
@@ -462,10 +459,7 @@
     
                     axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/budget', payload, this.$root.config).then(response => {
                     }, error => {
-                        this.alert = true;
-                        this.error = true;
-                        this.success = false;
-                        this.alertMessage = 'Something went wrong';
+                        this.$root.showAlert('error', 'Something went wrong');
                     });
                 }
             },

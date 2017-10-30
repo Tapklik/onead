@@ -14,7 +14,7 @@
                     <v-card-text v-else-if="!currentFolder.id">
                         <v-layout row wrap>
                             <v-flex xs12>                      
-                            <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
+                            <v-alert dismissible v-bind:success='$root.alert.success' v-bind:error='$root.alert.error' v-model="$root.alert.alert" transition="scale-transition">{{$root.alert.alertMessage}}</v-alert>
                                 <v-data-table 
                                 :items="folders.data"
                                 hide-actions
@@ -48,7 +48,7 @@
                         </v-layout>
                         <v-layout row wrap>
                             <v-flex xs12 md8 >
-                            <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
+                            <v-alert dismissible v-bind:success='$root.alert.success' v-bind:error='$root.alert.error' v-model="$root.alert.alert" transition="scale-transition">{{$root.alert.alertMessage}}</v-alert>
                             <div v-for="c in activeCreatives">{{c.id}}</div>
                                 <v-data-table                                        
                                 :items="creatives.data"
@@ -155,10 +155,6 @@
                 statusShow: '',
                 sample:'sample',
                 imageSource: '',
-                alert: false,
-                error: false,
-                success: false,
-                alertMessage: 'Something went wrong',
                 showModal: false,
                 dropzone: false,
                 newFolder: '',
@@ -215,10 +211,7 @@
     
                     axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/creatives', {creatives: payload}, this.$root.config).then(response => {
                     }, error => {
-                        this.alert = true;
-                        this.error = true;
-                        this.success = false;
-                        this.alertMessage = 'Something went wrong';
+                        this.$root.showAlert('error', 'Something went wrong');
                     });
                 }
             },
@@ -234,10 +227,7 @@
                         this.loading = false;
                     }
                 }, error => {
-                    this.alert = true;
-                    this.error = true;
-                    this.success = false;
-                    this.alertMessage = 'Something went wrong';
+                    this.$root.showAlert('error', 'Something went wrong');
                 });
             },
 
@@ -258,11 +248,8 @@
                 axios.get(this.$root.uri + '/creatives/folders/' + folderId, this.$root.config).then(response => {
                     this.creatives = response.data;
                     this.loading=false;
-                }, error => {
-                    this.alert = true;
-                    this.error = true;
-                    this.success = false;
-                    this.alertMessage = 'Something went wrong';
+                }, error => {                  
+                    this.$root.showAlert('error', 'Something went wrong');
                     this.loading=false;
                 });
             },
@@ -276,60 +263,6 @@
                 window.open(src);
             },
 
-            createNewFolder() {
-                this.createFolderFlag = true;
-            },
-
-            uploadCreative() {
-
-                this.dropzone.options.params = {
-                    folder_id: this.currentFolder.key,
-                    name: this.creativeAttributes.name,
-                    ctrurl: this.creativeAttributes.url,
-                    w: this.creativeAttributes.w,
-                    h: this.creativeAttributes.h,
-                    responsive: this.creativeAttributes.responsive,
-                    class: this.creativeAttributes.class,
-                };
-
-                this.dropzone.processQueue();
-
-                var obj = this;
-                this.dropzone.on("complete", function (file) {
-                    if(file.status == 'success') {
-                        obj.dropzone.removeFile(file);
-
-                        obj.getFolderCreatives(obj.currentFolder.id);
-
-                        swal('Success', 'The upload has finished successfully!', 'success');
-                    } else {
-                        swal('Error', 'Something went wrong.', 'error');
-                    }
-                });
-            },
-
-            storeNewFolder() {
-                var payload = {name: this.newFolder, status: 0};
-
-                if(this.newFolder.name == '') {
-                    swal('Error', 'Folder name can\'t be empty', 'error');
-                    throw 'Missing folder name';
-                }
-
-                axios.post(this.$root.uri + '/creatives/folders', payload, this.$root.config).then(response => {
-                    this.getFolders();
-
-                    this.currentFolder = {};
-                    this.createFolderFlag = false;
-                }, error => {
-                    this.alert = true;
-                    this.error = true;
-                    this.success = false;
-                    this.alertMessage = 'Something went wrong';
-
-                });
-            },
-
             openModal() {
                 this.$root.modalIsOpen = true;
                 return false;
@@ -341,19 +274,7 @@
                 }
         },
 
-        computed: {
-
-            filteredCreatives() {
-                if(!this.folders) return this.folders;
-
-                var obj = this;
-
-                return this.folders.filter(function (folder) {
-                    return folder.name.toLowerCase().indexOf(obj.$root.search.toLowerCase())>=0;
-                });
-            },
-
-            
+        computed: {            
         },
 
         filters: {

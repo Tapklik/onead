@@ -28,11 +28,11 @@
                             <v-flex xs12>
                                 <v-alert 
                                 dismissible 
-                                v-bind:success='success'
-                                v-bind:error='error' 
-                                v-model="alert" 
+                                v-bind:success='$root.alert.success'
+                                v-bind:error='$root.alert.error' 
+                                v-model="$root.alert.alert" 
                                 transition="scale-transition">
-                                    {{alertMessage}}
+                                    {{$root.alert.alertMessage}}
                                 </v-alert>
                                 
                                 <v-data-table 
@@ -312,10 +312,6 @@
         data() {
             return {
                 selectedBill: {},
-                success: false,
-                error: false,
-                alert: false,
-                alertMessage: '',
                 bills: [],
                 showModal:false,
                 paymentMethod: 'cc payment',
@@ -343,16 +339,10 @@
 
             processPayment() {
                 axios.post(this.$root.uri + '/accounts/' + this.user.accountUuId + '/banker/main' , this.collectBill(), this.$root.config).then(response => {
-                    this.success = true;
-                    this.error = false;
-                    this.alert = true;
-                    this.alertMessage = 'You have created a bill successfully';
+                    this.$root.showAlert('success', 'You have created a bill successfully.');
 
                 }, error => {
-                    this.success = false;
-                    this.error = true;
-                    this.alert = true;
-                    this.alertMessage = 'Something went wrong!';
+                    this.$root.showAlert('error', 'Something went wrong');
                 });
             },
 
@@ -371,10 +361,7 @@
                 this.billLoader = false;
 
             }, error => {
-                this.success = false;
-                this.error = true;
-                this.alert = true;
-                this.alertMessage = 'Something went wrong!';
+                this.$root.showAlert('error', 'Something went wrong');
                 this.billLoader = false;
             
             })

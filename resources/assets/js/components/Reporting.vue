@@ -100,7 +100,7 @@
                     <v-card>
                         <v-card-text>
                             <v-container fluid grid-list-md>
-                                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
+                                <v-alert dismissible v-bind:success='$root.alert.success' v-bind:error='$root.alert.error' v-model="$root.alert.alert" transition="scale-transition">{{$root.alert.alertMessage}}</v-alert>
                                 <v-layout row wrap>
                                     <v-flex xs6 md4 lg2>
                                         <tk-widget
@@ -176,7 +176,7 @@
                     <v-card>
                         <v-card-text>
                             <v-container fluid grid-list-md>
-                                <v-alert dismissible v-bind:success='this.$root.alert.success' v-bind:error='this.$root.alert.error' v-model="this.$root.alert.alert" transition="scale-transition">{{this.$root.alert.alertMessage}}</v-alert>
+                                <v-alert dismissible v-bind:success='$root.alert.success' v-bind:error='$root.alert.error' v-model="$root.alert.alert" transition="scale-transition">{{$root.alert.alertMessage}}</v-alert>
                                 <v-layout row wrap>
                                     <v-flex xs12 md4 lg2>
                                         <v-select :items="publisherList" item-text="site" item-value="site" chips v-model="selectedPublishers1" label="Publisher Sites" multiple autocomplete></v-select>
@@ -257,7 +257,7 @@
                     <v-card>
                         <v-card-text>
                             <v-container fluid grid-list-md>
-                                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
+                                <v-alert dismissible v-bind:success='$root.alert.success' v-bind:error='$root.alert.error' v-model="$root.alert.alert" transition="scale-transition">{{$root.alert.alertMessage}}</v-alert>
                                 <v-layout row wrap>
                                     <v-flex xs12 md4 lg2>
                                         <v-select :items="technologiesList.devices" item-text="type" item-value="device_id" chips v-model="selectedDevicesTypes1" label="Devices" multiple autocomplete></v-select>
@@ -344,7 +344,7 @@
                     <v-card>
                         <v-card-text>
                             <v-container fluid grid-list-md>
-                                <v-alert dismissible v-bind:success='success' v-bind:error='error' v-model="alert" transition="scale-transition">{{alertMessage}}</v-alert>
+                                <v-alert dismissible v-bind:success='$root.alert.success' v-bind:error='$root.alert.error' v-model="$root.alert.alert" transition="scale-transition">{{$root.alert.alertMessage}}</v-alert>
                                 <v-layout row wrap>
                                     <v-flex xs12 md4 lg2>
                                         <v-select :items="countriesList" item-text="country_name" item-value="country" v-model="selectedGeoCountries1" label="Countries" chips multiple autocomplete></v-select>
@@ -451,10 +451,6 @@
 
         data() {
             return {
-                alert: false,
-                error: false,
-                success: false,
-                alertMessage: '',
                 tabIndex: 'overall-tab',
                 stats: ['imps', 'clicks', 'ecpc', 'ecpm', 'spend', 'ctr'],
                 line: 'imps',

@@ -1,6 +1,6 @@
 <template>
     <v-container grid-list-md>
-        <v-alert dismissible v-bind:success='this.$root.alert.success' v-bind:error='this.$root.alert.error' v-model="this.$root.alert.alert" transition="scale-transition">{{this.$root.alert.alertMessage}}</v-alert>
+        <v-alert dismissible v-bind:success='$root.alert.success' v-bind:error='$root.alert.error' v-model="$root.alert.alert" transition="scale-transition">{{$root.alert.alertMessage}}</v-alert>
         <v-layout row wrap>
             <v-flex xs12 class="valign-wrapper mb-1 mt-3">
                 <h5>ACCOUNT DETAILS</h5>
