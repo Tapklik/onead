@@ -128,7 +128,7 @@
                                     <v-divider></v-divider>
                                     <v-card-actions>
                                         <v-spacer></v-spacer>
-                                        <v-btn @click="showModal = false" class="elevation-0">
+                                        <v-btn @click="clearUploadModal(), showModal = false" class="elevation-0">
                                             <v-icon>close</v-icon>                                    
                                             Cancel
                                         </v-btn>
@@ -679,6 +679,16 @@
                 this.createFolderFlag = true;
             },
 
+            clearUploadModal() {
+                this.dropzone.removeAllFiles(true);
+                this.creativeAttributes.name = '';
+                this.creativeAttributes.url = '';
+                this.creativeAttributes.w = 0;
+                this.creativeAttributes.h = 0;
+                this.creativeAttributes.responsive = 0;
+                this.creativeAttributes.class = 'banner';            
+            },
+
             uploadCreative() {
                 this.dropzone.options.params = {
                     folder_id: this.folderId,
@@ -695,7 +705,8 @@
                     this.dropzone.on("complete", function (file) {
                         if (file.status == 'success') {
 
-                            this.dropzone.removeFile(file);
+                            this.clearUploadModal();
+                            this.checkFileUploaded = 'empty';
                             this.loading = false;
                             this.showModal = false;
                             this.showModalDimensionsCheck = false;
