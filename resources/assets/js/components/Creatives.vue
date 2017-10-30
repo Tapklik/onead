@@ -31,9 +31,10 @@
                                                         height="80px" 
                                                         class="elevation-0"
                                                         @mouseenter="dropzoneMaker()">
-                                                            <div class="uploader-title"><v-icon>cloud_upload</v-icon> Drop Files Here</div>
+                                                            <div class="uploader-title" v-if="checkFileUploaded == 'empty'"><v-icon>cloud_upload</v-icon> Drop Files Here</div>
+                                                            <div class="uploader-title" v-else-if="checkFileUploaded == 'nofile'"><v-icon>cancel</v-icon> No File Found</div>
+                                                            <div class="uploader-title" v-else><v-icon>check</v-icon> File Uploaded</div>
                                                         </v-card>
-                                                        <span class="red--text" v-show="!validFile">You must upload an image</span>
                                                     </v-flex>
                                                 </v-layout>
                                                 <v-divider class="mt-4"></v-divider>
@@ -50,7 +51,7 @@
                                                                 <p class="caption ma-0">Edit default name</p>
                                                             </v-flex>
                                                             <v-flex xs12 md5>
-                                                                <v-text-field prepend-icon="mode_edit" v-model="creativeAttributes.name" placeholder="Name" :rules="creativeNameRules()"></v-text-field>
+                                                                <v-text-field prepend-icon="mode_edit" v-model="creativeAttributes.name" placeholder="Name" :rules="creativeNameRules()" @keyup="checkFile()"></v-text-field>
                                                             </v-flex>
                                                         </v-layout>
                                                         <v-layout row wrap class="mt-4">
@@ -59,7 +60,7 @@
                                                                 <p class="caption ma-0">The folder where your creative will be uploaded</p>
                                                             </v-flex>
                                                             <v-flex xs12 md5>
-                                                                <v-select :rules="folderRules()" prepend-icon="folder" :items="folders.data" item-text="name" item-value="key" v-model="folderId" placeholder="Folder"></v-select>
+                                                                <v-select :rules="folderRules()" prepend-icon="folder" :items="folders.data" item-text="name" item-value="key" v-model="folderId" placeholder="Folder" @change="checkFile()"></v-select>
                                                             </v-flex>
                                                         </v-layout>
                                                     </v-flex>
@@ -70,7 +71,7 @@
                                                                 <p class="caption ma-0">(Banner, Video, Native)</p>
                                                             </v-flex>
                                                             <v-flex xs12 md5>
-                                                                <v-select prepend-icon="photo" :items="classList" v-model="creativeAttributes.class" :rules="classRules()"></v-select>
+                                                                <v-select prepend-icon="photo" :items="classList" v-model="creativeAttributes.class" :rules="classRules()" @change="checkFile()"></v-select>
                                                             </v-flex>
                                                         </v-layout>
                                                         <v-layout row wrap class="mt-4">
@@ -79,11 +80,11 @@
                                                                 <p class="caption ma-0">Edit default dimensions in px</p>
                                                             </v-flex>
                                                             <v-flex xs5 md3 lg2>
-                                                                <v-text-field prepend-icon="code" :rules="widthRules()" v-model="creativeAttributes.w" type="number" placeholder="W"></v-text-field>
+                                                                <v-text-field prepend-icon="code" :rules="widthRules()" v-model="creativeAttributes.w" type="number" placeholder="W" @keyup="checkFile()"></v-text-field>
                                                             </v-flex>
                                                             <v-flex xs1></v-flex>
                                                             <v-flex xs5 md3 lg2>
-                                                                <v-text-field prepend-icon="unfold_more" :rules="heightRules()" v-model="creativeAttributes.h" type="number" placeholder="H"></v-text-field>
+                                                                <v-text-field prepend-icon="unfold_more" :rules="heightRules()" v-model="creativeAttributes.h" type="number" placeholder="H" @keyup="checkFile()"></v-text-field>
                                                             </v-flex>
                                                         </v-layout>
                                                         <v-layout row wrap class="mt-4">
@@ -92,7 +93,7 @@
                                                                 <p class="caption ma-0">Is this creative responsive?</p>
                                                             </v-flex>
                                                             <v-flex xs12 md6>
-                                                                <v-switch :false-value="0" :true-value="1" v-model="responsiveData" label="Responsive"></v-switch>
+                                                                <v-switch :false-value="0" :true-value="1" v-model="responsiveData" label="Responsive" @change="checkFile()"></v-switch>
                                                             </v-flex>
                                                         </v-layout>
                                                     </v-flex>
@@ -109,7 +110,7 @@
                                                         <span class="caption ma-0">Click-through url per creative</span>
                                                     </v-flex>    
                                                     <v-flex xs12 md9>
-                                                        <v-text-field prepend-icon="language" v-model="creativeAttributes.url" placeholder="URL"></v-text-field>
+                                                        <v-text-field prepend-icon="language" v-model="creativeAttributes.url" placeholder="URL" @keyup="checkFile()"></v-text-field>
                                                     </v-flex>
                                                 </v-layout>
                                                 <v-layout row wrap class="mt-4">
@@ -118,7 +119,7 @@
                                                         <p class="caption ma-0">Set iframe or HTML markup</p>
                                                     </v-flex>
                                                     <v-flex xs12 md9>
-                                                        <v-text-field prepend-icon="language" placeholder="Ad Markup"></v-text-field>
+                                                        <v-text-field prepend-icon="language" placeholder="Ad Markup" @keyup="checkFile()"></v-text-field>
                                                     </v-flex>
                                                 </v-layout>
                                             </v-flex>
@@ -422,6 +423,7 @@
         props: ['token', 'user'],
         data() {
             return {
+                checkFileUploaded: 'empty',
                 showModalDimensionsCheck: false,
                 validName: false,
                 validHeight: false,
@@ -473,6 +475,13 @@
         },
 
         methods: {
+            
+            checkFile() {
+                if(this.checkFileUploaded != 'uploaded') {
+                    this.checkFileUploaded = 'nofile';
+                }
+            },
+
             defineCreatives() {
                 var creatives = this.creatives.data;
                 var boolCreatives = [];
@@ -579,6 +588,7 @@
                         if(typeof file.width != 'undefined') {
                             console.log(file);
                             this.validFile = true;
+                            this.checkFileUploaded = 'uploaded';
 
                             this.creativeAttributes = {
                                 w: file.width,
