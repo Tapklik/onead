@@ -88,7 +88,7 @@
                                                                         </p>
                                                                     </v-flex>
                                                                     <v-flex xs12 md5>
-                                                                        <v-icon>perm_identity</v-icon>
+                                                                        <v-icon>local_offer</v-icon>
                                                                         <span>3438</span>
                                                                     </v-flex>
                                                                 </v-layout>
@@ -100,7 +100,7 @@
                                                                         </p>
                                                                     </v-flex>
                                                                     <v-flex xs12 md5>
-                                                                        <v-icon>perm_identity</v-icon>
+                                                                        <v-icon>date_range</v-icon>
                                                                         <span>{{props.item.id.timestamp}}</span>
                                                                     </v-flex>
                                                                 </v-layout>
@@ -124,7 +124,7 @@
                                                                         </p>
                                                                     </v-flex>
                                                                     <v-flex xs12 md5>
-                                                                        <v-icon>perm_identity</v-icon>
+                                                                        <v-icon>local_offer</v-icon>
                                                                         <span>390667</span>
                                                                     </v-flex>
                                                                 </v-layout>
@@ -136,7 +136,7 @@
                                                                         </p>
                                                                     </v-flex>
                                                                     <v-flex xs12 md5>
-                                                                        <v-icon>perm_identity</v-icon>
+                                                                        <v-icon>attach_money</v-icon>
                                                                         <span v-if="props.item.id.credit == 0">{{$root.fromMicroDollars(props.item.id.debit)}}</span>
                                                                         <span v-else>$ {{$root.fromMicroDollars(props.item.id.credit)}}</span>
                                                                     </v-flex>
@@ -151,7 +151,7 @@
                                                                         </p>
                                                                     </v-flex>
                                                                     <v-flex xs12 md5>
-                                                                        <v-icon>perm_identity</v-icon>
+                                                                        <v-icon>language</v-icon>
                                                                         <span>Business Center</span>
                                                                     </v-flex>
                                                                 </v-layout>
@@ -175,7 +175,7 @@
                                                                         </p>
                                                                     </v-flex>
                                                                     <v-flex xs12 md5>
-                                                                        <v-icon>perm_identity</v-icon>
+                                                                        <v-icon>language</v-icon>
                                                                         <span>Dubai World Center</span>
                                                                     </v-flex>
                                                                 </v-layout>
@@ -187,7 +187,7 @@
                                                                         </p>
                                                                     </v-flex>
                                                                     <v-flex xs12 md5>
-                                                                        <v-icon>perm_identity</v-icon>
+                                                                        <v-icon>language</v-icon>
                                                                         <span>Dubai, UAE</span>
                                                                     </v-flex>
                                                                 </v-layout>
@@ -199,7 +199,7 @@
                                                                         </p>
                                                                     </v-flex>
                                                                     <v-flex xs12 md5>
-                                                                        <v-icon>perm_identity</v-icon>
+                                                                        <v-icon>description</v-icon>
                                                                         <span>{{props.item.id.description}}</span>
                                                                     </v-flex>
                                                                 </v-layout>
@@ -213,13 +213,13 @@
                                                         </v-layout>
                                                         <v-layout row wrap class="mt-4">
                                                             <v-flex xs12 md12 lg12 class="valign-wrapper">
-                                                                <v-icon>perm_identity</v-icon>
+                                                                <v-icon>check</v-icon>
                                                                 <span>Payment is due in 7 days from the date this invoice is issued</span>
                                                             </v-flex>
                                                         </v-layout>
                                                         <v-layout row wrap class="mt-4">
                                                             <v-flex xs12 md12 lg12 class="valign-wrapper">
-                                                                <v-icon>perm_identity</v-icon>
+                                                                <v-icon>check</v-icon>
                                                                 <span>Payment shall be made through a bank wire transfer to the bank account of Tapklik Technologies DWC-LLC listed below</span>
                                                             </v-flex>
                                                         </v-layout>
@@ -238,7 +238,7 @@
                                                                         </p>
                                                                     </v-flex>
                                                                     <v-flex xs12 md5>
-                                                                        <v-icon>perm_identity</v-icon>
+                                                                        <v-icon>language</v-icon>
                                                                         <span>Mashreq Bank, Mall of the Emirates, Dubai, United Arab Emirates</span>
                                                                     </v-flex>
                                                                 </v-layout>
@@ -250,7 +250,7 @@
                                                                         </p>
                                                                     </v-flex>
                                                                     <v-flex xs12 md5>
-                                                                        <v-icon>perm_identity</v-icon>
+                                                                        <v-icon>local_offer</v-icon>
                                                                         <span>AE020330000019100114240</span>
                                                                     </v-flex>
                                                                 </v-layout>
@@ -276,7 +276,7 @@
                                                                         </p>
                                                                     </v-flex>
                                                                     <v-flex xs12 md5>
-                                                                        <v-icon>perm_identity</v-icon>
+                                                                        <v-icon>local_offer</v-icon>
                                                                         <span>019100114240</span>
                                                                     </v-flex>
                                                                 </v-layout>
@@ -288,7 +288,7 @@
                                                                         </p>
                                                                     </v-flex>
                                                                     <v-flex xs12 md5>
-                                                                        <v-icon>perm_identity</v-icon>
+                                                                        <v-icon>local_offer</v-icon>
                                                                         <span>BOMLAEAD</span>
                                                                     </v-flex>
                                                                 </v-layout>
