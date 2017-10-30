@@ -145,6 +145,17 @@
 
         methods: {
 
+            trueCreatives() {
+                var creatives = this.campaign.creatives;
+                for (var c in creatives) {
+                    if(creatives[c].ctrurl == '') {
+                        creatives[c].ctrurl == this.campaign.ctrurl;
+                    }
+                }
+                console.log(creatives);
+                this.campaign.creatives = creatives;
+            },            
+
             validDetailsPage() {
                 var a = true;
                 var b = false;
