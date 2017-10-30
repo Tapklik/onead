@@ -80,7 +80,7 @@
                     <v-icon class="orange--text text--darken-3">present_to_all</v-icon>
                     <span class="orange--text text--darken-3"> Overall</span>
                 </v-tabs-item>
-                <v-tabs-item href="#publisher-tab">
+                <v-tabs-item href="#publisher-tab" style="display:none">
                     <v-icon class="orange--text text--darken-3">mdi-newspaper</v-icon>
                     <span class="orange--text text--darken-3">Publishers</span>
                 </v-tabs-item>
