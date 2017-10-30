@@ -70,7 +70,7 @@ const app = new Vue({
     },
 
     data: {
-        version: 'v0.6.1-BETA',
+        version: 'v0.6.2-BETA',
         uri: envUri,
         reportUri: 'https://reports.tapklik.com/api/query',
         user: false,
