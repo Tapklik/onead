@@ -224,8 +224,8 @@
                     <v-card-text v-else-if="!currentFolder.id">
                         <v-layout row wrap>
                             <v-flex xs12 md10 lg8>
-                                <v-alert dismissible v-bind:success='this.$root.alert.success' v-bind:error='this.$root.alert.error' v-model="this.$root.alert.alert" transition="scale-transition">
-                                {{this.$root.alert.alertMessage}}
+                                <v-alert dismissible v-bind:success='$root.alert.success' v-bind:error='$root.alert.error' v-model="$root.alert.alert" transition="scale-transition">
+                                {{$root.alert.alertMessage}}
                                 </v-alert>
                                 <v-data-table :items="filteredFolders" hide-actions class="no-headers creatives-explorer">
                                     <template slot="headers" scope="props">
@@ -240,7 +240,10 @@
                                                 <span class="title">{{ props.item.id.name }}</span>
                                             </td>
                                             <td class="text-xs-right">
-                                                <v-dialog v-model="props.item.modal" lazy absolute width="400px">
+                                                <v-btn v-if="props.item.id.items == 0" icon class="grey--text" @click="deleteFolder(props.item.id.id, props.item.id.name)">
+                                                        <v-icon>delete</v-icon>
+                                                </v-btn>
+                                                <v-dialog v-else v-model="props.item.modal" lazy absolute width="400px">
                                                     <v-btn icon class="grey--text" @click="deleteFolderId = props.item.id.id, deleteFolderName = props.item.id.name" slot="activator">
                                                         <v-icon>delete</v-icon>
                                                     </v-btn>
@@ -252,9 +255,7 @@
                                                         <v-card-text>
                                                             <v-layout row wrap>
                                                                 <v-flex xs12 md12 class="valign-wrapper px-4">
-                                                                    <span class="">Please, make sure that your folder is empty and that the creatives are not used in any campaigns.</span>
-                                                                    <br><br>
-                                                                    <span>To proceed with deleting folder: {{deleteFolderName | uppercase}}, click DELETE below.</span><br>
+                                                                    <span class="">Please, make sure that your folder is empty.</span>
                                                                 </v-flex>
                                                             </v-layout>
                                                         </v-card-text>
@@ -264,10 +265,6 @@
                                                             <v-btn class="elevation-0" @click="props.item.modal = false">
                                                                 <v-icon>close</v-icon>
                                                                 Cancel
-                                                            </v-btn>
-                                                            <v-btn primary dark class="elevation-0" @click="deleteFolder(deleteFolderId, deleteFolderName), showModal2=false">
-                                                                <v-icon>done</v-icon>
-                                                                Delete
                                                             </v-btn>
                                                         </v-card-actions>
                                                     </v-card>
@@ -297,7 +294,7 @@
                         </v-layout>
                         <v-layout row wrap>
                             <v-flex xs12 md9>
-                                <v-alert dismissible v-bind:success='this.$root.alert.success' v-bind:error='this.$root.alert.error' v-model="this.$root.alert.alert" transition="scale-transition">{{this.$root.alert.alertMessage}}</v-alert>
+                                <v-alert dismissible v-bind:success='$root.alert.success' v-bind:error='$root.alert.error' v-model="$root.alert.alert" transition="scale-transition">{{$root.alert.alertMessage}}</v-alert>
                                 <v-data-table :items="filteredCreatives" hide-actions class="creatives-explorer no-headers" v-bind:rows-per-page-items="[10, 25, { value: -1 }]">
                                     <template slot="headers" scope="props">
                                         &nbsp;
