@@ -31,7 +31,10 @@
                                                         height="80px" 
                                                         class="elevation-0"
                                                         @mouseenter="dropzoneMaker()">
-                                                            <div class="uploader-title" v-if="checkFileUploaded == 'empty'"><v-icon>cloud_upload</v-icon> Drop Files Here</div>
+                                                            <v-btn icon v-if="uploadLoader == true" :loading="true">
+                                                                <v-icon>cloud_upload</v-icon>
+                                                            </v-btn>
+                                                            <div class="uploader-title" v-else-if="checkFileUploaded == 'empty'"><v-icon>cloud_upload</v-icon> Drop Files Here</div>
                                                             <div class="uploader-title" v-else-if="checkFileUploaded == 'nofile'"><v-icon>cancel</v-icon> No File Found</div>
                                                             <div class="uploader-title" v-else><v-icon>check</v-icon> File Uploaded</div>
                                                         </v-card>
@@ -420,6 +423,7 @@
         props: ['token', 'user'],
         data() {
             return {
+                uploadLoader: false,
                 checkFileUploaded: 'empty',
                 showModalDimensionsCheck: false,
                 validName: false,
