@@ -1,5 +1,6 @@
 <template>
     <v-container fluid grid-list-xs>
+        <popup></popup>
         <v-layout>
             <v-flex xs12>
                 <v-card class="elevation-0">
@@ -565,7 +566,7 @@
                 }, error => {
                     this.folderLoader = false;
 
-                    this.$root.showAlert('error', 'Error fetching folders.');
+                    this.$root.showAlertPopUp('error', 'Error fetching folders.');
                 });
             },
 
@@ -642,20 +643,20 @@
             deleteFolder(folderId, folderName) {
                 axios.delete(this.$root.uri + '/creatives/folders/' + folderId, this.$root.config).then(response => {
 
-                    this.$root.showAlert('success', 'You have successfully deleted ' + folderName + '.');
+                    this.$root.showAlertPopUp('success', 'You have successfully deleted ' + folderName + '.');
                 }, error => {
 
-                    this.$root.showAlert('error', 'Something went wrong.');
+                    this.$root.showAlertPopUp('error', 'Something went wrong.');
                 });
             },
 
             deleteCreative(creativeId, creativeName) {
                 axios.delete(this.$root.uri + '/creatives/' + creativeId, this.$root.config).then(response => {
 
-                    this.$root.showAlert('success', 'You have successfully deleted ' + creativeName + '.');
+                    this.$root.showAlertPopUp('success', 'You have successfully deleted ' + creativeName + '.');
                 }, error => {
 
-                    this.$root.showAlert('error', 'Something went wrong.');
+                    this.$root.showAlertPopUp('error', 'Something went wrong.');
                 });
             },
 
@@ -666,7 +667,7 @@
                 }, error => {
                     this.creativesLoader = false;
 
-                    this.$root.showAlert('error', 'Something went wrong.');
+                    this.$root.showAlertPopUp('error', 'Something went wrong.');
                 });
             },
 
@@ -715,7 +716,7 @@
                             this.showModal = false;
                             this.showModalDimensionsCheck = false;
 
-                            this.$root.showAlert('success', 'Uploaded successfully');
+                            this.$root.showAlertPopUp('success', 'Uploaded successfully');
 
                             if(typeof this.currentFolder.id == 'string') {
                                 this.getFolderCreatives(this.currentFolder.id);
@@ -725,7 +726,7 @@
                         }
                         else {
 
-                            this.$root.showAlert('error', 'Please choose a folder you wish to upload a creative to.');
+                            this.$root.showAlertPopUp('error', 'Please choose a folder you wish to upload a creative to.');
                         }
                     }.bind(this));
             },
@@ -743,10 +744,10 @@
                     this.currentFolder = {};
                     this.createFolderFlag = false;
 
-                    this.$root.showAlert('success', 'You have successfully created a new folder.');
+                    this.$root.showAlertPopUp('success', 'You have successfully created a new folder.');
                 }, error => {
 
-                    this.$root.showAlert('error', 'Error creating folder.');
+                    this.$root.showAlertPopUp('error', 'Error creating folder.');
                 });
             },
 

@@ -1,5 +1,6 @@
 <template>
     <v-container fluid grid-list-md>
+        <popup></popup>
         <v-layout>
             <v-flex xs12>
                 <v-card class="elevation-0">
@@ -335,7 +336,8 @@
                 search: '',
                 showModal1: false,
                 trueBills: [],
-                billLoader: true
+                billLoader: true,
+                tester: true
             }
         },
 
@@ -354,10 +356,10 @@
 
             processPayment() {
                 axios.post(this.$root.uri + '/accounts/' + this.user.accountUuId + '/banker/main' , this.collectBill(), this.$root.config).then(response => {
-                    this.$root.showAlert('success', 'You have created a bill successfully.');
+                    this.$root.showAlertPopUp('success', 'You have created a bill successfully.');
 
                 }, error => {
-                    this.$root.showAlert('error', 'Something went wrong');
+                    this.$root.showAlertPopUp('error', 'Something went wrong');
                 });
             },
 
@@ -376,7 +378,7 @@
                 this.billLoader = false;
 
             }, error => {
-                this.$root.showAlert('error', 'Something went wrong');
+                this.$root.showAlertPopUp('error', 'Something went wrong');
                 this.billLoader = false;
             
             })

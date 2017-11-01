@@ -1,5 +1,6 @@
 <template>
     <v-container grid-list-md>
+        <popup></popup>
         <v-layout row wrap>
             <v-flex xs12 class="valign-wrapper mb-1">
                 <h5>CAMPAIGN DETAILS</h5>
@@ -447,7 +448,7 @@
 
                     axios.put(this.$root.uri + '/campaigns/' + this.campaign.id, payload, this.$root.config).then(response => {
                     }, error => {
-                        this.$root.showAlert('error', 'Something went wrong');
+                        this.$root.showAlertPopUp('error', 'Something went wrong');
                     });  
                 }
             },
@@ -459,7 +460,7 @@
     
                     axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/budget', payload, this.$root.config).then(response => {
                     }, error => {
-                        this.$root.showAlert('error', 'Something went wrong');
+                        this.$root.showAlertPopUp('error', 'Something went wrong');
                     });
                 }
             },

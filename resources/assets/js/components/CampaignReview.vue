@@ -1,5 +1,6 @@
 <template>
     <v-container grid-list-xs>
+        <popup></popup>
         <v-alert dismissible v-bind:success='this.$root.alert.success' v-bind:error='this.$root.alert.error' v-model="this.$root.alert.alert" transition="scale-transition">{{this.$root.alert.alertMessage}}</v-alert>
         <v-layout row wrap>
             <v-flex xs12 class="valign-wrapper mb-1">
@@ -325,18 +326,18 @@
 
                 axios.put(this.$root.uri + '/campaigns/' + this.campaign.id, {status: 'active'}, this.$root.config).then(response => {
 
-                    this.$root.showAlert('success', 'Successfully created a new campaign.');
+                    this.$root.showAlertPopUp('success', 'Successfully created a new campaign.');
                     window.location = '/admin/campaigns?m=' + this.alertMessage;
                 }, error => {
 
                     this.loading = false;
-                    this.$root.showAlert('error', 'Something went wrong.');
+                    this.$root.showAlertPopUp('error', 'Something went wrong.');
                 });
             },
 
             updateMessage() {
 
-                this.$root.showAlert('success', 'Successfully updated campaign.');
+                this.$root.showAlertPopUp('success', 'Successfully updated campaign.');
                 window.location = '/admin/campaigns?m=' + this.alertMessage;
             },
 
@@ -363,7 +364,7 @@
 
                 }, error => {
 
-                    this.$root.showAlert('error', 'Something went wrong.');
+                    this.$root.showAlertPopUp('error', 'Something went wrong.');
                 });
             },
 
@@ -377,7 +378,7 @@
                 }, error => {
                     this.loading = false;
 
-                    this.$root.showAlert('error', 'Something went wrong.');
+                    this.$root.showAlertPopUp('error', 'Something went wrong.');
                 });
             },
 
@@ -389,7 +390,7 @@
                     this.something = this.something + 1;
                 }, error => {
                     this.loading = false;
-                    this.$root.showAlert('error', 'Something went wrong.');
+                    this.$root.showAlertPopUp('error', 'Something went wrong.');
                 });
             },
 
@@ -403,7 +404,7 @@
                 }, error => {
 
                     this.loading = false;
-                    this.$root.showAlert('error', 'Something went wrong.');
+                    this.$root.showAlertPopUp('error', 'Something went wrong.');
                 });
             },
 
@@ -416,21 +417,21 @@
                     this.something = this.something + 1;
                 }, error => {
                     this.loading = false;
-                    this.$root.showAlert('error', 'Something went wrong.');
+                    this.$root.showAlertPopUp('error', 'Something went wrong.');
                 });
                 axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/device/model', {models: payload.models}, this.$root.config).then(response => {
                     this.batch.push(5);
                     this.something = this.something + 1;
                 }, error => {
                     this.loading = false;
-                    this.$root.showAlert('error', 'Something went wrong.');
+                    this.$root.showAlertPopUp('error', 'Something went wrong.');
                 });
                 axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/device/os', {os: payload.os}, this.$root.config).then(response => {
                     this.batch.push(6);
                     this.something = this.something + 1;
                 }, error => {
                     this.loading = false;
-                    this.$root.showAlert('error', 'Something went wrong.');
+                    this.$root.showAlertPopUp('error', 'Something went wrong.');
                 });
             },
 
@@ -443,7 +444,7 @@
                     this.something = this.something + 1;
                 }, error => {
                     this.loading = false;
-                    this.$root.showAlert('error', 'Something went wrong.');
+                    this.$root.showAlertPopUp('error', 'Something went wrong.');
                 });
             },
 
@@ -456,7 +457,7 @@
                     this.something = this.something + 1;
                 }, error => {
                     this.loading = false;
-                    this.$root.showAlert('error', 'Something went wrong.');
+                    this.$root.showAlertPopUp('error', 'Something went wrong.');
                 });
             },
 
@@ -549,7 +550,7 @@
                     this.ajax = false;
                     this.batch = [];
 
-                    this.$root.showAlert('success', 'Successfully updated campaign.');
+                    this.$root.showAlertPopUp('success', 'Successfully updated campaign.');
                 }
             },
             something(value) {

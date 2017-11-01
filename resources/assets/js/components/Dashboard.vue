@@ -1,5 +1,6 @@
 <template>
     <v-container fluid grid-list-lg>
+        <popup></popup>
         <v-alert class="mb-2" dismissible v-bind:success='$root.alert.success' v-bind:error='$root.alert.error' v-model="$root.alert.alert" transition="scale-transition">{{$root.alert.alertMessage}}</v-alert>
         <v-layout row wrap>
             <v-flex d-flex md12 lg6>
@@ -231,7 +232,7 @@
                     this.folders = response.data.data;
                     folders = response.data.data;
                 }, error => {     
-                    this.$root.showAlert('error', 'Something went wrong.');
+                    this.$root.showAlertPopUp('error', 'Something went wrong.');
                 });
                 var creatives = [];
                 for (var f in folders) {
@@ -239,7 +240,7 @@
                     var a = response.data;
                     creatives.push(a);
                 }, error => {
-                    this.$root.showAlert('error', 'Something went wrong.');
+                    this.$root.showAlertPopUp('error', 'Something went wrong.');
                 });
                 }
                 this.something = creatives;
@@ -257,7 +258,7 @@
                             if(creatives.length == 5) break;
                         }
                 }, error => {
-                    this.$root.showAlert('error', 'Something went wrong.');
+                    this.$root.showAlertPopUp('error', 'Something went wrong.');
                 });
                 }
                 this.creativeList = creatives;
@@ -276,7 +277,7 @@
                     }
                     this.campaignList = b;
                 }, error => {
-                    this.$root.showAlert('error', 'Something went wrong.');
+                    this.$root.showAlertPopUp('error', 'Something went wrong.');
                 })
             },
 
@@ -290,7 +291,7 @@
                     }
                     this.logList = b;
                 }, error => {
-                    this.$root.showAlert('error', 'Something went wrong.');
+                    this.$root.showAlertPopUp('error', 'Something went wrong.');
                 })
             },
 
@@ -329,7 +330,7 @@
                     this.overallList = response.data.data;
                     this.chartLoaded = true;
                 }, error => {
-                    this.$root.showAlert('error', 'Something went wrong.');
+                    this.$root.showAlertPopUp('error', 'Something went wrong.');
                 })
             },
 
@@ -338,7 +339,7 @@
                 axios.get(this.$root.reportUri + '?table=wins&acc=' + this.user.accountUuId + '&field=clicks,imps,spend&op=summary&from=' + this.date_from + ' 00:00:00&to=' + this.date_to + ' 00:00:00', this.$root.config).then(response => {
                     this.overallSummaryList = response.data.data;
                 }, error => {
-                    this.$root.showAlert('error', 'Something went wrong.');
+                    this.$root.showAlertPopUp('error', 'Something went wrong.');
                 })
             },
 

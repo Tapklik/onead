@@ -1,5 +1,6 @@
 <template>
     <v-container fluid grid-list-xs>
+        <popup></popup>
         <v-layout>
             <v-flex xs12>
                 <v-card class="elevation-0">    
@@ -101,7 +102,7 @@
             this.$root.isLoading = false;
 
             if(typeof data !== 'undefined') {
-                this.$root.showAlert('success', data.message);
+                this.$root.showAlertPopUp('success', data.message);
             }
         },
 
@@ -174,7 +175,7 @@
                     this.campaignsLoader = false;
                 }, error => {
                     this.campaignsLoader = false;
-                    this.$root.showAlert('error', 'Error fetching folders.');
+                    this.$root.showAlertPopUp('error', 'Error fetching folders.');
                 })
             },
 
@@ -183,7 +184,7 @@
                     axios.put(this.$root.uri + '/campaigns/' + campaignId, {status: 'deleted'}, this.$root.config).then(response => {
                         this.fetchCampaigns();
                     }, error => {
-                        this.$root.showAlert('error', 'Something went wrong');
+                        this.$root.showAlertPopUp('error', 'Something went wrong');
                     }).bind(this);
     
                     return false;
@@ -193,7 +194,7 @@
                         response => {
                             this.fetchCampaigns();
                     }, error => {  
-                        this.$root.showAlert('error', 'Something went wrong');
+                        this.$root.showAlertPopUp('error', 'Something went wrong');
                     });
             
                     return false;
