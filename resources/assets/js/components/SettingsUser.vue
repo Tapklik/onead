@@ -241,9 +241,14 @@
                 var password = this.password;
                 var password2 = this.confPassword;
                 var message = ['The passwords do not match'];
+                var message2 = ['The password is too short'];
                 if(password != password2) {
                     this.validNewPassword = false;
                     return message;
+                }
+                else if(password2.length < 8) {
+                    this.validNewPassword = false;
+                    return message2;
                 }
                 else {
                     this.validNewPassword = true;

@@ -179,23 +179,23 @@
                     <v-flex xs4 class="valign-wrapper">
                         <span class="caption">Devices</span>
                     </v-flex>
-                    <v-flex xs8>
+                    <v-flex xs8 v-if="$parent.$parent.$parent.validDevices == true">
                         <v-btn icon :key="device.device_id" v-for="device in selectedDevices">
                             <v-icon>{{device.icon}}</v-icon>
                         </v-btn>
+                    </v-flex>
+                    <v-flex xs8 v-else>
+                        <span class="red--text">Select a device type</span>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap class="mt-4">
                     <v-flex xs4 class="valign-wrapper">
                         <span class="caption">Operating Systems</span>
                     </v-flex>
-                    <v-flex xs8 v-if="$parent.$parent.$parent.validDevices == true">
+                    <v-flex xs8>
                         <v-btn icon :key="os.type" v-for="os in selectedOs">
                             <v-icon>{{os.icon}}</v-icon>
                         </v-btn>
-                    </v-flex>
-                    <v-flex xs8 v-else>
-                        <span class="red--text">Select any device category</span>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap class="mt-4">
