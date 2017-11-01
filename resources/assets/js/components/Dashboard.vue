@@ -252,8 +252,10 @@
                 for (var f in folders) {
                     axios.get(this.$root.uri + '/creatives/' +  this.user.accountUuId + '/folders/' + folders[f].id, this.$root.config).then(response => {
                         var a = response.data.data;
+                        console.log(a);
                         var c = a.length -1;
-                        for (var i = c; i > 0; i--) {
+                        console.log(c);
+                        for (var i = c; i >= 0; i--) {
                             creatives.push(a[i]);
                             if(creatives.length == 5) break;
                         }
