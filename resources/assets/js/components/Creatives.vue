@@ -236,11 +236,11 @@
                                         &nbsp;
                                     </template>
                                     <template slot="items" scope="props">
-                                        <tr :active="props.selected" @click="openFolder(props.item.id)">
-                                            <td width="40" class="text-xs-right">
+                                        <tr :active="props.selected">
+                                            <td width="40" class="text-xs-right" @click="openFolder(props.item.id)">
                                                 <v-icon>folder</v-icon>
                                             </td>
-                                            <td class="text-xs-left">
+                                            <td class="text-xs-left" @click="openFolder(props.item.id)">
                                                 <span class="title">{{ props.item.id.name }}</span>
                                             </td>
                                             <td class="text-xs-right">
