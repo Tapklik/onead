@@ -96,7 +96,7 @@
                     exchange: 1,
                     test: 1,
                     weight: 1,
-                    status: 'active',
+                    status: 'draft',
                     total: 1,
                     start_time: this.getDate(0),
                     end_time: this.getDate(7),

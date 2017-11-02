@@ -289,7 +289,7 @@
 
             updateDraftDevice(){
 
-                if(this.$root.editMode == true) return;
+                if(this.campaign.status != 'draft') return;
 
                 else {
                     var payload = this.collectDevices();
@@ -352,7 +352,7 @@
 
             updateDraftGeography(){
 
-                if(this.$root.editMode == true) return;
+                if(this.campaign.status != 'draft') return;
 
                 else {
                     var payload = this.collectGeography();
@@ -369,7 +369,7 @@
 
             updateDraftUser(){
                 
-                if(this.$root.editMode == true) return;
+                if(this.campaign.status != 'draft') return;
 
                 else {
                     var payload = this.collectUser();

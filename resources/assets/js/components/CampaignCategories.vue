@@ -56,7 +56,7 @@
 
             updateDraftCategories(){
 
-                if(this.$root.editMode == true) return;
+                if(this.campaign.status != 'draft') return;
 
                 else {
                     var payload = this.campaign.cat.data;

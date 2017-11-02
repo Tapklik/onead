@@ -441,7 +441,7 @@
             },
 
             updateDetailsDraft() {
-                if(this.$root.editMode == true) return;
+                if(this.campaign.status != 'draft') return;
                 else {
                     var payload = this.draftData();
 
@@ -453,7 +453,7 @@
             },
 
             updateDraftBudget() {
-                if(this.$root.editMode == true) return;
+                if(this.campaign.status != 'draft') return;
                 else {
                     var payload = this.campaign.budget.data;
     
