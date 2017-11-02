@@ -288,8 +288,9 @@
             return {
                 ajax: false,
                 batch: [],
-                something: 0,
-                loading: false
+                checkCounter: 0,
+                loading: false,
+                errorCounter: 0
             }
         },
 
@@ -301,6 +302,11 @@
         },
 
         methods: {
+            campaignError() {
+                this.$root.showAlertPopUp('error', 'Something went wrong.');
+                window.location = '/admin/campaigns';
+            },
+
             validCampaign() {
                 if (this.$parent.$parent.$parent.validName == true &&
                     this.$parent.$parent.$parent.validBid == true &&
@@ -359,7 +365,7 @@
 
                 axios.put(this.$root.uri + '/campaigns/' + this.campaign.id, payload, this.$root.config).then(response => {
                     this.batch.push(0);
-                    this.something = this.something + 1;
+                    this.checkCounter = this.checkCounter + 1;
 
                 }, error => {
 
@@ -373,10 +379,10 @@
 
                 axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/cat', payload, this.$root.config).then(response => {
                     this.batch.push(1);
-                    this.something = this.something + 1;
+                    this.checkCounter = this.checkCounter + 1;
                 }, error => {
                     this.loading = false;
-
+                    this.errorCounter = this.errorCounter + 1;
                     this.$root.showAlertPopUp('error', 'Something went wrong.');
                 });
             },
@@ -386,8 +392,9 @@
 
                 axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/users', payload, this.$root.config).then(response => {
                     this.batch.push(2);
-                    this.something = this.something + 1;
+                    this.checkCounter = this.checkCounter + 1;
                 }, error => {
+                    this.errorCounter = this.errorCounter + 1;
                     this.loading = false;
                     this.$root.showAlertPopUp('error', 'Something went wrong.');
                 });
@@ -399,9 +406,9 @@
 
                 axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/geo', {geo: payload}, this.$root.config).then(response => {
                     this.batch.push(3);
-                    this.something = this.something + 1;
+                    this.checkCounter = this.checkCounter + 1;
                 }, error => {
-
+                    this.errorCounter = this.errorCounter + 1;
                     this.loading = false;
                     this.$root.showAlertPopUp('error', 'Something went wrong.');
                 });
@@ -413,22 +420,25 @@
 
                 axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/device/type', {types: payload.types}, this.$root.config).then(response => {
                     this.batch.push(4);
-                    this.something = this.something + 1;
+                    this.checkCounter = this.checkCounter + 1;
                 }, error => {
+                    this.errorCounter = this.errorCounter + 1;
                     this.loading = false;
                     this.$root.showAlertPopUp('error', 'Something went wrong.');
                 });
                 axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/device/model', {models: payload.models}, this.$root.config).then(response => {
                     this.batch.push(5);
-                    this.something = this.something + 1;
+                    this.checkCounter = this.checkCounter + 1;
                 }, error => {
+                    this.errorCounter = this.errorCounter + 1;
                     this.loading = false;
                     this.$root.showAlertPopUp('error', 'Something went wrong.');
                 });
                 axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/device/os', {os: payload.os}, this.$root.config).then(response => {
                     this.batch.push(6);
-                    this.something = this.something + 1;
+                    this.checkCounter = this.checkCounter + 1;
                 }, error => {
+                    this.errorCounter = this.errorCounter + 1;
                     this.loading = false;
                     this.$root.showAlertPopUp('error', 'Something went wrong.');
                 });
@@ -440,8 +450,9 @@
 
                 axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/budget', payload, this.$root.config).then(response => {
                     this.batch.push(7);
-                    this.something = this.something + 1;
+                    this.checkCounter = this.checkCounter + 1;
                 }, error => {
+                    this.errorCounter = this.errorCounter + 1;
                     this.loading = false;
                     this.$root.showAlertPopUp('error', 'Something went wrong.');
                 });
@@ -453,8 +464,9 @@
 
                 axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/creatives', {creatives: payload}, this.$root.config).then(response => {
                     this.batch.push(8);
-                    this.something = this.something + 1;
+                    this.checkCounter = this.checkCounter + 1;
                 }, error => {
+                    this.errorCounter = this.errorCounter + 1;
                     this.loading = false;
                     this.$root.showAlertPopUp('error', 'Something went wrong.');
                 });
@@ -552,8 +564,12 @@
                     this.$root.showAlertPopUp('success', 'Successfully updated campaign.');
                 }
             },
-            something(value) {
+            checkCounter(value) {
                 if (value == 9) this.updateMessage();
+            },
+
+            errorCounter(value) {
+                if(value > 0) this.campaignError();
             }
         },
 
