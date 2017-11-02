@@ -332,7 +332,7 @@
                                                 {{ props.item.id.w }} x {{ props.item.id.h }}
                                             </td>
                                             <td>
-                                                <v-dialog v-model="props.item.modal" lazy absolute width="70%">
+                                                <v-dialog v-model="props.item.modal" lazy absolute width="400px">
                                                     <v-btn icon class="grey--text" @click="deleteCreativeId = props.item.id.id, deleteCreativeName = props.item.id.name" slot="activator">
                                                         <v-icon>delete</v-icon>
                                                     </v-btn>
@@ -340,10 +340,11 @@
                                                         <v-card-title>
                                                             <h4>Delete Creative</h4>
                                                         </v-card-title>
+                                                        <v-divider></v-divider>
                                                         <v-card-text>
                                                             <v-layout row wrap>
                                                                 <v-flex xs12 md12 class="valign-wrapper text-xs-center">
-                                                                    <span class="">ARE YOU SURE YOU WANT TO DELETE {{deleteCreativeName | uppercase}}?</span><br>
+                                                                    <span class="">Are you sure you want to delete {{deleteCreativeName | uppercase}}?</span><br>
                                                                 </v-flex>
                                                             </v-layout>
                                                         </v-card-text>
