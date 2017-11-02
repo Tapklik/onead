@@ -726,6 +726,11 @@
                             }
                         }
                         else {
+                            this.clearUploadModal();
+                            this.checkFileUploaded = 'empty';
+                            this.loading = false;
+                            this.showModal = false;
+                            this.showModalDimensionsCheck = false;
 
                             this.$root.showAlertPopUp('error', 'Please choose a folder you wish to upload a creative to.');
                         }
