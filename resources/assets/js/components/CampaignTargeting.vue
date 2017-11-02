@@ -72,7 +72,7 @@
                           prepend-icon="add_location"
                           :search-input.sync="searchCountry"
                           @change="showNothing()"
-                          @blur="updateDraftGeography()"
+                          @blur="updateDraftGeography(), geoBlurred = true"
                           label="Country or city name"
                           hint="Start typing location name to see the list..."
                           multiple
@@ -163,6 +163,7 @@
 
         data() {
             return {
+                geoBlurred: false,
                 writtenCountries: '',
                 desktopValue: 2,
                 mobileValue: 4,
@@ -220,8 +221,11 @@
             geoRules() {
                 var geo = ['you must select at least one location']
                 if(this.campaign.geo.data == '') {
-                    this.$parent.$parent.$parent.validGeo = false;
-                    return geo;
+                    if(this.geoBlurred == false) this.$parent.$parent.$parent.validGeo = false;
+                    else {
+                        this.$parent.$parent.$parent.validGeo = false;
+                        return geo;
+                    }
                 }
                 else {
                     this.$parent.$parent.$parent.validGeo = true;
