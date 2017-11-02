@@ -1,6 +1,5 @@
 <template>
     <v-container grid-list-md>
-        <popup></popup>
         <v-layout row wrap>
             <v-flex xs12 class="valign-wrapper mb-1">
                 <h5>CAMPAIGN DETAILS</h5>

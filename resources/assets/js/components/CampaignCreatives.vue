@@ -1,6 +1,5 @@
 <template>
     <v-container grid-list-xs>
-        <popup></popup>
         <v-layout row wrap>
             <v-flex xs12 class="valign-wrapper mb-1">
                 <h5>CREATIVES VAULT</h5>

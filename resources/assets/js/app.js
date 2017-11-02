@@ -160,7 +160,7 @@ const app = new Vue({
             if(value) {
                 return value.toFixed(2);
             } else {
-                return null;
+                return 0;
             }
         },
 
