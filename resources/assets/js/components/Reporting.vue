@@ -257,14 +257,67 @@
                         <v-card-text>
                             <v-container fluid grid-list-md>
                                 <v-layout row wrap>
-                                    <v-flex xs12 md4 lg2>
-                                        <v-select :items="technologiesList.devices" item-text="type" item-value="device_id" chips v-model="selectedDevicesTypes1" label="Devices" multiple autocomplete></v-select>
+                                    <v-flex xs12 md4 lg1>
+                                        <v-menu offset-y :close-on-content-click='false'>
+                                            <v-btn secondary dark slot="activator"><v-icon>filter_list</v-icon> Type</v-btn>
+                                            <v-list style="max-height: 200px">
+                                                <v-list-tile v-for="device in technologiesList.devices" :key="device.type">
+                                                    <v-list-tile-action>
+                                                        <v-checkbox :value="device.type" v-model="selectedDevicesTypes1"></v-checkbox>
+                                                    </v-list-tile-action>
+                                                    <v-list-tile-title>{{ device.type }}</v-list-tile-title>
+                                                </v-list-tile>
+                                            </v-list>
+                                        </v-menu>
                                     </v-flex>
-                                    <v-flex xs12 md4 lg2>
-                                        <v-select :items="technologiesList.operatingsystems" item-text="type" chips item-value="type" v-model="selectedDevicesOs1" label="Operating Systems" multiple autocomplete></v-select>
+                                    <v-flex xs12 md4 lg1>
+                                        <v-menu offset-y :close-on-content-click='false'>
+                                            <v-btn secondary dark slot="activator"><v-icon>filter_list</v-icon> UA</v-btn>
+                                            <v-list style="max-height: 200px">
+                                                <v-list-tile v-for="device in technologiesList.browsers" :key="device.type">
+                                                    <v-list-tile-action>
+                                                        <v-checkbox :value="device.type" v-model="selectedDevicesUa1"></v-checkbox>
+                                                    </v-list-tile-action>
+                                                    <v-list-tile-title>{{ device.type }}</v-list-tile-title>
+                                                </v-list-tile>
+                                            </v-list>
+                                        </v-menu>
                                     </v-flex>
-                                    <v-flex xs12 md4 lg2>
-                                        <v-select :items="technologiesList.browsers" item-text="type" chips item-value="type" v-model="selectedDevicesUa1" label="Browsers" multiple autocomplete></v-select>
+                                    <v-flex xs12 md4 lg1>
+                                        <v-menu offset-y :close-on-content-click='false'>
+                                            <v-btn secondary dark slot="activator"><v-icon>filter_list</v-icon> OS</v-btn>
+                                            <v-list style="max-height: 200px">
+                                                <v-list-tile v-for="device in technologiesList.operatingsystems" :key="device.type">
+                                                    <v-list-tile-action>
+                                                        <v-checkbox :value="device.type" v-model="selectedDevicesOs1"></v-checkbox>
+                                                    </v-list-tile-action>
+                                                    <v-list-tile-title>{{ device.type }}</v-list-tile-title>
+                                                </v-list-tile>
+                                            </v-list>
+                                        </v-menu>
+                                    </v-flex>
+                                    <v-flex lg9>
+                                        <v-chip v-show="selectedDevicesTypes1 != ''">
+                                            <v-avatar>
+                                                <v-icon medium>account_circle</v-icon>
+                                            </v-avatar>
+                                            <b>Types: &nbsp;</b>
+                                            {{chipContent(selectedDevicesTypes1, 10)}}
+                                        </v-chip>
+                                        <v-chip v-show="selectedDevicesUa1 != ''">
+                                            <v-avatar>
+                                                <v-icon medium>account_circle</v-icon>
+                                            </v-avatar>
+                                            <b>Browsers: &nbsp;</b>
+                                            {{chipContent(selectedDevicesUa1, 10)}}
+                                        </v-chip>
+                                        <v-chip v-show="selectedDevicesOs1 != ''">
+                                            <v-avatar>
+                                                <v-icon medium>account_circle</v-icon>
+                                            </v-avatar>
+                                            <b>Operating Systems: &nbsp;</b>
+                                            {{chipContent(selectedDevicesOs1, 10)}}
+                                        </v-chip>
                                     </v-flex>
                                 </v-layout>
                                 <v-layout row wrap>
@@ -362,7 +415,7 @@
                                                 <v-icon medium>account_circle</v-icon>
                                             </v-avatar>
                                             <b>Countries: &nbsp;</b>
-                                            {{chipContent(selectedGeoCountries1)}}
+                                            {{chipContent(selectedGeoCountries1, 10)}}
                                         </v-chip>
                                     </v-flex>
                                 </v-layout>
@@ -641,13 +694,13 @@
 
         methods: {
             
-            chipContent(selection) {
+            chipContent(selection, characters) {
                 var selection = selection;
                 var show = '';
                 var characterCount = 0;
                 var plusMany = 0;
                 for(var s in selection) {
-                    if(characterCount + selection[s].length > 20) {
+                    if(characterCount + selection[s].length > characters) {
                         plusMany = plusMany + 1;
                     }
                     else {
@@ -1055,7 +1108,6 @@ watch: {
     },
     selectedGeoCountries1(value) {
         this.generateCharts();
-        this.chipContent(value);
     },
     
     user(value) {
