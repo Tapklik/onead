@@ -173,7 +173,7 @@
                         </v-flex>
                         <v-flex xs12 md2 lg7>
                             <v-dialog v-model="showModal1" lazy absolute width="500px">
-                                <v-btn v-if="!currentFolder.id" slot="activator" class="elevation-0">
+                                <v-btn v-if="!currentFolder.id" slot="activator" class="elevation-0" primary>
                                     <v-icon>create_new_folder</v-icon> &nbsp;&nbsp;
                                      New Folder
                                 </v-btn>

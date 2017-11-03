@@ -218,6 +218,7 @@
             }
         },
         methods: {
+
             geoRules() {
                 var geo = ['you must select at least one location']
                 if(this.campaign.geo.data == '') {

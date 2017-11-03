@@ -304,7 +304,7 @@
         methods: {
             campaignError() {
                 this.$root.showAlertPopUp('error', 'Something went wrong.');
-                window.location = '/admin/campaigns';
+                window.location = '/admin/campaigns?m=' + this.$root.alertpopup.alertMessage;
             },
 
             validCampaign() {
@@ -332,7 +332,7 @@
                 axios.put(this.$root.uri + '/campaigns/' + this.campaign.id, {status: 'active'}, this.$root.config).then(response => {
 
                     this.$root.showAlertPopUp('success', 'Successfully created a new campaign.');
-                    window.location = '/admin/campaigns?m=' + this.alertMessage;
+                    window.location = '/admin/campaigns?m=' + this.$root.alertpopup.alertMessage;
                 }, error => {
 
                     this.loading = false;
@@ -343,7 +343,7 @@
             updateMessage() {
 
                 this.$root.showAlertPopUp('success', 'Successfully updated campaign.');
-                window.location = '/admin/campaigns?m=' + this.alertMessage;
+                window.location = '/admin/campaigns?m=' + this.$root.alertpopup.alertMessage;
             },
 
             updateCampaign () {

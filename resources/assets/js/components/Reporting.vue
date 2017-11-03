@@ -344,7 +344,26 @@
                             <v-container fluid grid-list-md>
                                 <v-layout row wrap>
                                     <v-flex xs12 md4 lg2>
-                                        <v-select :items="countriesList" item-text="country_name" item-value="country" v-model="selectedGeoCountries1" label="Countries" chips multiple autocomplete></v-select>
+                                        <v-menu offset-y :close-on-content-click='false'>
+                                            <v-btn secondary dark slot="activator"><v-icon>filter_list</v-icon> Country</v-btn>
+                                            <v-list style="max-height: 200px">
+                                                <v-list-tile v-for="country in countriesList" :key="country.key">
+                                                    <v-list-tile-action>
+                                                        <v-checkbox :value="country.country" v-model="selectedGeoCountries1"></v-checkbox>
+                                                    </v-list-tile-action>
+                                                    <v-list-tile-title>{{ country.country_name }}</v-list-tile-title>
+                                                </v-list-tile>
+                                            </v-list>
+                                        </v-menu>
+                                    </v-flex>
+                                    <v-flex xs12 md4 lg2>
+                                        <v-chip v-show="selectedGeoCountries1 != ''">
+                                            <v-avatar>
+                                                <v-icon medium>account_circle</v-icon>
+                                            </v-avatar>
+                                            <b>Countries: &nbsp;</b>
+                                            {{chipContent(selectedGeoCountries1)}}
+                                        </v-chip>
                                     </v-flex>
                                 </v-layout>
                                 <v-layout row wrap>
@@ -621,6 +640,28 @@
         },
 
         methods: {
+            
+            chipContent(selection) {
+                var selection = selection;
+                var show = '';
+                var characterCount = 0;
+                var plusMany = 0;
+                for(var s in selection) {
+                    if(characterCount + selection[s].length > 20) {
+                        plusMany = plusMany + 1;
+                    }
+                    else {
+                        show = show + selection[s] + ', '
+                        characterCount = characterCount + selection[s].length;
+                    }
+                }
+                show = show.slice(0,-2);
+                if(plusMany != 0) {
+                    show = show + ' and ' + plusMany + ' more';
+                }
+                console.log(show);
+                return show;
+            },
 
             getCreatives() {
                 var listOfCreatives = []
@@ -1014,6 +1055,7 @@ watch: {
     },
     selectedGeoCountries1(value) {
         this.generateCharts();
+        this.chipContent(value);
     },
     
     user(value) {
