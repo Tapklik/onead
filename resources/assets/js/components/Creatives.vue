@@ -3,10 +3,10 @@
         <popup></popup>
         <v-layout>
             <v-flex xs12>
-                <v-card class="elevation-0">
+                <v-card class="elevation-2">
                     <v-divider></v-divider>
                     <v-card-title>
-                        <v-flex xs12 md2>
+                        <v-flex xs12 md8 lg9>
                             <v-dialog v-model="showModal" lazy absolute width="100%">
                                 <v-btn slot="activator" primary dark class="elevation-0">
                                     <v-icon>add</v-icon>
@@ -170,11 +170,9 @@
                                     </v-card-actions>
                                 </v-card>   
                             </v-dialog>
-                        </v-flex>
-                        <v-flex xs12 md2 lg7>
                             <v-dialog v-model="showModal1" lazy absolute width="500px">
-                                <v-btn v-if="!currentFolder.id" slot="activator" class="elevation-0" primary>
-                                    <v-icon>create_new_folder</v-icon> &nbsp;&nbsp;
+                                <v-btn v-if="!currentFolder.id" slot="activator" class="white elevation-0">
+                                    <v-icon>create_new_folder</v-icon>&nbsp;
                                      New Folder
                                 </v-btn>
                                 <v-card>
@@ -216,7 +214,7 @@
                                 </v-card>   
                             </v-dialog>
                         </v-flex>
-                        <v-flex xs12 md8 lg3>
+                        <v-flex xs12 md4 lg3>
                             <v-text-field append-icon="search" label="Search" single-line hide-details class="right" v-model="search">
                             </v-text-field>
                         </v-flex>

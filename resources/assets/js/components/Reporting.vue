@@ -1,9 +1,28 @@
 <template>
     <v-container fluid grid-list-md>
         <popup></popup>
-        <v-tabs icons v-model="tabIndex" light fixed centered :scrollable="false">
-            <v-divider></v-divider>
+        <v-tabs icons v-model="tabIndex" light fixed :scrollable="false" class="elevation-2 white">
             <v-card light extended class="elevation-0">
+                <v-tabs-bar class="white" slot="extension">
+                    <v-tabs-slider class="orange darken-3"></v-tabs-slider>
+                    <v-tabs-item href="#overall-tab">
+                        <v-icon class="orange--text text--darken-3">present_to_all</v-icon>
+                        <span class="orange--text text--darken-3"> Overall</span>
+                    </v-tabs-item>
+                    <v-tabs-item href="#publisher-tab" style="display:none">
+                        <v-icon class="orange--text text--darken-3">mdi-newspaper</v-icon>
+                        <span class="orange--text text--darken-3">Publishers</span>
+                    </v-tabs-item>
+                    <v-tabs-item href="#devices-tab">
+                        <v-icon class="orange--text text--darken-3">devices</v-icon>
+                        <span class="orange--text text--darken-3">Technologies</span>
+                    </v-tabs-item>
+                    <v-tabs-item href="#geo-tab">
+                        <v-icon class="orange--text text--darken-3">public</v-icon>
+                        <span class="orange--text text--darken-3">Geo</span>
+                    </v-tabs-item>
+                </v-tabs-bar>
+                <v-divider></v-divider>
                 <v-card-text>
                     <v-layout row wrap>
                         <v-flex xs12 md10 lg8 offset-md1 offset-lg2>
@@ -74,26 +93,6 @@
                         </v-flex>
                     </v-layout>
                 </v-card-text>
-            <v-divider></v-divider>
-            <v-tabs-bar class="white" slot="extension">
-                <v-tabs-slider class="orange darken-3"></v-tabs-slider>
-                <v-tabs-item href="#overall-tab">
-                    <v-icon class="orange--text text--darken-3">present_to_all</v-icon>
-                    <span class="orange--text text--darken-3"> Overall</span>
-                </v-tabs-item>
-                <v-tabs-item href="#publisher-tab" style="display:none">
-                    <v-icon class="orange--text text--darken-3">mdi-newspaper</v-icon>
-                    <span class="orange--text text--darken-3">Publishers</span>
-                </v-tabs-item>
-                <v-tabs-item href="#devices-tab">
-                    <v-icon class="orange--text text--darken-3">devices</v-icon>
-                    <span class="orange--text text--darken-3">Technologies</span>
-                </v-tabs-item>
-                <v-tabs-item href="#geo-tab">
-                    <v-icon class="orange--text text--darken-3">public</v-icon>
-                    <span class="orange--text text--darken-3">Geo</span>
-                </v-tabs-item>
-            </v-tabs-bar>
             </v-card>
             <v-divider class="elevation-1"></v-divider>
             <v-tabs-items>
@@ -241,7 +240,7 @@
                                         ></tk-widget>
                                     </v-flex>
                                     <v-flex xs12>
-                                        <v-card class="elevation-1">
+                                        <v-card class="elevation-0">
                                             <v-card-media id="chart_publisher" class="tapklik-chart" height="350px"> 
                                                 <scale-loader :loading="true" color="#9e9e9e" height="15px" width="3px" class="mt-5"></scale-loader>
                                             </v-card-media>
@@ -257,9 +256,12 @@
                         <v-card-text>
                             <v-container fluid grid-list-md>
                                 <v-layout row wrap>
-                                    <v-flex xs12 md4 lg1>
+                                    <v-flex sm12>
                                         <v-menu offset-y :close-on-content-click='false'>
-                                            <v-btn secondary dark slot="activator"><v-icon>filter_list</v-icon> Type</v-btn>
+                                            <v-btn white flat slot="activator">
+                                                <v-icon>filter_list</v-icon> DEVICE 
+                                                <v-icon>arrow_drop_down</v-icon>
+                                            </v-btn>
                                             <v-list style="max-height: 200px">
                                                 <v-list-tile v-for="device in technologiesList.devices" :key="device.type">
                                                     <v-list-tile-action>
@@ -269,10 +271,11 @@
                                                 </v-list-tile>
                                             </v-list>
                                         </v-menu>
-                                    </v-flex>
-                                    <v-flex xs12 md4 lg1>
                                         <v-menu offset-y :close-on-content-click='false'>
-                                            <v-btn secondary dark slot="activator"><v-icon>filter_list</v-icon> UA</v-btn>
+                                            <v-btn white flat slot="activator">
+                                                <v-icon>filter_list</v-icon> DEVICE UA
+                                                <v-icon>arrow_drop_down</v-icon>
+                                            </v-btn>
                                             <v-list style="max-height: 200px">
                                                 <v-list-tile v-for="device in technologiesList.browsers" :key="device.type">
                                                     <v-list-tile-action>
@@ -282,10 +285,11 @@
                                                 </v-list-tile>
                                             </v-list>
                                         </v-menu>
-                                    </v-flex>
-                                    <v-flex xs12 md4 lg1>
                                         <v-menu offset-y :close-on-content-click='false'>
-                                            <v-btn secondary dark slot="activator"><v-icon>filter_list</v-icon> OS</v-btn>
+                                            <v-btn white flat slot="activator">
+                                                <v-icon>filter_list</v-icon> DEVICE OS
+                                                <v-icon>arrow_drop_down</v-icon>
+                                            </v-btn>
                                             <v-list style="max-height: 200px">
                                                 <v-list-tile v-for="device in technologiesList.operatingsystems" :key="device.type">
                                                     <v-list-tile-action>
@@ -295,31 +299,26 @@
                                                 </v-list-tile>
                                             </v-list>
                                         </v-menu>
-                                    </v-flex>
-                                    <v-flex lg9>
-                                        <v-chip v-show="selectedDevicesTypes1 != ''">
-                                            <v-avatar>
-                                                <v-icon medium>account_circle</v-icon>
-                                            </v-avatar>
+                                        <v-chip close v-show="selectedDevicesTypes1 != ''">
                                             <b>Types: &nbsp;</b>
                                             {{chipContent(selectedDevicesTypes1, 10)}}
                                         </v-chip>
-                                        <v-chip v-show="selectedDevicesUa1 != ''">
-                                            <v-avatar>
-                                                <v-icon medium>account_circle</v-icon>
-                                            </v-avatar>
+                                        <v-chip close v-show="selectedDevicesUa1 != ''">
                                             <b>Browsers: &nbsp;</b>
                                             {{chipContent(selectedDevicesUa1, 10)}}
                                         </v-chip>
-                                        <v-chip v-show="selectedDevicesOs1 != ''">
-                                            <v-avatar>
-                                                <v-icon medium>account_circle</v-icon>
-                                            </v-avatar>
+                                        <v-chip close v-show="selectedDevicesOs1 != ''">
                                             <b>Operating Systems: &nbsp;</b>
                                             {{chipContent(selectedDevicesOs1, 10)}}
                                         </v-chip>
                                     </v-flex>
                                 </v-layout>
+                            </v-container>
+                        </v-card-text>
+                    </v-card>
+                    <v-card>
+                        <v-card-text>
+                            <v-container fluid grid-list-md>
                                 <v-layout row wrap>
                                     <v-flex xs6 md4 lg2>
                                         <tk-widget
@@ -380,7 +379,7 @@
                                         ></tk-widget>
                                     </v-flex>
                                     <v-flex xs12>
-                                        <v-card class="elevation-1">
+                                        <v-card class="elevation-0">
                                             <v-card-media id="chart_devices" class="tapklik-chart" height="350px"> 
                                                 <scale-loader :loading="true" color="#9e9e9e" height="15px" width="3px" class="mt-5"></scale-loader>
                                             </v-card-media>

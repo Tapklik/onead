@@ -4,7 +4,7 @@
         <v-alert class="mb-2" dismissible v-bind:success='$root.alert.success' v-bind:error='$root.alert.error' v-model="$root.alert.alert" transition="scale-transition">{{$root.alert.alertMessage}}</v-alert>
         <v-layout row wrap>
             <v-flex d-flex md12 lg6>
-                <v-card height="300px" class="elevation-1">
+                <v-card height="300px" class="elevation-2">
                    <v-card-title>
                         <span class="subheading orange--text text--darken-4">OVERALL CHART FOR 10 DAYS</span>
                     </v-card-title>
@@ -90,9 +90,9 @@
                 </v-layout>
             </v-flex> 
         </v-layout>
-        <v-layout row wrap>
+        <v-layout row wrap class="mt-2">
             <v-flex d-flex xs12 md4>
-                <v-card height="350px" class="elevation-1">
+                <v-card height="350px" class="elevation-2">
                     <v-card-title>
                         <span class="subheading orange--text text--darken-4">RECENT ACTIVE CAMPAIGNS</span>
                         <v-spacer></v-spacer>
@@ -122,7 +122,7 @@
                 </v-card>
             </v-flex>
             <v-flex d-flex xs12 md4>
-                <v-card height="350px" class="elevation-1">
+                <v-card height="350px" class="elevation-2">
                     <v-card-title>
                         <span class="subheading orange--text text--darken-4">RECENT CREATIVES</span>
                         <v-spacer></v-spacer>
@@ -157,7 +157,7 @@
                 </v-card>
             </v-flex>
             <v-flex d-flex xs12 md4>
-                <v-card height="350px" class="elevation-1">
+                <v-card height="350px" class="elevation-2">
                     <v-card-title>
                         <span class="subheading orange--text text--darken-4">LOG</span>
                         <v-spacer></v-spacer>

@@ -1,6 +1,6 @@
 <template>
     <v-flex class="text-xs-right">
-        <v-chip class="white grey--text text--lighten2">
+        <v-chip class="transparent grey--text text--lighten2">
             <v-avatar class="grey lighten-1 lighten-2 white--text">{{ userLetter }}</v-avatar>
             <span class="ml-4">{{ account.name }}</span> 
             <span class="ml-4 mr-3" v-if="error == false">$ {{ ($root.fromMicroDollars($root.balance + $root.flight)) }}</span>

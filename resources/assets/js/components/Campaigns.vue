@@ -3,7 +3,7 @@
         <popup></popup>
         <v-layout>
             <v-flex xs12>
-                <v-card class="elevation-0">    
+                <v-card class="elevation-2">    
                     <v-divider></v-divider>
                     <v-card-title dark class="">
                         <v-flex xs12 md6>
