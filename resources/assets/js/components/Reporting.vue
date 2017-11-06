@@ -97,79 +97,7 @@
             <v-divider class="elevation-1"></v-divider>
             <v-tabs-items>
                 <v-tabs-content id="overall-tab">
-                    <v-card>
-                        <v-card-text>
-                            <v-container fluid grid-list-md>
-                                <v-layout row wrap>
-                                    <v-flex xs6 md4 lg2>
-                                        <tk-widget
-                                            icon="photo"
-                                            title="IMPRESSIONS"
-                                            :value="responseOverallSummary.imps"
-                                            defaultValue="0.00"
-                                            size="sm"
-                                        ></tk-widget>
-                                    </v-flex>
-                                    <v-flex xs6 md4 lg2>
-                                        <tk-widget
-                                            icon="monetization_on"
-                                            title="CLICKS"
-                                            :value="responseOverallSummary.clicks"
-                                            defaultValue="0.00"
-                                            size="sm"
-                                        ></tk-widget>
-                                    </v-flex>
-                                    <v-flex xs6 md4 lg2>
-                                        <tk-widget
-                                            icon="mouse"
-                                            title="CTR"
-                                            :value="$root.twoDecimalPlaces(responseOverallSummary.ctr * 100)"
-                                            unit="%"
-                                            defaultValue="0.00"
-                                            size="sm"
-                                        ></tk-widget>
-                                    </v-flex>
-                                    <v-flex xs6 md4 lg2>
-                                        <tk-widget
-                                            icon="monetization_on"
-                                            title="eCPM"
-                                            :value="$root.twoDecimalPlaces(responseOverallSummary.ecpm)"
-                                            unit="$"
-                                            defaultValue="0.00"
-                                            size="sm"
-                                        ></tk-widget>
-                                    </v-flex>
-                                    <v-flex xs6 md4 lg2>
-                                        <tk-widget
-                                            icon="star_half"
-                                            title="eCPC"
-                                            :value="$root.twoDecimalPlaces(responseOverallSummary.ecpc)"
-                                            unit="$"
-                                            defaultValue="0.00"
-                                            size="sm"
-                                        ></tk-widget>
-                                    </v-flex>
-                                    <v-flex xs6 md4 lg2>
-                                        <tk-widget
-                                            icon="monetization_on"
-                                            title="SPEND"
-                                            :value="$root.fromMicroDollars(responseOverallSummary.spend)"
-                                            unit="$"
-                                            defaultValue="0.00"
-                                            size="sm"
-                                        ></tk-widget>
-                                    </v-flex>
-                                    <v-flex xs12>
-                                        <v-card class="elevation-1">
-                                            <v-card-media id="chart_overall" class="tapklik-chart" height="350px"> 
-                                                <scale-loader :loading="true" color="#9e9e9e" height="15px" width="3px" class="mt-5"></scale-loader>
-                                            </v-card-media>
-                                        </v-card>
-                                    </v-flex>
-                                </v-layout>
-                            </v-container>
-                        </v-card-text>
-                    </v-card>
+                    <reporting-overall graph="chart_overall" :summary="responseOverallSummary"></reporting-overall>
                 </v-tabs-content>
                 <v-tabs-content id="publisher-tab">
                     <v-card>
@@ -316,79 +244,7 @@
                             </v-container>
                         </v-card-text>
                     </v-card>
-                    <v-card>
-                        <v-card-text>
-                            <v-container fluid grid-list-md>
-                                <v-layout row wrap>
-                                    <v-flex xs6 md4 lg2>
-                                        <tk-widget
-                                            icon="photo"
-                                            title="IMPRESSIONS"
-                                            :value="responseDevicesSummary.imps"
-                                            defaultValue="0.00"
-                                            size="sm"
-                                        ></tk-widget>
-                                    </v-flex>
-                                    <v-flex xs6 md4 lg2>
-                                        <tk-widget
-                                            icon="monetization_on"
-                                            title="CLICKS"
-                                            :value="responseDevicesSummary.clicks"
-                                            defaultValue="0.00"
-                                            size="sm"
-                                        ></tk-widget>
-                                    </v-flex>
-                                    <v-flex xs6 md4 lg2>
-                                        <tk-widget
-                                            icon="mouse"
-                                            title="CTR"
-                                            :value="$root.twoDecimalPlaces(responseDevicesSummary.ctr * 100)"
-                                            unit="%"
-                                            defaultValue="0.00"
-                                            size="sm"
-                                        ></tk-widget>
-                                    </v-flex>
-                                    <v-flex xs6 md4 lg2>
-                                        <tk-widget
-                                            icon="monetization_on"
-                                            title="eCPM"
-                                            :value="$root.twoDecimalPlaces(responseDevicesSummary.ecpm)"
-                                            unit="$"
-                                            defaultValue="0.00"
-                                            size="sm"
-                                        ></tk-widget>
-                                    </v-flex>
-                                    <v-flex xs6 md4 lg2>
-                                        <tk-widget
-                                            icon="star_half"
-                                            title="eCPC"
-                                            :value="$root.twoDecimalPlaces(responseDevicesSummary.ecpc)"
-                                            unit="$"
-                                            defaultValue="0.00"
-                                            size="sm"
-                                        ></tk-widget>
-                                    </v-flex>
-                                    <v-flex xs6 md4 lg2>
-                                        <tk-widget
-                                            icon="monetization_on"
-                                            title="SPEND"
-                                            :value="$root.fromMicroDollars(responseDevicesSummary.spend)"
-                                            unit="$"
-                                            defaultValue="0.00"
-                                            size="sm"
-                                        ></tk-widget>
-                                    </v-flex>
-                                    <v-flex xs12>
-                                        <v-card class="elevation-0">
-                                            <v-card-media id="chart_devices" class="tapklik-chart" height="350px"> 
-                                                <scale-loader :loading="true" color="#9e9e9e" height="15px" width="3px" class="mt-5"></scale-loader>
-                                            </v-card-media>
-                                        </v-card>
-                                    </v-flex>
-                                </v-layout>
-                            </v-container>
-                        </v-card-text>
-                    </v-card>
+                    <reporting-overall graph="chart_devices" :summary="responseDevicesSummary"></reporting-overall>
                 </v-tabs-content>
                 <v-tabs-content id="geo-tab">
                     <v-card>
@@ -418,76 +274,10 @@
                                         </v-chip>
                                     </v-flex>
                                 </v-layout>
-                                <v-layout row wrap>
-                                    <v-flex xs6 md4 lg2>
-                                        <tk-widget
-                                            icon="photo"
-                                            title="IMPRESSIONS"
-                                            :value="responseGeoSummary.imps"
-                                            defaultValue="0.00"
-                                            size="sm"
-                                        ></tk-widget>
-                                    </v-flex>
-                                    <v-flex xs6 md4 lg2>
-                                        <tk-widget
-                                            icon="monetization_on"
-                                            title="CLICKS"
-                                            :value="responseGeoSummary.clicks"
-                                            defaultValue="0.00"
-                                            size="sm"
-                                        ></tk-widget>
-                                    </v-flex>
-                                    <v-flex xs6 md4 lg2>
-                                        <tk-widget
-                                            icon="mouse"
-                                            title="CTR"
-                                            :value="$root.twoDecimalPlaces(responseGeoSummary.ctr * 100)"
-                                            unit="%"
-                                            defaultValue="0.00"
-                                            size="sm"
-                                        ></tk-widget>
-                                    </v-flex>
-                                    <v-flex xs6 md4 lg2>
-                                        <tk-widget
-                                            icon="monetization_on"
-                                            title="eCPM"
-                                            :value="$root.twoDecimalPlaces(responseGeoSummary.ecpm)"
-                                            unit="$"
-                                            defaultValue="0.00"
-                                            size="sm"
-                                        ></tk-widget>
-                                    </v-flex>
-                                    <v-flex xs6 md4 lg2>
-                                        <tk-widget
-                                            icon="star_half"
-                                            title="eCPC"
-                                            :value="$root.twoDecimalPlaces(responseGeoSummary.ecpc)"
-                                            unit="$"
-                                            defaultValue="0.00"
-                                            size="sm"
-                                        ></tk-widget>
-                                    </v-flex>
-                                    <v-flex xs6 md4 lg2>
-                                        <tk-widget
-                                            icon="monetization_on"
-                                            title="SPEND"
-                                            :value="$root.fromMicroDollars(responseGeoSummary.spend)"
-                                            unit="$"
-                                            defaultValue="0.00"
-                                            size="sm"
-                                        ></tk-widget>
-                                    </v-flex>
-                                    <v-flex xs12>
-                                        <v-card class="elevation-1">
-                                            <v-card-media id="chart_geo" class="tapklik-chart" height="350px"> 
-                                                <scale-loader :loading="true" color="#9e9e9e" height="15px" width="3px" class="mt-5"></scale-loader>
-                                            </v-card-media>
-                                        </v-card>
-                                    </v-flex>
-                                </v-layout>
                             </v-container>
                         </v-card-text>
                     </v-card>
+                    <reporting-overall graph="chart_geo" :summary="responseGeoSummary"></reporting-overall>
                 </v-tabs-content>
             </v-tabs-items>
         </v-tabs>
