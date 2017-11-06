@@ -32,10 +32,7 @@ Vue.component('campaigns', require('./components/Campaigns.vue'));
 Vue.component('billing', require('./components/Billing.vue'));
 
 Vue.component('reporting', require('./components/Reporting.vue'));
-Vue.component('reporting-overall', require('./components/ReportingOverall.vue'));
-Vue.component('reporting-publishers', require('./components/ReportingPublishers.vue'));
-Vue.component('reporting-devices', require('./components/ReportingDevices.vue'));
-Vue.component('reporting-geo', require('./components/ReportingGeo.vue'));
+Vue.component('reporting-tab', require('./components/ReportingTab.vue'));
 
 Vue.component('settings', require('./components/Settings.vue'));
 Vue.component('settings-account', require('./components/SettingsAccount.vue'));

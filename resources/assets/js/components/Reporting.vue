@@ -97,7 +97,7 @@
             <v-divider class="elevation-1"></v-divider>
             <v-tabs-items>
                 <v-tabs-content id="overall-tab">
-                    <reporting-overall graph="chart_overall" :summary="responseOverallSummary"></reporting-overall>
+                    <reporting-tab graph="chart_overall" :summary="responseOverallSummary"></reporting-tab>
                 </v-tabs-content>
                 <v-tabs-content id="publisher-tab">
                     <v-card>
@@ -108,76 +108,10 @@
                                         <v-select :items="publisherList" item-text="site" item-value="site" chips v-model="selectedPublishers1" label="Publisher Sites" multiple autocomplete></v-select>
                                     </v-flex>
                                 </v-layout>
-                                <v-layout row wrap>
-                                    <v-flex xs6 md4 lg2>
-                                        <tk-widget
-                                            icon="photo"
-                                            title="IMPRESSIONS"
-                                            :value="responsePublishersSummary.imps"
-                                            defaultValue="0.00"
-                                            size="sm"
-                                        ></tk-widget>
-                                    </v-flex>
-                                    <v-flex xs6 md4 lg2>
-                                        <tk-widget
-                                            icon="monetization_on"
-                                            title="CLICKS"
-                                            :value="responsePublishersSummary.clicks"
-                                            defaultValue="0.00"
-                                            size="sm"
-                                        ></tk-widget>
-                                    </v-flex>
-                                    <v-flex xs6 md4 lg2>
-                                        <tk-widget
-                                            icon="mouse"
-                                            title="CTR"
-                                            :value="$root.twoDecimalPlaces(responsePublishersSummary.ctr * 100)"
-                                            unit="%"
-                                            defaultValue="0.00"
-                                            size="sm"
-                                        ></tk-widget>
-                                    </v-flex>
-                                    <v-flex xs6 md4 lg2>
-                                        <tk-widget
-                                            icon="monetization_on"
-                                            title="eCPM"
-                                            :value="$root.twoDecimalPlaces(responsePublishersSummary.ecpm)"
-                                            unit="$"
-                                            defaultValue="0.00"
-                                            size="sm"
-                                        ></tk-widget>
-                                    </v-flex>
-                                    <v-flex xs6 md4 lg2>
-                                        <tk-widget
-                                            icon="star_half"
-                                            title="eCPC"
-                                            :value="$root.twoDecimalPlaces(responsePublishersSummary.ecpc)"
-                                            unit="$"
-                                            defaultValue="0.00"
-                                            size="sm"
-                                        ></tk-widget>
-                                    </v-flex>
-                                    <v-flex xs6 md4 lg2>
-                                        <tk-widget
-                                            icon="monetization_on"
-                                            title="SPEND"
-                                            :value="$root.fromMicroDollars(responsePublishersSummary.spend)"
-                                            unit="$"
-                                            defaultValue="0.00"
-                                            size="sm"
-                                        ></tk-widget>
-                                    </v-flex>
-                                    <v-flex xs12>
-                                        <v-card class="elevation-0">
-                                            <v-card-media id="chart_publisher" class="tapklik-chart" height="350px"> 
-                                                <scale-loader :loading="true" color="#9e9e9e" height="15px" width="3px" class="mt-5"></scale-loader>
-                                            </v-card-media>
-                                        </v-card>
-                                    </v-flex>
-                                </v-layout>
                             </v-container>
                         </v-card-text>
                     </v-card>
+                    <reporting-tab graph="chart_publisher" :summary="responsePublishersSummary"></reporting-tab>
                 </v-tabs-content>
                 <v-tabs-content id="devices-tab">
                     <v-card>
@@ -244,7 +178,7 @@
                             </v-container>
                         </v-card-text>
                     </v-card>
-                    <reporting-overall graph="chart_devices" :summary="responseDevicesSummary"></reporting-overall>
+                    <reporting-tab graph="chart_devices" :summary="responseDevicesSummary"></reporting-tab>
                 </v-tabs-content>
                 <v-tabs-content id="geo-tab">
                     <v-card>
@@ -277,7 +211,7 @@
                             </v-container>
                         </v-card-text>
                     </v-card>
-                    <reporting-overall graph="chart_geo" :summary="responseGeoSummary"></reporting-overall>
+                    <reporting-tab graph="chart_geo" :summary="responseGeoSummary"></reporting-tab>
                 </v-tabs-content>
             </v-tabs-items>
         </v-tabs>
