@@ -271,7 +271,7 @@
                                                 </v-list-tile>
                                             </v-list>
                                         </v-menu>
-                                        <v-menu offset-y :close-on-content-click='false' ml-4>
+                                        <v-menu offset-y :close-on-content-click='false'>
                                             <v-btn white flat slot="activator">
                                                 <v-icon>filter_list</v-icon> DEVICE UA
                                                 <v-icon>arrow_drop_down</v-icon>
@@ -285,7 +285,7 @@
                                                 </v-list-tile>
                                             </v-list>
                                         </v-menu>
-                                        <v-menu offset-y :close-on-content-click='false' ml-4>
+                                        <v-menu offset-y :close-on-content-click='false'>
                                             <v-btn white flat slot="activator">
                                                 <v-icon>filter_list</v-icon> DEVICE OS
                                                 <v-icon>arrow_drop_down</v-icon>

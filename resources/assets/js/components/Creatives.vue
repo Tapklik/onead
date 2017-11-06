@@ -215,7 +215,12 @@
                             </v-dialog>
                         </v-flex>
                         <v-flex xs12 md4 lg3>
-                            <v-text-field append-icon="search" label="Search" single-line hide-details class="right" v-model="search">
+                            <v-text-field 
+                                prepend-icon="search" 
+                                single-line 
+                                hide-details 
+                                class="right" 
+                                v-model="search">
                             </v-text-field>
                         </v-flex>
                     </v-card-title>

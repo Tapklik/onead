@@ -10,40 +10,39 @@
                             <v-btn primary dark class="elevation-0" :href="createCampaignRouter">
                                 <v-icon>add</v-icon> Add campaign
                             </v-btn> 
+                            <v-menu offset-y :close-on-content-click='false'>
+                                <v-btn white flat slot="activator">
+                                    <v-icon>filter_list</v-icon> Status 
+                                    <v-icon>arrow_drop_down</v-icon>
+                                </v-btn>
+                                <v-list style="max-height: 200px">
+                                    <v-list-tile v-for="status in statuses" :key="status.status">
+                                        <v-list-tile-action>
+                                            <v-checkbox :value="status.status" v-model="selectedStatuses"></v-checkbox>
+                                        </v-list-tile-action>
+                                        <v-list-tile-title>{{ status.status }}</v-list-tile-title>
+                                    </v-list-tile>
+                                </v-list>
+                            </v-menu>
+                            <v-chip @input="removeChip('selectedStatuses')" close v-show="selectedStatuses != ''">
+                                <b>Statuses: &nbsp;</b>
+                                {{chipContent(selectedStatuses, 10)}}
+                            </v-chip>
                         </v-flex>
                         <v-flex xs12 md6>
                             <v-layout row wrap justify-space-between>
-                                    <v-flex xs8 md4 class="text-lg-right">
-                                        <v-chip @input="removeChip('selectedStatuses')" close v-show="selectedStatuses != ''">
-                                            <b>Statuses: &nbsp;</b>
-                                            {{chipContent(selectedStatuses, 10)}}
-                                        </v-chip>
-                                    </v-flex>
-                                    <v-flex xs4 md2>
-                                        <v-menu offset-y :close-on-content-click='false'>
-                                            <v-btn white flat slot="activator">
-                                                <v-icon>filter_list</v-icon> Status 
-                                                <v-icon>arrow_drop_down</v-icon>
-                                            </v-btn>
-                                            <v-list style="max-height: 200px">
-                                                <v-list-tile v-for="status in statuses" :key="status.status">
-                                                    <v-list-tile-action>
-                                                        <v-checkbox :value="status.status" v-model="selectedStatuses"></v-checkbox>
-                                                    </v-list-tile-action>
-                                                    <v-list-tile-title>{{ status.status }}</v-list-tile-title>
-                                                </v-list-tile>
-                                            </v-list>
-                                        </v-menu>
-                                    </v-flex>
-                                    <v-flex xs12 md5 lg5>
-                                        <v-text-field 
-                                            label="Search" 
-                                            single-line 
-                                            hide-details 
-                                            class="right"
-                                            v-model="search">
-                                        </v-text-field>
-                                    </v-flex>
+                                <v-flex xs8 md4>
+                                    
+                                </v-flex>
+                                <v-flex xs12 md5 lg5>
+                                    <v-text-field 
+                                        single-line 
+                                        hide-details 
+                                        class="right"
+                                        prepend-icon="search"
+                                        v-model="search">
+                                    </v-text-field>
+                                </v-flex>
                             </v-layout>
                         </v-flex>
                     </v-card-title>
@@ -146,7 +145,7 @@
         },
 
         methods: {
-            
+
             removeChip(data) {
                 this[data] = [];
             },

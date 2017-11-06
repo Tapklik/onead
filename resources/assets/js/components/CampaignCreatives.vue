@@ -192,10 +192,11 @@
             collectCreatives() {
 
                 var ids = [];
+                var creatives = this.campaign.creatives.data;
 
-                for(var i in this.campaign.creatives.data)
+                for(var i in creatives)
                 {
-                    ids.push(this.campaign.creatives.data[i].id);
+                    ids.push(creatives[i].id);
                 }
 
                 return ids;
