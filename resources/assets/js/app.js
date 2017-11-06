@@ -26,6 +26,7 @@ Vue.component('sidebar', require('./components/Sidebar.vue'));
 Vue.component('auth', require('./components/Auth.vue'));
 Vue.component('creatives', require('./components/Creatives.vue'));
 Vue.component('controls', require('./components/Controls.vue'));
+Vue.component('popup', require('./components/Modal.vue'));
 
 Vue.component('campaigns', require('./components/Campaigns.vue'));
 Vue.component('billing', require('./components/Billing.vue'));
@@ -60,7 +61,7 @@ Vue.component('scale-loader', require('vue-spinner/src/ScaleLoader.vue'));
 
 
 //var envUri = (window.location.hostname.search('local') == -1) ? '//api.tapklik.com/v1' : '//local.api.tapklik.com/v1';
-var envUri = 'https://api.tapklik.com/v1';
+var envUri = '//104.225.218.101:10006/v1';
 
 const app = new Vue({
     el: '#app',
@@ -72,7 +73,7 @@ const app = new Vue({
     data: {
         version: 'v0.6.2-BETA',
         uri: envUri,
-        reportUri: 'https://reports.tapklik.com/api/query',
+        reportUri: '//104.225.218.101:10002/api/query',
         user: false,
         search: '',
         section: '',
@@ -82,14 +83,16 @@ const app = new Vue({
         config: {},
         editMode: (window.location.pathname.search('/edit/') == -1) ? false : true,
         isLoading: true,
-        alert1: false,
-        success1: false,
-        error1: false,
-        alertmessage1: '',
         pagetitle: 'Something',
         balance: 0,
         flight: 0,
         alert: {
+            alert: false,
+            error: false,
+            success: false,
+            alertMessage: ''
+        },
+        alertpopup: {
             alert: false,
             error: false,
             success: false,
@@ -157,7 +160,7 @@ const app = new Vue({
             if(value) {
                 return value.toFixed(2);
             } else {
-                return null;
+                return 0;
             }
         },
 
@@ -173,6 +176,13 @@ const app = new Vue({
             setTimeout(function () {
                 this.alert.alert = false;
             }.bind(this), timeout);
+        },
+
+        showAlertPopUp(type, message) {
+            this.alertpopup.alert = true;
+            this.alertpopup.success = (type == 'success') ? true : false;
+            this.alertpopup.error = (type == 'error') ? true : false;
+            this.alertpopup.alertMessage = message;
         }
 
     },

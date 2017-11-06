@@ -64,8 +64,7 @@
                                         <tr @mouseenter="imageSource = props.item.thumb, sample= props.item.name, statusShow = props.item.approved, typeShow = props.item.class, dimensionsShow = props.item.w + 'x' + props.item.h" v-show="props.item.approved == 'approved'">
                                             <td width="40" class="text-xs-right">
                                                 <v-checkbox
-                                                @click="props.selected = !props.selected, creativesRules(), $parent.$parent.$parent.trueCreatives()"
-                                                @change="updateDraftCreatives()"
+                                                @click="props.selected = !props.selected, creativesRules(), $parent.$parent.$parent.trueCreatives(), updateDraftCreatives()"
                                                 :input-value="props.selected"
                                                 hide-details
                                                 ></v-checkbox>
@@ -204,14 +203,14 @@
 
             updateDraftCreatives() {
 
-                if(this.$root.editMode == true) return;
+                if(this.campaign.status != 'draft') return;
 
                 else {
                     var payload = this.collectCreatives();
     
                     axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/creatives', {creatives: payload}, this.$root.config).then(response => {
                     }, error => {
-                        this.$root.showAlert('error', 'Something went wrong');
+                        this.$root.showAlertPopUp('error', 'Something went wrong');
                     });
                 }
             },
@@ -227,7 +226,7 @@
                         this.loading = false;
                     }
                 }, error => {
-                    this.$root.showAlert('error', 'Something went wrong');
+                    this.$root.showAlertPopUp('error', 'Something went wrong');
                 });
             },
 
@@ -249,7 +248,7 @@
                     this.creatives = response.data;
                     this.loading=false;
                 }, error => {                  
-                    this.$root.showAlert('error', 'Something went wrong');
+                    this.$root.showAlertPopUp('error', 'Something went wrong');
                     this.loading=false;
                 });
             },

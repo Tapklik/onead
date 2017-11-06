@@ -1,5 +1,6 @@
 <template>
     <v-container fluid grid-list-md>
+    <popup></popup>
         <v-stepper class="elevation-0" v-model="e1">
             <v-divider></v-divider>
             <v-stepper-header class="elevation-0">
@@ -95,7 +96,7 @@
                     exchange: 1,
                     test: 1,
                     weight: 1,
-                    status: 'active',
+                    status: 'draft',
                     total: 1,
                     start_time: this.getDate(0),
                     end_time: this.getDate(7),
@@ -189,7 +190,7 @@
                     axios.post(this.$root.uri + '/campaigns', this.draftStartData(), this.$root.config).then(response => {
                         this.campaign.id = response.data.data.id;
                     }, error => {
-                        this.$root.showAlert('error', 'Something went wrong');
+                        this.$root.showAlertPopUp('error', 'Something went wrong');
                     });
                 }
             },
@@ -216,7 +217,7 @@
                 axios.get('/data/categories.json').then(response => {
                     this.categoriesList = response.data;
                 }, error => {
-                    this.$root.showAlert('error', 'Something went wrong');
+                    this.$root.showAlertPopUp('error', 'Something went wrong');
                 });
             },
 
@@ -228,7 +229,7 @@
 
                     this.fetchCampaignCategories(id);
                 }, error => {
-                    this.$root.showAlert('error', 'Something went wrong');
+                    this.$root.showAlertPopUp('error', 'Something went wrong');
                 });
             },
 
@@ -240,7 +241,7 @@
 
                     this.fetchCampaignUser(id);
                 }, error => {
-                    this.$root.showAlert('error', 'Something went wrong');
+                    this.$root.showAlertPopUp('error', 'Something went wrong');
                 });
             },
             
@@ -251,7 +252,7 @@
 
                     this.fetchCampaignBudget(id);
                 }, error => {
-                    this.$root.showAlert('error', 'Something went wrong');
+                    this.$root.showAlertPopUp('error', 'Something went wrong');
                 });
             },
 
@@ -261,7 +262,7 @@
                     this.campaign.budget = response.data;
 
                 }, error => {
-                    this.$root.showAlert('error', 'Something went wrong');
+                    this.$root.showAlertPopUp('error', 'Something went wrong');
                 });
             },
 
@@ -305,7 +306,7 @@
                 axios.get('/data/technologies.json').then(response => {
                     this.technologiesList = response.data;
                 }, error => {
-                    this.$root.showAlert('error', 'Something went wrong');
+                    this.$root.showAlertPopUp('error', 'Something went wrong');
                 });
             },
         },

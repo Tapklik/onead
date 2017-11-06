@@ -1,5 +1,6 @@
 <template>
     <v-container grid-list-md>
+        <popup></popup>
         <v-alert dismissible v-bind:success='$root.alert.success' v-bind:error='$root.alert.error' v-model="$root.alert.alert" transition="scale-transition">{{$root.alert.alertMessage}}</v-alert>
         <v-layout row wrap>
             <v-flex xs12 class="valign-wrapper mb-1 mt-3">
@@ -157,7 +158,7 @@
                 axios.get(this.$root.uri + '/accounts/' + this.user.accountUuId + '/users', this.$root.config).then( response => {
                     this.usersList = response.data.data;
                 }, error => {
-                    this.$root.showAlert('error', 'Something went wrong.');
+                    this.$root.showAlertPopUp('error', 'Something went wrong.');
                 });
             },
 
@@ -167,7 +168,7 @@
                 axios.get(this.$root.uri + '/accounts/' + this.user.accountUuId + '/users/' + this.user.uuid, this.$root.config).then( response => {
                     this.account = response.data.data;
                 }, error => {
-                    this.$root.showAlert('error', 'Something went wrong.');
+                    this.$root.showAlertPopUp('error', 'Something went wrong.');
                 });
             },
 
@@ -188,16 +189,16 @@
 
                 axios.put(this.$root.uri + '/accounts/' + this.user.accountUuId + '/users/' + this.user.uuid, payload, this.$root.config).then(response => {
                 }, error => {
-                    this.$root.showAlert('error', 'Something went wrong.');
+                    this.$root.showAlertPopUp('error', 'Something went wrong.');
                 });
             },
             updateAccountDetails() {
                 var payload = this.collectAccount();
 
                 axios.put(this.$root.uri + '/accounts/' + this.user.accountUuId, payload, this.$root.config).then(response => {
-                    this.$root.showAlert('success', 'Successful.');
+                    this.$root.showAlertPopUp('success', 'Successful.');
                 }, error => {
-                    this.$root.showAlert('error', 'Something went wrong.');
+                    this.$root.showAlertPopUp('error', 'Something went wrong.');
                 });
             },
 
@@ -231,7 +232,7 @@
               axios.get(this.$root.uri + '/accounts/' + this.user.accountUuId, this.$root.config).then( response => {
                 this.account = response.data.data;
             }, error => {
-                  this.$root.showAlert('error', 'Something went wrong.');
+                  this.$root.showAlertPopUp('error', 'Something went wrong.');
             });
           },
 
@@ -240,7 +241,7 @@
             axios.get('/data/countries.json').then(response => {
                 this.countriesList = response.data;
             }, error => {
-                this.$root.showAlert('error', 'Something went wrong.');
+                this.$root.showAlertPopUp('error', 'Something went wrong.');
             });
         },
 

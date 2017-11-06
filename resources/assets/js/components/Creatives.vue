@@ -1,5 +1,6 @@
 <template>
     <v-container fluid grid-list-xs>
+        <popup></popup>
         <v-layout>
             <v-flex xs12>
                 <v-card class="elevation-0">
@@ -31,7 +32,10 @@
                                                         height="80px" 
                                                         class="elevation-0"
                                                         @mouseenter="dropzoneMaker()">
-                                                            <div class="uploader-title" v-if="checkFileUploaded == 'empty'"><v-icon>cloud_upload</v-icon> Drop Files Here</div>
+                                                            <v-btn icon v-if="uploadLoader == true" :loading="true">
+                                                                <v-icon>cloud_upload</v-icon>
+                                                            </v-btn>
+                                                            <div class="uploader-title" v-else-if="checkFileUploaded == 'empty'"><v-icon>cloud_upload</v-icon> Drop Files Here</div>
                                                             <div class="uploader-title" v-else-if="checkFileUploaded == 'nofile'"><v-icon>cancel</v-icon> No File Found</div>
                                                             <div class="uploader-title" v-else><v-icon>check</v-icon> File Uploaded</div>
                                                         </v-card>
@@ -169,7 +173,7 @@
                         </v-flex>
                         <v-flex xs12 md2 lg7>
                             <v-dialog v-model="showModal1" lazy absolute width="500px">
-                                <v-btn v-if="!currentFolder.id" slot="activator" class="elevation-0">
+                                <v-btn v-if="!currentFolder.id" slot="activator" class="elevation-0" primary>
                                     <v-icon>create_new_folder</v-icon> &nbsp;&nbsp;
                                      New Folder
                                 </v-btn>
@@ -232,11 +236,11 @@
                                         &nbsp;
                                     </template>
                                     <template slot="items" scope="props">
-                                        <tr :active="props.selected" @click="openFolder(props.item.id)">
-                                            <td width="40" class="text-xs-right">
+                                        <tr :active="props.selected">
+                                            <td width="40" class="text-xs-right" @click="openFolder(props.item.id)">
                                                 <v-icon>folder</v-icon>
                                             </td>
-                                            <td class="text-xs-left">
+                                            <td class="text-xs-left" @click="openFolder(props.item.id)">
                                                 <span class="title">{{ props.item.id.name }}</span>
                                             </td>
                                             <td class="text-xs-right">
@@ -328,7 +332,7 @@
                                                 {{ props.item.id.w }} x {{ props.item.id.h }}
                                             </td>
                                             <td>
-                                                <v-dialog v-model="props.item.modal" lazy absolute width="70%">
+                                                <v-dialog v-model="props.item.modal" lazy absolute width="400px">
                                                     <v-btn icon class="grey--text" @click="deleteCreativeId = props.item.id.id, deleteCreativeName = props.item.id.name" slot="activator">
                                                         <v-icon>delete</v-icon>
                                                     </v-btn>
@@ -336,10 +340,11 @@
                                                         <v-card-title>
                                                             <h4>Delete Creative</h4>
                                                         </v-card-title>
+                                                        <v-divider></v-divider>
                                                         <v-card-text>
                                                             <v-layout row wrap>
                                                                 <v-flex xs12 md12 class="valign-wrapper text-xs-center">
-                                                                    <span class="">ARE YOU SURE YOU WANT TO DELETE {{deleteCreativeName | uppercase}}?</span><br>
+                                                                    <span class="">Are you sure you want to delete {{deleteCreativeName | uppercase}}?</span><br>
                                                                 </v-flex>
                                                             </v-layout>
                                                         </v-card-text>
@@ -420,6 +425,7 @@
         props: ['token', 'user'],
         data() {
             return {
+                uploadLoader: false,
                 checkFileUploaded: 'empty',
                 showModalDimensionsCheck: false,
                 validName: false,
@@ -561,7 +567,7 @@
                 }, error => {
                     this.folderLoader = false;
 
-                    this.$root.showAlert('error', 'Error fetching folders.');
+                    this.$root.showAlertPopUp('error', 'Error fetching folders.');
                 });
             },
 
@@ -638,20 +644,20 @@
             deleteFolder(folderId, folderName) {
                 axios.delete(this.$root.uri + '/creatives/folders/' + folderId, this.$root.config).then(response => {
 
-                    this.$root.showAlert('success', 'You have successfully deleted ' + folderName + '.');
+                    this.$root.showAlertPopUp('success', 'You have successfully deleted ' + folderName + '.');
                 }, error => {
 
-                    this.$root.showAlert('error', 'Something went wrong.');
+                    this.$root.showAlertPopUp('error', 'Something went wrong.');
                 });
             },
 
             deleteCreative(creativeId, creativeName) {
                 axios.delete(this.$root.uri + '/creatives/' + creativeId, this.$root.config).then(response => {
 
-                    this.$root.showAlert('success', 'You have successfully deleted ' + creativeName + '.');
+                    this.$root.showAlertPopUp('success', 'You have successfully deleted ' + creativeName + '.');
                 }, error => {
 
-                    this.$root.showAlert('error', 'Something went wrong.');
+                    this.$root.showAlertPopUp('error', 'Something went wrong.');
                 });
             },
 
@@ -662,7 +668,7 @@
                 }, error => {
                     this.creativesLoader = false;
 
-                    this.$root.showAlert('error', 'Something went wrong.');
+                    this.$root.showAlertPopUp('error', 'Something went wrong.');
                 });
             },
 
@@ -711,7 +717,7 @@
                             this.showModal = false;
                             this.showModalDimensionsCheck = false;
 
-                            this.$root.showAlert('success', 'Uploaded successfully');
+                            this.$root.showAlertPopUp('success', 'Uploaded successfully');
 
                             if(typeof this.currentFolder.id == 'string') {
                                 this.getFolderCreatives(this.currentFolder.id);
@@ -720,8 +726,13 @@
                             }
                         }
                         else {
+                            this.clearUploadModal();
+                            this.checkFileUploaded = 'empty';
+                            this.loading = false;
+                            this.showModal = false;
+                            this.showModalDimensionsCheck = false;
 
-                            this.$root.showAlert('error', 'Please choose a folder you wish to upload a creative to.');
+                            this.$root.showAlertPopUp('error', 'Please choose a folder you wish to upload a creative to.');
                         }
                     }.bind(this));
             },
@@ -739,10 +750,10 @@
                     this.currentFolder = {};
                     this.createFolderFlag = false;
 
-                    this.$root.showAlert('success', 'You have successfully created a new folder.');
+                    this.$root.showAlertPopUp('success', 'You have successfully created a new folder.');
                 }, error => {
 
-                    this.$root.showAlert('error', 'Error creating folder.');
+                    this.$root.showAlertPopUp('error', 'Error creating folder.');
                 });
             },
 

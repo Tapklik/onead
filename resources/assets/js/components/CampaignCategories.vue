@@ -56,14 +56,14 @@
 
             updateDraftCategories(){
 
-                if(this.$root.editMode == true) return;
+                if(this.campaign.status != 'draft') return;
 
                 else {
                     var payload = this.campaign.cat.data;
     
                     axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/cat', payload, this.$root.config).then(response => {
                     }, error => {
-                        this.$root.showAlert('error', 'Something went wrong');
+                        this.$root.showAlertPopUp('error', 'Something went wrong');
                     });
                 }
             },

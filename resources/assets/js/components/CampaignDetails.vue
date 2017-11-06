@@ -441,25 +441,25 @@
             },
 
             updateDetailsDraft() {
-                if(this.$root.editMode == true) return;
+                if(this.campaign.status != 'draft') return;
                 else {
                     var payload = this.draftData();
 
                     axios.put(this.$root.uri + '/campaigns/' + this.campaign.id, payload, this.$root.config).then(response => {
                     }, error => {
-                        this.$root.showAlert('error', 'Something went wrong');
+                        this.$root.showAlertPopUp('error', 'Something went wrong');
                     });  
                 }
             },
 
             updateDraftBudget() {
-                if(this.$root.editMode == true) return;
+                if(this.campaign.status != 'draft') return;
                 else {
                     var payload = this.campaign.budget.data;
     
                     axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/budget', payload, this.$root.config).then(response => {
                     }, error => {
-                        this.$root.showAlert('error', 'Something went wrong');
+                        this.$root.showAlertPopUp('error', 'Something went wrong');
                     });
                 }
             },

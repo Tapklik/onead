@@ -1,5 +1,6 @@
 <template>
     <v-container grid-list-md>
+        <popup></popup>
         <v-alert dismissible v-bind:success='$root.alert.success' v-bind:error='$root.alert.error' v-model="$root.alert.alert" transition="scale-transition">{{$root.alert.alertMessage}}</v-alert>
         <v-layout row wrap>
             <v-flex xs12 class="valign-wrapper mb-1 mt-3">
@@ -204,11 +205,11 @@
                 var payload = {password: this.confPassword};
 
                 axios.put(this.$root.uri + '/accounts/' + this.user.accountUuId + '/users/' + this.user.uuid, payload, this.$root.config).then(response => {
-                    this.$root.showAlert('success', 'Succesful.');
+                    this.$root.showAlertPopUp('success', 'Succesful.');
                     this.loading = false;
                     this.showModal = false;
                 }, error => {
-                    this.$root.showAlert('error', 'Something went wrong.');
+                    this.$root.showAlertPopUp('error', 'Something went wrong.');
                     this.loading = false;
                     this.showModal= false;
                 });
@@ -240,9 +241,14 @@
                 var password = this.password;
                 var password2 = this.confPassword;
                 var message = ['The passwords do not match'];
+                var message2 = ['The password is too short'];
                 if(password != password2) {
                     this.validNewPassword = false;
                     return message;
+                }
+                else if(password2.length < 8) {
+                    this.validNewPassword = false;
+                    return message2;
                 }
                 else {
                     this.validNewPassword = true;
@@ -255,7 +261,7 @@
                 axios.get(this.$root.uri + '/accounts/' + this.user.accountUuId + '/users/' + this.user.uuid, this.$root.config).then( response => {
                     this.userDet = response.data.data;
                 }, error => {
-                    this.$root.showAlert('error', 'Something went wrong.');
+                    this.$root.showAlertPopUp('error', 'Something went wrong.');
                 });
             },            
 
@@ -275,7 +281,7 @@
                     this.alertMessage = 'Succesful';
                     this.loading = false;
                 }, error => {
-                    this.$root.showAlert('error', 'Something went wrong.');
+                    this.$root.showAlertPopUp('error', 'Something went wrong.');
                     this.loading = false;
                 });
             },
@@ -297,7 +303,7 @@
                 axios.get(this.$root.uri + '/accounts/' + this.user.accountUuId, this.$root.config).then( response => {
                     this.account = response.data.data;
                 }, error => {
-                    this.$root.showAlert('error', 'Something went wrong.');
+                    this.$root.showAlertPopUp('error', 'Something went wrong.');
                 });
             },
         },

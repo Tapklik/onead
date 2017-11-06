@@ -1,5 +1,6 @@
 <template>
     <v-container fluid grid-list-md>
+        <popup></popup>
         <v-tabs icons v-model="tabIndex" light fixed centered :scrollable="false">
             <v-divider></v-divider>
             <v-card light extended class="elevation-0">
@@ -100,7 +101,6 @@
                     <v-card>
                         <v-card-text>
                             <v-container fluid grid-list-md>
-                                <v-alert dismissible v-bind:success='$root.alert.success' v-bind:error='$root.alert.error' v-model="$root.alert.alert" transition="scale-transition">{{$root.alert.alertMessage}}</v-alert>
                                 <v-layout row wrap>
                                     <v-flex xs6 md4 lg2>
                                         <tk-widget
@@ -176,7 +176,6 @@
                     <v-card>
                         <v-card-text>
                             <v-container fluid grid-list-md>
-                                <v-alert dismissible v-bind:success='$root.alert.success' v-bind:error='$root.alert.error' v-model="$root.alert.alert" transition="scale-transition">{{$root.alert.alertMessage}}</v-alert>
                                 <v-layout row wrap>
                                     <v-flex xs12 md4 lg2>
                                         <v-select :items="publisherList" item-text="site" item-value="site" chips v-model="selectedPublishers1" label="Publisher Sites" multiple autocomplete></v-select>
@@ -257,16 +256,68 @@
                     <v-card>
                         <v-card-text>
                             <v-container fluid grid-list-md>
-                                <v-alert dismissible v-bind:success='$root.alert.success' v-bind:error='$root.alert.error' v-model="$root.alert.alert" transition="scale-transition">{{$root.alert.alertMessage}}</v-alert>
                                 <v-layout row wrap>
-                                    <v-flex xs12 md4 lg2>
-                                        <v-select :items="technologiesList.devices" item-text="type" item-value="device_id" chips v-model="selectedDevicesTypes1" label="Devices" multiple autocomplete></v-select>
+                                    <v-flex xs12 md4 lg1>
+                                        <v-menu offset-y :close-on-content-click='false'>
+                                            <v-btn secondary dark slot="activator"><v-icon>filter_list</v-icon> Type</v-btn>
+                                            <v-list style="max-height: 200px">
+                                                <v-list-tile v-for="device in technologiesList.devices" :key="device.type">
+                                                    <v-list-tile-action>
+                                                        <v-checkbox :value="device.type" v-model="selectedDevicesTypes1"></v-checkbox>
+                                                    </v-list-tile-action>
+                                                    <v-list-tile-title>{{ device.type }}</v-list-tile-title>
+                                                </v-list-tile>
+                                            </v-list>
+                                        </v-menu>
                                     </v-flex>
-                                    <v-flex xs12 md4 lg2>
-                                        <v-select :items="technologiesList.operatingsystems" item-text="type" chips item-value="type" v-model="selectedDevicesOs1" label="Operating Systems" multiple autocomplete></v-select>
+                                    <v-flex xs12 md4 lg1>
+                                        <v-menu offset-y :close-on-content-click='false'>
+                                            <v-btn secondary dark slot="activator"><v-icon>filter_list</v-icon> UA</v-btn>
+                                            <v-list style="max-height: 200px">
+                                                <v-list-tile v-for="device in technologiesList.browsers" :key="device.type">
+                                                    <v-list-tile-action>
+                                                        <v-checkbox :value="device.type" v-model="selectedDevicesUa1"></v-checkbox>
+                                                    </v-list-tile-action>
+                                                    <v-list-tile-title>{{ device.type }}</v-list-tile-title>
+                                                </v-list-tile>
+                                            </v-list>
+                                        </v-menu>
                                     </v-flex>
-                                    <v-flex xs12 md4 lg2>
-                                        <v-select :items="technologiesList.browsers" item-text="type" chips item-value="type" v-model="selectedDevicesUa1" label="Browsers" multiple autocomplete></v-select>
+                                    <v-flex xs12 md4 lg1>
+                                        <v-menu offset-y :close-on-content-click='false'>
+                                            <v-btn secondary dark slot="activator"><v-icon>filter_list</v-icon> OS</v-btn>
+                                            <v-list style="max-height: 200px">
+                                                <v-list-tile v-for="device in technologiesList.operatingsystems" :key="device.type">
+                                                    <v-list-tile-action>
+                                                        <v-checkbox :value="device.type" v-model="selectedDevicesOs1"></v-checkbox>
+                                                    </v-list-tile-action>
+                                                    <v-list-tile-title>{{ device.type }}</v-list-tile-title>
+                                                </v-list-tile>
+                                            </v-list>
+                                        </v-menu>
+                                    </v-flex>
+                                    <v-flex lg9>
+                                        <v-chip v-show="selectedDevicesTypes1 != ''">
+                                            <v-avatar>
+                                                <v-icon medium>account_circle</v-icon>
+                                            </v-avatar>
+                                            <b>Types: &nbsp;</b>
+                                            {{chipContent(selectedDevicesTypes1, 10)}}
+                                        </v-chip>
+                                        <v-chip v-show="selectedDevicesUa1 != ''">
+                                            <v-avatar>
+                                                <v-icon medium>account_circle</v-icon>
+                                            </v-avatar>
+                                            <b>Browsers: &nbsp;</b>
+                                            {{chipContent(selectedDevicesUa1, 10)}}
+                                        </v-chip>
+                                        <v-chip v-show="selectedDevicesOs1 != ''">
+                                            <v-avatar>
+                                                <v-icon medium>account_circle</v-icon>
+                                            </v-avatar>
+                                            <b>Operating Systems: &nbsp;</b>
+                                            {{chipContent(selectedDevicesOs1, 10)}}
+                                        </v-chip>
                                     </v-flex>
                                 </v-layout>
                                 <v-layout row wrap>
@@ -344,10 +395,28 @@
                     <v-card>
                         <v-card-text>
                             <v-container fluid grid-list-md>
-                                <v-alert dismissible v-bind:success='$root.alert.success' v-bind:error='$root.alert.error' v-model="$root.alert.alert" transition="scale-transition">{{$root.alert.alertMessage}}</v-alert>
                                 <v-layout row wrap>
                                     <v-flex xs12 md4 lg2>
-                                        <v-select :items="countriesList" item-text="country_name" item-value="country" v-model="selectedGeoCountries1" label="Countries" chips multiple autocomplete></v-select>
+                                        <v-menu offset-y :close-on-content-click='false'>
+                                            <v-btn secondary dark slot="activator"><v-icon>filter_list</v-icon> Country</v-btn>
+                                            <v-list style="max-height: 200px">
+                                                <v-list-tile v-for="country in countriesList" :key="country.key">
+                                                    <v-list-tile-action>
+                                                        <v-checkbox :value="country.country" v-model="selectedGeoCountries1"></v-checkbox>
+                                                    </v-list-tile-action>
+                                                    <v-list-tile-title>{{ country.country_name }}</v-list-tile-title>
+                                                </v-list-tile>
+                                            </v-list>
+                                        </v-menu>
+                                    </v-flex>
+                                    <v-flex xs12 md4 lg2>
+                                        <v-chip v-show="selectedGeoCountries1 != ''">
+                                            <v-avatar>
+                                                <v-icon medium>account_circle</v-icon>
+                                            </v-avatar>
+                                            <b>Countries: &nbsp;</b>
+                                            {{chipContent(selectedGeoCountries1, 10)}}
+                                        </v-chip>
                                     </v-flex>
                                 </v-layout>
                                 <v-layout row wrap>
@@ -624,6 +693,28 @@
         },
 
         methods: {
+            
+            chipContent(selection, characters) {
+                var selection = selection;
+                var show = '';
+                var characterCount = 0;
+                var plusMany = 0;
+                for(var s in selection) {
+                    if(characterCount + selection[s].length > characters) {
+                        plusMany = plusMany + 1;
+                    }
+                    else {
+                        show = show + selection[s] + ', '
+                        characterCount = characterCount + selection[s].length;
+                    }
+                }
+                show = show.slice(0,-2);
+                if(plusMany != 0) {
+                    show = show + ' and ' + plusMany + ' more';
+                }
+                console.log(show);
+                return show;
+            },
 
             getCreatives() {
                 var listOfCreatives = []
@@ -651,7 +742,7 @@
             axios.get(this.$root.uri + '/campaigns', this.$root.config).then(response => {
                 this.campaignList = response.data.data;
             }, error => {
-                this.$root.showAlert('error', 'Something went wrong.');
+                this.$root.showAlertPopUp('error', 'Something went wrong.');
             })
         },
 
@@ -660,7 +751,7 @@
             axios.get('/data/categories.json').then(response => {
                 this.categoriesList = response.data;
             }, error => {
-                this.$root.showAlert('error', 'Something went wrong.');
+                this.$root.showAlertPopUp('error', 'Something went wrong.');
             });
         },
 
@@ -669,7 +760,7 @@
             axios.get('/data/technologies.json').then(response => {
                 this.technologiesList = response.data;
             }, error => {
-                this.$root.showAlert('error', 'Something went wrong.');
+                this.$root.showAlertPopUp('error', 'Something went wrong.');
             });
         },
 
@@ -678,7 +769,7 @@
             axios.get('/data/countries.json').then(response => {
                 this.countriesList = response.data;
             }, error => {
-                this.$root.showAlert('error', 'Something went wrong.');
+                this.$root.showAlertPopUp('error', 'Something went wrong.');
             });
         },
 
@@ -687,7 +778,7 @@
             axios.get('/data/publishers.json').then(response => {
                 this.publisherList = response.data;
             }, error => {
-                this.$root.showAlert('error', 'Something went wrong.');
+                this.$root.showAlertPopUp('error', 'Something went wrong.');
             });
         },
 
@@ -696,7 +787,7 @@
             axios.get('/data/reportGeo.json').then(response => {
                 this.reportGeo = response.data;
             }, error => {
-                this.$root.showAlert('error', 'Something went wrong.');
+                this.$root.showAlertPopUp('error', 'Something went wrong.');
             });
         },
 
@@ -705,7 +796,7 @@
             axios.get('/data/reportOverall.json').then(response => {
                 this.reportOverall = response.data;
             }, error => {
-                this.$root.showAlert('error', 'Something went wrong.');
+                this.$root.showAlertPopUp('error', 'Something went wrong.');
             });
         },
 
@@ -714,7 +805,7 @@
             axios.get('/data/reportDevices.json').then(response => {
                 this.reportDevices = response.data;
             }, error => {
-                this.$root.showAlert('error', 'Something went wrong.');
+                this.$root.showAlertPopUp('error', 'Something went wrong.');
             });
         },
 
@@ -723,7 +814,7 @@
             axios.get('/data/reportPublishers.json').then(response => {
                 this.reportPublishers = response.data;
             }, error => {
-                this.$root.showAlert('error', 'Something went wrong.');
+                this.$root.showAlertPopUp('error', 'Something went wrong.');
             });
         },
 
@@ -961,7 +1052,7 @@ dataCall(report, responseList, responseListSummary, chart) {
     }, error => {
         this[responseList] = this.startingData;
         this.createChart(chart, this[responseList], this.column, this.line);
-        this.$root.showAlert('error', 'Something went wrong.');
+        this.$root.showAlertPopUp('error', 'Something went wrong.');
     });
 
     axios.get(this.$root.reportUri + this.generateQuery(report, 'summary'))
@@ -974,7 +1065,7 @@ dataCall(report, responseList, responseListSummary, chart) {
         }
     }, error => {
         this[responseListSummary] = this.startingDataSummary;
-        this.$root.showAlert('error', 'Something went wrong.');
+        this.$root.showAlertPopUp('error', 'Something went wrong.');
     });
 }
 },
