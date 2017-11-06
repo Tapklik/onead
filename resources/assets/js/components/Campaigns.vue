@@ -14,7 +14,7 @@
                         <v-flex xs12 md6>
                             <v-layout row wrap justify-space-between>
                                     <v-flex xs8 md4 class="text-lg-right">
-                                        <v-chip close v-show="selectedStatuses != ''">
+                                        <v-chip @input="removeChip('selectedStatuses')" close v-show="selectedStatuses != ''">
                                             <b>Statuses: &nbsp;</b>
                                             {{chipContent(selectedStatuses, 10)}}
                                         </v-chip>
@@ -146,6 +146,10 @@
         },
 
         methods: {
+            
+            removeChip(data) {
+                this[data] = [];
+            },
 
             chipContent(selection, characters) {
                 var selection = selection;

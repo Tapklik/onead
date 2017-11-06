@@ -259,7 +259,7 @@
                                     <v-flex sm12>
                                         <v-menu offset-y :close-on-content-click='false'>
                                             <v-btn white flat slot="activator">
-                                                <v-icon>filter_list</v-icon> DEVICE 
+                                                <v-icon>filter_list</v-icon> DEVICE
                                                 <v-icon>arrow_drop_down</v-icon>
                                             </v-btn>
                                             <v-list style="max-height: 200px">
@@ -299,15 +299,15 @@
                                                 </v-list-tile>
                                             </v-list>
                                         </v-menu>
-                                        <v-chip close v-show="selectedDevicesTypes1 != ''">
+                                        <v-chip @input="removeChip('selectedDevicesTypes1')" close v-show="selectedDevicesTypes1 != ''">
                                             <b>Types: &nbsp;</b>
                                             {{chipContent(selectedDevicesTypes1, 10)}}
                                         </v-chip>
-                                        <v-chip close v-show="selectedDevicesUa1 != ''">
+                                        <v-chip @input="removeChip('selectedDevicesUa1')" close v-show="selectedDevicesUa1 != ''">
                                             <b>Browsers: &nbsp;</b>
                                             {{chipContent(selectedDevicesUa1, 10)}}
                                         </v-chip>
-                                        <v-chip close v-show="selectedDevicesOs1 != ''">
+                                        <v-chip @input="removeChip('selectedDevicesOs1')" close v-show="selectedDevicesOs1 != ''">
                                             <b>Operating Systems: &nbsp;</b>
                                             {{chipContent(selectedDevicesOs1, 10)}}
                                         </v-chip>
@@ -412,7 +412,7 @@
                                         </v-menu>
                                     </v-flex>
                                     <v-flex xs12 md4 lg2>
-                                        <v-chip close v-show="selectedGeoCountries1 != ''">
+                                        <v-chip @input="removeChip('selectedGeoCountries1')" close v-show="selectedGeoCountries1 != ''">
                                             <b>Countries: &nbsp;</b>
                                             {{chipContent(selectedGeoCountries1, 10)}}
                                         </v-chip>
@@ -692,6 +692,10 @@
         },
 
         methods: {
+
+            removeChip(data) {
+                this[data] = [];
+            },
             
             chipContent(selection, characters) {
                 var selection = selection;
