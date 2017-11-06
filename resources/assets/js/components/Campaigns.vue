@@ -13,8 +13,27 @@
                         </v-flex>
                         <v-flex xs12 md6>
                             <v-layout row wrap justify-space-between>
-                                    <v-flex xs12 md6 lg6>
-                                        <v-select :items="statuses" item-text="status" item-value="status" chips v-model="selectedStatuses" label="Status" multiple></v-select>
+                                    <v-flex xs8 md4 class="text-lg-right">
+                                        <v-chip close v-show="selectedStatuses != ''">
+                                            <b>Statuses: &nbsp;</b>
+                                            {{chipContent(selectedStatuses, 10)}}
+                                        </v-chip>
+                                    </v-flex>
+                                    <v-flex xs4 md2>
+                                        <v-menu offset-y :close-on-content-click='false'>
+                                            <v-btn white flat slot="activator">
+                                                <v-icon>filter_list</v-icon> Status 
+                                                <v-icon>arrow_drop_down</v-icon>
+                                            </v-btn>
+                                            <v-list style="max-height: 200px">
+                                                <v-list-tile v-for="status in statuses" :key="status.status">
+                                                    <v-list-tile-action>
+                                                        <v-checkbox :value="status.status" v-model="selectedStatuses"></v-checkbox>
+                                                    </v-list-tile-action>
+                                                    <v-list-tile-title>{{ status.status }}</v-list-tile-title>
+                                                </v-list-tile>
+                                            </v-list>
+                                        </v-menu>
                                     </v-flex>
                                     <v-flex xs12 md5 lg5>
                                         <v-text-field 
@@ -127,6 +146,29 @@
         },
 
         methods: {
+
+            chipContent(selection, characters) {
+                var selection = selection;
+                var show = '';
+                var characterCount = 0;
+                var plusMany = 0;
+                for(var s in selection) {
+                    if(characterCount + selection[s].length > characters) {
+                        plusMany = plusMany + 1;
+                    }
+                    else {
+                        show = show + selection[s] + ', '
+                        characterCount = characterCount + selection[s].length;
+                    }
+                }
+                show = show.slice(0,-2);
+                if(plusMany != 0) {
+                    show = show + ' and ' + plusMany + ' more';
+                }
+                console.log(show);
+                return show;
+            },
+
             populateStatuses() {
                 var statuses = [];
                 var a = 0;

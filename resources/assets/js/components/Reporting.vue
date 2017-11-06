@@ -271,7 +271,7 @@
                                                 </v-list-tile>
                                             </v-list>
                                         </v-menu>
-                                        <v-menu offset-y :close-on-content-click='false'>
+                                        <v-menu offset-y :close-on-content-click='false' ml-4>
                                             <v-btn white flat slot="activator">
                                                 <v-icon>filter_list</v-icon> DEVICE UA
                                                 <v-icon>arrow_drop_down</v-icon>
@@ -285,7 +285,7 @@
                                                 </v-list-tile>
                                             </v-list>
                                         </v-menu>
-                                        <v-menu offset-y :close-on-content-click='false'>
+                                        <v-menu offset-y :close-on-content-click='false' ml-4>
                                             <v-btn white flat slot="activator">
                                                 <v-icon>filter_list</v-icon> DEVICE OS
                                                 <v-icon>arrow_drop_down</v-icon>
@@ -397,7 +397,10 @@
                                 <v-layout row wrap>
                                     <v-flex xs12 md4 lg2>
                                         <v-menu offset-y :close-on-content-click='false'>
-                                            <v-btn secondary dark slot="activator"><v-icon>filter_list</v-icon> Country</v-btn>
+                                            <v-btn white flat slot="activator">
+                                                <v-icon>filter_list</v-icon> Country 
+                                                <v-icon>arrow_drop_down</v-icon>
+                                            </v-btn>
                                             <v-list style="max-height: 200px">
                                                 <v-list-tile v-for="country in countriesList" :key="country.key">
                                                     <v-list-tile-action>
@@ -409,10 +412,7 @@
                                         </v-menu>
                                     </v-flex>
                                     <v-flex xs12 md4 lg2>
-                                        <v-chip v-show="selectedGeoCountries1 != ''">
-                                            <v-avatar>
-                                                <v-icon medium>account_circle</v-icon>
-                                            </v-avatar>
+                                        <v-chip close v-show="selectedGeoCountries1 != ''">
                                             <b>Countries: &nbsp;</b>
                                             {{chipContent(selectedGeoCountries1, 10)}}
                                         </v-chip>
