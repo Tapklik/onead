@@ -5,7 +5,7 @@
                 <v-card class="elevation-2">
                     <v-divider></v-divider>
                     <v-card-title>
-                        <v-flex xs12 md8 lg9>
+                        <v-flex xs12 md7>
                             <v-dialog v-model="showModal" lazy absolute width="100%">
                                 <v-btn slot="activator" primary dark class="elevation-0">
                                     <v-icon>add</v-icon>
@@ -213,14 +213,21 @@
                                 </v-card>   
                             </v-dialog>
                         </v-flex>
-                        <v-flex xs12 md4 lg3>
-                            <v-text-field 
-                                prepend-icon="search" 
-                                single-line 
-                                hide-details 
-                                class="right" 
-                                v-model="search">
-                            </v-text-field>
+                        <v-flex xs12 md5>
+                            <v-layout row wrap justify-space-between>
+                                <v-flex xs12 md6>
+                                    
+                                </v-flex>
+                                <v-flex xs12 md6>
+                                    <v-text-field 
+                                        prepend-icon="search" 
+                                        single-line 
+                                        hide-details 
+                                        class="right" 
+                                        v-model="search">
+                                    </v-text-field>
+                                </v-flex>
+                            </v-layout>
                         </v-flex>
                     </v-card-title>
                     <v-divider></v-divider>
