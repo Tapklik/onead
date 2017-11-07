@@ -256,6 +256,13 @@
                                                     <v-card>
                                                         <v-card-text>
                                                             <v-layout row wrap>
+                                                                <v-flex xs12 class="valign-wrapper px-4 error-icon">
+                                                                    <span>
+                                                                        <v-icon x-large primary>cancel</v-icon>
+                                                                    </span>
+                                                                </v-flex>
+                                                            </v-layout>
+                                                            <v-layout row wrap>
                                                                 <v-flex xs12 md12 class="valign-wrapper px-4">
                                                                     <span class="">Please, make sure that your folder is empty.</span>
                                                                 </v-flex>
@@ -335,17 +342,21 @@
                                                         <v-icon>delete</v-icon>
                                                     </v-btn>
                                                     <v-card>
-                                                        <v-card-title>
-                                                            <h4>Delete Creative</h4>
-                                                        </v-card-title>
-                                                        <v-divider></v-divider>
                                                         <v-card-text>
                                                             <v-layout row wrap>
-                                                                <v-flex xs12 md12 class="valign-wrapper text-xs-center">
+                                                                <v-flex xs12 class="valign-wrapper px-4 error-icon">
+                                                                    <span>
+                                                                        <v-icon x-large primary>help</v-icon>
+                                                                    </span>
+                                                                </v-flex>
+                                                            </v-layout>
+                                                            <v-layout row wrap>
+                                                                <v-flex xs12 md12 class="valign-wrapper px-4">
                                                                     <span class="">Are you sure you want to delete {{deleteCreativeName | uppercase}}?</span><br>
                                                                 </v-flex>
                                                             </v-layout>
                                                         </v-card-text>
+                                                        <v-divider></v-divider>
                                                         <v-card-actions>
                                                             <v-spacer></v-spacer>
                                                             <v-btn class="elevation-0" @click="props.item.modal = false">
