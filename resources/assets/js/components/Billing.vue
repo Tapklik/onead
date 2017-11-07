@@ -1,6 +1,5 @@
 <template>
     <v-container fluid grid-list-md>
-        <popup></popup>
         <v-layout>
             <v-flex xs12>
                 <v-card class="elevation-2">

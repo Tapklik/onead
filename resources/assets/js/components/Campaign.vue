@@ -1,6 +1,5 @@
 <template>
     <v-container fluid grid-list-md>
-    <popup></popup>
         <v-stepper class="elevation-2" v-model="e1">
             <v-divider></v-divider>
             <v-stepper-header class="elevation-0">

@@ -1,6 +1,5 @@
 <template>
     <v-container fluid grid-list-xs>
-        <popup></popup>
         <v-layout>
             <v-flex xs12>
                 <v-card class="elevation-2">
@@ -255,10 +254,6 @@
                                                         <v-icon>delete</v-icon>
                                                     </v-btn>
                                                     <v-card>
-                                                        <v-card-title>
-                                                            <h4>Delete Folder</h4>
-                                                        </v-card-title>
-                                                        <v-divider></v-divider>
                                                         <v-card-text>
                                                             <v-layout row wrap>
                                                                 <v-flex xs12 md12 class="valign-wrapper px-4">
@@ -735,7 +730,7 @@
                             this.showModal = false;
                             this.showModalDimensionsCheck = false;
 
-                            this.$root.showAlertPopUp('error', 'Please choose a folder you wish to upload a creative to.');
+                            this.$root.showAlertPopUp('error', 'Error uploading the creative.');
                         }
                     }.bind(this));
             },

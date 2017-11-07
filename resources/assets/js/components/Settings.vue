@@ -1,6 +1,5 @@
 <template>
     <v-container fluid grid-list-md>
-
         <v-tabs icons light fixed :scrollable="false" class="elevation-2 white">
             <v-divider></v-divider>
             <v-card light extended  class="elevation-0">

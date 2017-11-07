@@ -1,6 +1,5 @@
 <template>
     <v-container fluid grid-list-xs>
-        <popup></popup>
         <v-layout>
             <v-flex xs12>
                 <v-card class="elevation-2">    
@@ -213,7 +212,8 @@
                 var a = [];
                 axios.get(this.$root.uri + '/campaigns', this.$root.config).then(response => {
                     var campaigns = response.data.data;
-                    for(var c in campaigns) {
+                    var length = campaigns.length - 1;
+                    for(var c = length; c >= 0; c--) {
                         a.push({id: campaigns[c], loading: false})
                     }
                     this.campaigns = a;

@@ -1,6 +1,5 @@
 <template>
     <v-container fluid grid-list-lg>
-        <popup></popup>
         <v-alert class="mb-2" dismissible v-bind:success='$root.alert.success' v-bind:error='$root.alert.error' v-model="$root.alert.alert" transition="scale-transition">{{$root.alert.alertMessage}}</v-alert>
         <v-layout row wrap>
             <v-flex d-flex md12 lg6>

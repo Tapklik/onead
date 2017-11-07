@@ -26,7 +26,6 @@ Vue.component('sidebar', require('./components/Sidebar.vue'));
 Vue.component('auth', require('./components/Auth.vue'));
 Vue.component('creatives', require('./components/Creatives.vue'));
 Vue.component('controls', require('./components/Controls.vue'));
-Vue.component('popup', require('./components/Modal.vue'));
 
 Vue.component('campaigns', require('./components/Campaigns.vue'));
 Vue.component('billing', require('./components/Billing.vue'));
@@ -48,7 +47,8 @@ Vue.component('campaign-creatives', require('./components/CampaignCreatives.vue'
 Vue.component('campaign-review', require('./components/CampaignReview.vue'));
 
 //Tapklik elements
-Vue.component('tk-select-list', require('./components/elements/tk-select-list.vue'));           // tk-select-list
+Vue.component('tk-select-list', require('./components/elements/tk-select-list.vue')); 
+Vue.component('tk-popup', require('./components/elements/tk-popup.vue'));           // tk-select-list
 Vue.component('tk-select', require('./components/elements/tk-select.vue'));                     // tk-select
 Vue.component('tk-filter', require('./components/elements/tk-filter.vue')); 
 Vue.component('tk-widget', require('./components/elements/tk-widget.vue'));                     // tk-widget

@@ -1,6 +1,5 @@
 <template>
     <v-container fluid grid-list-md>
-        <popup></popup>
         <v-tabs icons v-model="tabIndex" light fixed :scrollable="false" class="elevation-2 white">
             <v-card light extended class="elevation-0">
                 <v-tabs-bar class="white" slot="extension">
@@ -227,14 +226,14 @@
         },
         
         mounted() {
-            this.loadCategories();
-            this.loadTechnologies();
-            this.loadReportDevices();
-            this.loadReportGeo();
-            this.loadReportPublishers();
-            this.loadReportOverall();
-            this.loadCountries();
-            this.loadPublishers();
+            this.loadData('categories', 'categoriesList');
+            this.loadData('technologies', 'technologiesList');
+            this.loadData('countries', 'countriesList');
+            this.loadData('publishers', 'publisherList');
+            this.loadData('reportGeo', 'reportGeo');
+            this.loadData('reportOverall', 'reportOverall');
+            this.loadData('reportDevices', 'reportDevices');
+            this.loadData('reportPublishers', 'reportPublishers');
             this.$root.isLoading = false;
 
         },
@@ -376,10 +375,6 @@
 
             },
 
-            dateChosen() {
-                return this.date_from + ' to ' + this.date_to
-            },
-
             startingData() {
                 return [
                     {
@@ -473,73 +468,9 @@
             })
         },
 
-        loadCategories() {
-
-            axios.get('/data/categories.json').then(response => {
-                this.categoriesList = response.data;
-            }, error => {
-                this.$root.showAlertPopUp('error', 'Something went wrong.');
-            });
-        },
-
-        loadTechnologies() {
-
-            axios.get('/data/technologies.json').then(response => {
-                this.technologiesList = response.data;
-            }, error => {
-                this.$root.showAlertPopUp('error', 'Something went wrong.');
-            });
-        },
-
-        loadCountries() {
-
-            axios.get('/data/countries.json').then(response => {
-                this.countriesList = response.data;
-            }, error => {
-                this.$root.showAlertPopUp('error', 'Something went wrong.');
-            });
-        },
-
-        loadPublishers() {
-
-            axios.get('/data/publishers.json').then(response => {
-                this.publisherList = response.data;
-            }, error => {
-                this.$root.showAlertPopUp('error', 'Something went wrong.');
-            });
-        },
-
-        loadReportGeo() {
-
-            axios.get('/data/reportGeo.json').then(response => {
-                this.reportGeo = response.data;
-            }, error => {
-                this.$root.showAlertPopUp('error', 'Something went wrong.');
-            });
-        },
-
-        loadReportOverall() {
-
-            axios.get('/data/reportOverall.json').then(response => {
-                this.reportOverall = response.data;
-            }, error => {
-                this.$root.showAlertPopUp('error', 'Something went wrong.');
-            });
-        },
-
-        loadReportDevices() {
-
-            axios.get('/data/reportDevices.json').then(response => {
-                this.reportDevices = response.data;
-            }, error => {
-                this.$root.showAlertPopUp('error', 'Something went wrong.');
-            });
-        },
-
-        loadReportPublishers() {
-
-            axios.get('/data/reportPublishers.json').then(response => {
-                this.reportPublishers = response.data;
+        loadData(jsonName, list) {
+            axios.get('/data/' + jsonName + '.json').then(response => {
+                this[list] = response.data;
             }, error => {
                 this.$root.showAlertPopUp('error', 'Something went wrong.');
             });
