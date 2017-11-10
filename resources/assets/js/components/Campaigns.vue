@@ -85,7 +85,7 @@
                                             <v-btn :loading="props.item.playLoader" icon class="grey--text" v-if="props.item.id.status == 'active'" @click="props.item.playLoader= true, toggleCampaignStatus(props.index, props.item.id.id, props.item.id.status)">
                                                 <v-icon>pause_circle_outline</v-icon>
                                             </v-btn>
-                                            <v-btn :loading="props.item.playLoader" icon class="grey--text" v-else  @click="props.item.playLoader= true, toggleCampaignStatus(props.index, props.item.id.id, props.item.id.status)">
+                                            <v-btn :disabled="true" :loading="props.item.playLoader" icon class="grey--text" v-else  @click="props.item.playLoader= true, toggleCampaignStatus(props.index, props.item.id.id, props.item.id.status)">
                                                 <v-icon>play_circle_outline</v-icon>
                                             </v-btn>
                                             <v-btn v-if="props.item.id.status == 'draft'" :loading="props.item.deleteLoader" icon class="grey--text" @click="deleteCampaign(props.item.id.id, props.item.id.status), props.item.deleteLoader = true">
@@ -170,7 +170,7 @@
                 editCampaignRouter: "/admin/campaigns/edit/",
                 statusFilter: ['active', 'archived', 'draft','declined', 'paused'],
                 statuses: [],
-                selectedStatuses: [],
+                selectedStatuses: ['active','draft'],
                 statusColors: {active: 'green lighten-1 white--text', paused: 'yellow darken-1 white--text', archived: 'grey lighten-1 white--text', declined: 'red lighten-1 white--text', deleted: 'red darken-1 white--text', draft: 'grey lighten-2 white--text'},
                 campaignsLoader: true
             }
