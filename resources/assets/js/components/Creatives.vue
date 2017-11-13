@@ -436,9 +436,10 @@
 
         mounted() {
            this.$root.isLoading = false;
-           console.log(this.deleteCreatives);
         },
+
         props: ['token', 'user'],
+        
         data() {
             return {
                 uploadLoader: false,

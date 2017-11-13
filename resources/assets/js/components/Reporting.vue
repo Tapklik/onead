@@ -23,8 +23,8 @@
                 </v-tabs-bar>
                 <v-divider></v-divider>
                 <v-card-text>
-                    <v-layout row wrap justify-space-between>
-                        <v-flex md3>
+                    <v-layout row wrap>
+                        <v-flex xs12 md6 lg4>
                             <v-dialog
                             :v-model="false"
                             lazy
@@ -41,7 +41,7 @@
                                 <v-date-picker v-model="date_from" no-title scrollable autosave></v-date-picker>
                             </v-dialog>
                         </v-flex>
-                        <v-flex md3>
+                        <v-flex xs12 md6 lg4>
                             <v-dialog :v-model="false" lazy full-width>
                                 <v-text-field
                                 label="To"
@@ -54,40 +54,67 @@
                                 <v-date-picker v-model="date_to" no-title scrollable autosave></v-date-picker>
                             </v-dialog>
                         </v-flex>
-                        <v-flex md3>
-                            <v-select :items="stats" prepend-icon="insert_chart" v-model="column" label="Column"></v-select>
-                        </v-flex>
-                        <v-flex md3>
-                            <v-select :items="stats" prepend-icon="show_chart" v-model="line" label="Line"></v-select>
+                        <v-spacer></v-spacer>
+                        <v-flex xs12 md12 lg3>
+                            <v-layout>
+                                <v-flex xs12 md6 lg6>
+                                    <v-select :items="stats" prepend-icon="insert_chart" v-model="column" label="Column"></v-select>
+                                </v-flex>
+                                <v-flex xs12 md6 lg6>
+                                    <v-select :items="stats" prepend-icon="show_chart" v-model="line" label="Line"></v-select>
+                                </v-flex>
+                            </v-layout>
                         </v-flex>
                     </v-layout>
                     <v-divider></v-divider>
                     <v-layout row wrap mt-3>
-                        <v-flex xs-12 md6 lg3>
-                            <v-select :items="campaignList" item-text="name" prepend-icon="important_devices" item-value="id" chips v-model="selectedCampaigns1" label="Campaigns" multiple>
-                                <template slot="item" scope="data">
-                                    <v-list-tile-content>
-                                        <v-list-tile-title v-html="data.item.name"></v-list-tile-title>
-                                        <v-list-tile-sub-title v-html="data.item.id"></v-list-tile-sub-title>
-                                    </v-list-tile-content>
-                                </template>
-                            </v-select>
-                        </v-flex>
-                        <v-flex xs-12 md6 lg3>
-                            <v-select :items="creativesList" item-text="name" prepend-icon="photo_library" item-value="id" chips v-model="selectedCreatives1" :disabled="!campaignsPresent" label="Creatives" multiple>
-                                <template slot="item" scope="data">
-                                    <v-list-tile-content>
-                                        <v-list-tile-title v-html="data.item.name"></v-list-tile-title>
-                                        <v-list-tile-sub-title v-html="data.item.id"></v-list-tile-sub-title>
-                                    </v-list-tile-content>
-                                </template>
-                            </v-select>
+                        <v-flex xs12>
+                            <v-menu offset-y :close-on-content-click='false'>
+                                <v-btn white flat slot="activator">
+                                    <v-icon>filter_list</v-icon> CAMPAIGNS
+                                    <v-icon>arrow_drop_down</v-icon>
+                                </v-btn>
+                                <v-list style="max-height: 200px">
+                                    <v-list-tile v-for="campaign in campaignList" :key="campaign.id">
+                                        <v-list-tile-action>
+                                            <v-checkbox :value="campaign.id" v-model="selectedCampaigns1"></v-checkbox>
+                                        </v-list-tile-action>
+                                        <v-list-tile-content>
+                                            <v-list-tile-title v-html="campaign.name"></v-list-tile-title>
+                                            <v-list-tile-sub-title v-html="campaign.id"></v-list-tile-sub-title>
+                                        </v-list-tile-content>
+                                    </v-list-tile>
+                                </v-list>
+                            </v-menu>
+                            <v-menu offset-y :close-on-content-click='false'>
+                                <v-btn :disabled="!campaignsPresent" white flat slot="activator">
+                                    <v-icon>filter_list</v-icon> CREATIVES
+                                    <v-icon>arrow_drop_down</v-icon>
+                                </v-btn>
+                                <v-list style="max-height: 200px">
+                                    <v-list-tile v-for="creative in creativesList" :key="creative.id">
+                                        <v-list-tile-action>
+                                            <v-checkbox :value="creative.id" v-model="selectedCreatives1"></v-checkbox>
+                                        </v-list-tile-action>
+                                        <v-list-tile-content>
+                                            <v-list-tile-title v-html="creative.name"></v-list-tile-title>
+                                            <v-list-tile-sub-title v-html="creative.id"></v-list-tile-sub-title>
+                                        </v-list-tile-content>
+                                    </v-list-tile>
+                                </v-list>
+                            </v-menu>
+                            <v-chip @input="removeChip('selectedCampaigns1')" close v-show="selectedCampaigns1 != ''">
+                                <b>Campaigns: &nbsp;</b>
+                                {{chipContent(selectedCampaigns1, 60)}}
+                            </v-chip>
+                            <v-chip @input="removeChip('selectedCreatives1')" close v-show="selectedCreatives1 != ''">
+                                <b>Creatives: &nbsp;</b>
+                                {{chipContent(selectedCreatives1, 60)}}
+                            </v-chip>
                         </v-flex>
                     </v-layout>
-                    <v-divider></v-divider>
                 </v-card-text>
             </v-card>
-            <v-divider></v-divider>
             <v-tabs-items>
                 <v-tabs-content id="overall-tab">
                     <reporting-tab graph="chart_overall" :summary="responseOverallSummary"></reporting-tab>
