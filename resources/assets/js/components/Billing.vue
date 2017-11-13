@@ -64,7 +64,7 @@
                                         </td>
                                         <td>
                                             <v-dialog v-model="props.item.modal" lazy absolute width="1500px">
-                                                <v-btn icon @click="selectedBill = props.item.id" slot="activator" class="grey--text">
+                                                <v-btn style="display: none" icon @click="selectedBill = props.item.id" slot="activator" class="grey--text">
                                                     <v-icon>search</v-icon>
                                                 </v-btn>
                                                 <v-card>

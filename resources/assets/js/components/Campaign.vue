@@ -152,7 +152,6 @@
                         creatives[c].ctrurl == this.campaign.ctrurl;
                     }
                 }
-                console.log(creatives);
                 this.campaign.creatives = creatives;
             },            
 
