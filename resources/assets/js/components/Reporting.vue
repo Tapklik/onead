@@ -24,7 +24,9 @@
                 <v-divider></v-divider>
                 <v-card-text>
                     <v-layout row wrap>
-                        <v-flex xs12 md6 lg4>
+                    <v-flex xs12 md12 lg8>
+                    <v-layout row wrap>
+                        <v-flex xs12 md5 lg6>
                             <v-dialog
                             :v-model="false"
                             lazy
@@ -41,7 +43,8 @@
                                 <v-date-picker v-model="date_from" no-title scrollable autosave></v-date-picker>
                             </v-dialog>
                         </v-flex>
-                        <v-flex xs12 md6 lg4>
+                        <v-spacer></v-spacer>
+                        <v-flex xs12 md5 lg6>
                             <v-dialog :v-model="false" lazy full-width>
                                 <v-text-field
                                 label="To"
@@ -54,13 +57,16 @@
                                 <v-date-picker v-model="date_to" no-title scrollable autosave></v-date-picker>
                             </v-dialog>
                         </v-flex>
+                    </v-layout>
+                    </v-flex>
                         <v-spacer></v-spacer>
                         <v-flex xs12 md12 lg3>
                             <v-layout>
-                                <v-flex xs12 md6 lg6>
+                                <v-flex xs12 md5 lg6>
                                     <v-select :items="stats" prepend-icon="insert_chart" v-model="column" label="Column"></v-select>
                                 </v-flex>
-                                <v-flex xs12 md6 lg6>
+                                <v-spacer></v-spacer>
+                                <v-flex xs12 md5 lg6>
                                     <v-select :items="stats" prepend-icon="show_chart" v-model="line" label="Line"></v-select>
                                 </v-flex>
                             </v-layout>
