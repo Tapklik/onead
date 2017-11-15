@@ -5,18 +5,23 @@
                 <v-card class="elevation-2">
                     <v-divider></v-divider>
                     <v-card-title>
-                        <v-flex xs12 md6 lg9>
-                       
-                        </v-flex>
-                        <v-flex xs12 md6 lg3>
-                            <v-text-field 
-                                append-icon="search" 
-                                label="Search" 
-                                single-line 
-                                hide-details 
-                                class="right"
-                                v-model="search">
-                            </v-text-field>
+                        <v-flex md7></v-flex>
+                        <v-flex xs12 md5>
+                            <v-layout row wrap justify-space-between>
+                                <v-flex xs12 md6>
+                                    
+                                </v-flex>
+                                <v-flex xs12 md6>
+                                    <v-text-field 
+                                        label="Search..."
+                                        append-icon="search"
+                                        single-line 
+                                        hide-details 
+                                        class="right" 
+                                        v-model="search">
+                                    </v-text-field>
+                                </v-flex>
+                            </v-layout>
                         </v-flex>
                     </v-card-title>
                     <v-divider></v-divider>

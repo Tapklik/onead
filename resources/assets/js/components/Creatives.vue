@@ -220,7 +220,8 @@
                                 </v-flex>
                                 <v-flex xs12 md6>
                                     <v-text-field 
-                                        prepend-icon="search" 
+                                        label="Search..."
+                                        append-icon="search"
                                         single-line 
                                         hide-details 
                                         class="right" 

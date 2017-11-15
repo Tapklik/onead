@@ -38,7 +38,8 @@
                                         single-line 
                                         hide-details 
                                         class="right"
-                                        prepend-icon="search"
+                                        label="Search..."
+                                        append-icon="search"
                                         v-model="search">
                                     </v-text-field>
                                 </v-flex>
@@ -84,6 +85,9 @@
                                          <td class="text-xs-center">
                                             <v-btn :loading="props.item.playLoader" icon class="grey--text" v-if="props.item.id.status == 'active'" @click="props.item.playLoader= true, toggleCampaignStatus(props.index, props.item.id.id, props.item.id.status)">
                                                 <v-icon>pause_circle_outline</v-icon>
+                                            </v-btn>
+                                            <v-btn :loading="props.item.playLoader" icon class="grey--text" v-else-if="props.item.id.status == 'paused'" @click="props.item.playLoader= true, toggleCampaignStatus(props.index, props.item.id.id, props.item.id.status)">
+                                                <v-icon>play_circle_outline</v-icon>
                                             </v-btn>
                                             <v-btn :disabled="true" :loading="props.item.playLoader" icon class="grey--text" v-else  @click="props.item.playLoader= true, toggleCampaignStatus(props.index, props.item.id.id, props.item.id.status)">
                                                 <v-icon>play_circle_outline</v-icon>

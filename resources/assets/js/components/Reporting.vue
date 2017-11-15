@@ -24,49 +24,49 @@
                 <v-divider></v-divider>
                 <v-card-text>
                     <v-layout row wrap>
-                    <v-flex xs12 md12 lg8>
-                    <v-layout row wrap>
-                        <v-flex xs12 md5 lg6>
-                            <v-dialog
-                            :v-model="false"
-                            lazy
-                            full-width
-                            >
-                                <v-text-field
-                                label="From"
-                                prepend-icon="flight_takeoff"
-                                append-icon="date_range"
-                                readonly
-                                v-model="date_from"
-                                slot="activator"
-                                ></v-text-field>
-                                <v-date-picker v-model="date_from" no-title scrollable autosave></v-date-picker>
-                            </v-dialog>
-                        </v-flex>
-                        <v-spacer></v-spacer>
-                        <v-flex xs12 md5 lg6>
-                            <v-dialog :v-model="false" lazy full-width>
-                                <v-text-field
-                                label="To"
-                                prepend-icon="flight_land"
-                                append-icon="date_range"
-                                readonly
-                                v-model="date_to"
-                                slot="activator"
-                                ></v-text-field>
-                                <v-date-picker v-model="date_to" no-title scrollable autosave></v-date-picker>
-                            </v-dialog>
-                        </v-flex>
-                    </v-layout>
-                    </v-flex>
-                        <v-spacer></v-spacer>
-                        <v-flex xs12 md12 lg3>
+                        <v-flex xs12 md6 lg5>
                             <v-layout>
-                                <v-flex xs12 md5 lg6>
+                                <v-flex xs12 md6 lg6>
+                                    <v-dialog
+                                    :v-model="false"
+                                    lazy
+                                    full-width
+                                    >
+                                        <v-text-field
+                                        label="From"
+                                        prepend-icon="flight_takeoff"
+                                        append-icon="date_range"
+                                        readonly
+                                        v-model="date_from"
+                                        slot="activator"
+                                        ></v-text-field>
+                                        <v-date-picker v-model="date_from" no-title scrollable autosave></v-date-picker>
+                                    </v-dialog>
+                                </v-flex>
+                                <v-spacer></v-spacer>
+                                <v-flex xs12 md6 lg6>
+                                    <v-dialog :v-model="false" lazy full-width>
+                                        <v-text-field
+                                        label="To"
+                                        prepend-icon="flight_land"
+                                        append-icon="date_range"
+                                        readonly
+                                        v-model="date_to"
+                                        slot="activator"
+                                        ></v-text-field>
+                                        <v-date-picker v-model="date_to" no-title scrollable autosave></v-date-picker>
+                                    </v-dialog>
+                                </v-flex>
+                            </v-layout>
+                        </v-flex>
+                        <v-spacer></v-spacer>
+                        <v-flex xs12 md5 lg4>
+                            <v-layout>
+                                <v-flex xs12 md6>
                                     <v-select :items="stats" prepend-icon="insert_chart" v-model="column" label="Column"></v-select>
                                 </v-flex>
                                 <v-spacer></v-spacer>
-                                <v-flex xs12 md5 lg6>
+                                <v-flex xs12 md6>
                                     <v-select :items="stats" prepend-icon="show_chart" v-model="line" label="Line"></v-select>
                                 </v-flex>
                             </v-layout>
@@ -111,11 +111,11 @@
                             </v-menu>
                             <v-chip @input="removeChip('selectedCampaigns1')" close v-show="selectedCampaigns1 != ''">
                                 <b>Campaigns: &nbsp;</b>
-                                {{chipContent(selectedCampaigns1, 60)}}
+                                {{chipContent(campaignNames, 60)}}
                             </v-chip>
                             <v-chip @input="removeChip('selectedCreatives1')" close v-show="selectedCreatives1 != ''">
                                 <b>Creatives: &nbsp;</b>
-                                {{chipContent(selectedCreatives1, 60)}}
+                                {{chipContent(creativesNames, 60)}}
                             </v-chip>
                         </v-flex>
                     </v-layout>
@@ -308,6 +308,8 @@
                 geoList: [],
                 devicesList: [],
                 campaignsPresent: false,
+                campaignNames: [],
+                creativesNames: []
             }
         },
         
@@ -379,27 +381,36 @@
             selectedCampaigns() {
                 var campaigns = [];
                 var selections = this.selectedCampaigns1;
+                var allCampaigns = this.campaignList;
+                var names = [];
 
                 for (var s in selections) {
+                    for(var a in allCampaigns) {
+                        if(selections[s] == allCampaigns[a].id) names.push(allCampaigns[a].name)
+                    }
                     var object = {name: 'cmp', value: selections[s]}
                     campaigns.push(object)
                 }
+                this.campaignNames = names;
 
                 return campaigns
-
             },
 
             selectedCreatives() {
                 var creatives = [];
                 var selections = this.selectedCreatives1;
+                var allCreatives = this.creativesList;
+                var names = [];
 
                 for (var s in selections) {
+                    for(var a in allCreatives) {
+                        if(selections[s] == allCreatives[a].id) names.push(allCreatives[a].name)
+                    }
                     var object = {name: 'crid', value: selections[s]}
                     creatives.push(object)
                 }
-
+                this.creativesNames = names;
                 return creatives
-
             },
 
             startingData() {
@@ -438,6 +449,15 @@
         },
 
         methods: {
+            removeDuplicates(creatives) {
+                for(var c in creatives) {
+                    for(var d in creatives) {
+                        if(creatives[c].id == creatives[d].id && c != d) {
+                            creatives.splice(d, 1);
+                        }
+                    }
+                }
+            },
 
             removeChip(data) {
                 this[data] = [];
@@ -461,7 +481,6 @@
                 if(plusMany != 0) {
                     show = show + ' and ' + plusMany + ' more';
                 }
-                console.log(show);
                 return show;
             },
 
@@ -476,6 +495,7 @@
                         listOfCreatives.push(creatives[cr])
                     }
                 }
+                this.removeDuplicates(listOfCreatives);
                 this.creativesList = listOfCreatives;
             },
 
@@ -631,7 +651,6 @@ generateQuery(queryList, chartOrSum) {
 
 
     request = '?table=' + table + '&acc=' + account + request + queriesString + this.range();
-    console.log(request);
     return request;
 },
 
@@ -774,7 +793,7 @@ watch: {
     selectedCampaigns1(value) {
         if(value != '') this.campaignsPresent = true;
         else this.campaignsPresent = false;
-        this.generateCharts(); 
+        this.generateCharts();
     },
     selectedCreatives1(value) {
         this.generateCharts();
