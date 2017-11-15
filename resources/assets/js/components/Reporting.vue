@@ -72,8 +72,9 @@
                             </v-layout>
                         </v-flex>
                     </v-layout>
-                    <v-divider></v-divider>
-                    <v-layout row wrap mt-3>
+                </v-card-text>
+                <v-card-text>
+                    <v-layout row wrap>
                         <v-flex xs12>
                             <v-menu offset-y :close-on-content-click='false'>
                                 <v-btn white flat slot="activator">
