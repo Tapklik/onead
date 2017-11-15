@@ -73,6 +73,7 @@
                         </v-flex>
                     </v-layout>
                 </v-card-text>
+                <v-divider></v-divider>
                 <v-card-text>
                     <v-layout row wrap>
                         <v-flex xs12>
@@ -121,6 +122,7 @@
                         </v-flex>
                     </v-layout>
                 </v-card-text>
+                <v-divider></v-divider>
             </v-card>
             <v-tabs-items>
                 <v-tabs-content id="overall-tab">
