@@ -451,9 +451,10 @@
         methods: {
             removeDuplicates(creatives) {
                 for(var c in creatives) {
-                    for(var d in creatives) {
+                    for(var d = 0; d < creatives.length-1; d++) {
                         if(creatives[c].id == creatives[d].id && c != d) {
                             creatives.splice(d, 1);
+                            d = c;
                         }
                     }
                 }
@@ -495,8 +496,9 @@
                         listOfCreatives.push(creatives[cr])
                     }
                 }
-                this.removeDuplicates(listOfCreatives);
+
                 this.creativesList = listOfCreatives;
+                this.removeDuplicates(this.creativesList);
             },
 
             findCampaignById(id) {
