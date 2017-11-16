@@ -79,7 +79,8 @@
                         <v-flex xs12>
                             <v-menu offset-y :close-on-content-click='false'>
                                 <v-btn white flat slot="activator">
-                                    <v-icon>filter_list</v-icon> CAMPAIGNS
+                                    <v-icon>important_devices</v-icon> 
+                                    <span style="margin-left:10px;">CAMPAIGNS</span>
                                     <v-icon>arrow_drop_down</v-icon>
                                 </v-btn>
                                 <v-list>
@@ -107,7 +108,8 @@
                             </v-menu>
                             <v-menu offset-y :close-on-content-click='false'>
                                 <v-btn :disabled="!campaignsPresent" white flat slot="activator">
-                                    <v-icon>filter_list</v-icon> CREATIVES
+                                    <v-icon>crop_original</v-icon> 
+                                    <span style="margin-left: 10px;">CREATIVES</span>
                                     <v-icon>arrow_drop_down</v-icon>
                                 </v-btn>
                                 <v-list>
