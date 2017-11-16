@@ -82,8 +82,19 @@
                                     <v-icon>filter_list</v-icon> CAMPAIGNS
                                     <v-icon>arrow_drop_down</v-icon>
                                 </v-btn>
-                                <v-list style="max-height: 200px">
-                                    <v-list-tile v-for="campaign in campaignList" :key="campaign.id">
+                                <v-list>
+                                    <v-layout row wrap pb-3 pl-3 pr-3>
+                                        <v-text-field 
+                                        single-line 
+                                        hide-details 
+                                        class="right"
+                                        label="Search..."
+                                        append-icon="search"
+                                        v-model="searchCampaigns">
+                                    </v-text-field>
+                                    </v-layout>
+                                    <v-divider></v-divider>
+                                    <v-list-tile v-for="campaign in filteredCampaigns" :key="campaign.id">
                                         <v-list-tile-action>
                                             <v-checkbox :value="campaign.id" v-model="selectedCampaigns1"></v-checkbox>
                                         </v-list-tile-action>
@@ -272,6 +283,7 @@
 
         data() {
             return {
+                searchCampaigns: '',
                 tabIndex: 'overall-tab',
                 stats: ['imps', 'clicks', 'ecpc', 'ecpm', 'spend', 'ctr'],
                 line: 'imps',
@@ -317,6 +329,23 @@
         },
         
         computed: {
+
+            filteredCampaigns() {
+
+                if(!this.campaignList) return this.campaignList;
+
+                var campaigns = this.campaignList;
+                var result = [];
+                var search = this.searchCampaigns;
+                for(var c in campaigns) {
+                    var name = campaigns[c].name.toLowerCase();
+                    var searchLower = search.toLowerCase();
+                    if(name.includes(searchLower)) {
+                        result.push(campaigns[c]);
+                    }
+                }
+                return result;    
+            },
 
             selectedPublishers() {
                 var publishers = [];
