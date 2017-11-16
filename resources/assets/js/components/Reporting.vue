@@ -110,7 +110,18 @@
                                     <v-icon>filter_list</v-icon> CREATIVES
                                     <v-icon>arrow_drop_down</v-icon>
                                 </v-btn>
-                                <v-list style="max-height: 200px">
+                                <v-list>
+                                    <v-layout row wrap pb-3 pl-3 pr-3>
+                                        <v-text-field 
+                                        single-line 
+                                        hide-details 
+                                        class="right"
+                                        label="Search..."
+                                        append-icon="search"
+                                        v-model="searchCreatives">
+                                        </v-text-field>
+                                    </v-layout>
+                                    <v-divider></v-divider>
                                     <v-list-tile v-for="creative in creativesList" :key="creative.id">
                                         <v-list-tile-action>
                                             <v-checkbox :value="creative.id" v-model="selectedCreatives1"></v-checkbox>
@@ -122,7 +133,7 @@
                                     </v-list-tile>
                                 </v-list>
                             </v-menu>
-                            <v-chip @input="removeChip('selectedCampaigns1')" close v-show="selectedCampaigns1 != ''">
+                            <v-chip @input="removeChip('selectedCampaigns1'), removeChip('selectedCreatives1')" close v-show="selectedCampaigns1 != ''">
                                 <b>Campaigns: &nbsp;</b>
                                 {{chipContent(campaignNames, 60)}}
                             </v-chip>
@@ -282,18 +293,11 @@
 
         data() {
             return {
-                campaignsPresent: false,
-                campaignNames: [],
-                creativesNames: [],
-                searchCampaigns: '',
-                tabIndex: 'overall-tab',
-
                 stats: ['imps', 'clicks', 'ecpc', 'ecpm', 'spend', 'ctr'],
                 line: 'imps',
                 column: 'clicks',
                 date_from: this.getDate(-10),
                 date_to: this.getDate(0),
-                
                 selectedCampaigns1: [],
                 selectedCreatives1: [],
                 selectedDevicesTypes1: [],
@@ -301,27 +305,29 @@
                 selectedDevicesUa1: [],
                 selectedPublishers1: [],
                 selectedGeoCountries1: [],
-                
                 creativesList: [],
                 technologiesList: [],
                 campaignList: [],
                 countriesList: [],
                 publisherList: [],
-
                 responseOverallList: [],
                 responsePublishersList: [],
                 responseDevicesList: [],
                 responseGeoList: [],
-                
                 responseDevicesSummary: {clicks: 0, imps: 0, spend: 0, ctr: 0, ecpm: 0, ecpc:0},
                 responsePublishersSummary: {clicks: 0, imps: 0, spend: 0, ctr: 0, ecpm: 0, ecpc:0},
                 responseOverallSummary: {clicks: 0, imps: 0, spend: 0, ctr: 0, ecpm: 0, ecpc:0},
                 responseGeoSummary: {clicks: 0, imps: 0, spend: 0, ctr: 0, ecpm: 0, ecpc:0},
-                
                 reportDevices: [],
                 reportGeo: [],
                 reportOverall: [],
-                reportPublishers: []
+                reportPublishers: [],
+                campaignsPresent: false,
+                campaignNames: [],
+                creativesNames: [],
+                searchCampaigns: '',
+                searchCreatives: '',
+                tabIndex: 'overall-tab'
             }
         },
         
@@ -369,7 +375,6 @@
                 var selections = this.selectedCampaigns1;
                 var allCampaigns = this.campaignList;
                 var names = [];
-                console.log(allCampaigns);
                 for (var s in selections) {
                     for(var a in allCampaigns) {
                         if(selections[s] == allCampaigns[a].id) names.push(allCampaigns[a].name)
@@ -378,7 +383,6 @@
                     campaigns.push(object)
                 }
                 this.campaignNames = names;
-
                 return campaigns
             },
 
@@ -725,7 +729,6 @@
 
             range() {
                 var range = '&from=' + this.date_from + ' 00:00:00&to=' + this.date_to + ' 00:00:00';
-
                 return range;
             },
 
