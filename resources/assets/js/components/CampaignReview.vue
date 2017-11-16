@@ -554,12 +554,9 @@
 
         watch: {
             batch(value) {
-
                 if (value.length == 7) {
                     this.ajax = false;
                     this.batch = [];
-
-                    this.$root.showAlertPopUp('success', 'Successfully updated campaign.');
                 }
             },
             checkCounter(value) {

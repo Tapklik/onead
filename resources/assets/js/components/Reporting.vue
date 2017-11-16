@@ -415,7 +415,7 @@
                 var selections = this.selectedCampaigns1;
                 var allCampaigns = this.campaignList;
                 var names = [];
-
+                console.log(allCampaigns);
                 for (var s in selections) {
                     for(var a in allCampaigns) {
                         if(selections[s] == allCampaigns[a].id) names.push(allCampaigns[a].name)
