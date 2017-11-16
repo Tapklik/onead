@@ -91,7 +91,7 @@
                                         label="Search..."
                                         append-icon="search"
                                         v-model="searchCampaigns">
-                                    </v-text-field>
+                                        </v-text-field>
                                     </v-layout>
                                     <v-divider></v-divider>
                                     <v-list-tile v-for="campaign in filteredCampaigns" :key="campaign.id">
@@ -267,7 +267,6 @@
         },
         
         mounted() {
-            this.loadData('categories', 'categoriesList');
             this.loadData('technologies', 'technologiesList');
             this.loadData('countries', 'countriesList');
             this.loadData('publishers', 'publisherList');
@@ -283,14 +282,18 @@
 
         data() {
             return {
+                campaignsPresent: false,
+                campaignNames: [],
+                creativesNames: [],
                 searchCampaigns: '',
                 tabIndex: 'overall-tab',
+
                 stats: ['imps', 'clicks', 'ecpc', 'ecpm', 'spend', 'ctr'],
                 line: 'imps',
                 column: 'clicks',
-                dateFormat: 'yyyy-MM-dd',
                 date_from: this.getDate(-10),
                 date_to: this.getDate(0),
+                
                 selectedCampaigns1: [],
                 selectedCreatives1: [],
                 selectedDevicesTypes1: [],
@@ -298,33 +301,27 @@
                 selectedDevicesUa1: [],
                 selectedPublishers1: [],
                 selectedGeoCountries1: [],
-                categoriesList: [],
+                
                 creativesList: [],
                 technologiesList: [],
                 campaignList: [],
+                countriesList: [],
+                publisherList: [],
+
                 responseOverallList: [],
                 responsePublishersList: [],
                 responseDevicesList: [],
                 responseGeoList: [],
+                
                 responseDevicesSummary: {clicks: 0, imps: 0, spend: 0, ctr: 0, ecpm: 0, ecpc:0},
                 responsePublishersSummary: {clicks: 0, imps: 0, spend: 0, ctr: 0, ecpm: 0, ecpc:0},
                 responseOverallSummary: {clicks: 0, imps: 0, spend: 0, ctr: 0, ecpm: 0, ecpc:0},
                 responseGeoSummary: {clicks: 0, imps: 0, spend: 0, ctr: 0, ecpm: 0, ecpc:0},
-                reportLoaded: false,
-                countriesList: [],
-                publisherList: [],
+                
                 reportDevices: [],
                 reportGeo: [],
                 reportOverall: [],
-                reportPublishers: [],
-                request: '',
-                overallLsit: [],
-                publishersList: [],
-                geoList: [],
-                devicesList: [],
-                campaignsPresent: false,
-                campaignNames: [],
-                creativesNames: []
+                reportPublishers: []
             }
         },
         
@@ -348,66 +345,23 @@
             },
 
             selectedPublishers() {
-                var publishers = [];
-                var selections = this.selectedPublishers1;
-
-                for (var s in selections) {
-                    var object = {name: 'publisher_site', value: selections[s]}
-                    publishers.push(object)
-                }
-
-                return publishers
+                return this.selectedPackager('selectedPublishers1', 'publisher_site');
             },
 
             selectedGeoCountries() {
-                var countries = [];
-                var selections = this.selectedGeoCountries1;
-
-                for (var s in selections) {
-                    var object = {name: 'geo_country', value: selections[s]}
-                    countries.push(object)
-                }
-
-                return countries
+                return this.selectedPackager('selectedGeoCountries1', 'geo_country');
             },
 
             selectedDevicesUa() {
-                var devices = [];
-                var selections = this.selectedDevicesUa1;
-
-                for (var s in selections) {
-                    var object = {name: 'device_ua', value: selections[s]}
-                    devices.push(object)
-                }
-
-                return devices
-
+                return this.selectedPackager('selectedDevicesUa1', 'device_ua');
             },
 
             selectedDevicesOs() {
-                var devices = [];
-                var selections = this.selectedDevicesOs1;
-
-                for (var s in selections) {
-                    var object = {name: 'device_os', value: selections[s]}
-                    devices.push(object)
-                }
-
-                return devices
-
+                return this.selectedPackager('selectedDevicesOs1', 'device_os');
             },
 
             selectedDevicesTypes() {
-                var devices = [];
-                var selections = this.selectedDevicesTypes1;
-
-                for (var s in selections) {
-                    var object = {name: 'device_type', value: selections[s]}
-                    devices.push(object)
-                }
-
-                return devices
-
+                return this.selectedPackager('selectedDevicesTypes1', 'device_type');
             },
 
             selectedCampaigns() {
@@ -481,6 +435,18 @@
         },
 
         methods: {
+            selectedPackager(list, objectName) {
+                var result = [];
+                var selections = this[list];
+
+                for (var s in selections) {
+                    var object = {name: objectName, value: selections[s]}
+                    result.push(object)
+                }
+
+                return result
+            },
+
             removeDuplicates(creatives) {
                 for(var c in creatives) {
                     for(var d = 0; d < creatives.length-1; d++) {
@@ -538,26 +504,26 @@
                 for (var c in campaignList) {
                     if (campaignList[c].id == id) return campaignList[c] 
                 }
-        },
+            },
 
-        fetchCampaigns() {
+            fetchCampaigns() {
 
-            axios.get(this.$root.uri + '/campaigns', this.$root.config).then(response => {
-                this.campaignList = response.data.data;
-            }, error => {
-                this.$root.showAlertPopUp('error', 'Something went wrong.');
-            })
-        },
+                axios.get(this.$root.uri + '/campaigns', this.$root.config).then(response => {
+                    this.campaignList = response.data.data;
+                }, error => {
+                    this.$root.showAlertPopUp('error', 'Something went wrong.');
+                })
+            },
 
-        loadData(jsonName, list) {
-            axios.get('/data/' + jsonName + '.json').then(response => {
-                this[list] = response.data;
-            }, error => {
-                this.$root.showAlertPopUp('error', 'Something went wrong.');
-            });
-        },
+            loadData(jsonName, list) {
+                axios.get('/data/' + jsonName + '.json').then(response => {
+                    this[list] = response.data;
+                }, error => {
+                    this.$root.showAlertPopUp('error', 'Something went wrong.');
+                });
+            },
 
-        createChart(target, dataset, column, line) {
+            createChart(target, dataset, column, line) {
                 var obj = this;
                 var chart = AmCharts.makeChart(target, {
                     "type": "serial",
@@ -637,237 +603,221 @@
                     },
                     "dataProvider": dataset, // Here you need to add the dataset
                 });
+                chart.addListener("rendered", removeLogo);
+                function removeLogo() {
+                    $('.amcharts-chart-div').find('a').each(function(index, item) {
+                        $(item).hide();
+                    });
+                }
+            },
 
-chart.addListener("rendered", removeLogo);
+            getDate(days) {
+                const toTwoDigits = num => num < 10 ? '0' + num : num;
+                let today =  new Date();
+                let date = new Date();
+                date.setDate(today.getDate() + days);
+                let year = date.getFullYear();
+                let month = toTwoDigits(date.getMonth() + 1);
+                let day = toTwoDigits(date.getDate()); 
+                return `${year}-${month}-${day}`;
+            },
 
-function removeLogo() {
-    $('.amcharts-chart-div').find('a').each(function(index, item) {
-        $(item).hide();
-    });
-}
+            generateQuery(queryList, chartOrSum) {
 
-},
+                var queries = queryList.queries;
+                var table = queryList.table;
+                var account = this.user.accountUuId;
+                var dims = this.getQueryDims(queryList);
+                var filters = this.getQueryFilters(queryList);
 
-getDate(days) {
-    const toTwoDigits = num => num < 10 ? '0' + num : num;
-    let today =  new Date();
-    let date = new Date();
-    date.setDate(today.getDate() + days);
-    let year = date.getFullYear();
-    let month = toTwoDigits(date.getMonth() + 1);
-    let day = toTwoDigits(date.getDate()); 
-    return `${year}-${month}-${day}`;
-},
-
-generateQuery(queryList, chartOrSum) {
-
-    var queries = queryList.queries;
-    var table = queryList.table;
-    var account = this.user.accountUuId;
-    var dims = this.getQueryDims(queryList);
-    var filters = this.getQueryFilters(queryList);
-
-    var request = ''
-    for (var dim in dims) {
-        request += '&' + dims[dim].name + '=' + dims[dim].value
-        table += '_' + dims[dim].name
-    }
-    for (var filter in filters) {
-        table  += '_' + filters[filter].name
-        for(var sub_filter in filters[filter].sub_filters) {
-            request += '&' + filters[filter].name + '_' + filters[filter].sub_filters[sub_filter].name + '=' 
-            request += filters[filter].sub_filters[sub_filter].value
-            table +=  '_' + filters[filter].sub_filters[sub_filter].name
-        }
-    }
-
-    var queriesString = '&field=' + queries.queries_list.join(',') + '&op=' + chartOrSum
-
-
-    request = '?table=' + table + '&acc=' + account + request + queriesString + this.range();
-    return request;
-},
-
-getQueryDims(queryList) {
-    var dims = []
-    queryList.dim.forEach((dim, index) => {
-        var valueString = ''
-        var dimObj = {
-            name: '',
-            value: ''
-        }
-        this[dim.list].forEach((dimVal) => {
-           if (dimVal && dimVal.value != '') {
-            valueString += dimVal.value + ','
-            dimObj = {
-                name: dim.name,
-                value: valueString.slice(0,-1)
-            }
-            if (dimObj && dimObj.value != '') dims.push(dimObj);
-        }
-    })
-    })
-    return dims
-},
-
-getQueryFilters(queryList) {
-    var filters = []
-    queryList.filters.forEach((filter, index) => {
-        var sub_filters = []
-        var s = filter.sub_filters
-        s.forEach((sub, index) => {
-            var valueString = ''
-            var subObj = {
-                name: '',
-                value: ''
-            }
-            this[sub.list].forEach((subVal) => {
-                if (subVal && subVal.value != '') {
-                    valueString += subVal.value + ','
-                    subObj = {
-                        name: sub.name,
-                        value: valueString.slice(0,-1)
+                var request = ''
+                for (var dim in dims) {
+                    request += '&' + dims[dim].name + '=' + dims[dim].value
+                    table += '_' + dims[dim].name
+                }
+                for (var filter in filters) {
+                    table  += '_' + filters[filter].name
+                    for(var sub_filter in filters[filter].sub_filters) {
+                        request += '&' + filters[filter].name + '_' + filters[filter].sub_filters[sub_filter].name + '=' 
+                        request += filters[filter].sub_filters[sub_filter].value
+                        table +=  '_' + filters[filter].sub_filters[sub_filter].name
                     }
                 }
-            })
-            if (subObj && subObj.value != '') sub_filters.push(subObj)
-        })
-        if (filter) {
-            var filterObj = {
-                name: '',
-                sub_filters: []
+
+                var queriesString = '&field=' + queries.queries_list.join(',') + '&op=' + chartOrSum
+
+
+                request = '?table=' + table + '&acc=' + account + request + queriesString + this.range();
+                return request;
+            },
+
+            getQueryDims(queryList) {
+                var dims = []
+                queryList.dim.forEach((dim, index) => {
+                    var valueString = ''
+                    var dimObj = {
+                        name: '',
+                        value: ''
+                    }
+                    this[dim.list].forEach((dimVal) => {
+                       if (dimVal && dimVal.value != '') {
+                        valueString += dimVal.value + ','
+                        dimObj = {
+                            name: dim.name,
+                            value: valueString.slice(0,-1)
+                        }
+                        if (dimObj && dimObj.value != '') dims.push(dimObj);
+                    }
+                })
+                })
+                return dims
+            },
+
+            getQueryFilters(queryList) {
+                var filters = []
+                queryList.filters.forEach((filter, index) => {
+                    var sub_filters = []
+                    var s = filter.sub_filters
+                    s.forEach((sub, index) => {
+                        var valueString = ''
+                        var subObj = {
+                            name: '',
+                            value: ''
+                        }
+                        this[sub.list].forEach((subVal) => {
+                            if (subVal && subVal.value != '') {
+                                valueString += subVal.value + ','
+                                subObj = {
+                                    name: sub.name,
+                                    value: valueString.slice(0,-1)
+                                }
+                            }
+                        })
+                        if (subObj && subObj.value != '') sub_filters.push(subObj)
+                    })
+                    if (filter) {
+                        var filterObj = {
+                            name: '',
+                            sub_filters: []
+                        }
+                        filterObj.name = filter.name
+                        filterObj.sub_filters = sub_filters
+                        filters.push(filterObj)
+                    }
+                })
+                return filters
+            },
+
+            generateCharts() {
+                if (this.tabIndex == 'overall-tab') {
+                    this.dataCall(this.reportOverall, 'responseOverallList', 'responseOverallSummary','chart_overall')
+                }
+                else if(this.tabIndex == 'publisher-tab') {
+                    this.dataCall(this.reportPublishers, 'responsePublishersList', 'responsePublishersSummary', 'chart_publisher')
+                }
+                else if(this.tabIndex == 'devices-tab') {
+                    this.dataCall(this.reportDevices, 'responseDevicesList', 'responseDevicesSummary', 'chart_devices')
+                }
+                else if(this.tabIndex == 'geo-tab') {
+                    this.dataCall(this.reportGeo, 'responseGeoList', 'responseGeoSummary', 'chart_geo')
+                }
+            },
+
+            range() {
+                var range = '&from=' + this.date_from + ' 00:00:00&to=' + this.date_to + ' 00:00:00';
+
+                return range;
+            },
+
+            dataCall(report, responseList, responseListSummary, chart) {
+                axios.get(this.$root.reportUri + this.generateQuery(report, 'sum'))
+                .then(response => {
+                    var results = response.data.data;
+                    for(var v in results) {
+                        results[v].imps = results[v].imps;
+                        results[v].clicks = results[v].clicks;
+                        results[v].ecpc = this.$root.twoDecimalPlaces(results[v].ecpc);
+                        results[v].ecpm = this.$root.twoDecimalPlaces(results[v].ecpm);
+                        results[v].ctr = this.$root.twoDecimalPlaces(results[v].ctr * 100);
+                        results[v].spend = this.$root.fromMicroDollars(results[v].spend);
+                    }
+                    if(results == undefined) {
+                        this[responseList] = this.startingData;
+                        this.createChart(chart, this[responseList], this.column, this.line);
+                    }
+                    else {
+                        this[responseList] = results;
+                        this.createChart(chart, this[responseList], this.column, this.line);
+                    }
+                }, error => {
+                    this[responseList] = this.startingData;
+                    this.createChart(chart, this[responseList], this.column, this.line);
+                    this.$root.showAlertPopUp('error', 'Something went wrong.');
+                });
+
+                axios.get(this.$root.reportUri + this.generateQuery(report, 'summary'))
+                .then(response => {
+                    var summary = response.data.data;
+                    if(summary == undefined) {
+                        this[responseListSummary] = this.startingDataSummary;
+                    } else {
+                        this[responseListSummary] = response.data.data;
+                    }
+                }, error => {
+                    this[responseListSummary] = this.startingDataSummary;
+                    this.$root.showAlertPopUp('error', 'Something went wrong.');
+                });
             }
-            filterObj.name = filter.name
-            filterObj.sub_filters = sub_filters
-            filters.push(filterObj)
+        },
+
+        watch: {
+            column(value) {
+                this.generateCharts();
+            },
+            line(value) {
+                this.generateCharts();
+            },
+            date_from(value) {
+                this.generateCharts();
+            },
+            date_to(value) {
+                this.generateCharts();
+            },
+            token(value) {
+                this.fetchCampaigns();
+            },
+            selectedCampaigns1(value) {
+                if(value != '') this.campaignsPresent = true;
+                else this.campaignsPresent = false;
+                this.generateCharts();
+            },
+            selectedCreatives1(value) {
+                this.generateCharts();
+            },
+            selectedPublishers1(value) {
+                this.generateCharts();
+            },
+            selectedDevicesTypes1(value) {
+                this.generateCharts();
+            },
+            selectedDevicesOs1(value) {
+                this.generateCharts();
+            },
+            selectedDevicesUa1(value) {
+                this.generateCharts();
+            },
+            selectedGeoCountries1(value) {
+                this.generateCharts();
+            },
+            user(value) {
+                this.generateCharts();
+            },
+            selectedCampaigns(value) {
+                this.getCreatives();
+            },
+            tabIndex(value) {
+                this.generateCharts();
+            }
         }
-    })
-    return filters
-},
-
-generateCharts() {
-    if (this.tabIndex == 'overall-tab') {
-        this.dataCall(this.reportOverall, 'responseOverallList', 'responseOverallSummary','chart_overall')
     }
-    else if(this.tabIndex == 'publisher-tab') {
-        this.dataCall(this.reportPublishers, 'responsePublishersList', 'responsePublishersSummary', 'chart_publisher')
-    }
-    else if(this.tabIndex == 'devices-tab') {
-        this.dataCall(this.reportDevices, 'responseDevicesList', 'responseDevicesSummary', 'chart_devices')
-    }
-    else if(this.tabIndex == 'geo-tab') {
-        this.dataCall(this.reportGeo, 'responseGeoList', 'responseGeoSummary', 'chart_geo')
-    }
-},
-
-range() {
-    var range = '&from=' + this.date_from + ' 00:00:00&to=' + this.date_to + ' 00:00:00';
-
-    return range;
-},
-
-dataCall(report, responseList, responseListSummary, chart) {
-    axios.get(this.$root.reportUri + this.generateQuery(report, 'sum'))
-    .then(response => {
-        var results = response.data.data;
-        for(var v in results) {
-            results[v].imps = results[v].imps;
-            results[v].clicks = results[v].clicks;
-            results[v].ecpc = this.$root.twoDecimalPlaces(results[v].ecpc);
-            results[v].ecpm = this.$root.twoDecimalPlaces(results[v].ecpm);
-            results[v].ctr = this.$root.twoDecimalPlaces(results[v].ctr * 100);
-            results[v].spend = this.$root.fromMicroDollars(results[v].spend);
-        }
-
-        if(results == undefined) {
-            this[responseList] = this.startingData;
-            this.createChart(chart, this[responseList], this.column, this.line);
-        }
-        else {
-            this[responseList] = results;
-            this.createChart(chart, this[responseList], this.column, this.line);
-        }
-    }, error => {
-        this[responseList] = this.startingData;
-        this.createChart(chart, this[responseList], this.column, this.line);
-        this.$root.showAlertPopUp('error', 'Something went wrong.');
-    });
-
-    axios.get(this.$root.reportUri + this.generateQuery(report, 'summary'))
-    .then(response => {
-        var summary = response.data.data;
-        if(summary == undefined) {
-            this[responseListSummary] = this.startingDataSummary;
-        } else {
-            this[responseListSummary] = response.data.data;
-        }
-    }, error => {
-        this[responseListSummary] = this.startingDataSummary;
-        this.$root.showAlertPopUp('error', 'Something went wrong.');
-    });
-}
-},
-
-watch: {
-    column(value) {
-        this.generateCharts();
-    },
-    line(value) {
-        this.generateCharts();
-    },
-    date_from(value) {
-        this.generateCharts();
-    },
-    date_to(value) {
-        this.generateCharts();
-    },
-    token(value) {
-        this.fetchCampaigns();
-    },
-    selectedCampaigns1(value) {
-        if(value != '') this.campaignsPresent = true;
-        else this.campaignsPresent = false;
-        this.generateCharts();
-    },
-    selectedCreatives1(value) {
-        this.generateCharts();
-    },
-    selectedPublishers1(value) {
-        this.generateCharts();
-    },
-    selectedDevicesTypes1(value) {
-        this.generateCharts();
-    },
-    selectedDevicesOs1(value) {
-        this.generateCharts();
-    },
-    selectedDevicesUa1(value) {
-        this.generateCharts();
-    },
-    selectedGeoCountries1(value) {
-        this.generateCharts();
-    },
-    
-    user(value) {
-        this.generateCharts();
-    },
-
-    trialdate(value) {
-        this.date_from=this.getDate(-10);
-        this.date_to=this.getDate(0);
-    },
-
-    selectedCampaigns(value) {
-        this.getCreatives();
-    },
-
-    reportLoaded(value) {
-        // HERE YOU CREATE FIRST VERSION OF THE CHART ONCE THE DATA IS LOADED
-        this.generateCharts()
-    },
-    tabIndex(value) {
-        this.generateCharts();
-    }
-}
-}
 </script>
