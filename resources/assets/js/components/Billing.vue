@@ -1,23 +1,27 @@
 <template>
     <v-container fluid grid-list-md>
-        <popup></popup>
         <v-layout>
             <v-flex xs12>
-                <v-card class="elevation-0">
+                <v-card class="elevation-2">
                     <v-divider></v-divider>
                     <v-card-title>
-                        <v-flex xs12 md6 lg9>
-                       
-                        </v-flex>
-                        <v-flex xs12 md6 lg3>
-                            <v-text-field 
-                                append-icon="search" 
-                                label="Search" 
-                                single-line 
-                                hide-details 
-                                class="right"
-                                v-model="search">
-                            </v-text-field>
+                        <v-flex md7></v-flex>
+                        <v-flex xs12 md5>
+                            <v-layout row wrap justify-space-between>
+                                <v-flex xs12 md6>
+                                    
+                                </v-flex>
+                                <v-flex xs12 md6>
+                                    <v-text-field 
+                                        label="Search..."
+                                        append-icon="search"
+                                        single-line 
+                                        hide-details 
+                                        class="right" 
+                                        v-model="search">
+                                    </v-text-field>
+                                </v-flex>
+                            </v-layout>
                         </v-flex>
                     </v-card-title>
                     <v-divider></v-divider>
@@ -65,7 +69,7 @@
                                         </td>
                                         <td>
                                             <v-dialog v-model="props.item.modal" lazy absolute width="1500px">
-                                                <v-btn icon @click="selectedBill = props.item.id" slot="activator" class="grey--text">
+                                                <v-btn style="display: none" icon @click="selectedBill = props.item.id" slot="activator" class="grey--text">
                                                     <v-icon>search</v-icon>
                                                 </v-btn>
                                                 <v-card>

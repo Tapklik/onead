@@ -49,7 +49,6 @@
                         <v-layout row wrap>
                             <v-flex xs12 md8 >
                             <v-alert dismissible v-bind:success='$root.alert.success' v-bind:error='$root.alert.error' v-model="$root.alert.alert" transition="scale-transition">{{$root.alert.alertMessage}}</v-alert>
-                            <div v-for="c in activeCreatives">{{c.id}}</div>
                                 <v-data-table                                        
                                 :items="creatives.data"
                                 hide-actions
@@ -162,7 +161,6 @@
                     data: []
                 },
                 creatives: {},
-                activeCreatives: this.campaign.creatives.data,
                 currentFolder: {},
                 createFolderFlag: false,
                 creativeAttributes: {
@@ -192,10 +190,11 @@
             collectCreatives() {
 
                 var ids = [];
+                var creatives = this.campaign.creatives.data;
 
-                for(var i in this.campaign.creatives.data)
+                for(var i in creatives)
                 {
-                    ids.push(this.campaign.creatives.data[i].id);
+                    ids.push(creatives[i].id);
                 }
 
                 return ids;

@@ -1,7 +1,6 @@
 <template>
     <v-container fluid grid-list-md>
-    <popup></popup>
-        <v-stepper class="elevation-0" v-model="e1">
+        <v-stepper class="elevation-2" v-model="e1">
             <v-divider></v-divider>
             <v-stepper-header class="elevation-0">
                 <v-stepper-step step="1" :complete="e1 > 1" editable>
@@ -153,7 +152,6 @@
                         creatives[c].ctrurl == this.campaign.ctrurl;
                     }
                 }
-                console.log(creatives);
                 this.campaign.creatives = creatives;
             },            
 

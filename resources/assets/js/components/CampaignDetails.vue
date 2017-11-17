@@ -280,21 +280,17 @@
         
         computed: {
             bidUsd: {
-                // getter
                 get: function () {
                     return this.campaign.bid / 1000000 
                 },
-                // setter
                 set: function (usd) {
                     this.campaign.bid = usd * 1000000
                 }
             },
             budgetUsd: {
-                // getter
                 get: function () {
                     return this.campaign.budget.data.amount / 1000000
                 },
-                // setter
                 set: function (usd) {
                     this.campaign.budget.data.amount = usd * 1000000
                 }
@@ -476,6 +472,7 @@
                 }
                 return timeActiveClass  
             },
+
             applyPlan() {
                 var plan = ""
                 for (var d = 0; d < 7; d++) {
@@ -494,6 +491,7 @@
                     }
                     this.campaign.budget.data.pacing = plan
                 },
+            
             applyCurrentlyPlan() {
                 var plan = ""
                 for (var d = 0; d < 7; d++) {
@@ -513,6 +511,7 @@
                     this.pacing = plan
                 }
             },
+            
             watch: {
                 selectedTimes(value) {
                     this.campaign.timesDetails = value;

@@ -26,16 +26,12 @@ Vue.component('sidebar', require('./components/Sidebar.vue'));
 Vue.component('auth', require('./components/Auth.vue'));
 Vue.component('creatives', require('./components/Creatives.vue'));
 Vue.component('controls', require('./components/Controls.vue'));
-Vue.component('popup', require('./components/Modal.vue'));
 
 Vue.component('campaigns', require('./components/Campaigns.vue'));
 Vue.component('billing', require('./components/Billing.vue'));
 
 Vue.component('reporting', require('./components/Reporting.vue'));
-Vue.component('reporting-overall', require('./components/ReportingOverall.vue'));
-Vue.component('reporting-publishers', require('./components/ReportingPublishers.vue'));
-Vue.component('reporting-devices', require('./components/ReportingDevices.vue'));
-Vue.component('reporting-geo', require('./components/ReportingGeo.vue'));
+Vue.component('reporting-tab', require('./components/ReportingTab.vue'));
 
 Vue.component('settings', require('./components/Settings.vue'));
 Vue.component('settings-account', require('./components/SettingsAccount.vue'));
@@ -51,7 +47,8 @@ Vue.component('campaign-creatives', require('./components/CampaignCreatives.vue'
 Vue.component('campaign-review', require('./components/CampaignReview.vue'));
 
 //Tapklik elements
-Vue.component('tk-select-list', require('./components/elements/tk-select-list.vue'));           // tk-select-list
+Vue.component('tk-select-list', require('./components/elements/tk-select-list.vue')); 
+Vue.component('tk-popup', require('./components/elements/tk-popup.vue'));           // tk-select-list
 Vue.component('tk-select', require('./components/elements/tk-select.vue'));                     // tk-select
 Vue.component('tk-filter', require('./components/elements/tk-filter.vue')); 
 Vue.component('tk-widget', require('./components/elements/tk-widget.vue'));                     // tk-widget
@@ -71,7 +68,7 @@ const app = new Vue({
     },
 
     data: {
-        version: 'v0.6.2-BETA',
+        version: 'v0.6.3-BETA',
         uri: envUri,
         reportUri: '//104.225.218.101:10002/api/query',
         user: false,

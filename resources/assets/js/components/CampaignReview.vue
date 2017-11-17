@@ -303,7 +303,6 @@
 
         methods: {
             campaignError() {
-                this.$root.showAlertPopUp('error', 'Something went wrong.');
                 window.location = '/admin/campaigns?m=' + this.$root.alertpopup.alertMessage;
             },
 
@@ -331,7 +330,7 @@
 
                 axios.put(this.$root.uri + '/campaigns/' + this.campaign.id, {status: 'active'}, this.$root.config).then(response => {
 
-                    this.$root.showAlertPopUp('success', 'Successfully created a new campaign.');
+                    this.$root.alertpopup.alertMessage = 'Successfully created a new campaign.';
                     window.location = '/admin/campaigns?m=' + this.$root.alertpopup.alertMessage;
                 }, error => {
 
@@ -342,7 +341,7 @@
 
             updateMessage() {
 
-                this.$root.showAlertPopUp('success', 'Successfully updated campaign.');
+                this.$root.alertpopup.alertMessage = 'Successfully created a new campaign.';
                 window.location = '/admin/campaigns?m=' + this.$root.alertpopup.alertMessage;
             },
 
@@ -541,7 +540,6 @@
                 {
                     ids.push(this.campaign.creatives.data[i].id);
                 }
-
                 return ids;
             },
 
@@ -556,12 +554,9 @@
 
         watch: {
             batch(value) {
-
                 if (value.length == 7) {
                     this.ajax = false;
                     this.batch = [];
-
-                    this.$root.showAlertPopUp('success', 'Successfully updated campaign.');
                 }
             },
             checkCounter(value) {

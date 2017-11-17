@@ -1,12 +1,11 @@
 <template>
     <v-container fluid grid-list-xs>
-        <popup></popup>
         <v-layout>
             <v-flex xs12>
-                <v-card class="elevation-0">
+                <v-card class="elevation-2">
                     <v-divider></v-divider>
                     <v-card-title>
-                        <v-flex xs12 md2>
+                        <v-flex xs12 md7>
                             <v-dialog v-model="showModal" lazy absolute width="100%">
                                 <v-btn slot="activator" primary dark class="elevation-0">
                                     <v-icon>add</v-icon>
@@ -170,11 +169,9 @@
                                     </v-card-actions>
                                 </v-card>   
                             </v-dialog>
-                        </v-flex>
-                        <v-flex xs12 md2 lg7>
                             <v-dialog v-model="showModal1" lazy absolute width="500px">
-                                <v-btn v-if="!currentFolder.id" slot="activator" class="elevation-0" primary>
-                                    <v-icon>create_new_folder</v-icon> &nbsp;&nbsp;
+                                <v-btn v-if="!currentFolder.id" slot="activator" class="white elevation-0">
+                                    <v-icon>create_new_folder</v-icon>&nbsp;
                                      New Folder
                                 </v-btn>
                                 <v-card>
@@ -216,9 +213,22 @@
                                 </v-card>   
                             </v-dialog>
                         </v-flex>
-                        <v-flex xs12 md8 lg3>
-                            <v-text-field append-icon="search" label="Search" single-line hide-details class="right" v-model="search">
-                            </v-text-field>
+                        <v-flex xs12 md5>
+                            <v-layout row wrap justify-space-between>
+                                <v-flex xs12 md6>
+                                    
+                                </v-flex>
+                                <v-flex xs12 md6>
+                                    <v-text-field 
+                                        label="Search..."
+                                        append-icon="search"
+                                        single-line 
+                                        hide-details 
+                                        class="right" 
+                                        v-model="search">
+                                    </v-text-field>
+                                </v-flex>
+                            </v-layout>
                         </v-flex>
                     </v-card-title>
                     <v-divider></v-divider>
@@ -252,11 +262,14 @@
                                                         <v-icon>delete</v-icon>
                                                     </v-btn>
                                                     <v-card>
-                                                        <v-card-title>
-                                                            <h4>Delete Folder</h4>
-                                                        </v-card-title>
-                                                        <v-divider></v-divider>
                                                         <v-card-text>
+                                                            <v-layout row wrap>
+                                                                <v-flex xs12 class="valign-wrapper px-4 error-icon">
+                                                                    <span>
+                                                                        <v-icon x-large primary>cancel</v-icon>
+                                                                    </span>
+                                                                </v-flex>
+                                                            </v-layout>
                                                             <v-layout row wrap>
                                                                 <v-flex xs12 md12 class="valign-wrapper px-4">
                                                                     <span class="">Please, make sure that your folder is empty.</span>
@@ -337,17 +350,21 @@
                                                         <v-icon>delete</v-icon>
                                                     </v-btn>
                                                     <v-card>
-                                                        <v-card-title>
-                                                            <h4>Delete Creative</h4>
-                                                        </v-card-title>
-                                                        <v-divider></v-divider>
                                                         <v-card-text>
                                                             <v-layout row wrap>
-                                                                <v-flex xs12 md12 class="valign-wrapper text-xs-center">
+                                                                <v-flex xs12 class="valign-wrapper px-4 error-icon">
+                                                                    <span>
+                                                                        <v-icon x-large primary>help</v-icon>
+                                                                    </span>
+                                                                </v-flex>
+                                                            </v-layout>
+                                                            <v-layout row wrap>
+                                                                <v-flex xs12 md12 class="valign-wrapper px-4">
                                                                     <span class="">Are you sure you want to delete {{deleteCreativeName | uppercase}}?</span><br>
                                                                 </v-flex>
                                                             </v-layout>
                                                         </v-card-text>
+                                                        <v-divider></v-divider>
                                                         <v-card-actions>
                                                             <v-spacer></v-spacer>
                                                             <v-btn class="elevation-0" @click="props.item.modal = false">
@@ -420,9 +437,10 @@
 
         mounted() {
            this.$root.isLoading = false;
-           console.log(this.deleteCreatives);
         },
+
         props: ['token', 'user'],
+        
         data() {
             return {
                 uploadLoader: false,
@@ -642,22 +660,24 @@
             },
 
             deleteFolder(folderId, folderName) {
+                this.folderLoader = true;
                 axios.delete(this.$root.uri + '/creatives/folders/' + folderId, this.$root.config).then(response => {
-
                     this.$root.showAlertPopUp('success', 'You have successfully deleted ' + folderName + '.');
+                    this.getFolders();
                 }, error => {
-
                     this.$root.showAlertPopUp('error', 'Something went wrong.');
+                    this.getFolders();
                 });
             },
 
             deleteCreative(creativeId, creativeName) {
+                this.creativesLoader = true;
                 axios.delete(this.$root.uri + '/creatives/' + creativeId, this.$root.config).then(response => {
-
                     this.$root.showAlertPopUp('success', 'You have successfully deleted ' + creativeName + '.');
+                    this.getFolderCreatives(this.currentFolder.id);
                 }, error => {
-
                     this.$root.showAlertPopUp('error', 'Something went wrong.');
+                    this.getFolderCreatives(this.currentFolder.id);
                 });
             },
 
@@ -732,7 +752,7 @@
                             this.showModal = false;
                             this.showModalDimensionsCheck = false;
 
-                            this.$root.showAlertPopUp('error', 'Please choose a folder you wish to upload a creative to.');
+                            this.$root.showAlertPopUp('error', 'Error uploading the creative.');
                         }
                     }.bind(this));
             },

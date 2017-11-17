@@ -1,13 +1,7 @@
 <template>
     <v-container grid-list-md>
-        <popup></popup>
         <v-alert dismissible v-bind:success='$root.alert.success' v-bind:error='$root.alert.error' v-model="$root.alert.alert" transition="scale-transition">{{$root.alert.alertMessage}}</v-alert>
-        <v-layout row wrap>
-            <v-flex xs12 class="valign-wrapper mb-1 mt-3">
-                <h5>ACCOUNT DETAILS</h5>
-            </v-flex>
-        </v-layout>
-        <v-layout row wrap>
+        <v-layout row wrap class="mt-3">
             <v-flex xs12 md6>
                 <v-layout row wrap class="mt-4">
                     <v-flex xs12 md4 lg3 class="valign-wrapper">

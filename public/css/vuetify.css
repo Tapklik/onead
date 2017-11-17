@@ -4052,11 +4052,11 @@ p {
   max-height: calc(100vh - 64px - 36px);
 }
 .application--light {
-  background: #fff;
+  background: #eee; /* $material.background */
   color: rgba(0,0,0,0.73);
 }
 .application--dark {
-  background: #303030;
+  background: #eee; /* $material.background */
   color: #fff;
 }
 .avatar {

@@ -1,30 +1,48 @@
 <template>
     <v-container fluid grid-list-xs>
-        <popup></popup>
         <v-layout>
             <v-flex xs12>
-                <v-card class="elevation-0">    
+                <v-card class="elevation-2">    
                     <v-divider></v-divider>
                     <v-card-title dark class="">
                         <v-flex xs12 md6>
                             <v-btn primary dark class="elevation-0" :href="createCampaignRouter">
                                 <v-icon>add</v-icon> Add campaign
                             </v-btn> 
+                            <v-menu offset-y :close-on-content-click='false'>
+                                <v-btn white flat slot="activator">
+                                    <v-icon>filter_list</v-icon> Status 
+                                    <v-icon>arrow_drop_down</v-icon>
+                                </v-btn>
+                                <v-list style="max-height: 200px">
+                                    <v-list-tile v-for="status in statuses" :key="status.status">
+                                        <v-list-tile-action>
+                                            <v-checkbox :value="status.status" v-model="selectedStatuses"></v-checkbox>
+                                        </v-list-tile-action>
+                                        <v-list-tile-title>{{ status.status }}</v-list-tile-title>
+                                    </v-list-tile>
+                                </v-list>
+                            </v-menu>
+                            <v-chip @input="removeChip('selectedStatuses')" close v-show="selectedStatuses != ''">
+                                <b>Statuses: &nbsp;</b>
+                                {{chipContent(selectedStatuses, 10)}}
+                            </v-chip>
                         </v-flex>
                         <v-flex xs12 md6>
                             <v-layout row wrap justify-space-between>
-                                    <v-flex xs12 md6 lg6>
-                                        <v-select :items="statuses" item-text="status" item-value="status" chips v-model="selectedStatuses" label="Status" multiple></v-select>
-                                    </v-flex>
-                                    <v-flex xs12 md5 lg5>
-                                        <v-text-field 
-                                            label="Search" 
-                                            single-line 
-                                            hide-details 
-                                            class="right"
-                                            v-model="search">
-                                        </v-text-field>
-                                    </v-flex>
+                                <v-flex xs8 md4>
+                                    
+                                </v-flex>
+                                <v-flex xs12 md5 lg5>
+                                    <v-text-field 
+                                        single-line 
+                                        hide-details 
+                                        class="right"
+                                        label="Search..."
+                                        append-icon="search"
+                                        v-model="search">
+                                    </v-text-field>
+                                </v-flex>
                             </v-layout>
                         </v-flex>
                     </v-card-title>
@@ -65,15 +83,51 @@
                                             <span class="caption">TO</span>&nbsp; <span class="title">{{ props.item.id.end_time }}</span>
                                         </td>
                                          <td class="text-xs-center">
-                                            <v-btn :loading="props.item.loading" icon class="grey--text" v-if="props.item.id.status == 'active'" @click="props.item.loading= true, toggleCampaignStatus(props.index, props.item.id.id, props.item.id.status)">
+                                            <v-btn :loading="props.item.playLoader" icon class="grey--text" v-if="props.item.id.status == 'active'" @click="props.item.playLoader= true, toggleCampaignStatus(props.index, props.item.id.id, props.item.id.status)">
                                                 <v-icon>pause_circle_outline</v-icon>
                                             </v-btn>
-                                            <v-btn :loading="props.item.loading" icon class="grey--text" v-else  @click="props.item.loading= true, toggleCampaignStatus(props.index, props.item.id.id, props.item.id.status)">
+                                            <v-btn :loading="props.item.playLoader" icon class="grey--text" v-else-if="props.item.id.status == 'paused'" @click="props.item.playLoader= true, toggleCampaignStatus(props.index, props.item.id.id, props.item.id.status)">
                                                 <v-icon>play_circle_outline</v-icon>
                                             </v-btn>
-                                            <v-btn icon class="grey--text" @click="deleteCampaign(props.item.id.id, props.item.id.status)">
+                                            <v-btn :disabled="true" :loading="props.item.playLoader" icon class="grey--text" v-else  @click="props.item.playLoader= true, toggleCampaignStatus(props.index, props.item.id.id, props.item.id.status)">
+                                                <v-icon>play_circle_outline</v-icon>
+                                            </v-btn>
+                                            <v-btn v-if="props.item.id.status == 'draft'" :loading="props.item.deleteLoader" icon class="grey--text" @click="deleteCampaign(props.item.id.id, props.item.id.status), props.item.deleteLoader = true">
                                                 <v-icon>delete</v-icon>
                                             </v-btn>
+                                            <v-dialog v-else v-model="props.item.modal" lazy absolute width="400px">
+                                                <v-btn :loading="props.item.deleteLoader" icon class="grey--text" slot="activator">
+                                                    <v-icon>delete</v-icon>
+                                                </v-btn>
+                                                <v-card>
+                                                    <v-card-text>
+                                                        <v-layout row wrap>
+                                                            <v-flex xs12 class="valign-wrapper px-4 error-icon">
+                                                                <span>
+                                                                    <v-icon x-large primary>help</v-icon>
+                                                                </span>
+                                                            </v-flex>
+                                                        </v-layout>
+                                                        <v-layout row wrap>
+                                                            <v-flex xs12 md12 class="valign-wrapper px-4">
+                                                                <span class="">Are you sure you want to delete {{props.item.id.name}}?</span><br>
+                                                            </v-flex>
+                                                        </v-layout>
+                                                    </v-card-text>
+                                                    <v-divider></v-divider>
+                                                    <v-card-actions>
+                                                        <v-spacer></v-spacer>
+                                                        <v-btn class="elevation-0" @click="props.item.modal = false">
+                                                            <v-icon>close</v-icon>
+                                                            Cancel
+                                                        </v-btn>
+                                                        <v-btn primary dark class="elevation-0" @click="deleteCampaign(props.item.id.id, props.item.id.status), props.item.deleteLoader = true, props.item.modal=false">
+                                                            <v-icon>done</v-icon>
+                                                            Delete
+                                                        </v-btn>
+                                                    </v-card-actions>
+                                                </v-card>
+                                            </v-dialog>
                                             <v-btn icon class="grey--text" :href="editCampaignRouter + props.item.id.id">
                                                 <v-icon>edit</v-icon>
                                             </v-btn>
@@ -118,15 +172,41 @@
                 pagination: {},
                 createCampaignRouter: "/admin/campaigns/create",
                 editCampaignRouter: "/admin/campaigns/edit/",
-                statusFilter: ['active', 'archived', 'draft','declined', 'paused'],
                 statuses: [],
-                selectedStatuses: [],
+                selectedStatuses: ['active','draft'],
                 statusColors: {active: 'green lighten-1 white--text', paused: 'yellow darken-1 white--text', archived: 'grey lighten-1 white--text', declined: 'red lighten-1 white--text', deleted: 'red darken-1 white--text', draft: 'grey lighten-2 white--text'},
                 campaignsLoader: true
             }
         },
 
         methods: {
+
+            removeChip(data) {
+                this[data] = [];
+            },
+
+            chipContent(selection, characters) {
+                var selection = selection;
+                var show = '';
+                var characterCount = 0;
+                var plusMany = 0;
+                for(var s in selection) {
+                    if(characterCount + selection[s].length > characters) {
+                        plusMany = plusMany + 1;
+                    }
+                    else {
+                        show = show + selection[s] + ', '
+                        characterCount = characterCount + selection[s].length;
+                    }
+                }
+                show = show.slice(0,-2);
+                if(plusMany != 0) {
+                    show = show + ' and ' + plusMany + ' more';
+                }
+                console.log(show);
+                return show;
+            },
+
             populateStatuses() {
                 var statuses = [];
                 var a = 0;
@@ -168,8 +248,9 @@
                 var a = [];
                 axios.get(this.$root.uri + '/campaigns', this.$root.config).then(response => {
                     var campaigns = response.data.data;
-                    for(var c in campaigns) {
-                        a.push({id: campaigns[c], loading: false})
+                    var length = campaigns.length - 1;
+                    for(var c = length; c >= 0; c--) {
+                        a.push({id: campaigns[c], playLoader: false, deleteLoader: false, modal: false})
                     }
                     this.campaigns = a;
                     this.campaignsLoader = false;
@@ -185,9 +266,7 @@
                         this.fetchCampaigns();
                     }, error => {
                         this.$root.showAlertPopUp('error', 'Something went wrong');
-                    }).bind(this);
-    
-                    return false;
+                    })
                 }
                 else {
                     axios.delete(this.$root.uri + '/campaigns/' + campaignId, this.$root.config).then(
@@ -196,8 +275,6 @@
                     }, error => {  
                         this.$root.showAlertPopUp('error', 'Something went wrong');
                     });
-            
-                    return false;
                 }
             },
 
