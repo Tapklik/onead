@@ -84,7 +84,7 @@
                                     <v-icon>arrow_drop_down</v-icon>
                                 </v-btn>
                                 <v-list>
-                                    <v-layout row wrap pb-3 pl-3 pr-3>
+                                    <!-- <v-layout row wrap pb-3 pl-3 pr-3>
                                         <v-text-field 
                                         single-line 
                                         hide-details 
@@ -94,7 +94,7 @@
                                         v-model="searchCampaigns">
                                         </v-text-field>
                                     </v-layout>
-                                    <v-divider></v-divider>
+                                    <v-divider></v-divider> -->
                                     <v-list-tile v-for="campaign in filteredCampaigns" :key="campaign.id">
                                         <v-list-tile-action>
                                             <v-checkbox :value="campaign.id" v-model="selectedCampaigns1"></v-checkbox>
@@ -113,7 +113,7 @@
                                     <v-icon>arrow_drop_down</v-icon>
                                 </v-btn>
                                 <v-list>
-                                    <v-layout row wrap pb-3 pl-3 pr-3>
+                                    <!-- <v-layout row wrap pb-3 pl-3 pr-3>
                                         <v-text-field 
                                         single-line 
                                         hide-details 
@@ -123,7 +123,7 @@
                                         v-model="searchCreatives">
                                         </v-text-field>
                                     </v-layout>
-                                    <v-divider></v-divider>
+                                    <v-divider></v-divider> -->
                                     <v-list-tile v-for="creative in creativesList" :key="creative.id">
                                         <v-list-tile-action>
                                             <v-checkbox :value="creative.id" v-model="selectedCreatives1"></v-checkbox>
