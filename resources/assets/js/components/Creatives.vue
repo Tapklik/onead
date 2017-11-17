@@ -660,22 +660,24 @@
             },
 
             deleteFolder(folderId, folderName) {
+                this.folderLoader = true;
                 axios.delete(this.$root.uri + '/creatives/folders/' + folderId, this.$root.config).then(response => {
-
                     this.$root.showAlertPopUp('success', 'You have successfully deleted ' + folderName + '.');
+                    this.getFolders();
                 }, error => {
-
                     this.$root.showAlertPopUp('error', 'Something went wrong.');
+                    this.getFolders();
                 });
             },
 
             deleteCreative(creativeId, creativeName) {
+                this.creativesLoader = true;
                 axios.delete(this.$root.uri + '/creatives/' + creativeId, this.$root.config).then(response => {
-
                     this.$root.showAlertPopUp('success', 'You have successfully deleted ' + creativeName + '.');
+                    this.getFolderCreatives(this.currentFolder.id);
                 }, error => {
-
                     this.$root.showAlertPopUp('error', 'Something went wrong.');
+                    this.getFolderCreatives(this.currentFolder.id);
                 });
             },
 

@@ -172,7 +172,6 @@
                 pagination: {},
                 createCampaignRouter: "/admin/campaigns/create",
                 editCampaignRouter: "/admin/campaigns/edit/",
-                statusFilter: ['active', 'archived', 'draft','declined', 'paused'],
                 statuses: [],
                 selectedStatuses: ['active','draft'],
                 statusColors: {active: 'green lighten-1 white--text', paused: 'yellow darken-1 white--text', archived: 'grey lighten-1 white--text', declined: 'red lighten-1 white--text', deleted: 'red darken-1 white--text', draft: 'grey lighten-2 white--text'},
