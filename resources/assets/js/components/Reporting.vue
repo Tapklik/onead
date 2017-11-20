@@ -24,7 +24,7 @@
                 <v-divider></v-divider>
                 <v-card-text>
                     <v-layout row wrap>
-                        <v-flex xs12 md6 lg5>
+                        <v-flex xs12 md5 lg4>
                             <v-layout>
                                 <v-flex xs12 md6 lg6>
                                     <v-dialog
@@ -60,7 +60,7 @@
                             </v-layout>
                         </v-flex>
                         <v-spacer></v-spacer>
-                        <v-flex xs12 md5 lg4>
+                        <v-flex xs12 md4 lg3>
                             <v-layout>
                                 <v-flex xs12 md6>
                                     <v-select :items="stats" prepend-icon="insert_chart" v-model="column" label="Column"></v-select>
@@ -253,8 +253,6 @@
                                                 </v-list-tile>
                                             </v-list>
                                         </v-menu>
-                                    </v-flex>
-                                    <v-flex xs12 md4 lg2>
                                         <v-chip @input="removeChip('selectedGeoCountries1')" close v-show="selectedGeoCountries1 != ''">
                                             <b>Countries: &nbsp;</b>
                                             {{chipContent(selectedGeoCountries1, 10)}}

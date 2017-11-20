@@ -27,6 +27,7 @@
                 <!-- MAIN CONTENT -->
                 <div id="content">
                     <tk-popup></tk-popup>
+                    <tk-tutorial></tk-tutorial>
                     @yield('layouts.partials.title')
 
                     @yield('content')

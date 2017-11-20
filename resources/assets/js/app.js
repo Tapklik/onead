@@ -48,6 +48,7 @@ Vue.component('campaign-review', require('./components/CampaignReview.vue'));
 
 //Tapklik elements
 Vue.component('tk-select-list', require('./components/elements/tk-select-list.vue')); 
+Vue.component('tk-tutorial', require('./components/elements/tk-tutorial.vue')); 
 Vue.component('tk-popup', require('./components/elements/tk-popup.vue'));           // tk-select-list
 Vue.component('tk-select', require('./components/elements/tk-select.vue'));                     // tk-select
 Vue.component('tk-filter', require('./components/elements/tk-filter.vue')); 
