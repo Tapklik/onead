@@ -36,6 +36,7 @@ Vue.component('reporting-tab', require('./components/ReportingTab.vue'));
 Vue.component('settings', require('./components/Settings.vue'));
 Vue.component('settings-account', require('./components/SettingsAccount.vue'));
 Vue.component('settings-user', require('./components/SettingsUser.vue'));
+Vue.component('settings-billing', require('./components/SettingsBilling.vue'));
 
 
 // CREATE

@@ -14,7 +14,7 @@
                         <span class="orange--text text--darken-3">User Settings</span>
                     </v-tabs-item>
                     <v-tabs-item href="#billing-tab">
-                        <v-icon class="orange--text text--darken-3">dollar</v-icon>
+                        <v-icon class="orange--text text--darken-3">attach_money</v-icon>
                         <span class="orange--text text--darken-3">Billing Settings</span>
                     </v-tabs-item>
                 </v-tabs-bar>
