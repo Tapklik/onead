@@ -1,11 +1,10 @@
 <template>
-    <v-dialog v-model="emir" lazy absolute width="800px">
+    <v-dialog v-model="emir" lazy absolute width="1120px">
         <v-card>
             <v-card-media>
-                <v-carousel>
-                        <v-carousel-item src="https://static.pexels.com/photos/207962/pexels-photo-207962.jpeg"></v-carousel-item>
-                        <v-carousel-item src="https://static.pexels.com/photos/207962/pexels-photo-207962.jpeg"></v-carousel-item>
-                        <v-carousel-item src="https://static.pexels.com/photos/207962/pexels-photo-207962.jpeg"></v-carousel-item>
+                <v-carousel :cycle="false">
+                        <v-carousel-item src="/images/creatives-tutorial.gif"></v-carousel-item>
+                        <v-carousel-item src="/images/campaigns-tutorial.gif"></v-carousel-item>
                 </v-carousel>
             </v-card-media>
             <v-divider></v-divider>

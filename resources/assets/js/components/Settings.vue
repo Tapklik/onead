@@ -13,6 +13,10 @@
                         <v-icon class="orange--text text--darken-3">person</v-icon>
                         <span class="orange--text text--darken-3">User Settings</span>
                     </v-tabs-item>
+                    <v-tabs-item href="#billing-tab">
+                        <v-icon class="orange--text text--darken-3">dollar</v-icon>
+                        <span class="orange--text text--darken-3">Billing Settings</span>
+                    </v-tabs-item>
                 </v-tabs-bar>
             </v-card>
             <v-divider></v-divider>
@@ -22,6 +26,9 @@
                 </v-tabs-content>
                 <v-tabs-content id="user-tab">
                     <settings-user :user="user" :token="token"></settings-user>
+                </v-tabs-content>                
+                <v-tabs-content id="billing-tab">
+                    <settings-billing :user="user" :token="token"></settings-billing>
                 </v-tabs-content>                
             </v-tabs-items>
         </v-tabs>
