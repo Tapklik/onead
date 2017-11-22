@@ -1,38 +1,57 @@
 <template>
-    <v-dialog v-model="emir" lazy absolute width="1120px">
+    <v-dialog v-model="$root.tutorialShow" lazy absolute width="1120px">
         <v-card>
-            <v-card-media>
-                <v-carousel :cycle="false">
-                        <v-carousel-item>
-                            <v-layout row wrap>
-                                <v-flex xs12>
-                                    <v-card class="elevation-0">
-                                        <v-card-title>
-                                            <span class="subheading orange--text text--darken-4">WELCOME TO TAPKLIK ONEAD</span>
-                                        </v-card-title>
-                                        <v-card-text>
-                                            <img src="">
-                                            <p> Welcome to Tapklik OneAd</p>
-                                        </v-card-text>
-                                    </v-card>
-                                </v-flex>
-                            </v-layout>
-                        </v-carousel-item>
-                        <v-carousel-item src="/images/creatives-tutorial.gif"></v-carousel-item>
-                        <v-carousel-item src="/images/campaigns-tutorial.gif"></v-carousel-item>
-                </v-carousel>
-            </v-card-media>
+            <v-stepper class="elevation-2" v-model="e1">
+            <v-divider></v-divider>
+            <v-stepper-header class="elevation-0">
+                <v-stepper-step step="1" editable>
+                    INTRO
+                </v-stepper-step>
+                <v-divider></v-divider>
+                <v-stepper-step step="2" editable>
+                    CREATIVES
+                </v-stepper-step>
+                <v-divider></v-divider>
+                <v-stepper-step step="3" editable>
+                    CAMPAIGNS
+                </v-stepper-step>
+            </v-stepper-header>
+            <v-divider></v-divider>
+            <v-stepper-content step="1">
+                Welcome
+            </v-stepper-content>
+            <v-stepper-content step="2">
+                <v-layout row wrap>
+                    <v-flex md3>
+                        <v-layout row wrap v-for="r in rowsofline" :key="r">
+                            <span class="title">To start off you must add creatives to your account</span><br>
+                        </v-layout>
+                    </v-flex>
+                    <v-spacer></v-spacer>
+                    <v-flex md8>
+                        <v-card-media :src="images[0]" height="400px"></v-card-media>
+                    </v-flex>
+                </v-layout>
+            </v-stepper-content>
+            <v-stepper-content step="3">
+                <v-layout row wrap>
+                    <v-flex md3>
+                        <v-layout row wrap v-for="r in rowsofline" :key="r">
+                            <span class="title">To start off you must add creatives to your account</span><br>
+                        </v-layout>
+                    </v-flex>
+                    <v-spacer></v-spacer>
+                    <v-flex md8>
+                        <v-card-media :src="images[1]" height="400px"></v-card-media>
+                    </v-flex>
+                </v-layout>
+            </v-stepper-content>
+        </v-stepper>
             <v-divider></v-divider>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn class="elevation-0" @click="emir = false">
-                    <v-icon>close</v-icon>
-                    Cancel
-                </v-btn>
-                <v-btn class="elevation-0" primary @click="emir = false">
-                    <v-icon>check</v-icon>
-                    OK
-                </v-btn>
+                <v-checkbox class="mr-0 pr-0" v-model="turnOffTutorial" label="Don't show this anymore"></v-checkbox>
+                <span class="blue--text caption" style="cursor: pointer" @click="$root.user.tutorial = 0">Skip the tutorial</span>
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -46,7 +65,10 @@
 
         data() {
             return {
-                emir: true
+                e1: 1,
+                images: ["/images/creatives-tutorial.gif", "/images/campaigns-tutorial.gif"],
+                rowsofline:[1,2,3,4,5,6,7,8],
+                turnOffTutorial: false
             }
         },
 

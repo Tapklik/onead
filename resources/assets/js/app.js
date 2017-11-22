@@ -67,13 +67,28 @@ const app = new Vue({
 
     mounted() {
       this.getApiToken();
+      this.previousURL();
+            console.log(this.previousURL().endsWith('auth'))
+            console.log(this.currentURL().endsWith('dashboard'))
+            console.log(this.user.tutorial);
     },
 
     data: {
         version: 'v0.6.4-ALPHA',
         uri: envUri,
         reportUri: '//104.225.218.101:10002/api/query',
-        user: false,
+        user: {
+            accountId: null,
+            accountUuId: null,
+            campaigns: [],
+            email: '',
+            id: null,
+            name: '',
+            role: '',
+            tutorial: 0,
+            uuid: ''
+
+        },
         search: '',
         section: '',
         ajax: false,
@@ -100,6 +115,15 @@ const app = new Vue({
     },
 
     methods: {
+
+        previousURL() {
+            var oldURL = document.referrer;
+            return oldURL;
+        },
+        currentURL() {
+            var URL = window.location.href;
+            return URL;
+        },
 
         getApiToken() {
 
@@ -200,6 +224,13 @@ const app = new Vue({
         }
     },
     computed: {
+
+        tutorialShow() {
+            if(this.previousURL().endsWith('auth') && this.currentURL().endsWith('dashboard') && this.user.tutorial == 1) {
+                return true;
+            }
+            else return false;
+        },
 
         getFirstUuidSegment() {
 
