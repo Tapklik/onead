@@ -139,7 +139,7 @@ const app = new Vue({
                 this.user = response.data;
                 
             }, error => {
-                swal('Error', error, 'error');
+                this.showAlertPopUp('error', 'Something went wrong');
             });
         },
 
@@ -148,13 +148,13 @@ const app = new Vue({
                 this.balance = response.data.data.balance;
                 
             }, error => {
-                swal('Error', error, 'error');
+                this.showAlertPopUp('error', 'Something went wrong');
             });
             axios.get(this.uri + '/accounts/' + this.user.accountUuId + '/banker/flight?query=balance', this.config).then(response => {
                 this.flight = response.data.data.balance;
                 
             }, error => {
-                swal('Error', error, 'error');
+                this.showAlertPopUp('error', 'Something went wrong');
             });
         },
 

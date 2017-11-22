@@ -50,8 +50,11 @@
             <v-divider></v-divider>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-checkbox class="mr-0 pr-0" v-model="turnOffTutorial" label="Don't show this anymore"></v-checkbox>
-                <span class="blue--text caption" style="cursor: pointer" @click="$root.user.tutorial = 0">Skip the tutorial</span>
+                <span class="blue--text caption" style="cursor: pointer" @click="turnOffModal()">Skip the tutorial</span>
+                <v-btn primary class="elevation-0" @click="$root.user.tutorial = false">
+                    <v-icon>close</v-icon>
+                    Don't show this again
+                </v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -65,6 +68,7 @@
 
         data() {
             return {
+                emir: true,
                 e1: 1,
                 images: ["/images/creatives-tutorial.gif", "/images/campaigns-tutorial.gif"],
                 rowsofline:[1,2,3,4,5,6,7,8],
@@ -73,6 +77,16 @@
         },
 
         methods: {
+
+            turnOffModal() {
+                axios.put(this.$root.uri + '/accounts/' + this.$root.user.accountUuId + '/users/' + this.$root.user.uuid, {tutorial: 0}, this.$root.config).then(response => {
+                    this.$root.user.tutorial = 0;
+                
+                }, error => {
+                    this.$root.user.tutorial = 0;
+                    this.showAlertPopUp('error', 'Something went wrong');
+                });
+            }
         },
 
         computed: {
