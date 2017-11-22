@@ -145,9 +145,9 @@
             </v-flex>
         </v-layout>
         <v-divider class="mt-4"></v-divider>
-        <v-layout row wrap class="mt-4"> 
+        <v-layout row wrap class="mt-4 mb-4"> 
             <v-flex xs12>
-                <v-btn primary large :loading="loading" @click="loading = true, updateUser()"><v-icon left class="white--text">cloud_upload</v-icon>Update you details</v-btn>
+                <v-btn primary large :loading="loading" @click="loading = true, updateUser()"><v-icon left class="white--text">cloud_upload</v-icon>Update User Details</v-btn>
             </v-flex>
         </v-layout>
     </v-container>

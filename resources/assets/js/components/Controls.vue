@@ -1,18 +1,7 @@
 <template>
     <v-flex class="text-xs-right">
-        <v-chip class="transparent grey--text text--lighten2">
-            <v-avatar class="grey lighten-1 lighten-2 white--text">{{ userLetter }}</v-avatar>
-            <span class="ml-4">{{ account.name }}</span> 
-            <span class="ml-4 mr-3" v-if="error == false">$ {{ ($root.fromMicroDollars($root.balance + $root.flight)) }}</span>
-            <span class="ml-4 mr-3 red--text" v-else>Error</span>
-            <v-btn icon class="grey--text text--lighten2" href="/admin/settings">
-                <v-icon>settings</v-icon>
-            </v-btn>
-            <v-btn icon class="grey--text text--lighten2" href="/admin/logout">
-                <v-icon>power_settings_new</v-icon>
-            </v-btn>
-                <v-dialog v-model="showModal" lazy absolute width="400px">
-                    <span class="blue--text caption" style="cursor: pointer" slot="activator">Report a bug</span>
+        <v-dialog v-model="showModal" lazy absolute width="400px">
+                    <span class="blue--text caption mr-5" style="cursor: pointer" slot="activator">Report a bug</span>
                     <v-card>
                         <v-card-title>
                             <h4>Report a Bug</h4>
@@ -31,6 +20,7 @@
                                               :items="sections"
                                               v-model="selectedSection"
                                               prepend-icon="explore"
+                                              single-line
                                               >
                                               </v-select>
                                         </v-flex>
@@ -45,7 +35,10 @@
                                     </v-flex>
                                     <v-layout row wrap class="mt-2">
                                         <v-flex xs12>
-                                            <v-text-field label="Description of bug" prepend-icon="description" v-model="bugDescription"></v-text-field>
+                                            <v-text-field
+                                                v-model="bugDescription"
+                                                multi-line>
+                                                </v-text-field>
                                         </v-flex>
                                     </v-layout>
                                 </v-flex>
@@ -65,6 +58,17 @@
                         </v-card-actions>
                     </v-card>   
                 </v-dialog>
+        <v-chip class="transparent grey--text text--lighten2">
+            <v-avatar class="grey lighten-1 lighten-2 white--text">{{ userLetter }}</v-avatar>
+            <span class="ml-4">{{ account.name }}</span> 
+            <span class="ml-4 mr-3" v-if="error == false">$ {{ ($root.fromMicroDollars($root.balance + $root.flight)) }}</span>
+            <span class="ml-4 mr-3 red--text" v-else>Error</span>
+            <v-btn icon class="grey--text text--lighten2" href="/admin/settings">
+                <v-icon>settings</v-icon>
+            </v-btn>
+            <v-btn icon class="grey--text text--lighten2" href="/admin/logout">
+                <v-icon>power_settings_new</v-icon>
+            </v-btn>
         </v-chip>
     </v-flex> 
 </template>

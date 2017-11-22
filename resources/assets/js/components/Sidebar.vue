@@ -1,6 +1,6 @@
 <template>
 	<v-navigation-drawer dark persistent :enable-resize-watcher="true" v-model="drawer" :clipped="false" class="tapklik-drawer elevation-9" style="overflow-y:hidden">
-		<div class="logo">
+		<div class="logo mb-4">
 			<img width="60" src="/images/tapklik-logo-square-inner.png">
 		</div>
 		<v-list three-line class="pt-5">
