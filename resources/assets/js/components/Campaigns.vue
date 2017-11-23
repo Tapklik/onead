@@ -95,6 +95,9 @@
                                             <v-btn v-if="props.item.id.status == 'draft'" :loading="props.item.deleteLoader" icon class="grey--text" @click="deleteCampaign(props.item.id.id, props.item.id.status), props.item.deleteLoader = true">
                                                 <v-icon>archive</v-icon>
                                             </v-btn>
+                                            <v-btn v-else-if="props.item.id.status == 'archived'" :loading="props.item.deleteLoader" icon class="grey--text" :disabled="true" @click="deleteCampaign(props.item.id.id, props.item.id.status), props.item.deleteLoader = true">
+                                                <v-icon>archive</v-icon>
+                                            </v-btn>
                                             <v-dialog v-else v-model="props.item.modal" lazy absolute width="400px">
                                                 <v-btn :loading="props.item.deleteLoader" icon class="grey--text" slot="activator">
                                                     <v-icon>archive</v-icon>
@@ -128,7 +131,10 @@
                                                     </v-card-actions>
                                                 </v-card>
                                             </v-dialog>
-                                            <v-btn icon class="grey--text" :href="editCampaignRouter + props.item.id.id">
+                                            <v-btn v-if="props.item.id.status == 'archived'" :disabled="true" icon class="grey--text" :href="editCampaignRouter + props.item.id.id">
+                                                <v-icon>edit</v-icon>
+                                            </v-btn>
+                                            <v-btn v-else icon class="grey--text" :href="editCampaignRouter + props.item.id.id">
                                                 <v-icon>edit</v-icon>
                                             </v-btn>
                                         </td>
