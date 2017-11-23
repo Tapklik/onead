@@ -94,7 +94,7 @@
             </v-flex>
         </v-layout>
         <v-divider class="mt-4"></v-divider>
-        <v-layout row wrap class="mt-4"> 
+        <v-layout row wrap class="mt-4 mb-4"> 
             <v-flex xs12>
                 <v-btn primary large @click="updateAccount()"><v-icon left class="white--text">cloud_upload</v-icon>Update Account Details</v-btn>
             </v-flex>

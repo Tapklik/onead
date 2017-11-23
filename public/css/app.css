@@ -237,11 +237,42 @@ i.icon.small {
   border: none !important;
 }
 
+.number-circle {
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  padding: 8px;
+  text-align: center;
+  font-weight: bold;
+  font: 20px Arial, sans-serif;
+}
+
+.carousel.tutorial {
+  height: 360px;
+}
+
+.carousel.tutorial .carousel__controls {
+  background: #ffffff;
+}
+
+.carousel.tutorial .carousel__controls .carousel__controls__item i {
+  color: #e65100;
+  font-size: 12px;
+}
+
+.carousel.tutorial .carousel__controls .carousel__controls__item--active i {
+  font-size: 14px;
+}
+
 /*** FIXES ***/
 
 .radio-group .input-group__details,
 .checkbox .input-group__details {
   display: none;
+}
+
+.material-icons {
+  line-height: 1.4;
 }
 
 .card {

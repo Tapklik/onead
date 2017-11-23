@@ -36,6 +36,7 @@ Vue.component('reporting-tab', require('./components/ReportingTab.vue'));
 Vue.component('settings', require('./components/Settings.vue'));
 Vue.component('settings-account', require('./components/SettingsAccount.vue'));
 Vue.component('settings-user', require('./components/SettingsUser.vue'));
+Vue.component('settings-billing', require('./components/SettingsBilling.vue'));
 
 
 // CREATE
@@ -48,6 +49,7 @@ Vue.component('campaign-review', require('./components/CampaignReview.vue'));
 
 //Tapklik elements
 Vue.component('tk-select-list', require('./components/elements/tk-select-list.vue')); 
+Vue.component('tk-tutorial', require('./components/elements/tk-tutorial.vue')); 
 Vue.component('tk-popup', require('./components/elements/tk-popup.vue'));           // tk-select-list
 Vue.component('tk-select', require('./components/elements/tk-select.vue'));                     // tk-select
 Vue.component('tk-filter', require('./components/elements/tk-filter.vue')); 
@@ -65,13 +67,28 @@ const app = new Vue({
 
     mounted() {
       this.getApiToken();
+      this.previousURL();
+            console.log(this.previousURL().endsWith('auth'))
+            console.log(this.currentURL().endsWith('dashboard'))
+            console.log(this.user.tutorial);
     },
 
     data: {
-        version: 'v0.6.3-BETA',
+        version: 'v0.6.4-BETA',
         uri: envUri,
         reportUri: '//104.225.218.101:10002/api/query',
-        user: false,
+        user: {
+            accountId: null,
+            accountUuId: null,
+            campaigns: [],
+            email: '',
+            id: null,
+            name: '',
+            role: '',
+            tutorial: 0,
+            uuid: ''
+
+        },
         search: '',
         section: '',
         ajax: false,
@@ -99,6 +116,15 @@ const app = new Vue({
 
     methods: {
 
+        previousURL() {
+            var oldURL = document.referrer;
+            return oldURL;
+        },
+        currentURL() {
+            var URL = window.location.href;
+            return URL;
+        },
+
         getApiToken() {
 
             axios.get('/core/token').then(response => {
@@ -113,7 +139,7 @@ const app = new Vue({
                 this.user = response.data;
                 
             }, error => {
-                swal('Error', error, 'error');
+                this.showAlertPopUp('error', 'Something went wrong');
             });
         },
 
@@ -122,13 +148,13 @@ const app = new Vue({
                 this.balance = response.data.data.balance;
                 
             }, error => {
-                swal('Error', error, 'error');
+                this.showAlertPopUp('error', 'Something went wrong');
             });
             axios.get(this.uri + '/accounts/' + this.user.accountUuId + '/banker/flight?query=balance', this.config).then(response => {
                 this.flight = response.data.data.balance;
                 
             }, error => {
-                swal('Error', error, 'error');
+                this.showAlertPopUp('error', 'Something went wrong');
             });
         },
 
@@ -198,6 +224,13 @@ const app = new Vue({
         }
     },
     computed: {
+
+        tutorialShow() {
+            if(this.previousURL().endsWith('auth') && this.currentURL().endsWith('dashboard') && this.user.tutorial == 1) {
+                return true;
+            }
+            else return false;
+        },
 
         getFirstUuidSegment() {
 

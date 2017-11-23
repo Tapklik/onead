@@ -3,7 +3,7 @@
   "browsers": [ 
     
     {
-      "type":"Firefox",
+      "type":"Mozilla",
       "icon":"mdi-firefox",
       "device_id": 1
     },

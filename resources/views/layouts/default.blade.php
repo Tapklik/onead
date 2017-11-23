@@ -24,6 +24,8 @@
                     @include('layouts.partials.header')
                 </header>
 
+                <tk-tutorial></tk-tutorial>
+
                 <!-- MAIN CONTENT -->
                 <div id="content">
                     <tk-popup></tk-popup>

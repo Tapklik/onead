@@ -127,6 +127,30 @@ i.icon.small {
 	}
 }
 
+.number-circle {
+	border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    padding: 8px;
+    text-align: center;
+    font-weight: bold;
+    font: 20px Arial, sans-serif;
+}
+
+.carousel.tutorial {
+	height:360px;
+	.carousel__controls {
+		background: #ffffff;
+		.carousel__controls__item i {
+			color: #e65100;
+			font-size: 12px;
+		}
+		.carousel__controls__item--active i {
+			font-size: 14px;
+		}
+	}
+}
+
 /*** FIXES ***/
 
 .radio-group, .checkbox {
@@ -135,9 +159,9 @@ i.icon.small {
 	}
 }
 
-//.dialog__content {
-//	z-index: 5000;
-//}
+.material-icons {
+	line-height: 1.4;
+}
 
 .card {
 	overflow: hidden;
