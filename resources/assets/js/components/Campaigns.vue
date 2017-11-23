@@ -93,11 +93,14 @@
                                                 <v-icon>play_circle_outline</v-icon>
                                             </v-btn>
                                             <v-btn v-if="props.item.id.status == 'draft'" :loading="props.item.deleteLoader" icon class="grey--text" @click="deleteCampaign(props.item.id.id, props.item.id.status), props.item.deleteLoader = true">
-                                                <v-icon>delete</v-icon>
+                                                <v-icon>archive</v-icon>
+                                            </v-btn>
+                                            <v-btn v-else-if="props.item.id.status == 'archived'" :loading="props.item.deleteLoader" icon class="grey--text" :disabled="true" @click="deleteCampaign(props.item.id.id, props.item.id.status), props.item.deleteLoader = true">
+                                                <v-icon>archive</v-icon>
                                             </v-btn>
                                             <v-dialog v-else v-model="props.item.modal" lazy absolute width="400px">
                                                 <v-btn :loading="props.item.deleteLoader" icon class="grey--text" slot="activator">
-                                                    <v-icon>delete</v-icon>
+                                                    <v-icon>archive</v-icon>
                                                 </v-btn>
                                                 <v-card>
                                                     <v-card-text>
@@ -110,7 +113,7 @@
                                                         </v-layout>
                                                         <v-layout row wrap>
                                                             <v-flex xs12 md12 class="valign-wrapper px-4">
-                                                                <span class="">Are you sure you want to delete {{props.item.id.name}}?</span><br>
+                                                                <span class="">Are you sure you want to archive {{props.item.id.name}}?</span><br>
                                                             </v-flex>
                                                         </v-layout>
                                                     </v-card-text>
@@ -123,12 +126,15 @@
                                                         </v-btn>
                                                         <v-btn primary dark class="elevation-0" @click="deleteCampaign(props.item.id.id, props.item.id.status), props.item.deleteLoader = true, props.item.modal=false">
                                                             <v-icon>done</v-icon>
-                                                            Delete
+                                                            Archive
                                                         </v-btn>
                                                     </v-card-actions>
                                                 </v-card>
                                             </v-dialog>
-                                            <v-btn icon class="grey--text" :href="editCampaignRouter + props.item.id.id">
+                                            <v-btn v-if="props.item.id.status == 'archived'" :disabled="true" icon class="grey--text" :href="editCampaignRouter + props.item.id.id">
+                                                <v-icon>edit</v-icon>
+                                            </v-btn>
+                                            <v-btn v-else icon class="grey--text" :href="editCampaignRouter + props.item.id.id">
                                                 <v-icon>edit</v-icon>
                                             </v-btn>
                                         </td>
@@ -174,7 +180,7 @@
                 editCampaignRouter: "/admin/campaigns/edit/",
                 statuses: [],
                 selectedStatuses: ['active','draft'],
-                statusColors: {active: 'green lighten-1 white--text', paused: 'yellow darken-1 white--text', archived: 'grey lighten-1 white--text', declined: 'red lighten-1 white--text', deleted: 'red darken-1 white--text', draft: 'grey lighten-2 white--text'},
+                statusColors: {active: 'green lighten-1 white--text', paused: 'yellow darken-1 white--text', archived: 'red darken-1 white--text', declined: 'red lighten-1 white--text', deleted: 'red darken-1 white--text', draft: 'grey lighten-2 white--text'},
                 campaignsLoader: true
             }
         },
@@ -219,8 +225,10 @@
                    
                     if(a == 0) {
                         var b = campaigns[c].id.status;
-                        statuses.push({status: b, color: colors[b]});
-                        a = 0;
+                        if(b != 'deleted') {
+                            statuses.push({status: b, color: colors[b]});
+                            a = 0;
+                        }
                     }
                     else {
                         a = 0
@@ -262,7 +270,7 @@
 
             deleteCampaign(campaignId, status) {
                 if(status != 'draft'){
-                    axios.put(this.$root.uri + '/campaigns/' + campaignId, {status: 'deleted'}, this.$root.config).then(response => {
+                    axios.put(this.$root.uri + '/campaigns/' + campaignId, {status: 'archived'}, this.$root.config).then(response => {
                         this.fetchCampaigns();
                     }, error => {
                         this.$root.showAlertPopUp('error', 'Something went wrong');
@@ -329,7 +337,7 @@
                     for(var c in campaigns) {
                         var name = campaigns[c].id.name.toLowerCase();
                         var searchLower = search.toLowerCase();
-                        if(campaigns[c].id.status != 'archived' && name.includes(searchLower)) {
+                        if(name.includes(searchLower)) {
                             result.push(campaigns[c]);
                         }
                     }
