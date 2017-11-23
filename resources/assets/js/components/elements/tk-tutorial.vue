@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="$root.tutorialShow" lazy absolute width="1180px">
+    <v-dialog :value="$root.tutorialShow" lazy absolute width="1180px">
         <v-card>
             <v-stepper class="elevation-0" v-model="e1">
             <v-divider></v-divider>
@@ -140,7 +140,7 @@
             </v-stepper-content>
         </v-stepper>
             <v-card-actions>
-                <v-checkbox class="caption" v-model="$root.user.tutorial" label="Show this tutorial at next login"></v-checkbox> 
+                <v-checkbox class="caption" v-model="turnOnTutorial" label="Show this tutorial at next login"></v-checkbox> 
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -154,11 +154,10 @@
 
         data() {
             return {
-                emir: true,
                 e1: 1,
                 images: ["/images/dashboard-tutorial.gif","/images/creatives-tutorial.gif", "/images/campaigns-tutorial.gif"],
                 rowsofline:[1,2,3,4,5,6,7,8],
-                turnOffTutorial: false,
+                turnOnTutorial: true,
                 welcomeTutorial: [
                     {
                         title: "WELCOME TO TAPKLIK ONEAD TUTORIAL",
@@ -193,19 +192,28 @@
         },
 
         methods: {
-
             turnOffModal() {
-                axios.put(this.$root.uri + '/accounts/' + this.$root.user.accountUuId + '/users/' + this.$root.user.uuid, {tutorial: 0}, this.$root.config).then(response => {
-                    this.$root.user.tutorial = 0;
-                
+                axios.put(this.$root.uri + '/accounts/' + this.$root.user.accountUuId + '/users/' + this.$root.user.uuid, {tutorial: 0}, this.$root.config).then(response => {                    
                 }, error => {
-                    this.$root.user.tutorial = 0;
+                    this.showAlertPopUp('error', 'Something went wrong');
+                });    
+            },
+
+            turnOnModal() {
+                axios.put(this.$root.uri + '/accounts/' + this.$root.user.accountUuId + '/users/' + this.$root.user.uuid, {tutorial: 1}, this.$root.config).then(response => {                    
+                }, error => {
                     this.showAlertPopUp('error', 'Something went wrong');
                 });
-            }
+            },
         },
 
         computed: {
+        },
+        watch: {
+            turnOnTutorial(value) {
+                if(value == true) this.turnOnModal();
+                else this.turnOffModal();
+            }
         }
     }
 </script>
