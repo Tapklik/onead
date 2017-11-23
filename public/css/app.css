@@ -271,6 +271,10 @@ i.icon.small {
   display: none;
 }
 
+.material-icons {
+  line-height: 1.4;
+}
+
 .card {
   overflow: hidden;
 }

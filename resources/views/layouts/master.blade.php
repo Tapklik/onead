@@ -9,15 +9,15 @@
     
     <title>@yield('page-title', 'Tapklik')</title>
 
-    <link rel="stylesheet" href="/css/vuetify.css" />
-
-    <link rel="stylesheet" href="/css/app.css" />
-
     <link rel="stylesheet" href="/css/materialdesignicons.min.css" />
 
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700">
 
     <link href='//fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/vuetify.css" />
+
+    <link rel="stylesheet" href="/css/app.css" />
 
 
     <script>

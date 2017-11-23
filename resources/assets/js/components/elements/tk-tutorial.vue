@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="$root.tutorialShow" lazy absolute width="1120px">
+    <v-dialog v-model="$root.tutorialShow" lazy absolute width="1180px">
         <v-card>
             <v-stepper class="elevation-0" v-model="e1">
             <v-divider></v-divider>
@@ -21,6 +21,7 @@
                     <v-flex xs12 md3>
                         <v-carousel 
                         class="tutorial elevation-0 ml-3" 
+                        hide-controls
                         light 
                         :left-control-icon="false"
                         :right-control-icon="false"
@@ -28,12 +29,15 @@
                             <v-carousel-item v-for="(item,i) in welcomeTutorial" :key="i" src="">
                                 <v-layout row wrap>
                                     <v-flex xs12>
-                                        <v-layout row wrap mb-2>
-                                            <v-flex xs1>
-                                                <div class="number-circle orange darken-4 white--text">{{ i + 1 }}</div>
+                                        <v-layout row wrap class="mb-2">
+                                            <v-flex xs12>
+                                                <img width="200" src="/images/tapklik-onead-logo.png">
                                             </v-flex>
-                                            <v-spacer></v-spacer>
-                                            <v-flex xs10>
+                                        </v-layout>
+                                    </v-flex>
+                                    <v-flex xs12>
+                                        <v-layout row wrap>
+                                            <v-flex xs12>
                                                 <h5 style="margin-top: 5px;">{{ item.title }}</h5>
                                             </v-flex>
                                         </v-layout>
@@ -65,7 +69,7 @@
                         :left-control-icon="false"
                         :right-control-icon="false"
                         >
-                            <v-carousel-item v-for="(item,i) in creativesTutorial" :key="i">
+                            <v-carousel-item v-for="(item,i) in creativesTutorial" :key="i" src="">
                                 <v-layout row wrap>
                                     <v-flex xs12>
                                         <v-layout row wrap mb-2>
@@ -136,12 +140,7 @@
             </v-stepper-content>
         </v-stepper>
             <v-card-actions>
-                <v-spacer></v-spacer>
-                <span class="blue--text caption" style="cursor: pointer" @click="turnOffModal()">Skip the tutorial</span>
-                <v-btn class="elevation-0" @click="$root.user.tutorial = false">
-                    <v-icon>close</v-icon>
-                    Don't show this again
-                </v-btn>
+                <v-checkbox class="caption" v-model="$root.user.tutorial" label="Show this tutorial at next login"></v-checkbox> 
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -160,6 +159,12 @@
                 images: ["/images/dashboard-tutorial.gif","/images/creatives-tutorial.gif", "/images/campaigns-tutorial.gif"],
                 rowsofline:[1,2,3,4,5,6,7,8],
                 turnOffTutorial: false,
+                welcomeTutorial: [
+                    {
+                        title: "WELCOME TO TAPKLIK ONEAD TUTORIAL",
+                        text: "This brief tutorial will guide you through the basics of uploading your first creatives and running your first campaign"
+                    }
+                ],
                 creativesTutorial: [
                     {
                         title: "CREATIVE FORMATS",
@@ -171,37 +176,19 @@
                     },
                     {
                         title: "CREATIVES APPROVALS",
-                        text: "To ensure that creatives align with different regulations, all creatives undergo a pre-approval scanning. Please allow up to 24 hours for your creatives to be approved before being able to use them in your campaigns."
+                        text: "To ensure that creatives align with different regulations, all creatives undergo a pre-approval scanning. Please allow up to 24 hours for your creatives to be approved before being able to use them in your campaigns"
                     }
                 ],
                 campaignsTutorial: [
                     {
-                        title: "CREATIVE FORMATS",
-                        text: "Tapklik supports standard banner creative formats in JPEG, PNG, GIF and HTML5"
+                        title: "BEFORE FIRST CAMPAIGN",
+                        text: "Before starting your first campaign make sure to have a few things ready, such as creative design and conversion site or landing page"
                     },
                     {
-                        title: "CREATIVE SIZES",
-                        text: "For best performance, consult with your Account Manager for ad sizes that go well for your industry and target audience. For the standard IAB ad sizes please visit: https://www.iab.com/guidelines/"
-                    },
-                    {
-                        title: "CREATIVES APPROVALS",
-                        text: "To ensure that creatives align with different regulations, all creatives undergo a pre-approval scanning. Please allow up to 24 hours for your creatives to be approved before being able to use them in your campaigns."
+                        title: "ACCOUNT MANAGEMENT",
+                        text: "Allow for our Account Managers to understand your conversion targets and to walk you through your first campaign "
                     }
                 ],
-                welcomeTutorial: [
-                    {
-                        title: "CREATIVE FORMATS",
-                        text: "Tapklik supports standard banner creative formats in JPEG, PNG, GIF and HTML5"
-                    },
-                    {
-                        title: "CREATIVE SIZES",
-                        text: "For best performance, consult with your Account Manager for ad sizes that go well for your industry and target audience. For the standard IAB ad sizes please visit: https://www.iab.com/guidelines/"
-                    },
-                    {
-                        title: "CREATIVES APPROVALS",
-                        text: "To ensure that creatives align with different regulations, all creatives undergo a pre-approval scanning. Please allow up to 24 hours for your creatives to be approved before being able to use them in your campaigns."
-                    }
-                ]
             }
         },
 
