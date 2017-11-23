@@ -577,6 +577,7 @@
             },
 
             getFolders() {
+                this.folders = [];
                 this.folderLoader = true;
                 axios.get(this.$root.uri + '/creatives/folders', this.$root.config).then(response => {
 
@@ -846,7 +847,6 @@
             },
 
             folders(value) {
-                this.folderId = value.data[0].key;
                 this.defineFolders();
             },
             creatives(value) {
