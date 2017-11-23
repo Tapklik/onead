@@ -93,7 +93,7 @@
                                                 <v-icon>play_circle_outline</v-icon>
                                             </v-btn>
                                             <v-btn v-if="props.item.id.status == 'draft'" :loading="props.item.deleteLoader" icon class="grey--text" @click="deleteCampaign(props.item.id.id, props.item.id.status), props.item.deleteLoader = true">
-                                                <v-icon>archive</v-icon>
+                                                <v-icon>delete</v-icon>
                                             </v-btn>
                                             <v-btn v-else-if="props.item.id.status == 'archived'" :loading="props.item.deleteLoader" icon class="grey--text" :disabled="true" @click="deleteCampaign(props.item.id.id, props.item.id.status), props.item.deleteLoader = true">
                                                 <v-icon>archive</v-icon>
