@@ -1,5 +1,6 @@
 <template>
-	<v-navigation-drawer dark :mini-variant="miniMenu()" persistent :enable-resize-watcher="true" v-model="drawer" :clipped="false" class="tapklik-drawer elevation-9" style="overflow-y:hidden">
+	<v-navigation-drawer v-if="drawer == true" :permanent="please" dark persistent :enable-resize-watcher="true" v-model="drawer" :clipped="false" class="tapklik-drawer elevation-9" style="overflow-y:hidden">
+		<v-icon style="position: absolute; right: 0px; cursor: pointer;" @click.stop="drawer = !drawer, please = !please">close</v-icon>
 		<div class="logo mb-4">
 			<img width="60" src="/images/tapklik-logo-square-inner.png">
 		</div>
@@ -56,6 +57,7 @@
 			</v-list-tile>
 		</v-list>
 	</v-navigation-drawer>
+	<v-icon v-else style="cursor: pointer" @click.stop="drawer = !drawer, please= true">delete</v-icon>
 </template>
 
 <script>
@@ -63,18 +65,13 @@
 		data () {
 			return {
 				drawer: true,
+				please: false
 				
 			}
 		},
 
 		 methods: {
-		 	miniMenu() {
-		 		if(this.drawer == false) {
-		 			this.drawer == true;
-		 			return true;
-		 		}
-		 		else return false;
-		 	}
+
         }
 	}
 </script>
