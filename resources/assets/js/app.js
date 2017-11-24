@@ -89,6 +89,7 @@ const app = new Vue({
             uuid: ''
 
         },
+        drawer: null,
         search: '',
         section: '',
         ajax: false,
