@@ -57,7 +57,7 @@
 			</v-list-tile>
 		</v-list>
 	</v-navigation-drawer>
-	<v-icon v-else style="cursor: pointer" @click.stop="drawer = !drawer, please= true">delete</v-icon>
+	<v-icon v-else style="cursor: pointer" @click.stop="drawer = !drawer, please= true">menu</v-icon>
 </template>
 
 <script>
