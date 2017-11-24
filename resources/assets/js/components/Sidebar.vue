@@ -1,5 +1,5 @@
 <template>
-	<v-navigation-drawer dark persistent :enable-resize-watcher="true" v-model="drawer" :clipped="false" class="tapklik-drawer elevation-9" style="overflow-y:hidden">
+	<v-navigation-drawer dark :mini-variant="miniMenu()" persistent :enable-resize-watcher="true" v-model="drawer" :clipped="false" class="tapklik-drawer elevation-9" style="overflow-y:hidden">
 		<div class="logo mb-4">
 			<img width="60" src="/images/tapklik-logo-square-inner.png">
 		</div>
@@ -68,7 +68,13 @@
 		},
 
 		 methods: {
-
+		 	miniMenu() {
+		 		if(this.drawer == false) {
+		 			this.drawer == true;
+		 			return true;
+		 		}
+		 		else return false;
+		 	}
         }
 	}
 </script>
