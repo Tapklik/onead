@@ -1,6 +1,5 @@
 <template>
-	<v-navigation-drawer v-if="drawer == true" :permanent="please" dark persistent :enable-resize-watcher="true" v-model="drawer" :clipped="false" class="tapklik-drawer elevation-9" style="overflow-y:hidden">
-		<v-icon style="position: absolute; right: 0px; cursor: pointer;" @click.stop="drawer = !drawer, please = !please">close</v-icon>
+	<v-navigation-drawer dark persistent :enable-resize-watcher="true" v-model="$root.drawer" :clipped="false" class="tapklik-drawer elevation-9" style="overflow-y:hidden">
 		<div class="logo mb-4">
 			<img width="60" src="/images/tapklik-logo-square-inner.png">
 		</div>
@@ -57,16 +56,13 @@
 			</v-list-tile>
 		</v-list>
 	</v-navigation-drawer>
-	<v-icon v-else style="cursor: pointer" @click.stop="drawer = !drawer, please= true">menu</v-icon>
 </template>
 
 <script>
 	export default {
 		data () {
 			return {
-				drawer: true,
-				please: false
-				
+
 			}
 		},
 

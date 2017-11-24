@@ -20,10 +20,6 @@
         <sidebar></sidebar>
         <main>
             <v-container fluid>
-                <header id="header">
-                    @include('layouts.partials.header')
-                </header>
-
                 <tk-tutorial></tk-tutorial>
 
                 <!-- MAIN CONTENT -->
@@ -35,9 +31,6 @@
                 </div>
                 <!-- END MAIN CONTENT -->
 
-                <div class="page-footer">
-                    @include('layouts.partials.footer')
-                </div>
             </v-container>
         </main>
     </v-app>
