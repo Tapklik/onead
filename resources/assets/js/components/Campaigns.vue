@@ -17,7 +17,7 @@
                                 <v-list style="max-height: 200px">
                                     <v-list-tile v-for="status in statuses" :key="status.status">
                                         <v-list-tile-action>
-                                            <v-checkbox :value="status.status" v-model="selectedStatuses"></v-checkbox>
+                                            <v-checkbox :value="status.value" v-model="selectedStatuses"></v-checkbox>
                                         </v-list-tile-action>
                                         <v-list-tile-title>{{ status.status }}</v-list-tile-title>
                                     </v-list-tile>
@@ -70,7 +70,7 @@
                                             <span class="caption">{{props.item.id.id}}</span>
                                         </td>
                                         <td>
-                                            <v-chip v-for="s in statuses" :key="s.status" v-if="props.item.id.status == s.status" small :class="s.color">
+                                            <v-chip v-for="s in statuses" :key="s.status" v-if="props.item.id.status == s.value" small :class="s.color">
                                                 <small>{{s.status  | uppercase}}</small>
                                             </v-chip>
                                         </td>
@@ -178,7 +178,11 @@
                 pagination: {},
                 createCampaignRouter: "/admin/campaigns/create",
                 editCampaignRouter: "/admin/campaigns/edit/",
-                statuses: [],
+                statuses: [
+                {status: 'Active', color: 'green lighten-1 white--text', value: 'active'}, 
+                {status: 'Paused', color: 'yellow darken-1 white--text', value: 'paused'}, 
+                {status: 'Archived', color: 'red darken-1 white--text', value: 'archived'}, 
+                {status: 'Draft', color: 'grey lighten-2 white--text', value: 'draft'}],
                 selectedStatuses: ['active','draft'],
                 statusColors: {active: 'green lighten-1 white--text', paused: 'yellow darken-1 white--text', archived: 'red darken-1 white--text', declined: 'red lighten-1 white--text', deleted: 'red darken-1 white--text', draft: 'grey lighten-2 white--text'},
                 campaignsLoader: true
@@ -214,19 +218,19 @@
             },
 
             populateStatuses() {
-                var statuses = [];
+                var statuses = this.statuses;
                 var a = 0;
                 var campaigns = this.campaigns;
                 var colors = this.statusColors;
                 for(var c in campaigns) {
                     for(var s in statuses) {
-                        if(statuses[s].status == campaigns[c].id.status) a++;
+                        if(statuses[s].value == campaigns[c].id.status) a++;
                     }
                    
                     if(a == 0) {
                         var b = campaigns[c].id.status;
                         if(b != 'deleted') {
-                            statuses.push({status: b, color: colors[b]});
+                            statuses.push({status: b, color: colors[b], value: b.toLowerCase()});
                             a = 0;
                         }
                     }
