@@ -60,7 +60,7 @@ Vue.component('scale-loader', require('vue-spinner/src/ScaleLoader.vue'));
 
 
 //var envUri = (window.location.hostname.search('local') == -1) ? '//api.tapklik.com/v1' : '//local.api.tapklik.com/v1';
-var envUri = '//104.225.218.101:10006/v1';
+var envUri = 'https://api.tapklik.com/v1';
 
 const app = new Vue({
     el: '#app',
@@ -74,9 +74,9 @@ const app = new Vue({
     },
 
     data: {
-        version: 'v0.6.5-ALPHA',
+        version: 'v0.6.5-BETA',
         uri: envUri,
-        reportUri: '//104.225.218.101:10002/api/query',
+        reportUri: 'https://reports.tapklik.com/api/query',
         user: {
             accountId: null,
             accountUuId: null,
