@@ -120,7 +120,7 @@
             },
             
             sendBug() {
-                axios.post(this.$root.uri + '/core/mail', {to: 'halid@tapklik.com', subject: 'Bug report from ' + this.selectedSection + ' section.', message: this.bugDescription}, this.$root.config).then( response => {
+                axios.post(this.$root.uri + '/core/mail/send', {to: 'halid@tapklik.com', subject: 'Bug report from ' + this.selectedSection + ' section.', message: this.bugDescription}, this.$root.config).then( response => {
                     this.$root.showAlertPopUp('success', 'You have successfully sent the bug report');
                 }, error => {
                     this.$root.showAlertPopUp('error', 'Something went wrong');
