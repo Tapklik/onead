@@ -362,8 +362,13 @@
 
             domainRules() {
                 var url = ['not a valid domain'];
+                var regexp = new RegExp('((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|'+ 
+                    '((\\d{1,3}\\.){3}\\d{1,3}))' + 
+                    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+
+                    '(\\?[;&a-z\\d%_.~+=-]*)?'+
+                    '(\\#[-a-z\\d_]*)?$','i');
                 if(!this.campaign.adomain) return;
-                else if(this.campaign.adomain.includes(".")) {
+                else if(regexp.test(this.campaign.adomain) == true) {
                     this.$parent.$parent.$parent.validDomain = true;
                 }
                 else { 
@@ -374,8 +379,14 @@
 
             urlRules() {
                 var url = ['not a valid url'];
+                var regexp = new RegExp('^(https?:\\/\\/)?'+ 
+                    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|'+ 
+                    '((\\d{1,3}\\.){3}\\d{1,3}))' + 
+                    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+
+                    '(\\?[;&a-z\\d%_.~+=-]*)?'+
+                    '(\\#[-a-z\\d_]*)?$','i');                
                 if(!this.campaign.ctrurl) return;
-                else if((this.campaign.ctrurl.startsWith("http://") && this.campaign.ctrurl.includes("."))|| (this.campaign.ctrurl.startsWith("https://") && this.campaign.ctrurl.includes("."))) { 
+                else if(regexp.test(this.campaign.ctrurl) == true) { 
                     this.$parent.$parent.$parent.validUrl = true;
                 }
 

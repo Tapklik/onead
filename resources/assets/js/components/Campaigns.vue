@@ -182,9 +182,11 @@
                 {status: 'Active', color: 'green lighten-1 white--text', value: 'active'}, 
                 {status: 'Paused', color: 'yellow darken-1 white--text', value: 'paused'}, 
                 {status: 'Archived', color: 'red darken-1 white--text', value: 'archived'}, 
-                {status: 'Draft', color: 'grey lighten-2 white--text', value: 'draft'}],
+                {status: 'Draft', color: 'grey lighten-2 white--text', value: 'draft'},
+                {status: 'Not Started', color: 'green darken-1 white--text', value: 'not started'},
+                {status: 'Expired', color: 'red lighten-1 white--text', value: 'expired'},],
                 selectedStatuses: ['active','draft'],
-                statusColors: {active: 'green lighten-1 white--text', paused: 'yellow darken-1 white--text', archived: 'red darken-1 white--text', declined: 'red lighten-1 white--text', deleted: 'red darken-1 white--text', draft: 'grey lighten-2 white--text'},
+                statusColors: {not_started: 'green darken-1 white--text', expired: 'red lighten-1 white--text', active: 'green lighten-1 white--text', paused: 'yellow darken-1 white--text', archived: 'red darken-1 white--text', declined: 'red lighten-1 white--text', deleted: 'red darken-1 white--text', draft: 'grey lighten-2 white--text'},
                 campaignsLoader: true
             }
         },
@@ -213,7 +215,6 @@
                 if(plusMany != 0) {
                     show = show + ' and ' + plusMany + ' more';
                 }
-                console.log(show);
                 return show;
             },
 

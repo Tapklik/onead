@@ -120,7 +120,13 @@
             },
             
             sendBug() {
-                axios.post(this.$root.uri + '/core/mail', {to: 'halid@tapklik.com', subject: 'Bug report from ' + this.selectedSection + ' section.', message: this.bugDescription}, this.$root.config).then( response => {
+                axios.post('https://api.tapklik.com/v1/core/mail/send', 
+                    {
+                        to: 'halid@tapklik.com', 
+                        subject: 'Bug report for ' + this.selectedSection + ' section.', 
+                        message: this.bugDescription, 
+                        from: this.$root.user.name + ' from account: ' + this.$root.user.accountUuId
+                    }, this.$root.config).then( response => {
                     this.$root.showAlertPopUp('success', 'You have successfully sent the bug report');
                 }, error => {
                     this.$root.showAlertPopUp('error', 'Something went wrong');
@@ -129,7 +135,7 @@
         },
 
         computed: {
-            userLetter: function() {
+            userLetter() {
                 var name = this.user.name;
                 if(name) {
                     return name.charAt(0).toUpperCase();

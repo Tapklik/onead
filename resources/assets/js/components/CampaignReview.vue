@@ -290,7 +290,8 @@
                 batch: [],
                 checkCounter: 0,
                 loading: false,
-                errorCounter: 0
+                errorCounter: 0,
+                folders: []
             }
         },
 
@@ -302,6 +303,36 @@
         },
 
         methods: {
+
+            getFolders() {
+                axios.get(this.$root.uri + '/creatives/folders', this.$root.config).then(response => {
+                    this.folders = response.data.data;
+                }, error => {
+                    this.$root.showAlertPopUp('error', 'Something went wrong');
+                });
+            },
+
+            insertUrlInCreatives() {
+                var creatives = this.campaign.creatives.data; 
+                var folders = this.folders;
+                var folderID = '';
+                for(var cr in creatives) {
+                    if(creatives[cr].ctrurl == null || creatives[cr].ctrurl == '') {
+                        var folder = creatives[cr].folder.key;
+                        for(var f in folders) {
+                            if(folders[f].key == folder) {
+                                folderID = folders[f].id;
+                                break;
+                            }
+                        }
+                        axios.put(this.$root.uri + '/creatives/folders/' + folderID + '/creatives/' + creatives[cr].id, {ctrurl: this.campaign.ctrurl}, this.$root.config).then(response => {
+                        }, error => {
+                            this.$root.showAlertPopUp('error', 'Something went wrong.');
+                        });
+                    }
+                }
+            },
+
             campaignError() {
                 window.location = '/admin/campaigns?m=' + this.$root.alertpopup.alertMessage;
             },
@@ -328,7 +359,7 @@
                 this.batch.push(0);
                 this.ajax = true;
 
-                axios.put(this.$root.uri + '/campaigns/' + this.campaign.id, {status: 'active'}, this.$root.config).then(response => {
+                axios.put(this.$root.uri + '/campaigns/' + this.campaign.id, {status: 'not started'}, this.$root.config).then(response => {
 
                     this.$root.alertpopup.alertMessage = 'Successfully created a new campaign.';
                     window.location = '/admin/campaigns?m=' + this.$root.alertpopup.alertMessage;
@@ -482,7 +513,7 @@
                         ctrurl: this.campaign.ctrurl,
                         adomain: this.campaign.adomain,
                         test: this.campaign.test,
-                        status: 'active',
+                        status: 'not started',
                         weight: this.campaign.weight,
                         node: this.campaign.node
                     };
@@ -553,6 +584,9 @@
         },
 
         watch: {
+            token(value) {
+                this.getFolders();
+            },
             batch(value) {
                 if (value.length == 7) {
                     this.ajax = false;

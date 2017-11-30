@@ -68,9 +68,6 @@ const app = new Vue({
     mounted() {
       this.getApiToken();
       this.previousURL();
-            console.log(this.previousURL().endsWith('auth'))
-            console.log(this.currentURL().endsWith('dashboard'))
-            console.log(this.user.tutorial);
     },
 
     data: {
