@@ -172,10 +172,10 @@
                             <v-icon>person</v-icon>
                             </td>
                             <td class="caption text-xs-right">
-                                <span>{{ formatLogTime(props.item.timestamp) }}<br>{{ formatLogDate(props.item.timestamp) }}</span> 
+                                <span>{{ formatLogTime(props.item.taken_at.date) }}<br>{{ formatLogDate(props.item.taken_at.date) }}</span> 
                             </td>
                             <td>
-                                <span class="small">{{ props.item.log }}</span>
+                                <span class="small">{{ props.item.action }}</span>
                             </td>
                         </template>
                     </v-data-table>
@@ -210,7 +210,7 @@
                 overallList: false,
                 search: '',
                 pagination: {},
-                overallSummaryList: {},
+                overallSummaryList: {clicks: 0, imps: 0, ecpm: 0, ctr: 0, ecpc: 0, spend: 0},
                 folders: [],
                 something: []
             }
@@ -335,7 +335,9 @@
             loadMainGraphData() {
 
                 axios.get(this.$root.reportUri + '?table=wins&acc=' + this.user.accountUuId + '&field=clicks,imps,spend&op=summary&from=' + this.date_from + ' 00:00:00&to=' + this.date_to + ' 00:00:00', this.$root.config).then(response => {
-                    this.overallSummaryList = response.data.data;
+                    if(response.data.data != undefined) {
+                        this.overallSummaryList = response.data.data;
+                    }
                 }, error => {
                     this.$root.showAlertPopUp('error', 'Something went wrong.');
                 })
