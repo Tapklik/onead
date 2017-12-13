@@ -207,7 +207,7 @@
                 date_to: '',
                 column: 'clicks',
                 line: 'imps',
-                overallList: false,
+                overallList: [],
                 search: '',
                 pagination: {},
                 overallSummaryList: {clicks: 0, imps: 0, ecpm: 0, ctr: 0, ecpc: 0, spend: 0},
@@ -232,16 +232,6 @@
                 }, error => {     
                     this.$root.showAlertPopUp('error', 'Something went wrong.');
                 });
-                var creatives = [];
-                for (var f in folders) {
-                    axios.get(this.$root.uri + '/creatives/' +  this.user.accountUuId + '/folders/' + folders[f].id, this.$root.config).then(response => {
-                    var a = response.data;
-                    creatives.push(a);
-                }, error => {
-                    this.$root.showAlertPopUp('error', 'Something went wrong.');
-                });
-                }
-                this.something = creatives;
             },
 
             getCreatives() {
@@ -325,8 +315,8 @@
             loadMainGraph() {
 
                 axios.get(this.$root.reportUri + '?table=wins&acc=' + this.user.accountUuId + '&field=clicks,imps,spend&op=sum&from=' + this.date_from + ' 00:00:00&to=' + this.date_to + ' 00:00:00' + '&scale=1d', this.$root.config).then(response => {
-                    this.overallList = response.data.data;
-                    this.chartLoaded = true;
+                        this.overallList = response.data.data;
+                        this.chartLoaded = true;
                 }, error => {
                     this.$root.showAlertPopUp('error', 'Something went wrong.');
                 })

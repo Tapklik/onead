@@ -149,7 +149,7 @@
                         <v-text-field
                         :rules="bidRules()"
                         label="0.00"
-                        v-on:change="updateDetailsDraft()"
+                        v-on:blur="updateDetailsDraft()"
                         prepend-icon="attach_money"
                         v-model="bidUsd"
                         single-line
