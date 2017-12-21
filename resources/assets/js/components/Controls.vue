@@ -1,5 +1,5 @@
 <template>
-    <div class="text-xs-right">
+    <div>
 
         <!-- CREATE NEW BUG REPORT START-->
         <v-dialog 
@@ -61,8 +61,8 @@
                 <v-divider></v-divider>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn 
-                    class="elevation-0" 
+                    <v-btn
+                    class="elevation-0"
                     @click="toggleModal()"
                     >
                     <v-icon>close</v-icon>                                    

@@ -1,0 +1,32 @@
+{
+  "welcome": [
+    {
+      "title": "WELCOME TO TAPKLIK ONEAD TUTORIAL",
+      "text": "This brief tutorial will guide you through the basics of uploading your first creatives and running your first campaign"
+    }
+  ],
+  "creatives": [
+    {
+      "title": "CREATIVE FORMATS",
+      "text": "Tapklik supports standard banner creative formats in JPEG, PNG, GIF and HTML5"
+    },
+    {
+      "title": "CREATIVE SIZES",
+      "text": "For best performance, consult with your Account Manager for ad sizes that go well for your industry and target audience. For the standard IAB ad sizes please visit: https://www.iab.com/guidelines/"
+    },
+    {
+      "title": "CREATIVES APPROVALS",
+      "text": "To ensure that creatives align with different regulations, all creatives undergo a pre-approval scanning. Please allow up to 24 hours for your creatives to be approved before being able to use them in your campaigns"
+    }
+  ],
+  "campaigns": [
+    {
+      "title": "BEFORE FIRST CAMPAIGN",
+      "text": "Before starting your first campaign make sure to have a few things ready, such as creative design and conversion site or landing page"
+    },
+    {
+      "title": "ACCOUNT MANAGEMENT",
+      "text": "Allow for our Account Managers to understand your conversion targets and to walk you through your first campaign "
+    }
+  ]
+}
