@@ -224,7 +224,7 @@ const app = new Vue({
     },
     computed: {
 
-        tutorialShow() {
+        tutorial_show() {
             if(this.previousURL().endsWith('auth') && this.currentURL().endsWith('dashboard') && this.user.tutorial == 1) {
                 return true;
             }

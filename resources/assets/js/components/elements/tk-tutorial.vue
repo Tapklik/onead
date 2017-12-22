@@ -1,6 +1,6 @@
 <template>
     <v-dialog 
-    :value="$root.tutorialShow" 
+    :value="$root.tutorial_show" 
     lazy 
     absolute 
     width="1180px"
@@ -9,7 +9,6 @@
         <v-card>
 
             <v-stepper class="elevation-0" v-model="current_step">
-                <v-divider></v-divider>
 
                 <!-- TABS START -->
                 <v-stepper-header class="elevation-0">
