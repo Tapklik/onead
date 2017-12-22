@@ -90,18 +90,24 @@
 		data() {
 
 	        return {
+	            //ESSENTIALS
 	            token: false,
+            	
+            	//ERROR
+				error: '',
+            	
+            	//LOGIN
             	credentials: {
 		            email: '',
 					password: '',
             	},
-				error: '',
 				login_button_loading: false
 			}
 		},
 
 		methods: {
 
+			//LOGIN
 	        login () {
 	        	this.login_button_loading = true;
 	            this.error = '';
