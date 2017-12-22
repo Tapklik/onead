@@ -1,33 +1,47 @@
 <template>
-    <v-flex class="text-xs-right">
-        <v-dialog v-model="showModal" lazy absolute width="400px">
-            <span class="blue--text caption mr-5" style="cursor: pointer" slot="activator">Report a bug</span>
+    <div>
+
+        <!-- CREATE NEW BUG REPORT START-->
+        <v-dialog 
+        v-model="show_create_new_bug_report" 
+        lazy 
+        absolute 
+        width="400px"
+        >
+            <span 
+            class="blue--text caption mr-2" 
+            style="cursor: pointer" 
+            slot="activator"
+            >
+                Report a bug
+            </span>
             <v-card>
                 <v-card-title>
                     <h4>Report a Bug</h4>
                 </v-card-title>
                 <v-divider></v-divider>
                 <v-card-text>
-                    <v-layout row wrap class="pl-3 pr-5">
+                    <v-layout row wrap>
                         <v-flex xs12>
                             <v-flex xs12 class="valign-wrapper">
                                 <span class="title">Section</span>
-                                <p class="caption">Choose the section where you have found the bug.</p>
+                                <p class="caption">
+                                    Choose the section where you have found the bug.
+                                </p>
                             </v-flex>
                             <v-layout row wrap class="mt-2">
                                 <v-flex xs12>
                                     <v-select label="Select a Section"
-                                      :items="sections"
-                                      v-model="selectedSection"
-                                      prepend-icon="explore"
-                                      single-line
-                                      >
-                                      </v-select>
+                                    :items="sections"
+                                    v-model="new_bug.section"
+                                    prepend-icon="explore"
+                                    single-line
+                                    ></v-select>
                                 </v-flex>
                             </v-layout>
                         </v-flex>
                     </v-layout>
-                    <v-layout row wrap class="pl-3 pr-5">
+                    <v-layout row wrap>
                         <v-flex xs12>
                             <v-flex xs12 class="valign-wrapper">
                                 <span class="title">Description</span>
@@ -36,9 +50,9 @@
                             <v-layout row wrap class="mt-2">
                                 <v-flex xs12>
                                     <v-text-field
-                                        v-model="bugDescription"
-                                        multi-line>
-                                        </v-text-field>
+                                    v-model="new_bug.description"
+                                    multi-line
+                                    ></v-text-field>
                                 </v-flex>
                             </v-layout>
                         </v-flex>
@@ -47,30 +61,58 @@
                 <v-divider></v-divider>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn class="elevation-0" @click="showModal = false">
-                        <v-icon>close</v-icon>                                    
+                    <v-btn
+                    class="elevation-0"
+                    @click="toggleModal()"
+                    >
+                    <v-icon>close</v-icon>                                    
                         Cancel
                     </v-btn>
-                    <v-btn primary dark class="elevation-0" @click="sendBug(), showModal=false">
+                    <v-btn
+                    primary
+                    dark
+                    class="elevation-0" 
+                    @click="createNewBugReport(), 
+                    toggleModal()"
+                    >
                         <v-icon>done</v-icon>
                         Send
                     </v-btn>
                 </v-card-actions>
             </v-card>   
         </v-dialog>
-        <v-chip class="transparent grey--text text--lighten2">
-            <v-avatar class="grey lighten-1 lighten-2 white--text">{{ userLetter }}</v-avatar>
-            <span class="ml-4">{{ account.name }}</span> 
-            <span class="ml-4 mr-3" v-if="error == false">$ {{ ($root.fromMicroDollars($root.balance + $root.flight)) }}</span>
-            <span class="ml-4 mr-3 red--text" v-else>Error</span>
-            <v-btn icon class="grey--text text--lighten2" href="/admin/settings">
-                <v-icon>settings</v-icon>
-            </v-btn>
-            <v-btn icon class="grey--text text--lighten2" href="/admin/logout">
-                <v-icon>power_settings_new</v-icon>
-            </v-btn>
-        </v-chip>
-    </v-flex> 
+        <!-- CREATE NEW BUG REPORT END-->
+
+        <!-- DETAILS START -->
+        <v-avatar 
+        size="32px" 
+        class="grey lighten-1 white--text"
+        >
+            {{ first_letter }}
+        </v-avatar>
+        <span class="ml-2 grey--text text--lighten1">
+            {{ account_name }}
+        </span> 
+        <span class="ml-2 mr-1 grey--text text--lighten1">
+            $ {{ $root.fromMicroDollars($root.balance + $root.flight) }}
+        </span>
+        <v-btn 
+        icon 
+        class="grey--text text--lighten2" 
+        href="/admin/settings"
+        >
+            <v-icon>settings</v-icon>
+        </v-btn>
+        <v-btn 
+        icon 
+        class="grey--text text--lighten2" 
+        href="/admin/logout"
+        >
+            <v-icon>power_settings_new</v-icon>
+        </v-btn>
+        <!-- DETAILS END -->
+
+    </div> 
 </template>
 
 <script>
@@ -85,78 +127,76 @@
         
         data() {
             return {
-                bugDescription: '',
-                selectedSection: 'Dashboard',
-                showModal: false,
-                account: false,
-                accountBalance: '0.00',
-                error: false,
-                sections: ['Dashboard', 'Campaigns', 'Creatives', 'Reporting', 'Billing']
+                //BUG REPORT
+                new_bug: {
+                    description: '',
+                    section: 'Dashboard',
+                },
+                show_create_new_bug_report: false,
+                sections: ['Dashboard', 'Campaigns', 'Creatives', 'Reporting', 'bug_reporting'],
+
+                //DETAILS
+                account_name: ''
             }
         },
         
         props: ['user'],
 
         methods: {
-            fetchAccount() {
-                var self = this;
 
-                var balance = 0;
-
-                axios.get(this.$root.uri + '/accounts/' + this.user.accountUuId, this.$root.config).then( response => {
-                    this.account = response.data.data;
-
-                     axios.get(this.$root.uri + '/accounts/' + this.user.accountUuId + '/banker/main?query=balance', this.$root.config).then( response => {
-                        balance = response.data.balance;
-                    }, error => {
-                        this.error = true;
-                    });
-
-                    this.accountBalance = this.$root.fromMicroDollars(balance).toFixed(2)
-
-                }, error => {
-                    this.error = true;
-                });
+            //BUG REPORT
+            toggleModal() {
+                this.show_create_new_bug_report = !this.show_create_new_bug_report;
             },
-            
-            sendBug() {
-                axios.post('https://api.tapklik.com/v1/core/mail/send', 
-                    {
-                        to: 'halid@tapklik.com', 
-                        subject: 'Bug report for ' + this.selectedSection + ' section.', 
-                        message: this.bugDescription, 
-                        from: this.$root.user.name + ' from account: ' + this.$root.user.accountUuId
-                    }, this.$root.config).then( response => {
-                    this.$root.showAlertPopUp('success', 'You have successfully sent the bug report');
-                }, error => {
-                    this.$root.showAlertPopUp('error', 'Something went wrong');
-                });
-            }
+
+            collectBugReport() {
+                return {
+                    to: 'halid@tapklik.com', 
+                    subject: 'Bug report for ' + this.new_bug.section + ' section.', 
+                    message: this.new_bug.description, 
+                    from: this.$root.user.name + ' from account: ' + this.$root.user.accountUuId
+                }
+            },
+
+            createNewBugReport() {
+                axios.post(
+                    'https://api.tapklik.com/v1/core/mail/send', 
+                    this.collectBugReport(),
+                    this.$root.config
+                ).then(response => {
+                        this.$root.showAlertPopUp('success', 'You have successfully sent the bug report');
+                    }, error => {
+                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                    }
+                );
+            },
+
+            //DETAILS
+            getAccountName() {
+                axios.get(
+                    this.$root.uri + '/accounts/' + this.user.accountUuId,
+                    this.$root.config
+                ).then(response => {
+                        this.account_name = response.data.data.name;
+                    }, error => {
+                        this.account_name = 'Could not retrieve account name.';
+                    }
+                );
+            },
+
         },
 
         computed: {
-            userLetter() {
+            first_letter() {
                 var name = this.user.name;
-                if(name) {
-                    return name.charAt(0).toUpperCase();
-                } else {
-                    return ' '
-                }
-            },
-        },
-
-        filters: {
-            uppercase: function(v) {
-                return v.toUpperCase();
+                return name ? name.charAt(0).toUpperCase() : '';
             },
         },
 
         watch: {
             user(value) {
-                this.fetchAccount();
+                this.getAccountName();
             },
-
-    
         }
     }
 </script>

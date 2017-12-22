@@ -1,6 +1,5 @@
 <template>
     <v-container grid-list-xs>
-        <v-alert dismissible v-bind:success='this.$root.alert.success' v-bind:error='this.$root.alert.error' v-model="this.$root.alert.alert" transition="scale-transition">{{this.$root.alert.alertMessage}}</v-alert>
         <v-layout row wrap>
             <v-flex xs12 class="valign-wrapper mb-1">
                 <h5>REVIEW</h5>
@@ -30,7 +29,11 @@
                     <v-flex xs12 md4 lg3 class="valign-wrapper">
                         <span class="caption">Campaign Flight</span>
                     </v-flex>
-                    <v-flex xs8 md5 v-if="$parent.$parent.$parent.validStart == true && $parent.$parent.$parent.validEnd == true">
+                    <v-flex 
+                    xs8 
+                    md5 
+                    v-if="$parent.$parent.$parent.validStart == true && $parent.$parent.$parent.validEnd == true"
+                    >
                         <v-icon>flight_takeoff</v-icon>
                         <span>From {{campaign.start_time}} to {{campaign.end_time}}</span>
                     </v-flex>

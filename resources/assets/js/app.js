@@ -49,7 +49,8 @@ Vue.component('campaign-review', require('./components/CampaignReview.vue'));
 
 //Tapklik elements
 Vue.component('tk-select-list', require('./components/elements/tk-select-list.vue')); 
-Vue.component('tk-tutorial', require('./components/elements/tk-tutorial.vue')); 
+Vue.component('tk-tutorial', require('./components/elements/tk-tutorial.vue'));  
+Vue.component('tk-tutorial-tab', require('./components/elements/tk-tutorial-tab.vue')); 
 Vue.component('tk-popup', require('./components/elements/tk-popup.vue'));           // tk-select-list
 Vue.component('tk-select', require('./components/elements/tk-select.vue'));                     // tk-select
 Vue.component('tk-filter', require('./components/elements/tk-filter.vue')); 
@@ -60,7 +61,7 @@ Vue.component('scale-loader', require('vue-spinner/src/ScaleLoader.vue'));
 
 
 //var envUri = (window.location.hostname.search('local') == -1) ? '//api.tapklik.com/v1' : '//local.api.tapklik.com/v1';
-var envUri = 'https://api.tapklik.com/v1';
+var envUri = '//104.225.218.101:10006/v1';
 
 const app = new Vue({
     el: '#app',
@@ -73,7 +74,7 @@ const app = new Vue({
     data: {
         version: 'v0.6.6-BETA',
         uri: envUri,
-        reportUri: 'https://reports.tapklik.com/api/query',
+        reportUri: '//104.225.218.101:10002/api/query',
         user: {
             accountId: null,
             accountUuId: null,
@@ -223,7 +224,7 @@ const app = new Vue({
     },
     computed: {
 
-        tutorialShow() {
+        tutorial_show() {
             if(this.previousURL().endsWith('auth') && this.currentURL().endsWith('dashboard') && this.user.tutorial == 1) {
                 return true;
             }
