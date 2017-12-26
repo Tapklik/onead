@@ -1,6 +1,6 @@
 <template>
 	<v-dialog 
-    v-model="data.modal"  
+    v-model="data.show_modal"  
     lazy 
     absolute 
     width="400px"
@@ -39,7 +39,7 @@
                 <v-spacer></v-spacer>
                 <v-btn 
                 class="elevation-0" 
-                @click="data.modal = false"
+                @click="data.show_modal = false"
                 >
                     <v-icon>close</v-icon>
                     Cancel
@@ -48,6 +48,7 @@
                 primary 
                 dark 
                 class="elevation-0" 
+                :loading="loading"
                 @click="startFunction()"
                 >
                     <v-icon>done</v-icon>
@@ -62,7 +63,8 @@
     
         props: [
 	        'icon', 
-	        'data'
+	        'data',
+            'loading'
        	],
        	methods: {
 

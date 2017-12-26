@@ -153,9 +153,8 @@
                         :disabled = "disableButton(props.item.status, 'toggle')"
                         icon 
                         class="grey--text" 
-                        :loading = "props.item.play_loader"
-                        @click="props.item.play_loader = true,
-                        toggleCampaignStatus(props.index, props.item.id, props.item.status)"
+                        :loading = "props.item.toggle_button_loading"
+                        @click="toggleCampaignStatus(props.item)"
                         >
                             <v-icon>
                                 {{ props.item.status == 'active' ?  
@@ -164,12 +163,11 @@
                         </v-btn>
                         <v-btn 
                         v-if="props.item.status == 'draft' || props.item.status == 'archived'" 
-                        :loading="props.item.delete_loader" 
+                        :loading="props.item.delete_button_loading" 
                         :disabled="disableButton(props.item.status, 'delete')"
                         icon 
                         class="grey--text" 
-                        @click="deleteCampaign(props.item.id, props.item.status), 
-                        props.item.delete_loader = true"
+                        @click="deleteCampaign(props.item)"
                         >
                             <v-icon>
                                 delete
@@ -179,7 +177,8 @@
                         v-else
                         :icon="'archive'"
                         :data = "props.item"
-                        @confirmation= "archiveCampaign(props.item.id)"
+                        :loading="props.item.delete_button_loading"
+                        @confirmation= "archiveCampaign(props.item)"
                         >
                             {{'Are you sure you want to archive ' + props.item.name + '?'}}
                         </tk-confirm>
@@ -268,11 +267,12 @@
             },
 
 
-            toggleCampaignStatus(index, id, status) {
-                var new_status = status == 'active' ? 'paused' : 'active';
+            toggleCampaignStatus(campaign) {
+                var new_status = campaign.status == 'active' ? 'paused' : 'active';
+                campaign.toggle_button_loading = true;
 
                 axios.put(
-                    this.$root.uri + '/campaigns/' + id, 
+                    this.$root.uri + '/campaigns/' + campaign.id, 
                     { status: new_status }, 
                     this.$root.config
                 ).then(response => {
@@ -288,9 +288,9 @@
 
                 //add datapoints
                 for(var campaign in campaigns) {
-                    Vue.set(campaigns[campaign], 'play_loader', false);
-                    Vue.set(campaigns[campaign], 'delete_loader', false);
-                    Vue.set(campaigns[campaign], 'modal', false);
+                    Vue.set(campaigns[campaign], 'toggle_button_loading', false);
+                    Vue.set(campaigns[campaign], 'delete_button_loading', false);
+                    Vue.set(campaigns[campaign], 'show_modal', false);
                 }
                 return campaigns;
             },
@@ -308,26 +308,34 @@
                 })
             },
 
-            archiveCampaign(campaign_id) {
+            archiveCampaign(campaign) {
+                campaign.delete_button_loading = true;
+
                 axios.put(
-                    this.$root.uri + '/campaigns/' + campaign_id, 
+                    this.$root.uri + '/campaigns/' + campaign.id, 
                     { status: 'archived' }, 
                     this.$root.config
                 ).then(response => {
+                        campaign.delete_button_loading = false;
+                        campaign.show_modal = false;
                         this.getCampaigns();
                     }, error => {
+                        campaign.delete_button_loading = false;
+                        campaign.show_modal = false;
                         this.$root.showAlertPopUp('error', 'Something went wrong');
                     }
                 );
             },
 
-            deleteCampaign(campaign_id) {
+            deleteCampaign(campaign) {
+                campaign.delete_button_loading = true;
+
                 axios.delete(
-                    this.$root.uri + '/campaigns/' + campaign_id, 
+                    this.$root.uri + '/campaigns/' + campaign.id, 
                     this.$root.config
                 ).then(response => {
                         this.getCampaigns();
-                    }, error => {  
+                    }, error => {
                         this.$root.showAlertPopUp('error', 'Something went wrong');
                     }
                 );
@@ -363,5 +371,5 @@
                 this.pagination.page = 1;
             }
         }
-}
+    }
 </script>

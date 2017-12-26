@@ -8,7 +8,7 @@
                     <v-tabs-item href="#account-tab">
                         <v-icon class="orange--text text--darken-3">account_balance</v-icon>
                         <span class="orange--text text--darken-3">Account Settings</span>
-                    </v-tabs-item>
+                    </v-tabs-item>blade
                     <v-tabs-item href="#user-tab">
                         <v-icon class="orange--text text--darken-3">person</v-icon>
                         <span class="orange--text text--darken-3">User Settings</span>
@@ -22,13 +22,22 @@
             <v-divider></v-divider>
             <v-tabs-items>
                 <v-tabs-content id="account-tab">
-                    <settings-account :user="user" :token="token"></settings-account>
+                    <settings-account 
+                    :user="user" 
+                    :token="token"
+                    ></settings-account>
                 </v-tabs-content>
                 <v-tabs-content id="user-tab">
-                    <settings-user :user="user" :token="token"></settings-user>
+                    <settings-user 
+                    :user="user" 
+                    :token="token"
+                    ></settings-user>
                 </v-tabs-content>                
                 <v-tabs-content id="billing-tab">
-                    <settings-billing :user="user" :token="token"></settings-billing>
+                    <settings-billing 
+                    :user="user" 
+                    :token="token"
+                    ></settings-billing>
                 </v-tabs-content>                
             </v-tabs-items>
         </v-tabs>
