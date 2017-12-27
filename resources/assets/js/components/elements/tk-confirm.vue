@@ -6,7 +6,7 @@
     width="400px"
     >
         <v-btn 
-        icon 
+        icon
         class="grey--text" 
         slot="activator"
         >
@@ -64,7 +64,9 @@
         props: [
 	        'icon', 
 	        'data',
-            'loading'
+            'loading',
+            'iconButton',
+            'primaryButton'
        	],
        	methods: {
 

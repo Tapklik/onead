@@ -1,10 +1,16 @@
 <template>
     <v-container fluid grid-list-xs>
+
+        <!-- CARD START -->
         <v-card class="elevation-2">
             <v-divider></v-divider>
             <v-card-title>
+
+                <!-- ACTIONS START -->
                 <v-flex xs12 md7>
-                    <v-dialog v-model="showModal" lazy absolute width="100%">
+
+                    <!-- ADD CREATIVE START -->
+                    <v-dialog v-model="show_new_creative_modal" lazy absolute width="100%">
                         <v-btn slot="activator" primary dark class="elevation-0">
                             <v-icon>add</v-icon>
                             Add Creatives
@@ -14,239 +20,262 @@
                                 <h4>Upload Creatives Here</h4>
                             </v-card-title>
                             <v-divider></v-divider>
-                            <v-card-text>
-                                <v-layout row wrap class="pr-5 pl-5">
+                            <v-card-text class="pr-5 pl-5">
+                                <v-layout row wrap>
+                                    <v-flex xs12 class="valign-wrapper">
+                                        <span class="subheading">UPLOAD CREATIVES</span>
+                                    </v-flex>
+                                </v-layout>
+                                <v-layout row wrap class="mt-2">
                                     <v-flex xs12>
-                                        <v-layout row wrap>
-                                            <v-flex xs12 class="valign-wrapper">
-                                                <span class="subheading">UPLOAD CREATIVES</span>
+                                        <v-card 
+                                        id="uploader" 
+                                        height="80px" 
+                                        class="elevation-0"
+                                        @mouseenter="dropzoneMaker()">
+                                            <div 
+                                            class="uploader-title" 
+                                            v-if="new_file_status == 'empty'"
+                                            >
+                                                <v-icon>cloud_upload</v-icon> 
+                                                Drop Files Here
+                                            </div>
+                                            <div 
+                                            class="uploader-title" 
+                                            v-else-if="new_file_status == 'nofile'"
+                                            >
+                                                <v-icon>cancel</v-icon>
+                                                No File Found
+                                            </div>
+                                            <div 
+                                            class="uploader-title" 
+                                            v-else
+                                            >
+                                                <v-icon>check</v-icon> 
+                                                File Uploaded
+                                            </div>
+                                        </v-card>
+                                    </v-flex>
+                                </v-layout>
+                                <v-divider class="mt-4"></v-divider>
+                                <v-layout row wrap class="mt-2">
+                                    <v-flex xs12 class="valign-wrapper mt-4">
+                                        <span class="subheading">
+                                            CREATIVE BASIC DETAILS
+                                        </span>
+                                    </v-flex>
+                                </v-layout>
+                                <v-layout row wrap>
+                                    <v-flex xs12 md6>
+                                        <v-layout row wrap class="mt-4">
+                                            <v-flex xs12 md4 lg3 class="valign-wrapper">
+                                                <span class="title">Name</span><br>
+                                                <p class="caption ma-0">Edit default name</p>
                                             </v-flex>
-                                        </v-layout>
-                                        <v-layout row wrap class="mt-2">
-                                            <v-flex xs12>
-                                                <v-card 
-                                                id="uploader" 
-                                                height="80px" 
-                                                class="elevation-0"
-                                                @mouseenter="dropzoneMaker()">
-                                                    <v-btn 
-                                                    icon 
-                                                    v-if="uploadLoader == true" 
-                                                    :loading="true"
-                                                    >
-                                                        <v-icon>cloud_upload</v-icon>
-                                                    </v-btn>
-                                                    <div 
-                                                    class="uploader-title" 
-                                                    v-else-if="checkFileUploaded == 'empty'"
-                                                    >
-                                                        <v-icon>cloud_upload</v-icon> 
-                                                        Drop Files Here
-                                                    </div>
-                                                    <div 
-                                                    class="uploader-title" 
-                                                    v-else-if="checkFileUploaded == 'nofile'"
-                                                    >
-                                                        <v-icon>cancel</v-icon>
-                                                        No File Found
-                                                    </div>
-                                                    <div 
-                                                    class="uploader-title" 
-                                                    v-else
-                                                    >
-                                                        <v-icon>check</v-icon> 
-                                                        File Uploaded
-                                                    </div>
-                                                </v-card>
-                                            </v-flex>
-                                        </v-layout>
-                                        <v-divider class="mt-4"></v-divider>
-                                        <v-layout row wrap class="mt-2">
-                                            <v-flex xs12 class="valign-wrapper mt-4">
-                                                <span class="subheading">
-                                                    CREATIVE BASIC DETAILS
-                                                </span>
-                                            </v-flex>
-                                        </v-layout>
-                                        <v-layout row wrap>
-                                            <v-flex xs12 md6>
-                                                <v-layout row wrap class="mt-4">
-                                                    <v-flex xs12 md4 lg3 class="valign-wrapper">
-                                                        <span class="title">Name</span><br>
-                                                        <p class="caption ma-0">Edit default name</p>
-                                                    </v-flex>
-                                                    <v-flex xs12 md5>
-                                                        <v-text-field 
-                                                        prepend-icon="mode_edit" 
-                                                        v-model="creativeAttributes.name" 
-                                                        placeholder="Name" 
-                                                        :rules="creativeNameRules()" 
-                                                        @keyup="checkFile()"
-                                                        ></v-text-field>
-                                                    </v-flex>
-                                                </v-layout>
-                                                <v-layout row wrap class="mt-4">
-                                                    <v-flex xs12 md4 lg3 class="valign-wrapper">
-                                                        <span class="title">Folder</span><br>
-                                                        <p class="caption ma-0">
-                                                            The folder where your creative will be uploaded
-                                                        </p>
-                                                    </v-flex>
-                                                    <v-flex xs12 md5>
-                                                        <v-select 
-                                                        :rules="folderRules()" 
-                                                        prepend-icon="folder" 
-                                                        :items="folders.data" 
-                                                        item-text="name" 
-                                                        item-value="key" 
-                                                        v-model="folderId" 
-                                                        placeholder="Folder" 
-                                                        @change="checkFile()"
-                                                        ></v-select>
-                                                    </v-flex>
-                                                </v-layout>
-                                            </v-flex>
-                                            <v-flex xs12 md6>
-                                                <v-layout row wrap class="mt-4">
-                                                    <v-flex xs12 md4 lg3 class="valign-wrapper">
-                                                        <span class="title">Creative Class</span><br>
-                                                        <p class="caption ma-0">(Banner, Video, Native)</p>
-                                                    </v-flex>
-                                                    <v-flex xs12 md5>
-                                                        <v-select 
-                                                        prepend-icon="photo" 
-                                                        :items="classList" 
-                                                        v-model="creativeAttributes.class" 
-                                                        :rules="classRules()" 
-                                                        @change="checkFile()"
-                                                        ></v-select>
-                                                    </v-flex>
-                                                </v-layout>
-                                                <v-layout row wrap class="mt-4">
-                                                    <v-flex xs12 md4 lg3 class="valign-wrapper">
-                                                        <span class="title">Dimensions (W x H)</span><br>
-                                                        <p class="caption ma-0">Edit default dimensions in px</p>
-                                                    </v-flex>
-                                                    <v-flex xs5 md3 lg2>
-                                                        <v-text-field 
-                                                        prepend-icon="code" 
-                                                        :rules="widthRules()" 
-                                                        v-model="creativeAttributes.w" 
-                                                        type="number" 
-                                                        placeholder="W" 
-                                                        @keyup="checkFile()"
-                                                        ></v-text-field>
-                                                    </v-flex>
-                                                    <v-flex xs1></v-flex>
-                                                    <v-flex xs5 md3 lg2>
-                                                        <v-text-field 
-                                                        prepend-icon="unfold_more" 
-                                                        :rules="heightRules()" 
-                                                        v-model="creativeAttributes.h" 
-                                                        type="number" 
-                                                        placeholder="H" 
-                                                        @keyup="checkFile()"
-                                                        ></v-text-field>
-                                                    </v-flex>
-                                                </v-layout>
-                                                <v-layout row wrap class="mt-4">
-                                                    <v-flex xs12 md3 class="valign-wrapper">
-                                                        <span class="title">Responsive</span><br>
-                                                        <p class="caption ma-0">Is this creative responsive?</p>
-                                                    </v-flex>
-                                                    <v-flex xs12 md6>
-                                                        <v-switch 
-                                                        :false-value="0" 
-                                                        :true-value="1" 
-                                                        v-model="responsiveData" 
-                                                        label="Responsive" 
-                                                        @change="checkFile()"
-                                                        ></v-switch>
-                                                    </v-flex>
-                                                </v-layout>
-                                            </v-flex>
-                                        </v-layout>
-                                        <v-divider></v-divider>
-                                        <v-layout row wrap>
-                                            <v-flex xs12 class="valign-wrapper mt-4">
-                                                <span class="subheading">ADVANCED (Optional)</span>
+                                            <v-flex xs12 md5>
+                                                <v-text-field 
+                                                prepend-icon="mode_edit" 
+                                                v-model="new_creative.name" 
+                                                placeholder="Name" 
+                                                :rules="creativeNameRules()" 
+                                                @keyup="checkFile()"
+                                                ></v-text-field>
                                             </v-flex>
                                         </v-layout>
                                         <v-layout row wrap class="mt-4">
-                                            <v-flex xs12 md3 lg2 class="valign-wrapper">
-                                                <span class="title">Click-Through URL</span><br>
-                                                <span class="caption ma-0">Click-through url per creative</span>
-                                            </v-flex>    
-                                            <v-flex xs12 md9>
-                                                <v-text-field prepend-icon="language" v-model="creativeAttributes.url" placeholder="URL" @keyup="checkFile()"></v-text-field>
+                                            <v-flex xs12 md4 lg3 class="valign-wrapper">
+                                                <span class="title">Folder</span><br>
+                                                <p class="caption ma-0">
+                                                    The folder where your creative will be uploaded
+                                                </p>
+                                            </v-flex>
+                                            <v-flex xs12 md5>
+                                                <v-select 
+                                                :rules="folderRules()" 
+                                                prepend-icon="folder" 
+                                                :items="folders" 
+                                                item-text="name" 
+                                                item-value="key" 
+                                                v-model="new_creative.folder" 
+                                                placeholder="Folder" 
+                                                @change="checkFile()"
+                                                ></v-select>
+                                            </v-flex>
+                                        </v-layout>
+                                    </v-flex>
+                                    <v-flex xs12 md6>
+                                        <v-layout row wrap class="mt-4">
+                                            <v-flex xs12 md4 lg3 class="valign-wrapper">
+                                                <span class="title">Creative Class</span><br>
+                                                <p class="caption ma-0">(Banner, Video, Native)</p>
+                                            </v-flex>
+                                            <v-flex xs12 md5>
+                                                <v-select 
+                                                prepend-icon="photo" 
+                                                :items="classes" 
+                                                v-model="new_creative.class" 
+                                                :rules="classRules()" 
+                                                @change="checkFile()"
+                                                ></v-select>
                                             </v-flex>
                                         </v-layout>
                                         <v-layout row wrap class="mt-4">
-                                            <v-flex xs12 md3 lg2 class="valign-wrapper">
-                                                <span class="title">Ad Markup</span><br>
-                                                <p class="caption ma-0">Set iframe or HTML markup</p>
+                                            <v-flex xs12 md4 lg3 class="valign-wrapper">
+                                                <span class="title">Dimensions (W x H)</span><br>
+                                                <p class="caption ma-0">Edit default dimensions in px</p>
                                             </v-flex>
-                                            <v-flex xs12 md9>
-                                                <v-text-field prepend-icon="language" placeholder="Ad Markup" @keyup="checkFile()"></v-text-field>
+                                            <v-flex xs5 md3 lg2>
+                                                <v-text-field 
+                                                prepend-icon="code" 
+                                                :rules="widthRules()" 
+                                                v-model="new_creative.w" 
+                                                type="number" 
+                                                placeholder="W" 
+                                                @keyup="checkFile()"
+                                                ></v-text-field>
+                                            </v-flex>
+                                            <v-flex xs1></v-flex>
+                                            <v-flex xs5 md3 lg2>
+                                                <v-text-field 
+                                                prepend-icon="unfold_more" 
+                                                :rules="heightRules()" 
+                                                v-model="new_creative.h" 
+                                                type="number" 
+                                                placeholder="H" 
+                                                @keyup="checkFile()"
+                                                ></v-text-field>
                                             </v-flex>
                                         </v-layout>
+                                        <v-layout row wrap class="mt-4">
+                                            <v-flex xs12 md3 class="valign-wrapper">
+                                                <span class="title">Responsive</span><br>
+                                                <p class="caption ma-0">Is this creative responsive?</p>
+                                            </v-flex>
+                                            <v-flex xs12 md6>
+                                                <v-switch 
+                                                :false-value="0" 
+                                                :true-value="1" 
+                                                v-model="new_creative.responsive" 
+                                                label="Responsive" 
+                                                @change="checkFile()"
+                                                ></v-switch>
+                                            </v-flex>
+                                        </v-layout>
+                                    </v-flex>
+                                </v-layout>
+                                <v-divider></v-divider>
+                                <v-layout row wrap>
+                                    <v-flex xs12 class="valign-wrapper mt-4">
+                                        <span class="subheading">ADVANCED (Optional)</span>
+                                    </v-flex>
+                                </v-layout>
+                                <v-layout row wrap class="mt-4">
+                                    <v-flex xs12 md3 lg2 class="valign-wrapper">
+                                        <span class="title">Click-Through URL</span><br>
+                                        <span class="caption ma-0">Click-through url per creative</span>
+                                    </v-flex>    
+                                    <v-flex xs12 md9>
+                                        <v-text-field 
+                                        prepend-icon="language" 
+                                        v-model="new_creative.url" 
+                                        placeholder="URL" 
+                                        @keyup="checkFile()"
+                                        ></v-text-field>
+                                    </v-flex>
+                                </v-layout>
+                                <v-layout row wrap class="mt-4">
+                                    <v-flex xs12 md3 lg2 class="valign-wrapper">
+                                        <span class="title">Ad Markup</span><br>
+                                        <p class="caption ma-0">Set iframe or HTML markup</p>
+                                    </v-flex>
+                                    <v-flex xs12 md9>
+                                        <v-text-field 
+                                        prepend-icon="language" 
+                                        placeholder="Ad Markup" 
+                                        @keyup="checkFile()"
+                                        ></v-text-field>
                                     </v-flex>
                                 </v-layout>
                             </v-card-text>
                             <v-divider></v-divider>
                             <v-card-actions>
                                 <v-spacer></v-spacer>
-                                <v-btn @click="clearUploadModal(), showModal = false" class="elevation-0">
+                                <v-btn 
+                                @click="clearUploadModal(), 
+                                show_new_creative_modal = false" 
+                                class="elevation-0"
+                                >
                                     <v-icon>close</v-icon>                                    
                                     Cancel
                                 </v-btn>
                                 <v-btn 
-                                v-if="checkDimensions() == true" 
-                                :loading="loading" 
+                                v-if="iab_standard_sizes.includes(dimensions) || !validCreative()" 
+                                :loading="new_creative_button_loading" 
                                 primary 
-                                :disabled="!(validClass && validWidth && validHeight && validName && validFolder)" 
-                                @click="loading = true, uploadCreative()" 
+                                :disabled="!validCreative()" 
+                                @click="new_creative_button_loading = true, uploadCreative()" 
                                 class="elevation-0"
                                 >
                                     <v-icon>done</v-icon>
                                     Save
                                 </v-btn>
                                 <v-dialog 
-                                v-else 
-                                v-model="showModalDimensionsCheck" 
-                                lazy 
+                                v-else
+                                v-model="show_confirmation_modal"  
+                                lazy
                                 absolute 
-                                width="100%"
+                                width="400px"
                                 >
-                                    <v-btn 
-                                    slot="activator" 
-                                    :loading="loading" 
+                                    <v-btn  
                                     primary 
-                                    :disabled="!(validClass && validWidth && validHeight && validName && validFolder)" 
-                                    @click="showModal = false" 
-                                    class="elevation-0"
+                                    slot="activator"
+                                    @click="show_new_creative_modal = false"
                                     >
                                         <v-icon>done</v-icon>
                                         Save
                                     </v-btn>
                                     <v-card>
-                                        <v-card-title>
-                                            <h4>Custom Creative Size</h4>
-                                        </v-card-title>
-                                        <v-divider></v-divider>
                                         <v-card-text>
-                                            <span>Are you sure you want to upload a creative with dimensions that are not up to IAB standard</span>
+                                            <v-layout row wrap>
+                                                <v-flex xs12 class="valign-wrapper px-4 error-icon">
+                                                    <span>
+                                                        <v-icon 
+                                                        x-large 
+                                                        primary
+                                                        >
+                                                            help
+                                                        </v-icon>
+                                                    </span>
+                                                </v-flex>
+                                            </v-layout>
+                                            <v-layout row wrap>
+                                                <v-flex xs12 md12 class="valign-wrapper px-4">
+                                                    <span class="">
+                                                        Are you sure you want to upload a creative that is not up to IAB standard?
+                                                    </span><br>
+                                                </v-flex>
+                                            </v-layout>
                                         </v-card-text>
                                         <v-divider></v-divider>
                                         <v-card-actions>
                                             <v-spacer></v-spacer>
-                                            <v-btn @click="showModal = false" class="elevation-0">
-                                                <v-icon>close</v-icon>                                    
+                                            <v-btn 
+                                            class="elevation-0" 
+                                            @click="show_confirmation_modal = false"
+                                            >
+                                                <v-icon>close</v-icon>
                                                 Cancel
                                             </v-btn>
-                                            <v-btn :loading="loading" primary :disabled="!(validClass && validWidth && validHeight && validName && validFolder)" @click="loading = true, uploadCreative()" class="elevation-0">
+                                            <v-btn 
+                                            primary 
+                                            dark 
+                                            class="elevation-0" 
+                                            :loading="new_creative_button_loading"
+                                            @click="show_confirmation_modal = false, 
+                                            uploadCreative()"
+                                            >
                                                 <v-icon>done</v-icon>
-                                                Save
+                                                OK
                                             </v-btn>
                                         </v-card-actions>
                                     </v-card>
@@ -254,8 +283,15 @@
                             </v-card-actions>
                         </v-card>   
                     </v-dialog>
-                    <v-dialog v-model="showModal1" lazy absolute width="500px">
-                        <v-btn v-if="!currentFolder.id" slot="activator" class="white elevation-0">
+                    <!-- ADD CREATIVE END -->
+
+                    <!-- ADD FOLDER START -->
+                    <v-dialog v-model="show_new_folder_modal" lazy absolute width="500px">
+                        <v-btn 
+                        v-if="!current_folder.id" 
+                        slot="activator" 
+                        class="white elevation-0"
+                        >
                             <v-icon>create_new_folder</v-icon>&nbsp;
                              New Folder
                         </v-btn>
@@ -276,7 +312,7 @@
                                                 <v-text-field
                                                 label="Folder"
                                                 prepend-icon="folder"
-                                                v-model="newFolder"
+                                                v-model="new_folder.name"
                                                 ></v-text-field>
                                             </v-flex>
                                         </v-layout>
@@ -286,7 +322,10 @@
                             <v-divider></v-divider>
                             <v-card-actions>
                                 <v-spacer></v-spacer>
-                                <v-btn class="elevation-0" @click="showModal1 = false">
+                                <v-btn 
+                                class="elevation-0" 
+                                @click="show_new_folder_modal = false"
+                                >
                                     <v-icon>close</v-icon>                                    
                                     Cancel
                                 </v-btn>
@@ -294,7 +333,7 @@
                                 primary 
                                 dark 
                                 class="elevation-0" 
-                                @click="storeNewFolder(), showModal1=false"
+                                @click="createNewFolder(), show_new_folder_modal=false"
                                 >
                                     <v-icon>done</v-icon>
                                     Save
@@ -302,12 +341,12 @@
                             </v-card-actions>
                         </v-card>   
                     </v-dialog>
+                    <!-- ADD FOLDER END -->
+
                 </v-flex>
                 <v-flex xs12 md5>
-                    <v-layout row wrap justify-space-between>
-                        <v-flex xs12 md6>
-                            
-                        </v-flex>
+                    <v-layout row wrap>
+                        <v-spacer></v-spacer>
                         <v-flex xs12 md6>
                             <v-text-field 
                                 label="Search..."
@@ -315,37 +354,63 @@
                                 single-line 
                                 hide-details 
                                 class="right" 
-                                v-model="search">
+                                v-model="search_creatives_and_folders">
                             </v-text-field>
                         </v-flex>
                     </v-layout>
                 </v-flex>
             </v-card-title>
+            <!-- ACTIONS END -->
+
             <v-divider></v-divider>
-            <v-card-text v-if="folderLoader == true">
-                <scale-loader :loading="true" color="#9e9e9e" height="15px" width="3px" class="mt-5"></scale-loader>
+
+            <!-- FOLDERS START -->
+            <!-- FOLDERS LOADER START -->
+            <v-card-text v-if="folders_table_loading">
+                <scale-loader 
+                :loading="true" 
+                color="#9e9e9e" 
+                height="15px" 
+                width="3px" 
+                class="mt-5"
+                ></scale-loader>
             </v-card-text>
-            <v-card-text v-else-if="!currentFolder.id">
+            <!-- FOLDERS LOADER END -->
+
+            <v-card-text v-else-if="!current_folder.id">
                 <v-layout row wrap>
                     <v-flex xs12 md10 lg8>
-                        <v-data-table :items="filteredFolders" hide-actions class="no-headers creatives-explorer">
+                        <v-data-table 
+                        :items="filteredFolders" 
+                        hide-actions 
+                        class="no-headers creatives-explorer"
+                        >
                             <template slot="headers" scope="props">
                                 &nbsp;
                             </template>
                             <template slot="items" scope="props">
                                 <tr :active="props.selected">
-                                    <td width="40" class="text-xs-right" @click="openFolder(props.item.id)">
+                                    <td width="40" class="text-xs-right" @click="openFolder(props.item)">
                                         <v-icon>folder</v-icon>
                                     </td>
-                                    <td class="text-xs-left" @click="openFolder(props.item.id)">
-                                        <span class="title">{{ props.item.id.name }}</span>
+                                    <td class="text-xs-left" @click="openFolder(props.item)">
+                                        <span class="title">{{ props.item.name }}</span>
                                     </td>
                                     <td class="text-xs-right">
-                                        <v-btn v-if="props.item.id.items == 0" icon class="grey--text" @click="deleteFolder(props.item.id.id, props.item.id.name)">
+                                        <v-btn 
+                                        v-if="props.item.items == 0" 
+                                        icon class="grey--text" 
+                                        @click="deleteFolder(props.item.id, props.item.name)"
+                                        >
                                                 <v-icon>delete</v-icon>
                                         </v-btn>
-                                        <v-dialog v-else v-model="props.item.modal" lazy absolute width="400px">
-                                            <v-btn icon class="grey--text" @click="deleteFolderId = props.item.id.id, deleteFolderName = props.item.id.name" slot="activator">
+                                        <v-dialog 
+                                        v-else 
+                                        v-model="props.item.show_modal" 
+                                        lazy absolute 
+                                        width="400px"
+                                        >
+                                            <v-btn icon class="grey--text" slot="activator">
                                                 <v-icon>delete</v-icon>
                                             </v-btn>
                                             <v-card>
@@ -359,14 +424,19 @@
                                                     </v-layout>
                                                     <v-layout row wrap>
                                                         <v-flex xs12 md12 class="valign-wrapper px-4">
-                                                            <span class="">Please, make sure that your folder is empty.</span>
+                                                            <span class="">
+                                                                Please, make sure that your folder is empty.
+                                                            </span>
                                                         </v-flex>
                                                     </v-layout>
                                                 </v-card-text>
                                                  <v-divider></v-divider>
                                                 <v-card-actions>
                                                     <v-spacer></v-spacer>
-                                                    <v-btn class="elevation-0" @click="props.item.modal = false">
+                                                    <v-btn 
+                                                    class="elevation-0" 
+                                                    @click="props.item.show_modal = false"
+                                                    >
                                                         <v-icon>close</v-icon>
                                                         Cancel
                                                     </v-btn>
@@ -380,18 +450,30 @@
                     </v-flex>
                 </v-layout>
             </v-card-text>
-            <v-card-text v-else-if="creativesLoader == true">
-                <scale-loader :loading="true" color="#9e9e9e" height="15px" width="3px" class="mt-5"></scale-loader>
+            <!-- FOLDERS END -->
+
+            <!-- CREATIVES START -->
+            <!-- CREATIVES LOADER START -->
+            <v-card-text v-else-if="creatives_table_loading">
+                <scale-loader 
+                :loading="true" 
+                color="#9e9e9e" 
+                height="15px" 
+                width="3px" 
+                class="mt-5"
+                ></scale-loader>
             </v-card-text>
+            <!-- CREATIVES LOADER END -->
+
             <v-card-text v-else>
                 <v-layout row wrap>
                     <v-flex xs12>
                         <v-breadcrumbs divider="/" class="left pa-0">
                             <v-breadcrumbs-item>
-                                <span @click="closeFolder(), imageSource='', sample='sample'">ROOT</span>
+                                <span @click="closeFolder()">ROOT</span>
                             </v-breadcrumbs-item>
                             <v-breadcrumbs-item>
-                                {{ currentFolder.name | uppercase}}
+                                {{ current_folder.name | uppercase}}
                             </v-breadcrumbs-item>
                         </v-breadcrumbs>
                     </v-flex>
@@ -409,20 +491,18 @@
                             </template>
                             <template slot="items" scope="props">
                                 <tr
-                                @mouseenter="imageSource = props.item.id.thumb, sample= props.item.id.name, statusShow = props.item.id.approved,
-                                typeShow = props.item.id.class, dimensionsShow = props.item.id.w + 'x' + props.item.id.h"
-                                @mouseleave="imageSource = '', sample='sample', statusShow = '',
-                                typeShow = 'TYPE', dimensionsShow = ''"
+                                @mouseenter="togglePreview(props.item, true)"
+                                @mouseleave="togglePreview(props.item, false)"
                                 >
                                     <td class="text-xs-left">
-                                        <span class="title">{{ props.item.id.name }}</span><br>
-                                        <span class="caption">{{ props.item.id.id }}</span>
+                                        <span class="title">{{ props.item.name }}</span><br>
+                                        <span class="caption">{{ props.item.id }}</span>
                                     </td>
                                     <td>
-                                        <v-chip v-if="props.item.id.approved == 'approved'" small class="green lighten-1 white--text">
+                                        <v-chip v-if="props.item.approved == 'approved'" small class="green lighten-1 white--text">
                                             <small>APPROVED</small>
                                         </v-chip>
-                                        <v-chip v-else-if="props.item.id.approved == 'pending'" small class="yellow darken-1 white--text">
+                                        <v-chip v-else-if="props.item.approved == 'pending'" small class="yellow darken-1 white--text">
                                             <small>PENDING</small>
                                         </v-chip>
                                         <v-chip v-else small class="red lighten-1 white--text">
@@ -430,14 +510,21 @@
                                         </v-chip>
                                     </td>
                                     <td>
-                                        {{ props.item.id.class | uppercase }}
+                                        {{ props.item.class | uppercase }}
                                     </td>
                                     <td>
-                                        {{ props.item.id.w }} x {{ props.item.id.h }}
+                                        {{ props.item.w }} x {{ props.item.h }}
                                     </td>
                                     <td>
-                                        <v-dialog v-model="props.item.modal" lazy absolute width="400px">
-                                            <v-btn icon class="grey--text" @click="deleteCreativeId = props.item.id.id, deleteCreativeName = props.item.id.name" slot="activator">
+                                        <v-dialog 
+                                        v-model="props.item.show_modal" 
+                                        lazy 
+                                        absolute width="400px"
+                                        >
+                                            <v-btn 
+                                            icon 
+                                            class="grey--text" 
+                                            slot="activator">
                                                 <v-icon>delete</v-icon>
                                             </v-btn>
                                             <v-card>
@@ -451,14 +538,20 @@
                                                     </v-layout>
                                                     <v-layout row wrap>
                                                         <v-flex xs12 md12 class="valign-wrapper px-4">
-                                                            <span class="">Are you sure you want to delete {{deleteCreativeName | uppercase}}?</span><br>
+                                                            <span class="">
+                                                                Are you sure you want to delete 
+                                                                {{props.item.name | uppercase}}?
+                                                            </span> <br>
                                                         </v-flex>
                                                     </v-layout>
                                                 </v-card-text>
                                                 <v-divider></v-divider>
                                                 <v-card-actions>
                                                     <v-spacer></v-spacer>
-                                                    <v-btn class="elevation-0" @click="props.item.modal = false">
+                                                    <v-btn 
+                                                    class="elevation-0" 
+                                                    @click="props.item.show_modal = false"
+                                                    >
                                                         <v-icon>close</v-icon>
                                                         Cancel
                                                     </v-btn>
@@ -466,7 +559,9 @@
                                                     primary 
                                                     dark 
                                                     class="elevation-0" 
-                                                    @click="deleteCreative(deleteCreativeId, deleteCreativeName), props.item.modal=false">
+                                                    @click="deleteCreative(props.item.id, props.item.name), 
+                                                    props.item.show_modal=false"
+                                                    >
                                                         <v-icon>done</v-icon>
                                                         Delete
                                                     </v-btn>
@@ -481,40 +576,47 @@
                             </template>
                         </v-data-table>
                     </v-flex>
+                    <!-- PREVIEW START -->
                     <v-flex xs12 md3 class="valign-wrapper mt-4">
-                        <v-layout row wrap>
-                            <v-flex xs12>
-                                <v-card class="elevation-0 left-border pl-3" height="500px">
-                                    <v-card-title>
-                                        <span class="title">Creative Details</span>
-                                    </v-card-title>
-                                    <v-card-text>
-                                        <v-layout row wrap>
-                                            <v-flex xs12>
-                                                <div class="preview">
-                                                    <img width="128" :src="imageSource">
-                                                </div>
-                                            </v-flex>
-                                        </v-layout>
-                                        <v-layout row wrap>
-                                            <v-flex xs12>
-                                                <span v-if="sample != 'sample'"> {{sample}}</span>
-                                                <span v-else> Creative </span>
-                                                <br>
-                                                <span v-if="typeShow != ''" class="grey--text">{{typeShow | uppercase}}</span>
-                                                <span v-else class="grey--text">TYPE</span>
-                                                <br><br>
-                                                <span class="caption"><b>Status:</b> {{statusShow | uppercase}}</span><br>
-                                                <span class="caption"><b>Dimensions:</b> {{dimensionsShow}}</span>
-                                            </v-flex>
-                                        </v-layout>
-                                    </v-card-text>
-                                  </v-card>
-                            </v-flex>
-                        </v-layout>
+                        <v-card class="elevation-0 left-border pl-3" height="500px">
+                            <v-card-title>
+                                <span class="title">Creative Details</span>
+                            </v-card-title>
+                            <v-card-text>
+                                <v-layout row wrap>
+                                    <v-flex xs12>
+                                        <div class="preview">
+                                            <img width="128" :src="creative_preview.thumbnail" />
+                                        </div>
+                                    </v-flex>
+                                </v-layout>
+                                <v-layout row wrap>
+                                    <v-flex xs12>
+                                        <span> 
+                                            {{creative_preview.name}}
+                                        </span><br>
+                                        <span class="grey--text">
+                                            {{creative_preview.class | uppercase}}
+                                        </span><br><br>
+                                        <span class="caption">
+                                            <b>Status:</b> 
+                                            {{creative_preview.status | uppercase}}
+                                        </span><br>
+                                        <span class="caption">
+                                            <b>Dimensions:</b> 
+                                            {{creative_preview.dimensions}}
+                                        </span>
+                                    </v-flex>
+                                </v-layout>
+                            </v-card-text>
+                          </v-card>
                     </v-flex>
+                    <!-- PREVIEW END -->
+
                 </v-layout>
             </v-card-text>
+            <!-- CREATIVES END -->
+
         </v-card>
     </v-container>
 </template>
@@ -529,7 +631,6 @@
         },
 
         mounted() {
-            this.validCreative();
             this.$root.isLoading = false;
         },
 
@@ -539,65 +640,98 @@
             return {
                 valid_new_creative: {
                     name: false,
-                    height: false,
-                    width: false,
+                    h: false,
+                    w: false,
                     folder: false,
                     class: false,
                     file: false
                 },
-                uploadLoader: false,
-                checkFileUploaded: 'empty',
-                showModalDimensionsCheck: false,
-                validName: false,
-                validHeight: false,
-                validWidth: false,
-                validFolder: false,
-                validClass: false,
-                validFile: false,
-                responsiveData: 0,
-                sample: 'sample',
-                dimensionsShow: '',
-                typeShow: '',
-                statusShow: '',
-                creativeIAB: ['300x250','250x250','240x400','336x280','180x150','300x100','720x300','468x60','234x60','88x31','120x90','120x60','120x240','125x125','728x90','160x600','120x600','300x600'],
-                deleteCreativeId: '',
-                deleteCreativeName: '',
-                deleteFolderId: '',
-                deleteFolderName: '',
-                imageSource: '',
-                showModal: false,
-                showModal1: false,
-                showModal2: false,
-                showModal3: false,
-                dropzone: false,
-                classList: ['banner', 'video', 'native'],
-                newFolder: '',
-                folderId: '',
-                folders: {
-                    data: []
-                },
-                creatives: {},
-                currentFolder: {},
-                createFolderFlag: false,
-                creativeAttributes: {
+                new_creative: {
                     name: '',
                     url: '',
                     responsive: 0,
                     h: 0,
                     w: 0,
                     class: 'banner',
+                    folder: '',
+                    thumbnail: ''
                 },
-                thumb: '',
-                search: '',
-                loading: false,
-                folderCreatives: [],
-                trueFolders: [],
-                folderLoader: true,
-                creativesLoader: true
+                creative_preview: {
+                    thumbnail: '',
+                    name: '',
+                    class: '',
+                    status: '',
+                    dimensions: ''
+                },
+                new_folder: {
+                    name: '',
+                    status: 0
+                },
+                show_confirmation_modal: false,
+                folders_table_loading: true,
+                creatives_table_loading: true,
+                show_new_creative_modal: false,
+                show_new_folder_modal: false,
+                search_creatives_and_folders: '',
+                folders: [],
+                creatives: [],
+                dropzone: false,
+                iab_standard_sizes: ['300x250','250x250','240x400','336x280','180x150','300x100','720x300','468x60','234x60','88x31','120x90','120x60','120x240','125x125','728x90','160x600','120x600','300x600'],
+                new_file_status: 'empty',
+                classes: ['banner', 'video', 'native'],
+                current_folder: {},
+                new_creative_button_loading: false
             }
         },
 
         methods: {
+
+            getFolders() {
+                this.folders_table_loading = true;
+
+                axios.get(
+                    this.$root.uri + '/creatives/folders', 
+                    this.$root.config
+                ).then(response => {
+                        this.folders = this.changeFoldersAndCreativesData(response.data.data);
+                        this.folders_table_loading = false;
+                    }, error => {
+                        this.folders_table_loading = false;
+                        this.$root.showAlertPopUp('error', 'Error fetching folders.');
+                    }
+                );
+            },
+
+            deleteFolder(folder_id, folder_name) {
+                this.folders_table_loading = true;
+
+                axios.delete(
+                    this.$root.uri + '/creatives/folders/' + folder_id, 
+                    this.$root.config
+                ).then(response => {
+                        this.folders_table_loading = false;
+                        this.$root.showAlertPopUp('success', 'You have successfully deleted ' + folder_name + '.');
+                        this.getFolders();
+                    }, error => {
+                        this.folders_table_loading = false;
+                        this.$root.showAlertPopUp('error', 'Something went wrong.');
+                        this.getFolders();
+                    }
+                );
+            },
+
+            changeFoldersAndCreativesData(data) {
+                for(var index in data) Vue.set(data[index], 'show_modal', false); //add datapoint
+                return data;
+            },
+
+            togglePreview(creative, show) {
+                this.creative_preview.thumbnail = creative && show ? creative.thumb : '';
+                this.creative_preview.name = creative && show ? creative.name : 'Creative';
+                this.creative_preview.class = creative && show ? creative.class : 'Class';
+                this.creative_preview.status = creative && show ? creative.approved : 'Status';
+                this.creative_preview.dimensions = creative && show ? creative.w + 'x' + creative.h : '0x0';
+            },
 
             validCreative() {
                 var keys = Object.keys(this.valid_new_creative);
@@ -605,92 +739,32 @@
             },
             
             checkFile() {
-                if(this.checkFileUploaded != 'uploaded') {
-                    this.checkFileUploaded = 'nofile';
-                }
-            },
-
-            defineCreatives() {
-                var creatives = this.creatives.data;
-                var boolCreatives = [];
-                for(var c in creatives) {
-                    boolCreatives.push({"id": creatives[c], "modal": false});
-                }
-                this.folderCreatives = boolCreatives;
-            },
-
-            defineFolders() {
-                var folders = this.folders.data;
-                var boolFolders = [];
-                for(var f in folders) {
-                    boolFolders.push({"id": folders[f], "modal": false});
-                }
-                this.trueFolders = boolFolders;
+                if(this.new_file_status != 'uploaded') this.new_file_status = 'nofile';
             },
 
             creativeNameRules() {
-                var name = ['too short'];
-                if(this.creativeAttributes.name.length < 4) {
-                    this.validName = false;
-                    return name;
-                }
-                else this.validName = true;
+                this.valid_new_creative.name = this.new_creative.name.lenght < 4 ? false : true;
+                if(!this.valid_new_creative.name) return ['Too short'];
             },
 
             heightRules() {
-                var dimensions = ['This must be filled in'];
-
-                if(this.creativeAttributes.h == '') {
-                    this.validHeight = false;
-                    return dimensions;
-                }
-                else {
-                    this.validHeight = true;
-                }
+                this.valid_new_creative.h = this.new_creative.h == '' ? false : true;
+                if(!this.valid_new_creative.h) return ['This must be filled in'];
             },
 
             widthRules() {
-                var dimensions = ['This must be filled in'];
-
-                if(this.creativeAttributes.w == '') {
-                    this.validWidth = false;
-                    return dimensions;
-                }
-                else {
-                    this.validWidth = true;
-                }
+                this.valid_new_creative.w = this.new_creative.w == '' ? false : true;
+                if(!this.valid_new_creative.w) return ['This must be filled in'];
             },
 
             folderRules() {
-                var folder = ['folder must be selected'];
-                if(this.folderId == '') {
-                    this.validFolder = false;
-                    return folder;
-                }
-                else this.validFolder = true;
+                this.valid_new_creative.folder = this.new_creative.folder == '' ? false : true;
+                if(!this.valid_new_creative.folder) return ['folder must be selected'];
             },
 
             classRules() {
-                var crClass = ['must be selected'];
-                if(this.creativeAttributes.class == '') {
-                    this.validClass = false;
-                    return crClass;
-                }
-                else this.validClass = true;
-            },
-
-            getFolders() {
-                this.folders = [];
-                this.folderLoader = true;
-                axios.get(this.$root.uri + '/creatives/folders', this.$root.config).then(response => {
-
-                    this.folders = response.data;
-                    this.folderLoader = false;
-                }, error => {
-                    this.folderLoader = false;
-
-                    this.$root.showAlertPopUp('error', 'Error fetching folders.');
-                });
+                this.valid_new_creative.class = this.new_creative.class == '' ? false : true;
+                if(!this.valid_new_creative.class) return ['must be selected'];
             },
 
             dropzoneMaker() {
@@ -711,11 +785,10 @@
                 this.dropzone.on("addedfile", function(file, thumb) {
                     var sizeInterval = setInterval(function () {
                         if(typeof file.width != 'undefined') {
-                            console.log(file);
-                            this.validFile = true;
-                            this.checkFileUploaded = 'uploaded';
+                            this.valid_new_creative.file = true;
+                            this.new_file_status = 'uploaded';
 
-                            this.creativeAttributes = {
+                            this.new_creative = {
                                 w: file.width,
                                 h: file.height,
                                 name: file.name.slice(0,file.name.lastIndexOf('.')),
@@ -729,97 +802,74 @@
                 }.bind(this));
 
                 this.dropzone.on("thumbnail", function(file, thumb) {
-                    this.thumb = thumb;
+                    this.new_creative.thumbnail = thumb;
                 }.bind(this));
             },
 
-            openFolder(folderObj) {
-                this.creativesLoader = true;
-                this.currentFolder = folderObj;
-                this.getFolderCreatives(folderObj.id);
-                this.folderId = this.currentFolder.key;
-            },
-
-            checkDimensions() {
-                var iabs = this.creativeIAB;
-                var dimension = this.dimension;
-                var check = 0;
-                for(var iab in iabs) {
-                    if(dimension == iabs[iab]) {
-                        check = check + 1;
-                    }
-                }
-                if (check > 0) {
-                    return true;
-                }
-                else {
-                    return false
-                }
+            openFolder(folder) {
+                this.creatives_table_loading = true;
+                this.current_folder = folder;
+                this.getFolderCreatives(folder.id);
             },
 
             closeFolder() {
-                this.currentFolder = {};
+                this.current_folder = {};
                 this.creatives = {};
-                this.folderId = 0;
             },
 
-            deleteFolder(folderId, folderName) {
-                this.folderLoader = true;
-                axios.delete(this.$root.uri + '/creatives/folders/' + folderId, this.$root.config).then(response => {
-                    this.$root.showAlertPopUp('success', 'You have successfully deleted ' + folderName + '.');
-                    this.getFolders();
-                }, error => {
-                    this.$root.showAlertPopUp('error', 'Something went wrong.');
-                    this.getFolders();
-                });
+            deleteCreative(creative_id, creative_name) {
+                this.creatives_table_loading = true;
+
+                axios.delete(
+                    this.$root.uri + '/creatives/' + creative_id, 
+                    this.$root.config
+                ).then(response => {
+                        this.$root.showAlertPopUp('success', 'You have successfully deleted ' + creative_name + '.');
+                        this.getFolderCreatives(this.current_folder.id);
+                    }, error => {
+                        this.$root.showAlertPopUp('error', 'Something went wrong.');
+                        this.getFolderCreatives(this.current_folder.id);
+                    }
+                );
             },
 
-            deleteCreative(creativeId, creativeName) {
-                this.creativesLoader = true;
-                axios.delete(this.$root.uri + '/creatives/' + creativeId, this.$root.config).then(response => {
-                    this.$root.showAlertPopUp('success', 'You have successfully deleted ' + creativeName + '.');
-                    this.getFolderCreatives(this.currentFolder.id);
-                }, error => {
-                    this.$root.showAlertPopUp('error', 'Something went wrong.');
-                    this.getFolderCreatives(this.currentFolder.id);
-                });
-            },
+            getFolderCreatives(folder_id) {
+                this.creatives_table_loading = true; 
 
-            getFolderCreatives(folderId) {
-                axios.get(this.$root.uri + '/creatives/folders/' + folderId, this.$root.config).then(response => {
-                    this.creatives = response.data;
-                    this.creativesLoader = false;
-                }, error => {
-                    this.creativesLoader = false;
-
-                    this.$root.showAlertPopUp('error', 'Something went wrong.');
-                });
-            },
-
-            openCreative(src) {
-                window.open(src);
+                axios.get(
+                    this.$root.uri + '/creatives/folders/' + folder_id, 
+                    this.$root.config
+                ).then(response => {
+                        this.creatives = this.changeFoldersAndCreativesData(response.data.data);
+                        this.creatives_table_loading = false;
+                    }, error => {
+                        this.creatives_table_loading = false;
+                        this.$root.showAlertPopUp('error', 'Something went wrong.');
+                    }
+                );
             },
 
             clearUploadModal() {
                 this.dropzone.removeAllFiles(true);
-                this.creativeAttributes.name = '';
-                this.creativeAttributes.url = '';
-                this.creativeAttributes.w = 0;
-                this.creativeAttributes.h = 0;
-                this.creativeAttributes.responsive = 0;
-                this.creativeAttributes.class = 'banner';            
+                this.new_creative.name = '';
+                this.new_creative.url = '';
+                this.new_creative.w = 0;
+                this.new_creative.h = 0;
+                this.new_creative.responsive = 0;
+                this.new_creative.class = 'banner'; 
+                this.new_creative.folder = '';            
             },
 
             uploadCreative() {
                 this.dropzone.options.params = {
-                    folder_id: this.folderId,
-                    name: this.creativeAttributes.name,
-                    ctrurl: this.creativeAttributes.url,
-                    w: this.creativeAttributes.w,
-                    h: this.creativeAttributes.h,
-                    responsive: this.creativeAttributes.responsive,
-                    class: this.creativeAttributes.class,
-                    thumb: this.thumb
+                    folder_id: this.new_creative.folder,
+                    name: this.new_creative.name,
+                    ctrurl: this.new_creative.url,
+                    w: this.new_creative.w,
+                    h: this.new_creative.h,
+                    responsive: this.new_creative.responsive,
+                    class: this.new_creative.class,
+                    thumb: this.new_creative.thumbnail
                 };
                 this.dropzone.processQueue();
 
@@ -827,23 +877,23 @@
                         if (file.status == 'success') {
 
                             this.clearUploadModal();
-                            this.checkFileUploaded = 'empty';
-                            this.loading = false;
+                            this.new_file_status = 'empty';
+                            this.new_creative_button_loading = false;
                             this.showModal = false;
                             this.showModalDimensionsCheck = false;
 
                             this.$root.showAlertPopUp('success', 'Uploaded successfully');
 
-                            if(typeof this.currentFolder.id == 'string') {
-                                this.getFolderCreatives(this.currentFolder.id);
+                            if(typeof this.current_folder.id == 'string') {
+                                this.getFolderCreatives(this.current_folder.id);
                             } else {
                                 this.getFolders();
                             }
                         }
                         else {
                             this.clearUploadModal();
-                            this.checkFileUploaded = 'empty';
-                            this.loading = false;
+                            this.new_file_status = 'empty';
+                            this.new_creative_button_loading = false;
                             this.showModal = false;
                             this.showModalDimensionsCheck = false;
 
@@ -852,24 +902,20 @@
                     }.bind(this));
             },
 
-            storeNewFolder() {
-                var payload = {name: this.newFolder, status: 0};
-
-                if (this.newFolder.name == '') {
-                    swal('Error', 'Folder name can\'t be empty', 'error');
-                    throw 'Missing folder name';
-                }
-
-                axios.post(this.$root.uri + '/creatives/folders', payload, this.$root.config).then(response => {
-                    this.getFolders();
-                    this.currentFolder = {};
-                    this.createFolderFlag = false;
-
-                    this.$root.showAlertPopUp('success', 'You have successfully created a new folder.');
-                }, error => {
-
-                    this.$root.showAlertPopUp('error', 'Error creating folder.');
-                });
+            createNewFolder() {
+                axios.post(
+                    this.$root.uri + '/creatives/folders', 
+                    this.new_folder, 
+                    this.$root.config
+                ).then(response => {
+                        this.getFolders();
+                        this.current_folder = {};
+                        this.createFolderFlag = false;
+                        this.$root.showAlertPopUp('success', 'You have successfully created a new folder.');
+                    }, error => {
+                        this.$root.showAlertPopUp('error', 'Error creating folder.');
+                    }
+                );
             }
         },
 
@@ -877,49 +923,34 @@
 
             filteredCreatives() {
                 var self = this;
-                return this.folderCreatives.filter(creative => 
-                    creative.id.name.toLowerCase().includes(self.search.toLowerCase())
+                return this.creatives.filter(creative => 
+                    creative.name.toLowerCase().includes(self.search_creatives_and_folders.toLowerCase())
                 );
             },
 
             filteredFolders() {
                 var self = this;
-                return this.trueFolders.filter(folder => 
-                    folder.id.name.toLowerCase().includes(self.search.toLowerCase())
+                return this.folders.filter(folder => 
+                    folder.name.toLowerCase().includes(self.search_creatives_and_folders.toLowerCase())
                 );
             },
             
-            dimension() {
-                return this.creativeAttributes.w + 'x' + this.creativeAttributes.h;
+            dimensions() {
+                return this.new_creative.w + 'x' + this.new_creative.h;
             }
         },
 
         filters: {
-            uppercase: function (v) {
-                return v.toUpperCase();
+            uppercase(value) {
+                return value.toUpperCase();
             }
         },
 
 
         watch: {
-
             token(value) {
-
-                if (typeof value != 'undefined') {
-                    this.getFolders();
-                }
-
+                this.getFolders();
             },
-            responsiveData(value) {
-                this.creativeAttributes.responsive = value;
-            },
-
-            folders(value) {
-                this.defineFolders();
-            },
-            creatives(value) {
-                this.defineCreatives();
-            }
         }
     }
 </script>

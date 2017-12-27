@@ -54,22 +54,16 @@
                     </v-chip>
                 </v-flex>
                 <v-flex xs12 md6>
-                    <v-layout 
-                    row 
-                    wrap 
-                    justify-space-between
-                    >
-                        <v-flex xs8 md4>
-                            
-                        </v-flex>
+                    <v-layout row wrap>
+                        <v-spacer></v-spacer>
                         <v-flex xs12 md5 lg5>
                             <v-text-field 
-                                single-line 
-                                hide-details 
-                                class="right"
-                                label="Search..."
-                                append-icon="search"
-                                v-model="search_campaigns">
+                            single-line 
+                            hide-details 
+                            class="right"
+                            label="Search..."
+                            append-icon="search"
+                            v-model="search_campaigns">
                             </v-text-field>
                         </v-flex>
                     </v-layout>
@@ -169,14 +163,13 @@
                         class="grey--text" 
                         @click="deleteCampaign(props.item)"
                         >
-                            <v-icon>
-                                delete
-                            </v-icon>
+                            <v-icon>delete</v-icon>
                         </v-btn>
                         <tk-confirm
                         v-else
                         :icon="'archive'"
                         :data = "props.item"
+                        :iconButton="true"
                         :loading="props.item.delete_button_loading"
                         @confirmation= "archiveCampaign(props.item)"
                         >
