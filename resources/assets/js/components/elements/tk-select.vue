@@ -1,6 +1,6 @@
 <template>
         <v-card class="tk-select pa-1 elevation-0 grey lighten-4" height="85px" @click="toggleClick()">
-            <div class="tk-select-wrapper" @mouseenter="toggleHover()" @mouseleave="toggleHover()" v-bind:class="{active: 
+            <div class="tk-select-wrapper" @mouseenter="toggleHover()" @mouseleave="toggleHover()" v-bind:class="{active:
                 checked, hovered: hovering }">         
                 <v-icon large :class="textColor">{{ icon }}</v-icon>  
                 <v-checkbox :input-value="checked" :true-value="trueValue" :false-value="falseValue" class="tk-select-checkbox" color="orange darken-4"></v-checkbox>

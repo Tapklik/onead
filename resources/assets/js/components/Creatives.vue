@@ -576,6 +576,7 @@
                             </template>
                         </v-data-table>
                     </v-flex>
+                    
                     <!-- PREVIEW START -->
                     <v-flex xs12 md3 class="valign-wrapper mt-4">
                         <v-card class="elevation-0 left-border pl-3" height="500px">

@@ -40,7 +40,12 @@
                                         v-model="date_from"
                                         slot="activator"
                                         ></v-text-field>
-                                        <v-date-picker v-model="date_from" no-title scrollable autosave></v-date-picker>
+                                        <v-date-picker 
+                                        v-model="date_from" 
+                                        no-title 
+                                        scrollable 
+                                        autosave
+                                        ></v-date-picker>
                                     </v-dialog>
                                 </v-flex>
                                 <v-spacer></v-spacer>
@@ -54,7 +59,12 @@
                                         v-model="date_to"
                                         slot="activator"
                                         ></v-text-field>
-                                        <v-date-picker v-model="date_to" no-title scrollable autosave></v-date-picker>
+                                        <v-date-picker 
+                                        v-model="date_to" 
+                                        no-title 
+                                        scrollable 
+                                        autosave
+                                        ></v-date-picker>
                                     </v-dialog>
                                 </v-flex>
                             </v-layout>
@@ -62,12 +72,23 @@
                         <v-spacer></v-spacer>
                         <v-flex xs12 md4 lg3>
                             <v-layout>
+
                                 <v-flex xs12 md6>
-                                    <v-select :items="stats" prepend-icon="insert_chart" v-model="column" label="Column"></v-select>
+                                    <v-select 
+                                    :items="stats" 
+                                    prepend-icon="insert_chart" 
+                                    v-model="column" 
+                                    label="Column"
+                                    ></v-select>
                                 </v-flex>
                                 <v-spacer></v-spacer>
                                 <v-flex xs12 md6>
-                                    <v-select :items="stats" prepend-icon="show_chart" v-model="line" label="Line"></v-select>
+                                    <v-select 
+                                    :items="stats" 
+                                    prepend-icon="show_chart" 
+                                    v-model="line" 
+                                    label="Line"
+                                    ></v-select>
                                 </v-flex>
                             </v-layout>
                         </v-flex>
@@ -77,64 +98,28 @@
                 <v-card-text>
                     <v-layout row wrap>
                         <v-flex xs12>
-                            <v-menu offset-y :close-on-content-click='false'>
-                                <v-btn white flat slot="activator">
-                                    <v-icon>important_devices</v-icon> 
-                                    <span style="margin-left:10px;">CAMPAIGNS</span>
-                                    <v-icon>arrow_drop_down</v-icon>
-                                </v-btn>
-                                <v-list>
-                                    <!-- <v-layout row wrap pb-3 pl-3 pr-3>
-                                        <v-text-field 
-                                        single-line 
-                                        hide-details 
-                                        class="right"
-                                        label="Search..."
-                                        append-icon="search"
-                                        v-model="searchCampaigns">
-                                        </v-text-field>
-                                    </v-layout>
-                                    <v-divider></v-divider> -->
-                                    <v-list-tile v-for="campaign in filteredCampaigns" :key="campaign.id">
-                                        <v-list-tile-action>
-                                            <v-checkbox :value="campaign.id" v-model="selectedCampaigns1"></v-checkbox>
-                                        </v-list-tile-action>
-                                        <v-list-tile-content>
-                                            <v-list-tile-title v-html="campaign.name"></v-list-tile-title>
-                                            <v-list-tile-sub-title v-html="campaign.id"></v-list-tile-sub-title>
-                                        </v-list-tile-content>
-                                    </v-list-tile>
-                                </v-list>
-                            </v-menu>
-                            <v-menu offset-y :close-on-content-click='false'>
-                                <v-btn :disabled="!campaignsPresent" white flat slot="activator">
-                                    <v-icon>crop_original</v-icon> 
-                                    <span style="margin-left: 10px;">CREATIVES</span>
-                                    <v-icon>arrow_drop_down</v-icon>
-                                </v-btn>
-                                <v-list>
-                                    <!-- <v-layout row wrap pb-3 pl-3 pr-3>
-                                        <v-text-field 
-                                        single-line 
-                                        hide-details 
-                                        class="right"
-                                        label="Search..."
-                                        append-icon="search"
-                                        v-model="searchCreatives">
-                                        </v-text-field>
-                                    </v-layout>
-                                    <v-divider></v-divider> -->
-                                    <v-list-tile v-for="creative in creativesList" :key="creative.id">
-                                        <v-list-tile-action>
-                                            <v-checkbox :value="creative.id" v-model="selectedCreatives1"></v-checkbox>
-                                        </v-list-tile-action>
-                                        <v-list-tile-content>
-                                            <v-list-tile-title v-html="creative.name"></v-list-tile-title>
-                                            <v-list-tile-sub-title v-html="creative.id"></v-list-tile-sub-title>
-                                        </v-list-tile-content>
-                                    </v-list-tile>
-                                </v-list>
-                            </v-menu>
+                            <tk-filter
+                            leftIcon="important_devices"
+                            buttonText="Campaigns"
+                            :items="filteredCampaigns"
+                            keyValue="id"
+                            subTitle="id"
+                            title="name"
+                            value="id"
+                            :selection="selectedCampaigns1"
+                            @changeSelection="selectedCampaigns1 = $event"
+                            ></tk-filter>
+                            <tk-filter
+                            leftIcon="crop_original"
+                            buttonText="Creatives"
+                            :items="creativesList"
+                            keyValue="id"
+                            subTitle="id"
+                            title="name"
+                            value="id"
+                            :selection="selectedCreatives1"
+                            @changeSelection="selectedCreatives1 = $event"
+                            ></tk-filter>
                             <v-chip @input="removeChip('selectedCampaigns1'), removeChip('selectedCreatives1')" close v-show="selectedCampaigns1 != ''">
                                 <b>Campaigns: &nbsp;</b>
                                 {{chipContent(campaignNames, 60)}}
@@ -150,7 +135,10 @@
             </v-card>
             <v-tabs-items>
                 <v-tabs-content id="overall-tab">
-                    <reporting-tab graph="chart_overall" :summary="responseOverallSummary"></reporting-tab>
+                    <reporting-tab 
+                    graph="chart_overall" 
+                    :summary="responseOverallSummary"
+                    ></reporting-tab>
                 </v-tabs-content>
                 <v-tabs-content id="publisher-tab">
                     <v-card>
@@ -158,13 +146,25 @@
                             <v-container fluid grid-list-md>
                                 <v-layout row wrap>
                                     <v-flex xs12 md4 lg2>
-                                        <v-select :items="publisherList" item-text="site" item-value="site" chips v-model="selectedPublishers1" label="Publisher Sites" multiple autocomplete></v-select>
+                                        <v-select 
+                                        :items="publisherList" 
+                                        item-text="site" 
+                                        item-value="site" 
+                                        chips 
+                                        v-model="selectedPublishers1" 
+                                        label="Publisher Sites" 
+                                        multiple 
+                                        autocomplete
+                                        ></v-select>
                                     </v-flex>
                                 </v-layout>
                             </v-container>
                         </v-card-text>
                     </v-card>
-                    <reporting-tab graph="chart_publisher" :summary="responsePublishersSummary"></reporting-tab>
+                    <reporting-tab 
+                    graph="chart_publisher" 
+                    :summary="responsePublishersSummary"
+                    ></reporting-tab>
                 </v-tabs-content>
                 <v-tabs-content id="devices-tab">
                     <v-card>
@@ -172,48 +172,36 @@
                             <v-container fluid grid-list-md>
                                 <v-layout row wrap>
                                     <v-flex sm12>
-                                        <v-menu offset-y :close-on-content-click='false'>
-                                            <v-btn white flat slot="activator">
-                                                <v-icon>filter_list</v-icon> DEVICE
-                                                <v-icon>arrow_drop_down</v-icon>
-                                            </v-btn>
-                                            <v-list style="max-height: 200px">
-                                                <v-list-tile v-for="device in technologiesList.devices" :key="device.type">
-                                                    <v-list-tile-action>
-                                                        <v-checkbox :value="device.type" v-model="selectedDevicesTypes1"></v-checkbox>
-                                                    </v-list-tile-action>
-                                                    <v-list-tile-title>{{ device.type }}</v-list-tile-title>
-                                                </v-list-tile>
-                                            </v-list>
-                                        </v-menu>
-                                        <v-menu offset-y :close-on-content-click='false'>
-                                            <v-btn white flat slot="activator">
-                                                <v-icon>filter_list</v-icon> DEVICE UA
-                                                <v-icon>arrow_drop_down</v-icon>
-                                            </v-btn>
-                                            <v-list style="max-height: 200px">
-                                                <v-list-tile v-for="device in technologiesList.browsers" :key="device.type">
-                                                    <v-list-tile-action>
-                                                        <v-checkbox :value="device.type" v-model="selectedDevicesUa1"></v-checkbox>
-                                                    </v-list-tile-action>
-                                                    <v-list-tile-title>{{ device.type }}</v-list-tile-title>
-                                                </v-list-tile>
-                                            </v-list>
-                                        </v-menu>
-                                        <v-menu offset-y :close-on-content-click='false'>
-                                            <v-btn white flat slot="activator">
-                                                <v-icon>filter_list</v-icon> DEVICE OS
-                                                <v-icon>arrow_drop_down</v-icon>
-                                            </v-btn>
-                                            <v-list style="max-height: 200px">
-                                                <v-list-tile v-for="device in technologiesList.operatingsystems" :key="device.type">
-                                                    <v-list-tile-action>
-                                                        <v-checkbox :value="device.type" v-model="selectedDevicesOs1"></v-checkbox>
-                                                    </v-list-tile-action>
-                                                    <v-list-tile-title>{{ device.type }}</v-list-tile-title>
-                                                </v-list-tile>
-                                            </v-list>
-                                        </v-menu>
+                                        <tk-filter
+                                        leftIcon="filter_list"
+                                        buttonText="Device"
+                                        :items="technologiesList.devices"
+                                        keyValue="type"
+                                        title="type"
+                                        value="type"
+                                        :selection="selectedDevicesTypes1"
+                                        @changeSelection="selectedDevicesTypes1 = $event"
+                                        ></tk-filter>
+                                        <tk-filter
+                                        leftIcon="filter_list"
+                                        buttonText="Device UA"
+                                        :items="technologiesList.browsers"
+                                        keyValue="type"
+                                        title="type"
+                                        value="type"
+                                        :selection="selectedDevicesUa1"
+                                        @changeSelection="selectedDevicesUa1 = $event"
+                                        ></tk-filter>
+                                        <tk-filter
+                                        leftIcon="filter_list"
+                                        buttonText="Device OS"
+                                        :items="technologiesList.operatingsystems"
+                                        keyValue="type"
+                                        title="type"
+                                        value="type"
+                                        :selection="selectedDevicesOs1"
+                                        @changeSelection="selectedDevicesOs1 = $event"
+                                        ></tk-filter>
                                         <v-chip @input="removeChip('selectedDevicesTypes1')" close v-show="selectedDevicesTypes1 != ''">
                                             <b>Types: &nbsp;</b>
                                             {{chipContent(selectedDevicesTypes1, 10)}}
@@ -239,20 +227,16 @@
                             <v-container fluid grid-list-md>
                                 <v-layout row wrap>
                                     <v-flex xs12 md4 lg2>
-                                        <v-menu offset-y :close-on-content-click='false'>
-                                            <v-btn white flat slot="activator">
-                                                <v-icon>filter_list</v-icon> Country 
-                                                <v-icon>arrow_drop_down</v-icon>
-                                            </v-btn>
-                                            <v-list style="max-height: 200px">
-                                                <v-list-tile v-for="country in countriesList" :key="country.key">
-                                                    <v-list-tile-action>
-                                                        <v-checkbox :value="country.country" v-model="selectedGeoCountries1"></v-checkbox>
-                                                    </v-list-tile-action>
-                                                    <v-list-tile-title>{{ country.country_name }}</v-list-tile-title>
-                                                </v-list-tile>
-                                            </v-list>
-                                        </v-menu>
+                                        <tk-filter
+                                        leftIcon="filter_list"
+                                        buttonText="Country"
+                                        :items="countriesList"
+                                        keyValue="key"
+                                        title="country_name"
+                                        value="country"
+                                        :selection="selectedGeoCountries1"
+                                        @changeSelection="selectedGeoCountries1 = $event"
+                                        ></tk-filter>
                                         <v-chip @input="removeChip('selectedGeoCountries1')" close v-show="selectedGeoCountries1 != ''">
                                             <b>Countries: &nbsp;</b>
                                             {{chipContent(selectedGeoCountries1, 10)}}
