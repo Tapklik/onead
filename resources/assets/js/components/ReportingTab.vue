@@ -76,7 +76,38 @@
 
 <script>
 export default {
-    props: ['summary', 'graph']
+    props: ['summary', 'graph','tabIndex', 'currentTab'],
+
+    data() {
+        return {
+            tabs: {
+                overall: 'reportOverall',
+                publishers: 'reportPublishers',
+                devices: 'reportDevices',
+                geo: 'reportGeo'
+            },
+
+            hello: {
+                response: [],
+                responseSummary: {},
+                report: ''
+            }
+        }
+    },
+
+    methods: {
+        getData() {
+            var length = this.tabIndex.length;
+            var tabIndex = this.tabIndex.slice(0, length - 4);
+            this.hello.report = this.tabs[tabIndex];
+        }
+    },
+
+    watch: {
+        tabIndex(value) {
+            this.getData();
+            value = this.currentTab ? this.$emit('changeData', this.hello.report) : '';
+        }
+    }
 }
-    
 </script>

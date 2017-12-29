@@ -639,6 +639,17 @@
         
         data() {
             return {
+                //OVERALL
+                search_creatives_and_folders: '',
+                dropzone: false,
+                iab_standard_sizes: ['300x250','250x250','240x400','336x280','180x150','300x100','720x300','468x60','234x60','88x31','120x90','120x60','120x240','125x125','728x90','160x600','120x600','300x600'],
+                classes: ['banner', 'video', 'native'],
+
+                //NEW CREATIVE
+                new_file_status: 'empty',
+                new_creative_button_loading: false,
+                show_new_creative_modal: false,
+                show_confirmation_modal: false,
                 valid_new_creative: {
                     name: false,
                     h: false,
@@ -657,6 +668,21 @@
                     folder: '',
                     thumbnail: ''
                 },
+
+                //NEW FOLDER
+                show_new_folder_modal: false,
+                new_folder: {
+                    name: '',
+                    status: 0
+                },
+
+                //FOLDERS
+                folders_table_loading: true,
+                folders: [],
+
+                //CREATIVES
+                current_folder: {},
+                creatives_table_loading: true,
                 creative_preview: {
                     thumbnail: '',
                     name: '',
@@ -664,110 +690,12 @@
                     status: '',
                     dimensions: ''
                 },
-                new_folder: {
-                    name: '',
-                    status: 0
-                },
-                show_confirmation_modal: false,
-                folders_table_loading: true,
-                creatives_table_loading: true,
-                show_new_creative_modal: false,
-                show_new_folder_modal: false,
-                search_creatives_and_folders: '',
-                folders: [],
-                creatives: [],
-                dropzone: false,
-                iab_standard_sizes: ['300x250','250x250','240x400','336x280','180x150','300x100','720x300','468x60','234x60','88x31','120x90','120x60','120x240','125x125','728x90','160x600','120x600','300x600'],
-                new_file_status: 'empty',
-                classes: ['banner', 'video', 'native'],
-                current_folder: {},
-                new_creative_button_loading: false
+                creatives: []
             }
         },
 
         methods: {
-
-            getFolders() {
-                this.folders_table_loading = true;
-
-                axios.get(
-                    this.$root.uri + '/creatives/folders', 
-                    this.$root.config
-                ).then(response => {
-                        this.folders = this.changeFoldersAndCreativesData(response.data.data);
-                        this.folders_table_loading = false;
-                    }, error => {
-                        this.folders_table_loading = false;
-                        this.$root.showAlertPopUp('error', 'Error fetching folders.');
-                    }
-                );
-            },
-
-            deleteFolder(folder_id, folder_name) {
-                this.folders_table_loading = true;
-
-                axios.delete(
-                    this.$root.uri + '/creatives/folders/' + folder_id, 
-                    this.$root.config
-                ).then(response => {
-                        this.folders_table_loading = false;
-                        this.$root.showAlertPopUp('success', 'You have successfully deleted ' + folder_name + '.');
-                        this.getFolders();
-                    }, error => {
-                        this.folders_table_loading = false;
-                        this.$root.showAlertPopUp('error', 'Something went wrong.');
-                        this.getFolders();
-                    }
-                );
-            },
-
-            changeFoldersAndCreativesData(data) {
-                for(var index in data) Vue.set(data[index], 'show_modal', false); //add datapoint
-                return data;
-            },
-
-            togglePreview(creative, show) {
-                this.creative_preview.thumbnail = creative && show ? creative.thumb : '';
-                this.creative_preview.name = creative && show ? creative.name : 'Creative';
-                this.creative_preview.class = creative && show ? creative.class : 'Class';
-                this.creative_preview.status = creative && show ? creative.approved : 'Status';
-                this.creative_preview.dimensions = creative && show ? creative.w + 'x' + creative.h : '0x0';
-            },
-
-            validCreative() {
-                var keys = Object.keys(this.valid_new_creative);
-                return keys.every(key => this.valid_new_creative[key] == true);
-            },
-            
-            checkFile() {
-                if(this.new_file_status != 'uploaded') this.new_file_status = 'nofile';
-            },
-
-            creativeNameRules() {
-                this.valid_new_creative.name = this.new_creative.name.lenght < 4 ? false : true;
-                if(!this.valid_new_creative.name) return ['Too short'];
-            },
-
-            heightRules() {
-                this.valid_new_creative.h = this.new_creative.h == '' ? false : true;
-                if(!this.valid_new_creative.h) return ['This must be filled in'];
-            },
-
-            widthRules() {
-                this.valid_new_creative.w = this.new_creative.w == '' ? false : true;
-                if(!this.valid_new_creative.w) return ['This must be filled in'];
-            },
-
-            folderRules() {
-                this.valid_new_creative.folder = this.new_creative.folder == '' ? false : true;
-                if(!this.valid_new_creative.folder) return ['folder must be selected'];
-            },
-
-            classRules() {
-                this.valid_new_creative.class = this.new_creative.class == '' ? false : true;
-                if(!this.valid_new_creative.class) return ['must be selected'];
-            },
-
+            //ESSENTIALS
             dropzoneMaker() {
                 if (this.dropzone !== false) return;
 
@@ -807,6 +735,124 @@
                 }.bind(this));
             },
 
+            changeFoldersAndCreativesData(data) {
+                for(var index in data) Vue.set(data[index], 'show_modal', false); //add datapoint
+                return data;
+            },
+
+            //NEW CREATIVE
+            uploadCreative() {
+                this.dropzone.options.params = {
+                    folder_id: this.new_creative.folder,
+                    name: this.new_creative.name,
+                    ctrurl: this.new_creative.url,
+                    w: this.new_creative.w,
+                    h: this.new_creative.h,
+                    responsive: this.new_creative.responsive,
+                    class: this.new_creative.class,
+                    thumb: this.new_creative.thumbnail
+                };
+                this.dropzone.processQueue();
+
+                this.dropzone.on("complete", function (file) {
+                    if (file.status == 'success') {
+
+                        this.clearUploadModal();
+                        this.new_file_status = 'empty';
+                        this.new_creative_button_loading = false;
+                        this.showModal = false;
+                        this.showModalDimensionsCheck = false;
+
+                        if(file.status != 'success') {
+                            this.$root.showAlertPopUp('error', 'Error uploading the creative.');
+                        }
+                        else {
+                            this.$root.showAlertPopUp('success', 'Uploaded successfully');
+                            if(this.current_folder.id) this.getFolderCreatives(this.current_folder.id);
+                        }
+                    }
+                }.bind(this));
+            },
+
+            clearUploadModal() {
+                this.dropzone.removeAllFiles(true);
+                this.new_creative.name = '';
+                this.new_creative.url = '';
+                this.new_creative.w = 0;
+                this.new_creative.h = 0;
+                this.new_creative.responsive = 0;
+                this.new_creative.class = 'banner'; 
+                this.new_creative.folder = '';            
+            },
+
+            validCreative() {
+                var keys = Object.keys(this.valid_new_creative);
+                return keys.every(key => this.valid_new_creative[key] == true);
+            },
+
+            checkFile() {
+                if(this.new_file_status != 'uploaded') this.new_file_status = 'nofile';
+            },
+
+            creativeNameRules() {
+                this.valid_new_creative.name = this.new_creative.name.lenght < 4 ? false : true;
+                if(!this.valid_new_creative.name) return ['Too short'];
+            },
+
+            heightRules() {
+                this.valid_new_creative.h = this.new_creative.h == '' ? false : true;
+                if(!this.valid_new_creative.h) return ['This must be filled in'];
+            },
+
+            widthRules() {
+                this.valid_new_creative.w = this.new_creative.w == '' ? false : true;
+                if(!this.valid_new_creative.w) return ['This must be filled in'];
+            },
+
+            folderRules() {
+                this.valid_new_creative.folder = this.new_creative.folder == '' ? false : true;
+                if(!this.valid_new_creative.folder) return ['folder must be selected'];
+            },
+
+            classRules() {
+                this.valid_new_creative.class = this.new_creative.class == '' ? false : true;
+                if(!this.valid_new_creative.class) return ['must be selected'];
+            },
+
+            //NEW FOLDER
+            createNewFolder() {
+                axios.post(
+                    this.$root.uri + '/creatives/folders', 
+                    this.new_folder, 
+                    this.$root.config
+                ).then(response => {
+                        this.getFolders();
+                        this.current_folder = {};
+                        this.createFolderFlag = false;
+                        this.$root.showAlertPopUp('success', 'You have successfully created a new folder.');
+                    }, error => {
+                        this.$root.showAlertPopUp('error', 'Error creating folder.');
+                    }
+                );
+            },
+
+            //FOLDERS
+            getFolders() {
+                this.folders_table_loading = true;
+
+                axios.get(
+                    this.$root.uri + '/creatives/folders', 
+                    this.$root.config
+                ).then(response => {
+                        this.folders = this.changeFoldersAndCreativesData(response.data.data);
+                        this.folders_table_loading = false;
+                    }, error => {
+                        this.folders_table_loading = false;
+                        this.$root.showAlertPopUp('error', 'Error fetching folders.');
+                    }
+                );
+            },
+
             openFolder(folder) {
                 this.creatives_table_loading = true;
                 this.current_folder = folder;
@@ -818,22 +864,33 @@
                 this.creatives = {};
             },
 
-            deleteCreative(creative_id, creative_name) {
-                this.creatives_table_loading = true;
+            togglePreview(creative, show) {
+                this.creative_preview.thumbnail = creative && show ? creative.thumb : '';
+                this.creative_preview.name = creative && show ? creative.name : 'Creative';
+                this.creative_preview.class = creative && show ? creative.class : 'Class';
+                this.creative_preview.status = creative && show ? creative.approved : 'Status';
+                this.creative_preview.dimensions = creative && show ? creative.w + 'x' + creative.h : '0x0';
+            },
+
+            deleteFolder(folder_id, folder_name) {
+                this.folders_table_loading = true;
 
                 axios.delete(
-                    this.$root.uri + '/creatives/' + creative_id, 
+                    this.$root.uri + '/creatives/folders/' + folder_id, 
                     this.$root.config
                 ).then(response => {
-                        this.$root.showAlertPopUp('success', 'You have successfully deleted ' + creative_name + '.');
-                        this.getFolderCreatives(this.current_folder.id);
+                        this.folders_table_loading = false;
+                        this.$root.showAlertPopUp('success', 'You have successfully deleted ' + folder_name + '.');
+                        this.getFolders();
                     }, error => {
+                        this.folders_table_loading = false;
                         this.$root.showAlertPopUp('error', 'Something went wrong.');
-                        this.getFolderCreatives(this.current_folder.id);
+                        this.getFolders();
                     }
                 );
             },
 
+            //CREATIVES
             getFolderCreatives(folder_id) {
                 this.creatives_table_loading = true; 
 
@@ -850,78 +907,24 @@
                 );
             },
 
-            clearUploadModal() {
-                this.dropzone.removeAllFiles(true);
-                this.new_creative.name = '';
-                this.new_creative.url = '';
-                this.new_creative.w = 0;
-                this.new_creative.h = 0;
-                this.new_creative.responsive = 0;
-                this.new_creative.class = 'banner'; 
-                this.new_creative.folder = '';            
-            },
+            deleteCreative(creative_id, creative_name) {
+                this.creatives_table_loading = true;
 
-            uploadCreative() {
-                this.dropzone.options.params = {
-                    folder_id: this.new_creative.folder,
-                    name: this.new_creative.name,
-                    ctrurl: this.new_creative.url,
-                    w: this.new_creative.w,
-                    h: this.new_creative.h,
-                    responsive: this.new_creative.responsive,
-                    class: this.new_creative.class,
-                    thumb: this.new_creative.thumbnail
-                };
-                this.dropzone.processQueue();
-
-                    this.dropzone.on("complete", function (file) {
-                        if (file.status == 'success') {
-
-                            this.clearUploadModal();
-                            this.new_file_status = 'empty';
-                            this.new_creative_button_loading = false;
-                            this.showModal = false;
-                            this.showModalDimensionsCheck = false;
-
-                            this.$root.showAlertPopUp('success', 'Uploaded successfully');
-
-                            if(typeof this.current_folder.id == 'string') {
-                                this.getFolderCreatives(this.current_folder.id);
-                            } else {
-                                this.getFolders();
-                            }
-                        }
-                        else {
-                            this.clearUploadModal();
-                            this.new_file_status = 'empty';
-                            this.new_creative_button_loading = false;
-                            this.showModal = false;
-                            this.showModalDimensionsCheck = false;
-
-                            this.$root.showAlertPopUp('error', 'Error uploading the creative.');
-                        }
-                    }.bind(this));
-            },
-
-            createNewFolder() {
-                axios.post(
-                    this.$root.uri + '/creatives/folders', 
-                    this.new_folder, 
+                axios.delete(
+                    this.$root.uri + '/creatives/' + creative_id, 
                     this.$root.config
                 ).then(response => {
-                        this.getFolders();
-                        this.current_folder = {};
-                        this.createFolderFlag = false;
-                        this.$root.showAlertPopUp('success', 'You have successfully created a new folder.');
+                        this.$root.showAlertPopUp('success', 'You have successfully deleted ' + creative_name + '.');
+                        this.getFolderCreatives(this.current_folder.id);
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Error creating folder.');
+                        this.$root.showAlertPopUp('error', 'Something went wrong.');
+                        this.getFolderCreatives(this.current_folder.id);
                     }
                 );
-            }
+            }    
         },
 
         computed: {
-
             filteredCreatives() {
                 var self = this;
                 return this.creatives.filter(creative => 
@@ -946,7 +949,6 @@
                 return value.toUpperCase();
             }
         },
-
 
         watch: {
             token(value) {

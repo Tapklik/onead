@@ -1,7 +1,11 @@
 <template>
     <v-container fluid grid-list-md>
         <v-tabs icons v-model="tabIndex" light fixed :scrollable="false" class="elevation-2 white">
+
+            <!-- CARD START-->
             <v-card light extended class="elevation-0">
+
+                <!-- TABS START -->
                 <v-tabs-bar class="white" slot="extension">
                     <v-tabs-slider class="orange darken-3"></v-tabs-slider>
                     <v-tabs-item href="#overall-tab">
@@ -21,7 +25,11 @@
                         <span class="orange--text text--darken-3">Geo</span>
                     </v-tabs-item>
                 </v-tabs-bar>
+                <!-- TABS END -->
+                
                 <v-divider></v-divider>
+
+                <!-- BASIC FILTERS START -->
                 <v-card-text>
                     <v-layout row wrap>
                         <v-flex xs12 md5 lg4>
@@ -72,7 +80,6 @@
                         <v-spacer></v-spacer>
                         <v-flex xs12 md4 lg3>
                             <v-layout>
-
                                 <v-flex xs12 md6>
                                     <v-select 
                                     :items="stats" 
@@ -94,160 +101,214 @@
                         </v-flex>
                     </v-layout>
                 </v-card-text>
+                <!-- BASIC FILTERS END -->
+
                 <v-divider></v-divider>
+
+                <!-- CAMPAIGNS AND CREATIVES FILTER START -->
                 <v-card-text>
                     <v-layout row wrap>
-                        <v-flex xs12>
-                            <tk-filter
-                            leftIcon="important_devices"
-                            buttonText="Campaigns"
-                            :items="filteredCampaigns"
-                            keyValue="id"
-                            subTitle="id"
-                            title="name"
-                            value="id"
-                            :selection="selectedCampaigns1"
-                            @changeSelection="selectedCampaigns1 = $event"
-                            ></tk-filter>
-                            <tk-filter
-                            leftIcon="crop_original"
-                            buttonText="Creatives"
-                            :items="creativesList"
-                            keyValue="id"
-                            subTitle="id"
-                            title="name"
-                            value="id"
-                            :selection="selectedCreatives1"
-                            @changeSelection="selectedCreatives1 = $event"
-                            ></tk-filter>
-                            <v-chip @input="removeChip('selectedCampaigns1'), removeChip('selectedCreatives1')" close v-show="selectedCampaigns1 != ''">
-                                <b>Campaigns: &nbsp;</b>
-                                {{chipContent(campaignNames, 60)}}
-                            </v-chip>
-                            <v-chip @input="removeChip('selectedCreatives1')" close v-show="selectedCreatives1 != ''">
-                                <b>Creatives: &nbsp;</b>
-                                {{chipContent(creativesNames, 60)}}
-                            </v-chip>
-                        </v-flex>
+                        <tk-filter
+                        leftIcon="important_devices"
+                        buttonText="Campaigns"
+                        :items="campaigns"
+                        keyValue="id"
+                        subTitle="id"
+                        title="name"
+                        value="id"
+                        :selection="selectedCampaigns1"
+                        @changeSelection="selectedCampaigns1 = $event"
+                        ></tk-filter>
+                        <tk-filter
+                        leftIcon="crop_original"
+                        buttonText="Creatives"
+                        :items="creatives"
+                        keyValue="id"
+                        subTitle="id"
+                        title="name"
+                        value="id"
+                        :selection="selectedCreatives1"
+                        @changeSelection="selectedCreatives1 = $event"
+                        ></tk-filter>
+                        <v-chip 
+                        @input="removeChip('selectedCampaigns1'), 
+                        removeChip('selectedCreatives1')" 
+                        close 
+                        v-show="selectedCampaigns1 != ''"
+                        >
+                            <b>Campaigns: &nbsp;</b>
+                            {{chipContent(campaignNames, 60)}}
+                        </v-chip>
+                        <v-chip 
+                        @input="removeChip('selectedCreatives1')" 
+                        close 
+                        v-show="selectedCreatives1 != ''"
+                        >
+                            <b>Creatives: &nbsp;</b>
+                            {{chipContent(creativesNames, 60)}}
+                        </v-chip>
                     </v-layout>
                 </v-card-text>
+                <!-- CAMPAIGNS AND CREATIVES FILTER END -->
+
                 <v-divider></v-divider>
             </v-card>
             <v-tabs-items>
+
+                <!-- OVERALL GRAPH START-->
                 <v-tabs-content id="overall-tab">
                     <reporting-tab 
+                    :tabIndex="tabIndex"
+                    currentTab="overall-tab"
+                    @changeData="loadData($event, 'report')"
                     graph="chart_overall" 
                     :summary="responseOverallSummary"
                     ></reporting-tab>
                 </v-tabs-content>
+                <!-- OVERALL GRAPH END -->
+
+                <!-- PUBLISHER GRAPH START -->
                 <v-tabs-content id="publisher-tab">
                     <v-card>
                         <v-card-text>
                             <v-container fluid grid-list-md>
                                 <v-layout row wrap>
-                                    <v-flex xs12 md4 lg2>
-                                        <v-select 
-                                        :items="publisherList" 
-                                        item-text="site" 
-                                        item-value="site" 
-                                        chips 
-                                        v-model="selectedPublishers1" 
-                                        label="Publisher Sites" 
-                                        multiple 
-                                        autocomplete
-                                        ></v-select>
-                                    </v-flex>
+                                    <v-select 
+                                    :items="publishers" 
+                                    item-text="site" 
+                                    item-value="site" 
+                                    chips 
+                                    v-model="selectedPublishers1" 
+                                    label="Publisher Sites" 
+                                    multiple 
+                                    autocomplete
+                                    ></v-select>
                                 </v-layout>
                             </v-container>
                         </v-card-text>
                     </v-card>
                     <reporting-tab 
+                    :tabIndex="tabIndex"
+                    currentTab="publisher-tab"
+                    @changeData="loadData($event, 'report')"
                     graph="chart_publisher" 
                     :summary="responsePublishersSummary"
                     ></reporting-tab>
                 </v-tabs-content>
+                <!-- PUBLISHER GRAPH END -->
+
+                <!-- DEVICES GRAPH START -->
                 <v-tabs-content id="devices-tab">
                     <v-card>
                         <v-card-text>
                             <v-container fluid grid-list-md>
                                 <v-layout row wrap>
-                                    <v-flex sm12>
-                                        <tk-filter
-                                        leftIcon="filter_list"
-                                        buttonText="Device"
-                                        :items="technologiesList.devices"
-                                        keyValue="type"
-                                        title="type"
-                                        value="type"
-                                        :selection="selectedDevicesTypes1"
-                                        @changeSelection="selectedDevicesTypes1 = $event"
-                                        ></tk-filter>
-                                        <tk-filter
-                                        leftIcon="filter_list"
-                                        buttonText="Device UA"
-                                        :items="technologiesList.browsers"
-                                        keyValue="type"
-                                        title="type"
-                                        value="type"
-                                        :selection="selectedDevicesUa1"
-                                        @changeSelection="selectedDevicesUa1 = $event"
-                                        ></tk-filter>
-                                        <tk-filter
-                                        leftIcon="filter_list"
-                                        buttonText="Device OS"
-                                        :items="technologiesList.operatingsystems"
-                                        keyValue="type"
-                                        title="type"
-                                        value="type"
-                                        :selection="selectedDevicesOs1"
-                                        @changeSelection="selectedDevicesOs1 = $event"
-                                        ></tk-filter>
-                                        <v-chip @input="removeChip('selectedDevicesTypes1')" close v-show="selectedDevicesTypes1 != ''">
-                                            <b>Types: &nbsp;</b>
-                                            {{chipContent(selectedDevicesTypes1, 10)}}
-                                        </v-chip>
-                                        <v-chip @input="removeChip('selectedDevicesUa1')" close v-show="selectedDevicesUa1 != ''">
-                                            <b>Browsers: &nbsp;</b>
-                                            {{chipContent(selectedDevicesUa1, 10)}}
-                                        </v-chip>
-                                        <v-chip @input="removeChip('selectedDevicesOs1')" close v-show="selectedDevicesOs1 != ''">
-                                            <b>Operating Systems: &nbsp;</b>
-                                            {{chipContent(selectedDevicesOs1, 10)}}
-                                        </v-chip>
-                                    </v-flex>
+                                    <tk-filter
+                                    leftIcon="filter_list"
+                                    buttonText="Device"
+                                    :items="models"
+                                    keyValue="type"
+                                    title="type"
+                                    value="type"
+                                    :selection="selectedDevicesTypes1"
+                                    @changeSelection="selectedDevicesTypes1 = $event"
+                                    ></tk-filter>
+                                    <tk-filter
+                                    leftIcon="filter_list"
+                                    buttonText="Device UA"
+                                    :items="browsers"
+                                    keyValue="type"
+                                    title="type"
+                                    value="type"
+                                    :selection="selectedDevicesUa1"
+                                    @changeSelection="selectedDevicesUa1 = $event"
+                                    ></tk-filter>
+                                    <tk-filter
+                                    leftIcon="filter_list"
+                                    buttonText="Device OS"
+                                    :items="operating_systems"
+                                    keyValue="type"
+                                    title="type"
+                                    value="type"
+                                    :selection="selectedDevicesOs1"
+                                    @changeSelection="selectedDevicesOs1 = $event"
+                                    ></tk-filter>
+                                    <v-chip 
+                                    @input="removeChip('selectedDevicesTypes1')" 
+                                    close 
+                                    v-show="selectedDevicesTypes1 != ''"
+                                    >
+                                        <b>Types: &nbsp;</b>
+                                        {{ chipContent(selectedDevicesTypes1, 10) }}
+                                    </v-chip>
+                                    <v-chip 
+                                    @input="removeChip('selectedDevicesUa1')" 
+                                    close 
+                                    v-show="selectedDevicesUa1 != ''"
+                                    >
+                                        <b>Browsers: &nbsp;</b>
+                                        {{ chipContent(selectedDevicesUa1, 10) }}
+                                    </v-chip>
+                                    <v-chip 
+                                    @input="removeChip('selectedDevicesOs1')" 
+                                    close 
+                                    v-show="selectedDevicesOs1 != ''"
+                                    >
+                                        <b>Operating Systems: &nbsp;</b>
+                                        {{ chipContent(selectedDevicesOs1, 10) }}
+                                    </v-chip>
                                 </v-layout>
                             </v-container>
                         </v-card-text>
                     </v-card>
-                    <reporting-tab graph="chart_devices" :summary="responseDevicesSummary"></reporting-tab>
+                    <reporting-tab 
+                    :tabIndex="tabIndex"
+                    currentTab="devices-tab"
+                    @changeData="loadData($event, 'report')"
+                    graph="chart_devices" 
+                    :summary="responseDevicesSummary"
+                    ></reporting-tab>
                 </v-tabs-content>
+                <!-- DEVICES GRAPH END -->
+
+                <!-- GEO GRAPH START -->
                 <v-tabs-content id="geo-tab">
                     <v-card>
                         <v-card-text>
                             <v-container fluid grid-list-md>
                                 <v-layout row wrap>
-                                    <v-flex xs12 md4 lg2>
-                                        <tk-filter
-                                        leftIcon="filter_list"
-                                        buttonText="Country"
-                                        :items="countriesList"
-                                        keyValue="key"
-                                        title="country_name"
-                                        value="country"
-                                        :selection="selectedGeoCountries1"
-                                        @changeSelection="selectedGeoCountries1 = $event"
-                                        ></tk-filter>
-                                        <v-chip @input="removeChip('selectedGeoCountries1')" close v-show="selectedGeoCountries1 != ''">
-                                            <b>Countries: &nbsp;</b>
-                                            {{chipContent(selectedGeoCountries1, 10)}}
-                                        </v-chip>
-                                    </v-flex>
+                                    <tk-filter
+                                    leftIcon="filter_list"
+                                    buttonText="Country"
+                                    :items="countries"
+                                    keyValue="key"
+                                    title="country_name"
+                                    value="country"
+                                    :selection="selectedGeoCountries1"
+                                    @changeSelection="selectedGeoCountries1 = $event"
+                                    ></tk-filter>
+                                    <v-chip 
+                                    @input="removeChip('selectedGeoCountries1')" 
+                                    close 
+                                    v-show="selectedGeoCountries1 != ''"
+                                    >
+                                        <b>Countries: &nbsp;</b>
+                                        {{ chipContent(selectedGeoCountries1, 10) }}
+                                    </v-chip>
                                 </v-layout>
                             </v-container>
                         </v-card-text>
                     </v-card>
-                    <reporting-tab graph="chart_geo" :summary="responseGeoSummary"></reporting-tab>
+                    <reporting-tab 
+                    :tabIndex="tabIndex"
+                    currentTab="geo-tab"
+                    @changeData="loadData($event, 'report')"
+                    graph="chart_geo" 
+                    :summary="responseGeoSummary"
+                    ></reporting-tab>
                 </v-tabs-content>
+                <!-- GEO GRAPH END -->
+
             </v-tabs-items>
         </v-tabs>
     </v-container>
@@ -262,9 +323,11 @@
         },
         
         mounted() {
-            this.loadData('technologies', 'technologiesList');
-            this.loadData('countries', 'countriesList');
-            this.loadData('publishers', 'publisherList');
+            this.loadData('technologies', 'browsers', 'browsers');
+            this.loadData('technologies', 'operating_systems', 'operatingsystems');
+            this.loadData('technologies', 'models', 'devices');
+            this.loadData('countries', 'countries');
+            this.loadData('publishers', 'publishers');
             this.loadData('reportGeo', 'reportGeo');
             this.loadData('reportOverall', 'reportOverall');
             this.loadData('reportDevices', 'reportDevices');
@@ -277,11 +340,20 @@
 
         data() {
             return {
+                hello: {},
+                campaigns: [],
+                creatives: [],
+                publishers: [],
+                models: [],
+                operating_systems: [],
+                browsers: [],
+                countries: [],
+                date_from: this.getDate(-10),
+                date_to: this.getDate(0),
                 stats: ['imps', 'clicks', 'ecpc', 'ecpm', 'spend', 'ctr'],
                 line: 'imps',
                 column: 'clicks',
-                date_from: this.getDate(-10),
-                date_to: this.getDate(0),
+
                 selectedCampaigns1: [],
                 selectedCreatives1: [],
                 selectedDevicesTypes1: [],
@@ -289,51 +361,34 @@
                 selectedDevicesUa1: [],
                 selectedPublishers1: [],
                 selectedGeoCountries1: [],
-                creativesList: [],
-                technologiesList: [],
-                campaignList: [],
-                countriesList: [],
-                publisherList: [],
+
                 responseOverallList: [],
                 responsePublishersList: [],
                 responseDevicesList: [],
                 responseGeoList: [],
+                
                 responseDevicesSummary: {clicks: 0, imps: 0, spend: 0, ctr: 0, ecpm: 0, ecpc:0},
                 responsePublishersSummary: {clicks: 0, imps: 0, spend: 0, ctr: 0, ecpm: 0, ecpc:0},
                 responseOverallSummary: {clicks: 0, imps: 0, spend: 0, ctr: 0, ecpm: 0, ecpc:0},
                 responseGeoSummary: {clicks: 0, imps: 0, spend: 0, ctr: 0, ecpm: 0, ecpc:0},
+
+                report: [],
+                response: [],
+                response_summary: {clicks: 0, imps: 0, spend: 0, ctr: 0, ecpm: 0, ecpc:0},
+                
                 reportDevices: [],
                 reportGeo: [],
                 reportOverall: [],
                 reportPublishers: [],
+                
                 campaignsPresent: false,
                 campaignNames: [],
                 creativesNames: [],
-                searchCampaigns: '',
-                searchCreatives: '',
                 tabIndex: 'overall-tab'
             }
         },
         
         computed: {
-
-            filteredCampaigns() {
-
-                if(!this.campaignList) return this.campaignList;
-
-                var campaigns = this.campaignList;
-                var result = [];
-                var search = this.searchCampaigns;
-                for(var c in campaigns) {
-                    var name = campaigns[c].name.toLowerCase();
-                    var searchLower = search.toLowerCase();
-                    if(name.includes(searchLower)) {
-                        result.push(campaigns[c]);
-                    }
-                }
-                return result;    
-            },
-
             selectedPublishers() {
                 return this.selectedPackager('selectedPublishers1', 'publisher_site');
             },
@@ -357,7 +412,7 @@
             selectedCampaigns() {
                 var campaigns = [];
                 var selections = this.selectedCampaigns1;
-                var allCampaigns = this.campaignList;
+                var allCampaigns = this.campaigns;
                 var names = [];
                 for (var s in selections) {
                     for(var a in allCampaigns) {
@@ -373,7 +428,7 @@
             selectedCreatives() {
                 var creatives = [];
                 var selections = this.selectedCreatives1;
-                var allCreatives = this.creativesList;
+                var allCreatives = this.creatives;
                 var names = [];
 
                 for (var s in selections) {
@@ -431,19 +486,13 @@
                     var object = {name: objectName, value: selections[s]}
                     result.push(object)
                 }
-
                 return result
             },
 
             removeDuplicates(creatives) {
-                for(var c in creatives) {
-                    for(var d = 0; d < creatives.length-1; d++) {
-                        if(creatives[c].id == creatives[d].id && c != d) {
-                            creatives.splice(d, 1);
-                            d = c;
-                        }
-                    }
-                }
+                return creatives.filter((current_value, current_index, array) =>  
+                    array.indexOf(current_value) == current_index
+                );
             },
 
             removeChip(data) {
@@ -483,29 +532,28 @@
                     }
                 }
 
-                this.creativesList = listOfCreatives;
-                this.removeDuplicates(this.creativesList);
+                this.creatives = listOfCreatives;
+                this.removeDuplicates(this.creatives);
             },
 
             findCampaignById(id) {
-                var campaignList = this.campaignList
-                for (var c in campaignList) {
-                    if (campaignList[c].id == id) return campaignList[c] 
+                var campaigns = this.campaigns
+                for (var c in campaigns) {
+                    if (campaigns[c].id == id) return campaigns[c] 
                 }
             },
 
             fetchCampaigns() {
-
                 axios.get(this.$root.uri + '/campaigns', this.$root.config).then(response => {
-                    this.campaignList = response.data.data;
+                    this.campaigns = response.data.data;
                 }, error => {
                     this.$root.showAlertPopUp('error', 'Something went wrong.');
                 })
             },
 
-            loadData(jsonName, list) {
+            loadData(jsonName, list, technology) {
                 axios.get('/data/' + jsonName + '.json').then(response => {
-                    this[list] = response.data;
+                    technology ? this[list] = response.data[technology] : this[list] = response.data;
                 }, error => {
                     this.$root.showAlertPopUp('error', 'Something went wrong.');
                 });
@@ -719,6 +767,21 @@
             dataCall(report, responseList, responseListSummary, chart) {
                 axios.get(this.$root.reportUri + this.generateQuery(report, 'sum'))
                 .then(response => {
+                    /* var self = this;
+                    
+                    var testing = response.data.data.map(data => 
+                        {
+                            data.imps,
+                            data.clicks,
+                            self.$root.twoDecimalPlaces(data.ecpc);
+                            self.$root.twoDecimalPlaces(data.ecpm);
+                            self.$root.twoDecimalPlaces(data.ctr * 100);
+                            self.$root.twoDecimalPlaces(data.ecpc);
+                            self.$root.fromMicroDollars(data.spend);
+
+                        }
+                    );
+                    console.log(testing); */
                     var results = response.data.data;
                     for(var v in results) {
                         results[v].imps = results[v].imps;
@@ -728,14 +791,9 @@
                         results[v].ctr = this.$root.twoDecimalPlaces(results[v].ctr * 100);
                         results[v].spend = this.$root.fromMicroDollars(results[v].spend);
                     }
-                    if(results == undefined) {
-                        this[responseList] = this.startingData;
+                    console.log(results);
+                        this[responseList] = results == undefined ? this.startingData : results;
                         this.createChart(chart, this[responseList], this.column, this.line);
-                    }
-                    else {
-                        this[responseList] = results;
-                        this.createChart(chart, this[responseList], this.column, this.line);
-                    }
                 }, error => {
                     this[responseList] = this.startingData;
                     this.createChart(chart, this[responseList], this.column, this.line);

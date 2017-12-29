@@ -29,26 +29,49 @@
             </v-stepper-header>
             <v-divider></v-divider>
             <v-stepper-content step="1">
-                <v-alert dismissible v-bind:success='$root.alert.success' v-bind:error='$root.alert.error' v-model="$root.alert.alert" transition="scale-transition">{{$root.alert.alertMessage}}</v-alert>
-                <campaign-details :campaign="campaign" :state="stateReady"
+                <campaign-details 
+                :campaign="campaign" 
+                :state="stateReady"
                 :startTime="campaign.start_time"
-                :endTime="campaign.end_time"></campaign-details>
+                :endTime="campaign.end_time"
+                ></campaign-details>
             </v-stepper-content>
             <v-stepper-content step="2">
-                <v-alert dismissible v-bind:success='$root.alert.success' v-bind:error='$root.alert.error' v-model="$root.alert.alert" transition="scale-transition">{{$root.alert.alertMessage}}</v-alert>
-                <campaign-categories :campaign="campaign" :selectedCategories="selectedCategories" :state="stateReady"></campaign-categories>
+                <campaign-categories 
+                :campaign="campaign" 
+                :selectedCategories="selectedCategories" 
+                :state="stateReady"
+                ></campaign-categories>
             </v-stepper-content>
             <v-stepper-content step="3">
-                <v-alert dismissible v-bind:success='$root.alert.success' v-bind:error='$root.alert.error' v-model="$root.alert.alert" transition="scale-transition">{{$root.alert.alertMessage}}</v-alert>
-               <campaign-creatives :user="user" :token="token" :campaign="campaign"></campaign-creatives>
+               <campaign-creatives 
+               :user="user" 
+               :token="token" 
+               :campaign="campaign"
+               ></campaign-creatives>
             </v-stepper-content>
             <v-stepper-content step="4">
-                <v-alert dismissible v-bind:success='$root.alert.success' v-bind:error='$root.alert.error' v-model="$root.alert.alert" transition="scale-transition">{{$root.alert.alertMessage}}</v-alert>
-                <campaign-targeting :campaign="campaign" :selectedUa="selectedUa" :selectedOs="selectedOs" :selectedDevices="selectedDevices" :state="stateReady"></campaign-targeting>
+                <campaign-targeting 
+                :campaign="campaign" 
+                :selectedUa="selectedUa" 
+                :selectedOs="selectedOs" 
+                :selectedDevices="selectedDevices" 
+                :state="stateReady"
+                ></campaign-targeting>
             </v-stepper-content>
             <v-stepper-content step="5">
-                <v-alert dismissible v-bind:success='$root.alert.success' v-bind:error='$root.alert.error' v-model="$root.alert.alert" transition="scale-transition">{{$root.alert.alertMessage}}</v-alert>
-                <campaign-review :selectedUa="selectedUa" :selectedOs="selectedOs" :selectedDevices="selectedDevices" :selectedCategories="selectedCategories" :user="user" :token="token" :campaign="campaign" :state="stateReady" :folder="currentFolder" :gender="selectedGender()"></campaign-review>
+                <campaign-review 
+                :selectedUa="selectedUa" 
+                :selectedOs="selectedOs" 
+                :selectedDevices="selectedDevices" 
+                :selectedCategories="selectedCategories" 
+                :user="user" 
+                :token="token" 
+                :campaign="campaign" 
+                :state="stateReady" 
+                :folder="currentFolder" 
+                :gender="selectedGender()"
+                ></campaign-review>
             </v-stepper-content>
         </v-stepper>
     </v-container>         
@@ -62,7 +85,6 @@
 
         mounted() {
             this.$root.isLoading = false;
-            this.loadCategories();
             this.loadTechnologies();
         },
 
@@ -156,31 +178,20 @@
             },            
 
             validDetailsPage() {
-                var a = true;
-                var b = false;
                 if (this.validName == true && this.validBid == true && this.validBudget == true && this.validStart == true && this.validEnd == true && this.validDomain == true && this.validUrl == true && this.validPacing == true){
-                    return a;
+                    return true;
                 }
-                else return b;
+                else return false;
             },
 
             validCreativesPage() {
-                if (this.validCreatives == true) {
-                    return true;      
-                }
-                else return false;
+                return this.validCreatives == true ? true : false;
             },
             validCategoriesPage() {
-                if (this.validCategories == true) {
-                    return true;      
-                }
-                else return false;
+                return this.validCategories == true ? true : false;
             },
             validTargettingPage() {
-                if(this.validGeo == true && this.validDevices == true) {
-                    return true;      
-                }
-                else return false;
+                return (this.validGeo == true && this.validDevices == true) ? true : false;
             },
             
             startDraft() {
@@ -208,15 +219,6 @@
                     node: this.campaign.node,
                     account_id: 1
                 }
-            },
-
-            loadCategories() {
-
-                axios.get('/data/categories.json').then(response => {
-                    this.categoriesList = response.data;
-                }, error => {
-                    this.$root.showAlertPopUp('error', 'Something went wrong');
-                });
             },
 
             fetchCampaign(id) {
@@ -255,7 +257,6 @@
             },
 
             fetchCampaignBudget(id) {
-
                 axios.get(this.$root.uri + '/campaigns/' + id + '/budget', this.$root.config).then(response => {
                     this.campaign.budget = response.data;
 
@@ -265,18 +266,12 @@
             },
 
             selectedGender() {
-
                 if (this.campaign.user.data.gender.length == 2 || !this.campaign.user.data.gender.length) {
                     return "M&F";
                 } else {
                     return this.campaign.user.data.gender.join('').toUpperCase();
                 }
 
-            },
-
-            updateCurrentFolder(folder) {
-
-                this.currentFolder = folder;
             },
 
             getDate(days) {
@@ -290,15 +285,6 @@
                 return `${year}-${month}-${day}`;
             },                                       
 
-            __toObject(arr) {
-                var bucket = {};
-
-                for(var i in arr) {
-                    bucket[i] = arr[i];
-                }
-
-                return bucket;
-            },
             loadTechnologies() {
 
                 axios.get('/data/technologies.json').then(response => {
@@ -396,11 +382,7 @@
             campaign(value) {
                 // Update folder
                 this.folder = (typeof this.campaign.creatives.data[0] != 'undefined') ? this.campaign.creatives.data[0].folder : [];
-            },
-
-            gender(value) {
-
-            },
+            }
         }
 
     }

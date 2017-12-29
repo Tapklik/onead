@@ -41,12 +41,12 @@
                     </v-flex>
                     <v-flex xs8 md5>
                         <v-select
-                          v-bind:items="countriesList"
-                          v-model="account.localization.country"
-                          label="Select" item-text="country_name" item-value="country"
-                          single-line
-                          prepend-icon="language"
-                          bottom
+                        v-bind:items="countries"
+                        v-model="account.localization.country"
+                        label="Select" item-text="country_name" item-value="country"
+                        single-line
+                        prepend-icon="language"
+                        bottom
                         ></v-select>
                     </v-flex>
                 </v-layout>
@@ -71,12 +71,12 @@
                     </v-flex>
                     <v-flex xs8 md5>
                         <v-select
-                          v-bind:items="timezoneList"
-                          v-model="account.localization.timezone"
-                          prepend-icon="language"
-                          label="Select" item-text="text" item-value="text"
-                          single-line
-                          bottom
+                        v-bind:items="timezones"
+                        v-model="account.localization.timezone"
+                        prepend-icon="language"
+                        label="Select" item-text="text" item-value="text"
+                        single-line
+                        bottom
                         ></v-select>
                     </v-flex>
                 </v-layout>
@@ -95,7 +95,10 @@
         <v-divider class="mt-4"></v-divider>
         <v-layout row wrap class="mt-4 mb-4"> 
             <v-flex xs12>
-                <v-btn primary large @click="updateAccount()"><v-icon left class="white--text">cloud_upload</v-icon>Update Account Details</v-btn>
+                <v-btn primary large @click="updateAccount()">
+                    <v-icon left class="white--text">cloud_upload</v-icon>
+                    Update Account Details
+                </v-btn>
             </v-flex>
         </v-layout>
     </v-container>
@@ -107,14 +110,14 @@
     export default {
 
         mounted() {
+            this.getTimezones();
+            this.getCountries();
         },
 
         props:['user','token'],
 
         data() {
             return {
-                something: false,
-                campaigns: [],
                 account: {  
                     localization: {
                         country: '',
@@ -123,76 +126,47 @@
                         language: ''
                     }
                 },
-                countriesList: [],
-                selectedCountries: [],
-                usersList: [],
-                countryReadonly: true,
-                cityReadonly: true,
-                timezoneReadonly: true,
-                ajax: false,
-                timezoneList: []
+                countries: [],
+                timezones: []
             }
         },
 
         methods: {
 
-            loadTimezones() {
+            getCountries() {
 
-                axios.get('/data/timezones.json').then(response => {
-                    this.timezoneList = response.data;
-                }, error => {
-                    console.log(error);
-                });
+                axios.get(
+                    '/data/countries.json'
+                ).then(response => {
+                        this.countries = response.data;
+                    }, error => {
+                        this.$root.showAlertPopUp('error', 'Something went wrong.');
+                    }
+                );
             },
 
-            fetchUsers: function () {
-                var self = this;
-
-                axios.get(this.$root.uri + '/accounts/' + this.user.accountUuId + '/users', this.$root.config).then( response => {
-                    this.usersList = response.data.data;
-                }, error => {
-                    this.$root.showAlertPopUp('error', 'Something went wrong.');
-                });
-            },
-
-            fetchUsersDet: function () {
-                var self = this;
-
-                axios.get(this.$root.uri + '/accounts/' + this.user.accountUuId + '/users/' + this.user.uuid, this.$root.config).then( response => {
-                    this.account = response.data.data;
-                }, error => {
-                    this.$root.showAlertPopUp('error', 'Something went wrong.');
-                });
+            getTimezones() {
+                axios.get(
+                    '/data/timezones.json'
+                ).then(response => {
+                        this.timezones = response.data;
+                    }, error => {
+                        this.$root.showAlertPopUp('error', 'Something went wrong.');
+                    }
+                );
             },
 
             updateAccount(){
-                this.ajax = true;
-
-                this.updateAccountDetails();
-            },
-
-            updateUser(){
-                this.ajax = true;
-
-                this.updateaccountails();
-            },
-
-            updateaccountails() {
-                var payload = this.collectUser();
-
-                axios.put(this.$root.uri + '/accounts/' + this.user.accountUuId + '/users/' + this.user.uuid, payload, this.$root.config).then(response => {
-                }, error => {
-                    this.$root.showAlertPopUp('error', 'Something went wrong.');
-                });
-            },
-            updateAccountDetails() {
-                var payload = this.collectAccount();
-
-                axios.put(this.$root.uri + '/accounts/' + this.user.accountUuId, payload, this.$root.config).then(response => {
-                    this.$root.showAlertPopUp('success', 'Successful.');
-                }, error => {
-                    this.$root.showAlertPopUp('error', 'Something went wrong.');
-                });
+                axios.put(
+                    this.$root.uri + '/accounts/' + this.user.accountUuId, 
+                    this.collectAccount(), 
+                    this.$root.config
+                ).then(response => {
+                        this.$root.showAlertPopUp('success', 'Successful.');
+                    }, error => {
+                        this.$root.showAlertPopUp('error', 'Something went wrong.');
+                    }
+                );
             },
 
             collectAccount() {
@@ -207,57 +181,23 @@
                 };
             },
 
-            collectUser() {
-                return {
-                    id: this.account.uuid,
-                    first_name: this.account.first_name,
-                    last_name: this.account.last_name,
-                    email: this.account.email,
-                    phone: this.account.phone,
-                    status: this.account.status,
-                    password: this.account.password
-                };
-            },
-
-            fetchAccount() {
-              var self = this;
-
-              axios.get(this.$root.uri + '/accounts/' + this.user.accountUuId, this.$root.config).then( response => {
-                this.account = response.data.data;
-            }, error => {
-                  this.$root.showAlertPopUp('error', 'Something went wrong.');
-            });
-          },
-
-          loadCountries() {
-
-            axios.get('/data/countries.json').then(response => {
-                this.countriesList = response.data;
-            }, error => {
-                this.$root.showAlertPopUp('error', 'Something went wrong.');
-            });
-        },
-
-        confirmEdit(){
-           if (this.countryReadonly == false) this.countryReadonly = true;
-       }
+            getAccount() {
+                axios.get(
+                    this.$root.uri + '/accounts/' + this.user.accountUuId, 
+                    this.$root.config
+                ).then( response => {
+                        this.account = response.data.data;
+                    }, error => {
+                        this.$root.showAlertPopUp('error', 'Something went wrong.');
+                    }
+                );
+            }
    },
 
-    computed: {
-        localization() {
-            return this.account.localization;
-        }
-    },
-
     watch: {
-
         user(value) {
-
             if(!value) return;
-            this.fetchAccount();
-            this.loadTimezones();
-            this.loadCountries();
-            this.fetchUsers();
+            this.getAccount();
         }
 
     }   
