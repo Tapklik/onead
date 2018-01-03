@@ -71,7 +71,7 @@
                                                         <v-layout row wrap class="mt-4">
                                                             <v-flex xs12 md4 lg3 class="valign-wrapper">
                                                                 <span class="title">Creative Class</span><br>
-                                                                <p class="caption ma-0">(Banner, Video, Native)</p>
+                                                                <p class="caption ma-0">(Banner, Video, Native, HTML5)</p>
                                                             </v-flex>
                                                             <v-flex xs12 md5>
                                                                 <v-select prepend-icon="photo" :items="classList" v-model="creativeAttributes.class" :rules="classRules()" @change="checkFile()"></v-select>
@@ -468,7 +468,7 @@
                 showModal2: false,
                 showModal3: false,
                 dropzone: false,
-                classList: ['banner', 'video', 'native'],
+                classList: ['banner', 'video', 'native', 'html5'],
                 newFolder: '',
                 folderId: '',
                 folders: {
@@ -597,7 +597,7 @@
                     url: this.$root.uri + '/creatives',
                     paramName: 'file',
                     maxFilesize: 2,
-                    acceptedFiles: 'image/*',
+                    acceptedFiles: 'image/*, application/zip',
                     headers: {"Authorization": 'Bearer ' + this.token},
                     autoProcessQueue: false,
                     thumbnailWidth: 120,
@@ -606,27 +606,44 @@
                 });
 
                 this.dropzone.on("addedfile", function(file, thumb) {
-                    var sizeInterval = setInterval(function () {
-                        if(typeof file.width != 'undefined') {
-                            console.log(file);
-                            this.validFile = true;
-                            this.checkFileUploaded = 'uploaded';
 
-                            this.creativeAttributes = {
-                                w: file.width,
-                                h: file.height,
-                                name: file.name.slice(0,file.name.lastIndexOf('.')),
-                                class: 'banner',
-                                url: '',
-                                responsive: 0
-                            };
-                            clearInterval(sizeInterval);
-                        }
-                    }.bind(this), 1000);
-                }.bind(this));
+                    if(file.type.indexOf('zip') != -1) {
 
-                this.dropzone.on("thumbnail", function(file, thumb) {
-                    this.thumb = thumb;
+                        this.validFile = true;
+                        this.checkFileUploaded = 'uploaded';
+
+                        this.creativeAttributes = {
+                            w: 0,
+                            h: 0,
+                            name: file.name.slice(0,file.name.lastIndexOf('.')),
+                            class: 'html5',
+                            url: '',
+                            responsive: 0
+                        };
+                    } else {
+                        var sizeInterval = setInterval(function () {
+                            if(typeof file.width != 'undefined') {
+
+                                this.validFile = true;
+                                this.checkFileUploaded = 'uploaded';
+
+                                this.creativeAttributes = {
+                                    w: file.width,
+                                    h: file.height,
+                                    name: file.name.slice(0,file.name.lastIndexOf('.')),
+                                    class: 'banner',
+                                    url: '',
+                                    responsive: 0
+                                };
+                                clearInterval(sizeInterval);
+                            }
+                        }.bind(this), 1000);
+
+                        this.dropzone.on("thumbnail", function(file, thumb) {
+                            this.thumb = thumb;
+                        }.bind(this));
+                    }
+
                 }.bind(this));
             },
 
