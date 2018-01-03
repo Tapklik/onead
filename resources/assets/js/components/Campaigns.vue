@@ -12,7 +12,7 @@
                     primary 
                     dark 
                     class="elevation-0" 
-                    :href="createCampaignRouter"
+                    href="/admin/campaigns/create"
                     >
                         <v-icon>add</v-icon> Add campaign
                     </v-btn> 
@@ -31,45 +31,39 @@
                         </v-btn>
                         <v-list style="max-height: 200px">
                             <v-list-tile 
-                            v-for="status in statuses" 
-                            :key="status.status"
+                            v-for="(value, key) in statuses" 
+                            :key="key"
                             >
                                 <v-list-tile-action>
                                     <v-checkbox 
-                                    :value="status.value" 
-                                    v-model="selectedStatuses"
+                                    :value="key.replace('_', ' ')" 
+                                    v-model="selected_statuses"
                                     ></v-checkbox>
                                 </v-list-tile-action>
-                                <v-list-tile-title>{{ status.status }}</v-list-tile-title>
+                                <v-list-tile-title>{{ key | capitalize }}</v-list-tile-title>
                             </v-list-tile>
                         </v-list>
                     </v-menu>
                     <v-chip 
-                    @input="removeChip('selectedStatuses')" 
+                    @input="removeTextFromChip('selected_statuses')" 
                     close 
-                    v-show="selectedStatuses != ''"
+                    v-show="selected_statuses != ''"
                     >
                         <b>Statuses: &nbsp;</b>
-                        {{ chipContent(selectedStatuses, 10) }}
+                        {{ addTextToChip(selected_statuses, 2) | capitalize }}
                     </v-chip>
                 </v-flex>
                 <v-flex xs12 md6>
-                    <v-layout 
-                    row 
-                    wrap 
-                    justify-space-between
-                    >
-                        <v-flex xs8 md4>
-                            
-                        </v-flex>
+                    <v-layout row wrap>
+                        <v-spacer></v-spacer>
                         <v-flex xs12 md5 lg5>
                             <v-text-field 
-                                single-line 
-                                hide-details 
-                                class="right"
-                                label="Search..."
-                                append-icon="search"
-                                v-model="search">
+                            single-line 
+                            hide-details 
+                            class="right"
+                            label="Search..."
+                            append-icon="search"
+                            v-model="search_campaigns">
                             </v-text-field>
                         </v-flex>
                     </v-layout>
@@ -80,216 +74,121 @@
             <v-divider></v-divider>
 
             <!-- CAMPAIGNS START -->
-            <v-card-text 
-            v-if="campaignsLoader == true">
-                <scale-loader 
-                :loading="true" 
-                color="#9e9e9e" 
-                height="15px" 
-                width="3px" 
-                class="mt-5"
-                ></scale-loader>
-            </v-card-text>
-            <v-card-text v-else>
-                <v-layout row wrap>
-                    <v-flex xs12>   
-                        <v-data-table
-                        :pagination.sync="pagination"
-                        v-bind:items="filteredCampaigns"
-                        no-data-text=""
-                        v-bind:rows-per-page-items="[10, 25, { value: -1 }]"
-                        class="no-headers"
+            <!-- TABLE LOADER START -->
+            <scale-loader 
+            v-if="campaigns_table_loading"
+            :loading="true" 
+            color="#9e9e9e" 
+            height="15px" 
+            width="3px" 
+            class="mt-5"
+            ></scale-loader>
+            <!-- TABLE LOADER END -->
+
+            <v-data-table
+            v-else
+            :pagination.sync="pagination"
+            v-bind:items="filtered_campaigns"
+            v-bind:rows-per-page-items="[10, 25, { value: -1 }]"
+            class="no-headers"
+            >
+                <template slot="headers" scope="props">
+                    &nbsp;
+                </template>
+                <template slot="items" scope="props">
+                    <td>
+                        <span class="title">
+                            {{ props.item.name }}
+                        </span> 
+                        <br />
+                        <span class="caption">
+                            {{props.item.id}}
+                        </span>
+                    </td>
+                    <td>
+                        <v-chip 
+                        v-for="(value, key) in statuses" 
+                        :key="key" 
+                        v-if="props.item.status == key.replace('_', ' ')" 
+                        small 
+                        :class="value"
                         >
-                            <template slot="headers" scope="props">
-                                &nbsp;
-                            </template>
-                            <template slot="items" scope="props">
-                                <td>
-                                    <span class="title">
-                                        {{ props.item.id.name }}
-                                    </span> 
-                                    <br />
-                                    <span class="caption">
-                                        {{props.item.id.id}}
-                                    </span>
-                                </td>
-                                <td>
-                                    <v-chip 
-                                    v-for="s in statuses" 
-                                    :key="s.status" 
-                                    v-if="props.item.id.status == s.value" 
-                                    small 
-                                    :class="s.color"
-                                    >
-                                        <small> {{ s.status  | uppercase }} </small>
-                                    </v-chip>
-                                </td>
-                                <td class="text-xs-right">
-                                    <span class="title"> 
-                                    $ {{$root.fromMicroDollars(props.item.id.budget.data.amount) }}
-                                    </span>
-                                    <br />
-                                    <span class="caption"> 
-                                        {{ props.item.id.budget.data.type  | uppercase }}
-                                    </span>
-                                </td>
-                                <td class="text-xs-right">
-                                    <span class="caption">
-                                        FROM
-                                    </span>
-                                    &nbsp; 
-                                    <span class="title">
-                                        {{ props.item.id.start_time }}
-                                    </span>
-                                    <br />
-                                    <span class="caption">
-                                        TO
-                                    </span>
-                                    &nbsp; 
-                                    <span class="title">
-                                        {{ props.item.id.end_time }}
-                                    </span>
-                                </td>
-                                 <td class="text-xs-center">
-                                    <v-btn 
-                                    :loading="props.item.playLoader" 
-                                    icon 
-                                    class="grey--text" 
-                                    v-if="props.item.id.status == 'active'" 
-                                    @click="props.item.playLoader= true, 
-                                    toggleCampaignStatus(props.index, props.item.id.id, props.item.id.status)"
-                                    >
-                                        <v-icon>pause_circle_outline</v-icon>
-                                    </v-btn>
-                                    <v-btn 
-                                    :loading="props.item.playLoader" 
-                                    icon 
-                                    class="grey--text" 
-                                    v-else-if="props.item.id.status == 'paused'" 
-                                    @click="props.item.playLoader= true, 
-                                    toggleCampaignStatus(props.index, props.item.id.id, props.item.id.status)"
-                                    >
-                                        <v-icon>play_circle_outline</v-icon>
-                                    </v-btn>
-                                    <v-btn 
-                                    :disabled="true" 
-                                    :loading="props.item.playLoader" 
-                                    icon 
-                                    class="grey--text" 
-                                    v-else 
-                                    @click="props.item.playLoader= true, 
-                                    toggleCampaignStatus(props.index, props.item.id.id, props.item.id.status)"
-                                    >
-                                        <v-icon>play_circle_outline</v-icon>
-                                    </v-btn>
-                                    <v-btn 
-                                    v-if="props.item.id.status == 'draft'" 
-                                    :loading="props.item.deleteLoader" 
-                                    icon 
-                                    class="grey--text" 
-                                    @click="deleteCampaign(props.item.id.id, props.item.id.status), 
-                                    props.item.deleteLoader = true"
-                                    >
-                                        <v-icon>delete</v-icon>
-                                    </v-btn>
-                                    <v-btn 
-                                    v-else-if="props.item.id.status == 'archived'" 
-                                    :loading="props.item.deleteLoader" 
-                                    icon 
-                                    class="grey--text" 
-                                    :disabled="true" 
-                                    @click="deleteCampaign(props.item.id.id, props.item.id.status), 
-                                    props.item.deleteLoader = true"
-                                    >
-                                        <v-icon>archive</v-icon>
-                                    </v-btn>
-                                    <v-dialog 
-                                    v-else 
-                                    v-model="props.item.modal" 
-                                    lazy 
-                                    absolute 
-                                    width="400px"
-                                    >
-                                        <v-btn 
-                                        :loading="props.item.deleteLoader" 
-                                        icon 
-                                        class="grey--text" 
-                                        slot="activator"
-                                        >
-                                            <v-icon>archive</v-icon>
-                                        </v-btn>
-                                        <v-card>
-                                            <v-card-text>
-                                                <v-layout row wrap>
-                                                    <v-flex xs12 class="valign-wrapper px-4 error-icon">
-                                                        <span>
-                                                            <v-icon 
-                                                            x-large 
-                                                            primary
-                                                            >
-                                                                help
-                                                            </v-icon>
-                                                        </span>
-                                                    </v-flex>
-                                                </v-layout>
-                                                <v-layout row wrap>
-                                                    <v-flex xs12 md12 class="valign-wrapper px-4">
-                                                        <span class="">
-                                                            Are you sure you want to archive {{props.item.id.name}}?
-                                                        </span><br>
-                                                    </v-flex>
-                                                </v-layout>
-                                            </v-card-text>
-                                            <v-divider></v-divider>
-                                            <v-card-actions>
-                                                <v-spacer></v-spacer>
-                                                <v-btn 
-                                                class="elevation-0" 
-                                                @click="props.item.modal = false"
-                                                >
-                                                    <v-icon>close</v-icon>
-                                                    Cancel
-                                                </v-btn>
-                                                <v-btn 
-                                                primary 
-                                                dark 
-                                                class="elevation-0" 
-                                                @click="deleteCampaign(props.item.id.id, props.item.id.status), 
-                                                props.item.deleteLoader = true, 
-                                                props.item.modal=false"
-                                                >
-                                                    <v-icon>done</v-icon>
-                                                    Archive
-                                                </v-btn>
-                                            </v-card-actions>
-                                        </v-card>
-                                    </v-dialog>
-                                    <v-btn 
-                                    v-if="props.item.id.status == 'archived'" 
-                                    :disabled="true" 
-                                    icon 
-                                    class="grey--text" 
-                                    :href="editCampaignRouter + props.item.id.id"
-                                    >
-                                        <v-icon>edit</v-icon>
-                                    </v-btn>
-                                    <v-btn 
-                                    v-else 
-                                    icon 
-                                    class="grey--text" 
-                                    :href="editCampaignRouter + props.item.id.id"
-                                    >
-                                        <v-icon>edit</v-icon>
-                                    </v-btn>
-                                </td>
-                            </template>
-                            <template slot="pageText" scope="{ pageStart, pageStop }">
-                                From {{ pageStart }} to {{ pageStop }}
-                            </template>
-                        </v-data-table>
-                    </v-flex>
-                </v-layout>
-            </v-card-text>
+                            <small> {{ key | uppercase }} </small>
+                        </v-chip>
+                    </td>
+                    <td class="text-xs-right">
+                        <span class="title"> 
+                        $ {{$root.fromMicroDollars(props.item.budget.data.amount) }}
+                        </span>
+                        <br />
+                        <span class="caption"> 
+                            {{ props.item.budget.data.type  | uppercase }}
+                        </span>
+                    </td>
+                    <td class="text-xs-right">
+                        <span class="caption">
+                            FROM
+                        </span>
+                        &nbsp; 
+                        <span class="title">
+                            {{ props.item.start_time }}
+                        </span>
+                        <br />
+                        <span class="caption">
+                            TO
+                        </span>
+                        &nbsp; 
+                        <span class="title">
+                            {{ props.item.end_time }}
+                        </span>
+                    </td>
+                     <td class="text-xs-center">
+                        <v-btn 
+                        :disabled = "disableButton(props.item.status, 'toggle')"
+                        icon 
+                        class="grey--text" 
+                        :loading = "props.item.toggle_button_loading"
+                        @click="toggleCampaignStatus(props.item)"
+                        >
+                            <v-icon>
+                                {{ props.item.status == 'active' ?  
+                                'pause_circle_outline' : 'play_circle_outline' }}
+                            </v-icon>
+                        </v-btn>
+                        <v-btn 
+                        v-if="props.item.status == 'draft' || props.item.status == 'archived'" 
+                        :loading="props.item.delete_button_loading" 
+                        :disabled="disableButton(props.item.status, 'delete')"
+                        icon 
+                        class="grey--text" 
+                        @click="deleteCampaign(props.item)"
+                        >
+                            <v-icon>delete</v-icon>
+                        </v-btn>
+                        <tk-confirm
+                        v-else
+                        :icon="'archive'"
+                        :data = "props.item"
+                        :iconButton="true"
+                        :loading="props.item.delete_button_loading"
+                        @confirmation= "archiveCampaign(props.item)"
+                        >
+                            {{'Are you sure you want to archive ' + props.item.name + '?'}}
+                        </tk-confirm>
+                        <v-btn 
+                        :disabled="props.item.status == 'archived'" 
+                        icon 
+                        class="grey--text" 
+                        :href="'/admin/campaigns/edit/' + props.item.id"
+                        >
+                            <v-icon>edit</v-icon>
+                        </v-btn>
+                    </td>
+                </template>
+                <template slot="pageText" scope="{ pageStart, pageStop }">
+                    From {{ pageStart }} to {{ pageStop }}
+                </template>
+            </v-data-table>
             <!-- CAMPAIGNS END -->
         
         </v-card>
@@ -316,216 +215,154 @@
 
         data() {
             return {
-                loadingPress: false,
+                //ACTIONS
+                search_campaigns: '',
+                selected_statuses: ['active','draft'],
+                statuses: {
+                    not_started: 'green darken-1 white--text', 
+                    expired: 'red lighten-1 white--text', 
+                    active: 'green lighten-1 white--text', 
+                    paused: 'yellow darken-1 white--text', 
+                    archived: 'red darken-1 white--text', 
+                    draft: 'grey lighten-2 white--text'
+                },
+
+                //CAMPAIGNS
                 campaigns: [],
-                max25chars: (v) => v.length <= 25 || 'Input too long!',
-                tmp: '',
-                search: '',
                 pagination: {},
-                createCampaignRouter: "/admin/campaigns/create",
-                editCampaignRouter: "/admin/campaigns/edit/",
-                statuses: [
-                {status: 'Active', color: 'green lighten-1 white--text', value: 'active'}, 
-                {status: 'Paused', color: 'yellow darken-1 white--text', value: 'paused'}, 
-                {status: 'Archived', color: 'red darken-1 white--text', value: 'archived'}, 
-                {status: 'Draft', color: 'grey lighten-2 white--text', value: 'draft'},
-                {status: 'Not Started', color: 'green darken-1 white--text', value: 'not started'},
-                {status: 'Expired', color: 'red lighten-1 white--text', value: 'expired'},],
-                selectedStatuses: ['active','draft'],
-                statusColors: {not_started: 'green darken-1 white--text', expired: 'red lighten-1 white--text', active: 'green lighten-1 white--text', paused: 'yellow darken-1 white--text', archived: 'red darken-1 white--text', declined: 'red lighten-1 white--text', deleted: 'red darken-1 white--text', draft: 'grey lighten-2 white--text'},
-                campaignsLoader: true
+                campaigns_table_loading: true
             }
         },
 
         methods: {
 
-            removeChip(data) {
+            //ACTIONS
+            removeTextFromChip(data) {
                 this[data] = [];
             },
 
-            chipContent(selection, characters) {
-                var selection = selection;
-                var show = '';
-                var characterCount = 0;
-                var plusMany = 0;
-                for(var s in selection) {
-                    if(characterCount + selection[s].length > characters) {
-                        plusMany = plusMany + 1;
-                    }
-                    else {
-                        show = show + selection[s] + ', '
-                        characterCount = characterCount + selection[s].length;
-                    }
-                }
-                show = show.slice(0,-2);
-                if(plusMany != 0) {
-                    show = show + ' and ' + plusMany + ' more';
-                }
-                return show;
-            },
-
-            populateStatuses() {
-                var statuses = this.statuses;
-                var a = 0;
-                var campaigns = this.campaigns;
-                var colors = this.statusColors;
-                for(var c in campaigns) {
-                    for(var s in statuses) {
-                        if(statuses[s].value == campaigns[c].id.status) a++;
-                    }
-                   
-                    if(a == 0) {
-                        var b = campaigns[c].id.status;
-                        if(b != 'deleted') {
-                            statuses.push({status: b, color: colors[b], value: b.toLowerCase()});
-                            a = 0;
-                        }
-                    }
-                    else {
-                        a = 0
-                    }    
-                }
-                this.statuses = statuses;
-            },
-
-            toggleCampaignStatus(index, id, status) {
-                if(status == 'active' || status == 'paused') {
-                    var changeStatusTo = (status == 'active') ? 'paused' : 'active';
-
-                    axios.put(this.$root.uri + '/campaigns/' + id, {status: changeStatusTo}, this.$root.config).then(response => {
-                        this.fetchCampaigns();
-                    }, error => {
-                        this.fetchCampaigns();
-                    });
-                }
+            addTextToChip(selection, count) {
+                var selection_size = selection.length;
+                var cut = selection_size > count ? true : false;
+                if(!cut) return selection.toString().replace(",", ", ");
                 else {
-                    this.fetchCampaigns();
+                    var excess = selection_size - count;
+                    var shorter_selection = selection.slice(0, count);
+                    var stringify = shorter_selection.toString();
+                    return stringify.replace(",", ", ") + ' and ' + excess + ' more.';
                 }
             },
 
-            fetchCampaigns() {
-                var a = [];
-                axios.get(this.$root.uri + '/campaigns', this.$root.config).then(response => {
-                    var campaigns = response.data.data;
-                    var length = campaigns.length - 1;
-                    for(var c = length; c >= 0; c--) {
-                        a.push({id: campaigns[c], playLoader: false, deleteLoader: false, modal: false})
+            //CAMPAIGNS
+            disableButton(status, button) {
+                if(button == 'delete') return status == 'archived' ? true : false;
+                if(button == 'toggle') return status == 'active' || status == 'paused' ? false : true;
+            },
+
+
+            toggleCampaignStatus(campaign) {
+                var new_status = campaign.status == 'active' ? 'paused' : 'active';
+                campaign.toggle_button_loading = true;
+
+                axios.put(
+                    this.$root.uri + '/campaigns/' + campaign.id, 
+                    { status: new_status }, 
+                    this.$root.config
+                ).then(response => {
+                        this.getCampaigns();
+                    }, error => {
+                        this.$root.showAlertPopUp('error', 'Something went wrong');
                     }
-                    this.campaigns = a;
-                    this.campaignsLoader = false;
+                );
+            },
+
+            changeCampaignsData(campaigns) {
+                campaigns = campaigns.reverse(); //chronological
+
+                //add datapoints
+                for(var campaign in campaigns) {
+                    Vue.set(campaigns[campaign], 'toggle_button_loading', false);
+                    Vue.set(campaigns[campaign], 'delete_button_loading', false);
+                    Vue.set(campaigns[campaign], 'show_modal', false);
+                }
+                return campaigns;
+            },
+
+            getCampaigns() {
+                axios.get(
+                    this.$root.uri + '/campaigns', 
+                    this.$root.config
+                ).then(response => {
+                    this.campaigns = this.changeCampaignsData(response.data.data);
+                    this.campaigns_table_loading = false;
                 }, error => {
-                    this.campaignsLoader = false;
-                    this.$root.showAlertPopUp('error', 'Error fetching folders.');
+                    this.campaigns_table_loading = false;
+                    this.$root.showAlertPopUp('error', 'Something went wrong');
                 })
             },
 
-            deleteCampaign(campaignId, status) {
-                if(status != 'draft'){
-                    axios.put(this.$root.uri + '/campaigns/' + campaignId, {status: 'archived'}, this.$root.config).then(response => {
-                        this.fetchCampaigns();
+            archiveCampaign(campaign) {
+                campaign.delete_button_loading = true;
+
+                axios.put(
+                    this.$root.uri + '/campaigns/' + campaign.id, 
+                    { status: 'archived' }, 
+                    this.$root.config
+                ).then(response => {
+                        campaign.delete_button_loading = false;
+                        campaign.show_modal = false;
+                        this.getCampaigns();
+                    }, error => {
+                        campaign.delete_button_loading = false;
+                        campaign.show_modal = false;
+                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                    }
+                );
+            },
+
+            deleteCampaign(campaign) {
+                campaign.delete_button_loading = true;
+
+                axios.delete(
+                    this.$root.uri + '/campaigns/' + campaign.id, 
+                    this.$root.config
+                ).then(response => {
+                        this.getCampaigns();
                     }, error => {
                         this.$root.showAlertPopUp('error', 'Something went wrong');
-                    })
-                }
-                else {
-                    axios.delete(this.$root.uri + '/campaigns/' + campaignId, this.$root.config).then(
-                        response => {
-                            this.fetchCampaigns();
-                    }, error => {  
-                        this.$root.showAlertPopUp('error', 'Something went wrong');
-                    });
-                }
-            },
-
-            getCampaignProgress(campaign) {
-                var start = new Date(campaign.start_time);
-                var end   = new Date(campaign.end_time);
-                var d     = new Date();
-                var timeDiff = Math.abs(end.getTime() - start.getTime());
-                var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-                var timeDiffFromNow = end.getTime() - d.getTime();
-                var diffDaysFromNow =  Math.ceil(timeDiffFromNow / (1000 * 3600 * 24));
-
-                // Has end passed
-                var hasPassed  =  ((end.getTime() - d.getTime()) < 0) ? true : false;
-                var hasStarted = ((start.getTime() - d.getTime()) <= 0) ? true : false;
-
-                // Now we know how many days between dates
-                // Calculate percentages
-                var percent  = diffDays * 0.1;
-                var progress = (hasStarted && !hasPassed) ? diffDaysFromNow * percent : 0;
-                if(hasPassed) progress = 100;
-
-                progress = '0';
-
-                return progress;
-            },
-
-            isRunning(campaign) {
-
-                var start = new Date(campaign.start_time);
-                var end   = new Date(campaign.end_time);
-                var d     = new Date();
-
-                var hasPassed  =  ((end.getTime() - d.getTime()) < 0) ? true : false;
-                var hasStarted = ((start.getTime() - d.getTime()) <= 0) ? true : false;
-
-                return hasStarted && !hasPassed;
-            },
+                    }
+                );
+            }
         },
 
         computed: {
-
-            filteredCampaigns() {
-
-                if(!this.campaigns) return this.campaigns;
-
-                var campaigns = this.campaigns;
-                var statuses = this.selectedStatuses;
-                var result = [];
-                var search = this.search;
-                if(statuses == '') {
-                    for(var c in campaigns) {
-                        var name = campaigns[c].id.name.toLowerCase();
-                        var searchLower = search.toLowerCase();
-                        if(name.includes(searchLower)) {
-                            result.push(campaigns[c]);
-                        }
-                    }
-                    return result;
-                }
-
-                else {
-                    for(var c in campaigns) {
-                        for(var s in statuses) {
-                            var name = campaigns[c].id.name.toLowerCase();
-                            var searchLower = search.toLowerCase();
-                            if(campaigns[c].id.status == statuses[s] && name.includes(searchLower)) {
-                                result.push(campaigns[c]);
-                            }
-                        }   
-                    }
-                    return result;
-                }
+            filtered_campaigns() {
+                var self = this;
+                return this.campaigns.filter(campaign => 
+                    campaign.name.toLowerCase().includes(self.search_campaigns.toLowerCase()) &&
+                        (this.selected_statuses.indexOf(campaign.status) != -1 || this.selected_statuses.length == 0)
+                );
             }
         },
 
         filters: {
-            uppercase: function(v) {
-              return v.toUpperCase();
-          }
-      },
+            uppercase(value) {
+              return value.toUpperCase();
+            },
 
-      watch: {
-        token(value) {
-            this.fetchCampaigns();
+            capitalize(value) {
+                return value.charAt(0).toUpperCase() + value.substr(1).replace('_', ' ');
+            }
         },
-        campaigns(value) {
-            this.populateStatuses();
-        },
-        selectedStatuses(value) {
-            this.pagination.page = 1;
+
+        watch: {
+            token(value) {
+                this.getCampaigns();
+            },
+            
+            selected_statuses(value) {
+                this.pagination.page = 1;
+            }
         }
     }
-}
 </script>

@@ -1,7 +1,7 @@
 @extends('layouts.auth')
 
 @section('content')
-        <auth></auth>
+    <auth></auth>
 @stop
 
 @section('footer-js-header')

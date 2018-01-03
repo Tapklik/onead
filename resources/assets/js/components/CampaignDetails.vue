@@ -45,7 +45,10 @@
                             v-model="campaign.start_time"
                             v-on:change="updateDetailsDraft()"
                             ></v-text-field>
-                            <v-date-picker v-model="campaign.start_time" no-title scrollable autosave></v-date-picker>
+                            <v-date-picker 
+                            v-model="campaign.start_time" 
+                            no-title scrollable autosave
+                            ></v-date-picker>
                         </v-dialog>
                     </v-flex>
                     <v-flex xs12 md5>
@@ -65,7 +68,12 @@
                             v-on:change="updateDetailsDraft()"
                             v-model="campaign.end_time"
                             ></v-text-field>
-                            <v-date-picker v-model="campaign.end_time" no-title scrollable autosave></v-date-picker>
+                            <v-date-picker 
+                            v-model="campaign.end_time" 
+                            no-title 
+                            scrollable 
+                            autosave
+                            ></v-date-picker>
                         </v-dialog>
                     </v-flex>
                 </v-layout>
@@ -117,7 +125,12 @@
                 </v-layout>
                 <v-layout>
                     <v-flex xs12 md9 class="valign-wrapper">
-                        <v-radio-group v-model="campaign.budget.data.type" v-on:change="updateDraftBudget()"row class="pa-1">
+                        <v-radio-group 
+                        v-model="campaign.budget.data.type" 
+                        @change="updateDraftBudget()"
+                        row 
+                        class="pa-1"
+                        >
                             <v-radio label="Daily" value="daily" ></v-radio>
                             <v-radio label="Campaign" value="campaign"></v-radio>
                         </v-radio-group>
@@ -160,11 +173,16 @@
                 <v-layout row wrap class="mt-5">
                     <v-flex xs12 md5 lg4 class="valign-wrapper">
                         <span class="title">Daily Budget Pacing</span>
-                        <p class="caption ma-0">Default pacing is enabled every day between 7:00AM and 1:00AM next day</p>
+                        <p class="caption ma-0">
+                            Default pacing is enabled every day between 7:00AM and 1:00AM next day
+                        </p>
                     </v-flex>
                     <v-flex xs8 md5>
                         <v-dialog v-model="showModal" lazy absolute width="70%">
-                            <v-btn slot="activator"><v-icon left class="small">monetization_on</v-icon>Set Budget Pacing</v-btn>
+                            <v-btn slot="activator">
+                                <v-icon left class="small">monetization_on</v-icon>
+                                Set Budget Pacing
+                            </v-btn>
                             <v-card>
                                 <v-card-title>
                                     <h4>Budget Pacing</h4>
@@ -220,7 +238,12 @@
                                                         <template slot="items" scope="props">
                                                             <tr>
                                                                 <th class="caption pa-0">{{ props.item }}</th>
-                                                                <td class="small pa-0" v-for="day in days" v-html="getTimeActiveClass(days.indexOf(day), timesOfDay.indexOf(props.item))"></td>
+                                                                <td 
+                                                                class="small pa-0" 
+                                                                v-for="day in days" 
+                                                                v-html="getTimeActiveClass(days.indexOf(day), 
+                                                                timesOfDay.indexOf(props.item))"
+                                                                ></td>
                                                             </tr>
                                                         </template>
                                                     </v-data-table>
@@ -236,14 +259,21 @@
                                         <v-icon>close</v-icon>                                    
                                         Cancel
                                     </v-btn>
-                                    <v-btn primary dark @click="applyPlan(),showModal=false, updateDraftBudget()" class="elevation-0">
+                                    <v-btn 
+                                    primary 
+                                    dark 
+                                    @click="applyPlan(),
+                                    showModal=false, 
+                                    updateDraftBudget()" 
+                                    class="elevation-0"
+                                    >
                                         <v-icon>done</v-icon>
                                         Save
                                     </v-btn>
                                 </v-card-actions>
                             </v-card>   
                         </v-dialog>
-                        <br> <span class="red--text" v-show="daysAndTimesRules()">You must select days and times</span>
+                        <span class="red--text" v-show="daysAndTimesRules()">You must select days and times</span>
                     </v-flex>
                 </v-layout>
             </v-flex>
@@ -426,11 +456,6 @@
             
             },
 
-            openModal() {
-                this.$root.modalIsOpen = true;
-                return false;
-            },
-
             draftData() {
                 return {
                     name: this.campaign.name,
@@ -509,11 +534,7 @@
                     if (d > 0) {plan += " "}
                         if (this.selectedDays.indexOf(d) >= 0 ) {
                             for( var t = 0; t < 7; t++) {
-                                if(this.selectedTimes.indexOf(t) >= 0) {
-                                    plan += "1"
-                                } else {
-                                    plan += "0"
-                                }
+                                plan += this.selectedTimes.indexOf(t) >= 0 ? "1" : "0";
                             }
                         } else {
                             plan += "0000000"

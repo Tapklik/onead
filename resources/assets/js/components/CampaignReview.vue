@@ -284,7 +284,17 @@
             this.$root.isLoading = false;
         },
 
-        props: ['campaign', 'folder', 'gender','token','user','selectedUa','selectedOs','selectedDevices','selectedCategories'],
+        props: [
+            'campaign', 
+            'folder', 
+            'gender',
+            'token',
+            'user',
+            'selectedUa',
+            'selectedOs',
+            'selectedDevices',
+            'selectedCategories'
+        ],
 
         data() {
 
@@ -298,13 +308,6 @@
             }
         },
 
-        filters: {
-            lowercase(input) {
-
-                return input.toLowerCase();
-            }
-        },
-
         methods: {
 
             getFolders() {
@@ -313,27 +316,6 @@
                 }, error => {
                     this.$root.showAlertPopUp('error', 'Something went wrong');
                 });
-            },
-
-            insertUrlInCreatives() {
-                var creatives = this.campaign.creatives.data; 
-                var folders = this.folders;
-                var folderID = '';
-                for(var cr in creatives) {
-                    if(creatives[cr].ctrurl == null || creatives[cr].ctrurl == '') {
-                        var folder = creatives[cr].folder.key;
-                        for(var f in folders) {
-                            if(folders[f].key == folder) {
-                                folderID = folders[f].id;
-                                break;
-                            }
-                        }
-                        axios.put(this.$root.uri + '/creatives/folders/' + folderID + '/creatives/' + creatives[cr].id, {ctrurl: this.campaign.ctrurl}, this.$root.config).then(response => {
-                        }, error => {
-                            this.$root.showAlertPopUp('error', 'Something went wrong.');
-                        });
-                    }
-                }
             },
 
             campaignError() {
@@ -506,23 +488,7 @@
             },
 
             collectCampaign() {
-                if (this.campaign.status == 'draft') {   
-                    return {
-                        name: this.campaign.name,
-                        description: '',
-                        start: this.campaign.start_time,
-                        end: this.campaign.end_time,
-                        bid: this.campaign.bid,
-                        ctrurl: this.campaign.ctrurl,
-                        adomain: this.campaign.adomain,
-                        test: this.campaign.test,
-                        status: 'not started',
-                        weight: this.campaign.weight,
-                        node: this.campaign.node
-                    };
-                }
-                else {
-
+                var status = this.campaign.status == 'draft' ? 'not started' : this.campaign.status;    
                 return {
                     name: this.campaign.name,
                     description: '',
@@ -532,11 +498,10 @@
                     ctrurl: this.campaign.ctrurl,
                     adomain: this.campaign.adomain,
                     test: this.campaign.test,
-                    status: this.campaign.status,
+                    status: status,
                     weight: this.campaign.weight,
                     node: this.campaign.node
                 };
-                }
             },
 
             collectCategories() {
@@ -548,9 +513,7 @@
             },
 
             collectGeography() {
-                return this.campaign.geo.data.map(function (geo) {
-                    return geo.id;
-                });
+                return this.campaign.geo.data.map(geo => geo.id);
             },
 
             collectDevices() {
@@ -562,27 +525,15 @@
             },
 
             collectBudget() {
-
                 return this.campaign.budget.data;
             },
 
             collectCreatives() {
-
-                var ids = [];
-
-                for(var i in this.campaign.creatives.data)
-                {
-                    ids.push(this.campaign.creatives.data[i].id);
-                }
-                return ids;
+                return this.campaign.creatives.data.map(creative => creative.id);
             },
 
             genderIcon(g) {
-                if (g == 'F') {
-                    return 'mdi-human-female'
-                } else {
-                    return 'mdi-human-male'
-                }
+                return g == 'F' ? 'mdi-human-female' : 'mdi-human-male'
             }
         },
 
@@ -602,24 +553,6 @@
 
             errorCounter(value) {
                 if(value > 0) this.campaignError();
-            }
-        },
-
-        filters: {
-            uppercase: function(v) {
-                return v.toUpperCase();
-            }
-        },
-        
-        computed: {
-
-            progress() {
-                var items = 8;
-                var percentage = 100 / items;
-
-                var progress = Math.round(this.batch.length * percentage);
-
-                return progress + ' %';
             }
         }
     }

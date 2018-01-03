@@ -1,6 +1,5 @@
 <template>
     <v-container grid-list-md>
-        <v-alert dismissible v-bind:success='$root.alert.success' v-bind:error='$root.alert.error' v-model="$root.alert.alert" transition="scale-transition">{{$root.alert.alertMessage}}</v-alert>
         <v-layout row wrap class="mt-3">
             <v-flex xs12 md6>
                 <v-layout row wrap class="mt-4">
@@ -103,7 +102,13 @@
                                         <v-icon>close</v-icon>                                    
                                         Cancel
                                     </v-btn>
-                                    <v-btn primary :loading="loading" :disabled="!(validNewPassword && validOldPassword)" @click="changePassword()" class="elevation-0">
+                                    <v-btn 
+                                    primary 
+                                    :loading="loading" 
+                                    :disabled="!(validNewPassword && validOldPassword)" 
+                                    @click="changePassword()" 
+                                    class="elevation-0"
+                                    >
                                         <v-icon>done</v-icon>
                                         Save
                                     </v-btn>
@@ -147,20 +152,18 @@
         <v-divider class="mt-4"></v-divider>
         <v-layout row wrap class="mt-4 mb-4"> 
             <v-flex xs12>
-                <v-btn primary large :loading="loading" @click="loading = true, updateUser()"><v-icon left class="white--text">cloud_upload</v-icon>Update User Details</v-btn>
+                <v-btn primary large :loading="loading" @click="loading = true, updateUser()">
+                    <v-icon left class="white--text">cloud_upload</v-icon>
+                    Update User Details
+                </v-btn>
             </v-flex>
         </v-layout>
     </v-container>
 </template>
 
 <script>
-
     export default {
-
-
-        mounted() {
-        },
-
+        
         props:['user', 'token'],
 
         data() {
@@ -171,7 +174,6 @@
                 confPassword: '',
                 showModal: false,
                 oldPassword: '',
-                ajax: false,
                 loading: false,
                 validOldPassword: false,
                 validNewPassword: false
@@ -181,9 +183,9 @@
         computed: {
             fullName: {
                 get() {
-                var a = this.userDet.first_name;
-                var b = this.userDet.last_name;
-                return a + ' ' + b;
+                    var a = this.userDet.first_name;
+                    var b = this.userDet.last_name;
+                    return a + ' ' + b;
                 },
              
                 set(value) {
@@ -234,24 +236,13 @@
             checkNewPassword() {
                 var password = this.password;
                 var password2 = this.confPassword;
-                var message = ['The passwords do not match'];
-                var message2 = ['The password is too short'];
-                if(password != password2) {
-                    this.validNewPassword = false;
-                    return message;
-                }
-                else if(password2.length < 8) {
-                    this.validNewPassword = false;
-                    return message2;
-                }
-                else {
-                    this.validNewPassword = true;
-                }
+                var short_password = ['The password is too short'];
+                var different_passwords = ['The passwords do not match'];
+                this.validNewPassword = (password != password2 || password2.length < 8) ? false : true;
+                if(!validNewPassword) return password != password2 ? different_passwords : short_password;
             },
 
             fetchUsersDet() {
-                var self = this;
-
                 axios.get(this.$root.uri + '/accounts/' + this.user.accountUuId + '/users/' + this.user.uuid, this.$root.config).then( response => {
                     this.userDet = response.data.data;
                 }, error => {
@@ -260,15 +251,7 @@
             },            
 
             updateUser(){
-                this.ajax = true;
-
-                this.updateUserDetails();
-            },
-
-            updateUserDetails() {
-                var payload = this.collectUser();
-
-                axios.put(this.$root.uri + '/accounts/' + this.user.accountUuId + '/users/' + this.user.uuid, payload, this.$root.config).then(response => {
+                axios.put(this.$root.uri + '/accounts/' + this.user.accountUuId + '/users/' + this.user.uuid, this.collectUser(), this.$root.config).then(response => {
                     this.alert = true;
                     this.error = false;
                     this.success = true;
@@ -289,25 +272,13 @@
                     phone: this.userDet.phone,
                     status: this.userDet.status,
                 };
-            },
-
-            fetchAccount() {
-                var self = this;
-
-                axios.get(this.$root.uri + '/accounts/' + this.user.accountUuId, this.$root.config).then( response => {
-                    this.account = response.data.data;
-                }, error => {
-                    this.$root.showAlertPopUp('error', 'Something went wrong.');
-                });
-            },
+            }
         },
 
         watch: {
 
             user(value) {
-
                 if(!value) return;
-                this.fetchAccount();
                 this.fetchUsersDet();
             }
 

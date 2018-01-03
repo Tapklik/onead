@@ -108,10 +108,7 @@
                 }
             }
         },
-
-        computed: {
-        },
-
+        
         methods: {
             fetchUsersDet() {
                 var self = this;

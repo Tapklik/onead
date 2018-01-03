@@ -14,7 +14,7 @@
         <v-layout row wrap>
             <v-flex xs12 class="mt-3">
                 <tk-select-list v-model="campaign.cat.data">
-                    <tk-select v-for="category in $parent.$parent.$parent.categoriesList" 
+                    <tk-select v-for="category in categories" 
                     :key="category.code" :icon="category.img" 
                     :trueValue="category.code" 
                     :subtitle="category.code">
@@ -33,6 +33,7 @@
         },
 
         mounted() {
+            this.getCategories();
             this.$root.isLoading = false;
         },
 
@@ -40,18 +41,26 @@
         props: ['campaign','selectedCategories'],
 
         data() {
-           return {
-           }
+            return {
+                categories: []
+            }
         },
 
         methods: {
+
+            getCategories() {
+                axios.get(
+                    '/data/categories.json'
+                ).then(response => {
+                        this.categories = response.data;
+                    }, error => {
+                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                    }
+                );
+            },
+
             categoriesRules() {
-                if(this.selectedCategories == '') {
-                    this.$parent.$parent.$parent.validCategories = false;
-                }
-                else {
-                    this.$parent.$parent.$parent.validCategories = true;
-                }
+                this.$parent.$parent.$parent.validCategories = this.selectedCategories == '' ? false : true;
             },
 
             updateDraftCategories(){
@@ -70,12 +79,6 @@
            
         },
 
-        filters: {
-            lowercase(input) {
-
-                return input.toLowerCase();
-            }
-        },
         watch: {
             selectedCategories(value) {
                 if(this.campaign.id == undefined) return;
