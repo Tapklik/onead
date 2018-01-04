@@ -48,21 +48,26 @@ Vue.component('campaign-creatives', require('./components/CampaignCreatives.vue'
 Vue.component('campaign-review', require('./components/CampaignReview.vue'));
 
 //Tapklik elements
-Vue.component('tk-select-list', require('./components/elements/tk-select-list.vue')); 
-Vue.component('tk-confirm', require('./components/elements/tk-confirm.vue')); 
-Vue.component('tk-tutorial', require('./components/elements/tk-tutorial.vue'));  
-Vue.component('tk-tutorial-tab', require('./components/elements/tk-tutorial-tab.vue')); 
+Vue.component('tk-select-list', require('./components/elements/tk-select-list.vue'));
+Vue.component('tk-confirm', require('./components/elements/tk-confirm.vue'));
+Vue.component('tk-tutorial', require('./components/elements/tk-tutorial.vue'));
+Vue.component('tk-tutorial-tab', require('./components/elements/tk-tutorial-tab.vue'));
 Vue.component('tk-popup', require('./components/elements/tk-popup.vue'));           // tk-select-list
 Vue.component('tk-select', require('./components/elements/tk-select.vue'));                     // tk-select
-Vue.component('tk-filter', require('./components/elements/tk-filter.vue')); 
+Vue.component('tk-filter', require('./components/elements/tk-filter.vue'));
 Vue.component('tk-widget', require('./components/elements/tk-widget.vue'));                     // tk-widget
 Vue.component('scale-loader', require('vue-spinner/src/ScaleLoader.vue'));
 
+var currency = require('../../../modules/Tapklik/helpers/currency');
+var utils = require('../../../modules/Tapklik/helpers/utils');
 
+Vue.use(currency);
+Vue.use(utils);
 
+var envUri = 'https://api.tapklik.com/v1';
 
-//var envUri = (window.location.hostname.search('local') == -1) ? '//api.tapklik.com/v1' : '//local.api.tapklik.com/v1';
-var envUri = '//104.225.218.101:10006/v1';
+if(window.location.hostname.search('local') > -1 || window.location.hostname.search('127')  > -1) envUri = '//local.api.tapklik.com/v1';
+if(window.location.hostname.search('alpha') > -1) envUri = '//104.225.218.101:10006/v1';
 
 const app = new Vue({
     el: '#app',
@@ -70,10 +75,12 @@ const app = new Vue({
     mounted() {
       this.getApiToken();
       this.previousURL();
+
+      console.log(this.$utils);
     },
 
     data: {
-        version: 'v0.6.5-ALPHA',
+        version: 'v0.6.6-BETA',
         uri: envUri,
         reportUri: '//104.225.218.101:10002/api/query',
         user: {
@@ -137,7 +144,7 @@ const app = new Vue({
         getUserInfo() {
             axios.get(this.uri + '/accounts/info', this.config).then(response => {
                 this.user = response.data;
-                
+
             }, error => {
                 this.showAlertPopUp('error', 'Something went wrong');
             });
@@ -146,13 +153,13 @@ const app = new Vue({
         getAccountBalance() {
             axios.get(this.uri + '/accounts/' + this.user.accountUuId + '/banker/main?query=balance', this.config).then(response => {
                 this.balance = response.data.data.balance;
-                
+
             }, error => {
                 this.showAlertPopUp('error', 'Something went wrong');
             });
             axios.get(this.uri + '/accounts/' + this.user.accountUuId + '/banker/flight?query=balance', this.config).then(response => {
                 this.flight = response.data.data.balance;
-                
+
             }, error => {
                 this.showAlertPopUp('error', 'Something went wrong');
             });
