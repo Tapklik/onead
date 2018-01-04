@@ -48,17 +48,21 @@ Vue.component('campaign-creatives', require('./components/CampaignCreatives.vue'
 Vue.component('campaign-review', require('./components/CampaignReview.vue'));
 
 //Tapklik elements
-Vue.component('tk-select-list', require('./components/elements/tk-select-list.vue')); 
-Vue.component('tk-confirm', require('./components/elements/tk-confirm.vue')); 
-Vue.component('tk-tutorial', require('./components/elements/tk-tutorial.vue'));  
-Vue.component('tk-tutorial-tab', require('./components/elements/tk-tutorial-tab.vue')); 
+Vue.component('tk-select-list', require('./components/elements/tk-select-list.vue'));
+Vue.component('tk-confirm', require('./components/elements/tk-confirm.vue'));
+Vue.component('tk-tutorial', require('./components/elements/tk-tutorial.vue'));
+Vue.component('tk-tutorial-tab', require('./components/elements/tk-tutorial-tab.vue'));
 Vue.component('tk-popup', require('./components/elements/tk-popup.vue'));           // tk-select-list
 Vue.component('tk-select', require('./components/elements/tk-select.vue'));                     // tk-select
-Vue.component('tk-filter', require('./components/elements/tk-filter.vue')); 
+Vue.component('tk-filter', require('./components/elements/tk-filter.vue'));
 Vue.component('tk-widget', require('./components/elements/tk-widget.vue'));                     // tk-widget
 Vue.component('scale-loader', require('vue-spinner/src/ScaleLoader.vue'));
 
+var currency = require('../../../modules/Tapklik/helpers/currency');
+var utils = require('../../../modules/Tapklik/helpers/utils');
 
+Vue.use(currency);
+Vue.use(utils);
 
 var envUri = 'https://api.tapklik.com/v1';
 
@@ -71,6 +75,8 @@ const app = new Vue({
     mounted() {
       this.getApiToken();
       this.previousURL();
+
+      console.log(this.$utils);
     },
 
     data: {
@@ -138,7 +144,7 @@ const app = new Vue({
         getUserInfo() {
             axios.get(this.uri + '/accounts/info', this.config).then(response => {
                 this.user = response.data;
-                
+
             }, error => {
                 this.showAlertPopUp('error', 'Something went wrong');
             });
@@ -147,13 +153,13 @@ const app = new Vue({
         getAccountBalance() {
             axios.get(this.uri + '/accounts/' + this.user.accountUuId + '/banker/main?query=balance', this.config).then(response => {
                 this.balance = response.data.data.balance;
-                
+
             }, error => {
                 this.showAlertPopUp('error', 'Something went wrong');
             });
             axios.get(this.uri + '/accounts/' + this.user.accountUuId + '/banker/flight?query=balance', this.config).then(response => {
                 this.flight = response.data.data.balance;
-                
+
             }, error => {
                 this.showAlertPopUp('error', 'Something went wrong');
             });
