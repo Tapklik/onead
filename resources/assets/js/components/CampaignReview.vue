@@ -16,7 +16,7 @@
                     <v-flex xs12 md4 lg3 class="valign-wrapper">
                         <span class="caption">Campaign Name</span>
                     </v-flex>
-                    <v-flex xs8 md5 v-if="$parent.$parent.$parent.validName == true">
+                    <v-flex xs8 md5 v-if="valid.name">
                         <v-icon>mode_edit</v-icon>
                         <span>{{campaign.name}}</span>
                     </v-flex>
@@ -32,7 +32,7 @@
                     <v-flex 
                     xs8 
                     md5 
-                    v-if="$parent.$parent.$parent.validStart == true && $parent.$parent.$parent.validEnd == true"
+                    v-if="valid.start && valid.end"
                     >
                         <v-icon>flight_takeoff</v-icon>
                         <span>From {{campaign.start_time}} to {{campaign.end_time}}</span>
@@ -46,7 +46,7 @@
                     <v-flex xs12 md4 lg3 class="valign-wrapper">
                         <span class="caption">Advertiser Domain</span>
                     </v-flex>
-                    <v-flex xs12 md8 v-if="$parent.$parent.$parent.validDomain == true">
+                    <v-flex xs12 md8 v-if="valid.domain">
                         <v-icon>language</v-icon>
                         <span>{{campaign.adomain}}</span>
                     </v-flex>
@@ -59,7 +59,7 @@
                     <v-flex xs12 md4 lg3 class="valign-wrapper">
                         <span class="caption">Click-through URL</span>
                     </v-flex>
-                    <v-flex xs12 md8 v-if="$parent.$parent.$parent.validUrl == true">
+                    <v-flex xs12 md8 v-if="valid.url">
                         <v-icon>language</v-icon>
                         <span>{{campaign.ctrurl}}</span>
                     </v-flex>
@@ -83,7 +83,7 @@
                     <v-flex xs12 md4 lg3 class="valign-wrapper">
                         <span class="caption">Budget</span>
                     </v-flex>
-                    <v-flex xs8 md5 v-if="$parent.$parent.$parent.validBudget == true">
+                    <v-flex xs8 md5 v-if="valid.budget">
                         <v-icon>attach_money</v-icon>
                         <span>{{$root.fromMicroDollars(campaign.budget.data.amount)}}</span>
                     </v-flex>
@@ -96,7 +96,7 @@
                     <v-flex xs12 md4 lg3 class="valign-wrapper">
                         <span class="caption">Target Bid</span>
                     </v-flex>
-                    <v-flex xs12 md8 v-if="$parent.$parent.$parent.validBid == true">
+                    <v-flex xs12 md8 v-if="valid.bid == true">
                         <v-icon>attach_money</v-icon>
                         <span>{{$root.fromMicroDollars(campaign.bid)}}</span>
                     </v-flex>
@@ -109,7 +109,7 @@
                     <v-flex xs12 md4 lg3 class="valign-wrapper">
                         <span class="caption">Budget Pacing</span>
                     </v-flex>
-                    <v-flex xs12 md8 v-if="$parent.$parent.$parent.validPacing == true">
+                    <v-flex xs12 md8 v-if="valid.pacing">
                         <i>* view in campaign details</i>
                     </v-flex>
                     <v-flex xs12 md8 v-else>
@@ -125,7 +125,7 @@
             </v-flex>
         </v-layout>
         <v-layout row wrap>                    
-            <v-flex xs12 v-if="$parent.$parent.$parent.validCategories == true">
+            <v-flex xs12 v-if="valid.categories">
                 <v-btn icon v-for="category in selectedCategories" :key="category.code">
                     <v-icon>{{category.img}}</v-icon>
                 </v-btn>
@@ -144,7 +144,7 @@
             </v-flex>
         </v-layout>
         <v-layout row wrap>
-            <v-flex xs12 v-if="$parent.$parent.$parent.validCreatives == true">
+            <v-flex xs12 v-if="valid.creatives">
                 <v-layout row wrap class="mt-4">
                     <v-flex xs12>
                         <v-list two-line>
@@ -181,7 +181,7 @@
                     <v-flex xs4 class="valign-wrapper">
                         <span class="caption">Devices</span>
                     </v-flex>
-                    <v-flex xs8 v-if="$parent.$parent.$parent.validDevices == true">
+                    <v-flex xs8 v-if="valid.devices">
                         <v-btn icon :key="device.device_id" v-for="device in selectedDevices">
                             <v-icon>{{device.icon}}</v-icon>
                         </v-btn>
@@ -234,7 +234,7 @@
             </v-flex>
             <v-flex xs12 md4>
                 <v-layout row wrap class="mt-4">
-                    <v-flex xs12 v-if="$parent.$parent.$parent.validGeo == true">
+                    <v-flex xs12 v-if="valid.geo">
                         <v-list two-line>
                             <span class="caption">Geo Location</span>
                             <v-list-tile avatar v-for="g in campaign.geo.data" :key="g.id">
@@ -288,7 +288,8 @@
 
         props: [
             'campaign',
-            'token'
+            'token',
+            'valid'
         ],
 
         data() {
@@ -336,21 +337,8 @@
             },
 
             validCampaign() {
-                if (this.$parent.$parent.$parent.validName == true &&
-                    this.$parent.$parent.$parent.validBid == true &&
-                    this.$parent.$parent.$parent.validBudget == true &&
-                    this.$parent.$parent.$parent.validStart == true &&
-                    this.$parent.$parent.$parent.validEnd == true &&
-                    this.$parent.$parent.$parent.validDomain == true &&
-                    this.$parent.$parent.$parent.validUrl == true &&
-                    this.$parent.$parent.$parent.validPacing == true &&
-                    this.$parent.$parent.$parent.validCreatives == true &&
-                    this.$parent.$parent.$parent.validCategories == true &&
-                    this.$parent.$parent.$parent.validGeo == true &&
-                    this.$parent.$parent.$parent.validDevices == true) {
-                    return true;      
-                }
-                else return false;
+                var keys = Object.keys(this.valid);
+                return keys.every(key => this.valid[key] == true);
             },
 
             createCampaign () {

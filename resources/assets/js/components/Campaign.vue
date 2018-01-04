@@ -2,31 +2,33 @@
     <v-container fluid grid-list-md>
         <v-stepper class="elevation-2" v-model="step">
             <v-divider></v-divider>
+
+            <!-- TABS START -->
             <v-stepper-header class="elevation-0">
-                <v-stepper-step  step="1"  :complete="step > 1" editable>
+                <v-stepper-step  step="1" :complete="step > 1" editable>
                     DETAILS
-                    <small class="red--text" v-if="validDetailsPage() == false && step > 1">
+                    <small class="red--text" v-show="!validDetailsPage() && step > 1">
                         Errors Found
                     </small>
                 </v-stepper-step>
                 <v-divider></v-divider>
                 <v-stepper-step step="2" :complete="step > 2" editable>
                     CATEGORIES
-                    <small class="red--text" v-if="validCategoriesPage() == false && step > 2">
+                    <small class="red--text" v-show="!validCategoriesPage() && step > 2">
                         Select categories
                     </small>
                 </v-stepper-step>
                 <v-divider></v-divider>
                 <v-stepper-step step="3" :complete="step > 3" editable>
                     CREATIVES
-                    <small class="red--text" v-if="validCreativesPage() == false && step > 3">
+                    <small class="red--text" v-show="!validCreativesPage() && step > 3">
                         Select creatives
                     </small>
                 </v-stepper-step>
                 <v-divider></v-divider>
                 <v-stepper-step step="4" :complete="step > 4" editable>
                     TARGETING
-                    <small class="red--text" v-if="validTargettingPage() == false && step > 4">
+                    <small class="red--text" v-show="!validTargettingPage() && step > 4">
                         Errors Found
                     </small>
                 </v-stepper-step>
@@ -35,7 +37,11 @@
                     REVIEW
                 </v-stepper-step>
             </v-stepper-header>
+            <!-- TABS END -->
+
             <v-divider></v-divider>
+
+            <!-- COMPONENTS START -->
             <v-stepper-content step="1">
                 <campaign-details 
                 :campaign="campaign"
@@ -68,6 +74,8 @@
                 :valid="valid_new_campaign"
                 ></campaign-review>
             </v-stepper-content>
+            <!-- COMPONENTS END -->
+
         </v-stepper>
     </v-container>         
 </template>
@@ -86,6 +94,10 @@
 
         data() {
             return {
+                //TABS 
+                step: 1,
+
+                //VALIDATION
                 valid_new_campaign: {
                     name: false,
                     bid: false,
@@ -100,7 +112,8 @@
                     geo: false,
                     devices: false,
                 },
-                step: 1,
+
+                //CONTENT
                 campaign: {
                     daysDetails: [0, 1, 2, 3, 4, 5, 6],
                     timesDetails: [1, 2, 3, 4, 5, 6],
@@ -155,7 +168,7 @@
         },
 
         methods: {
-
+            //VALIDATION
             validDetailsPage() {
                 return (this.valid_new_campaign.name && this.valid_new_campaign.bid && this.valid_new_campaign.budget && this.valid_new_campaign.start && this.valid_new_campaign.end && this.valid_new_campaign.domain && this.valid_new_campaign.url && this.valid_new_campaign.pacing) ? true : false;
             },
@@ -172,6 +185,7 @@
                 return (this.valid_new_campaign.geo && this.valid_new_campaign.devices) ? true : false;
             },
             
+            //CONTENT CREATE NEW
             createNewDraft() {
                 axios.post(
                     this.$root.uri + '/campaigns', 
@@ -202,6 +216,18 @@
                 }
             },
 
+            getDate(days) {
+                const toTwoDigits = num => num < 10 ? '0' + num : num;
+                let today = new Date();
+                let date = new Date();
+                date.setDate(today.getDate() + days);
+                let year = date.getFullYear();
+                let month = toTwoDigits(date.getMonth() + 1);
+                let day = toTwoDigits(date.getDate());
+                return `${year}-${month}-${day}`;
+            },
+
+            //CONTENT EDIT
             fetchCampaign(id) {
                 axios.get(
                     this.$root.uri + '/campaigns/' + id, 
@@ -251,17 +277,6 @@
                         this.$root.showAlertPopUp('error', 'Something went wrong');
                     }
                 );
-            },
-
-            getDate(days) {
-                const toTwoDigits = num => num < 10 ? '0' + num : num;
-                let today = new Date();
-                let date = new Date();
-                date.setDate(today.getDate() + days);
-                let year = date.getFullYear();
-                let month = toTwoDigits(date.getMonth() + 1);
-                let day = toTwoDigits(date.getDate());
-                return `${year}-${month}-${day}`;
             }
         },
 

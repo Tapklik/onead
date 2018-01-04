@@ -178,7 +178,7 @@
             vueSlider
         },
 
-        props: ['campaign'],
+        props: ['campaign', 'valid'],
 
         data() {
             return {
@@ -232,12 +232,12 @@
 
             geoRules() {
                 var geo = ['you must select at least one location']
-                this.$parent.$parent.$parent.validGeo = this.campaign.geo.data == '' ? false : true;
-                if(!this.$parent.$parent.$parent.validGeo && this.geoBlurred) return geo;
+                this.valid.geo = this.campaign.geo.data == '' ? false : true;
+                if(!this.valid.geo && this.geoBlurred) return geo;
             },
 
             devicesRules() {
-                this.$parent.$parent.$parent.validDevices = this.campaign.device.data.type == '' ? false : true;
+                this.valid.devices = this.campaign.device.data.type == '' ? false : true;
             },
 
             showNothing() {

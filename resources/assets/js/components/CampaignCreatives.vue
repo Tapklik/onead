@@ -48,7 +48,6 @@
                         </v-layout>
                         <v-layout row wrap>
                             <v-flex xs12 md8 >
-                            <v-alert dismissible v-bind:success='$root.alert.success' v-bind:error='$root.alert.error' v-model="$root.alert.alert" transition="scale-transition">{{$root.alert.alertMessage}}</v-alert>
                                 <v-data-table                                        
                                 :items="creatives.data"
                                 hide-actions
@@ -63,7 +62,7 @@
                                         <tr @mouseenter="imageSource = props.item.thumb, sample= props.item.name, statusShow = props.item.approved, typeShow = props.item.class, dimensionsShow = props.item.w + 'x' + props.item.h" v-show="props.item.approved == 'approved'">
                                             <td width="40" class="text-xs-right">
                                                 <v-checkbox
-                                                @click="props.selected = !props.selected, creativesRules(), $parent.$parent.$parent.trueCreatives(), updateDraftCreatives()"
+                                                @click="props.selected = !props.selected, creativesRules(), updateDraftCreatives()"
                                                 :input-value="props.selected"
                                                 hide-details
                                                 ></v-checkbox>
@@ -143,7 +142,7 @@
             this.$root.isLoading = false;
         },
 
-        props:['token','campaign'],
+        props:['token','campaign','valid'],
 
         data() {
             return {
@@ -177,18 +176,10 @@
 
         methods: {
             creativesRules() {
-                if(this.campaign.creatives.data == '') {
-                    this.$parent.$parent.$parent.validCreatives = false;
-                }
-                
-                else {
-                    this.$parent.$parent.$parent.validCreatives = true;
-                }
-            
+                this.valid.creatives = this.campaign.creatives.data == '' ? false : true;
             },
 
             collectCreatives() {
-
                 var ids = [];
                 var creatives = this.campaign.creatives.data;
 
