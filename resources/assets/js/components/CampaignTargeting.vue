@@ -182,6 +182,7 @@
 
         data() {
             return {
+                technologies: [],
                 geoBlurred: false,
                 writtenCountries: '',
                 desktopValue: 2,
@@ -205,16 +206,7 @@
                     style: {
                       
                     },
-                    data: [
-                      1,
-                      12,
-                      18,
-                      26,
-                      40,
-                      55,
-                      65,
-                      120
-                    ],
+                    data: [1, 12, 18, 26, 40, 55, 65, 120],
                     formatter: "{value} y/o",
                     piecewiseStyle: {
                       "backgroundColor": "#ccc",
@@ -240,25 +232,12 @@
 
             geoRules() {
                 var geo = ['you must select at least one location']
-                if(this.campaign.geo.data == '') {
-                    if(this.geoBlurred == false) this.$parent.$parent.$parent.validGeo = false;
-                    else {
-                        this.$parent.$parent.$parent.validGeo = false;
-                        return geo;
-                    }
-                }
-                else {
-                    this.$parent.$parent.$parent.validGeo = true;
-                }
+                this.$parent.$parent.$parent.validGeo = this.campaign.geo.data == '' ? false : true;
+                if(!this.$parent.$parent.$parent.validGeo && this.geoBlurred) return geo;
             },
 
             devicesRules() {
-                if(this.campaign.device.data.type == '') {
-                    this.$parent.$parent.$parent.validDevices = false;
-                }
-                else {
-                    this.$parent.$parent.$parent.validDevices = true;
-                }
+                this.$parent.$parent.$parent.validDevices = this.campaign.device.data.type == '' ? false : true;
             },
 
             showNothing() {
@@ -277,13 +256,13 @@
             },
 
             loadTechnologies() {
-
                 axios.get('/data/technologies.json').then(response => {
                     this.technologiesList = response.data;
                 }, error => {
                     this.$root.showAlertPopUp('error', 'Something went wrong');
                 });
             },
+            
             reloadGeo() {
                 var locations = this.campaign.geo.data;
                 if(!this.searchCountry) {
@@ -311,36 +290,44 @@
                 }
             },
 
-            updateDraftDevice(){
-
+            updateDraftOs() {
                 if(this.campaign.status != 'draft') return;
-
-                else {
-                    var payload = this.collectDevices();
-    
-                    axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/device/type', {types: payload.types}, this.$root.config).then(response => {
+                axios.post(
+                    this.$root.uri + '/campaigns/' + this.campaign.id + '/device/os', 
+                    { os: this.campaign.device.data.os }, 
+                    this.$root.config).then(response => {
                     }, error => {
                         this.$root.showAlertPopUp('error', 'Something went wrong');
-                    });
-                    axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/device/model', {models: payload.models}, this.$root.config).then(response => {
-                    }, error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong');
-                    });
-                    axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/device/os', {os: payload.os}, this.$root.config).then(response => {
-                    }, error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong');
-                    });
-                }
+                    }
+                );
             },
 
-            collectDevices() {
-                return {
-                    types: this.campaign.device.data.type,
-                    models: this.campaign.device.data.ua,
-                    os: this.campaign.device.data.os,
-                };
-            },
+            updateDraftUa() {
+                if(this.campaign.status != 'draft') return;
+                axios.post(
+                    this.$root.uri + '/campaigns/' + this.campaign.id + '/device/model', 
+                    { models: this.campaign.device.data.ua }, 
+                    this.$root.config
+                ).then(response => {
+                    }, error => {
+                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                    }
+                );
 
+            },
+            
+            updateDraftTypes() {
+                if(this.campaign.status != 'draft') return;
+                axios.post(
+                    this.$root.uri + '/campaigns/' + this.campaign.id + '/device/type', 
+                    { types: this.campaign.device.data.type }, 
+                    this.$root.config
+                ).then(response => {
+                    }, error => {
+                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                    }
+                );
+            },
 
             createSlider(from, to) {
                 var ageSlider = document.getElementById('age-slider');
@@ -369,9 +356,7 @@
             },
 
             collectGeography() {
-                return this.campaign.geo.data.map(function (geo) {
-                    return geo.id;
-                });
+                return this.campaign.geo.data.map(geo => geo.id);
             },
 
             updateDraftGeography(){
@@ -392,18 +377,16 @@
             },
 
             updateDraftUser(){
-                
                 if(this.campaign.status != 'draft') return;
-
-                else {
-                    var payload = this.collectUser();
-    
-                    axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/users', payload, this.$root.config).then(response => {
+                axios.post(
+                    this.$root.uri + '/campaigns/' + this.campaign.id + '/users', 
+                    this.collectUser(), 
+                    this.$root.config
+                ).then(response => {
                     }, error => {
-
                         this.$root.showAlertPopUp('error', 'Something went wrong');
-                    });
-                }
+                    }
+                );
             }
 
         },
@@ -414,13 +397,6 @@
             }
         },
 
-        filters: {
-
-             lowercase: function(v) {
-              return v.toLowerCase();
-          }
-        },
-
         watch: {
 
             geo(value) {
@@ -428,14 +404,14 @@
                 this.$parent.countries = value;
             },
 
-            stepActive: function(v) {
+            stepActive(value) {
                 this.$nextTick(() => this.$refs.slider.refresh())
             },
 
             technologies(value) {
-
                 console.log(value);
             },
+
             ageRange(value) {
                 if(this.campaign.id == undefined) return;
                 this.campaign.user.data.age.min = value[0];
@@ -444,23 +420,25 @@
             },
             selectedUa(value) {
                 if(this.campaign.id == undefined) return;
-                this.updateDraftDevice();
+                this.updateDraftUa();
             },
 
             selectedOs(value) {
                 if(this.campaign.id == undefined) return;
-                this.updateDraftDevice();
+                this.updateDraftOs();
             },
             
             selectedDevices(value) {
                 if(this.campaign.id == undefined) return;
-                this.updateDraftDevice();
+                this.updateDraftTypes();
                 this.devicesRules();
             },
+            
             gender(value) {
                 if(this.campaign.id) return;
                 this.updateDraftUser();
             },
+
             searchCountry(value) {
                 this.reloadGeo();
             }
