@@ -40,7 +40,7 @@
         },
 
 
-        props: ['campaign'],
+        props: ['campaign', 'valid'],
 
         data() {
             return {
@@ -68,7 +68,7 @@
             },
 
             categoriesRules() {
-                this.$parent.$parent.$parent.validCategories = this.selected_categories == '' ? false : true;
+                this.valid.categories = this.selected_categories == '' ? false : true;
             },
 
             updateDraftCategories(){

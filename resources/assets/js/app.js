@@ -159,7 +159,6 @@ const app = new Vue({
         },
 
         getCampaignId() {
-
             return window.location.pathname.replace('/admin/campaigns/edit/', '');
         },
 

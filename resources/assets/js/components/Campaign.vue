@@ -38,46 +38,34 @@
             <v-divider></v-divider>
             <v-stepper-content step="1">
                 <campaign-details 
-                :campaign="campaign" 
-                :state="stateReady"
-                :startTime="campaign.start_time"
-                :endTime="campaign.end_time"
+                :campaign="campaign"
+                :valid="valid_new_campaign"
                 ></campaign-details>
             </v-stepper-content>
             <v-stepper-content step="2">
                 <campaign-categories 
                 :campaign="campaign"
-                :state="stateReady"
+                :valid="valid_new_campaign"
                 ></campaign-categories>
             </v-stepper-content>
             <v-stepper-content step="3">
-                <campaign-creatives 
-                :user="user" 
+                <campaign-creatives
                 :token="token" 
                 :campaign="campaign"
+                :valid="valid_new_campaign"
                 ></campaign-creatives>
             </v-stepper-content>
             <v-stepper-content step="4">
                 <campaign-targeting 
-                :campaign="campaign" 
-                :selectedUa="selectedUa" 
-                :selectedOs="selectedOs" 
-                :selectedDevices="selectedDevices" 
-                :state="stateReady"
+                :campaign="campaign"
+                :valid="valid_new_campaign"
                 ></campaign-targeting>
             </v-stepper-content>
             <v-stepper-content step="5">
-                <campaign-review 
-                :selectedUa="selectedUa" 
-                :selectedOs="selectedOs" 
-                :selectedDevices="selectedDevices" 
-                :selectedCategories="selectedCategories" 
-                :user="user" 
+                <campaign-review
                 :token="token" 
-                :campaign="campaign" 
-                :state="stateReady" 
-                :folder="currentFolder" 
-                :gender="selectedGender()"
+                :campaign="campaign"
+                :valid="valid_new_campaign"
                 ></campaign-review>
             </v-stepper-content>
         </v-stepper>
@@ -92,15 +80,13 @@
 
         mounted() {
             this.$root.isLoading = false;
-            this.loadCategories();
-            this.loadTechnologies();
         },
 
         props: ['token', 'user'],
 
         data() {
             return {
-                validate: {
+                valid_new_campaign: {
                     name: false,
                     bid: false,
                     budget: false,
@@ -114,22 +100,7 @@
                     geo: false,
                     devices: false,
                 },
-
-                validName: false,
-                validBid: false,
-                validBudget: false,
-                validStart: false,
-                validEnd: false,
-                validDomain: false,
-                validUrl: false,
-                validPacing: false,
-                validCreatives: false,
-                validCategories: false,
-                validGeo: false,
-                validDevices: false,
-                technologiesList: [],
                 step: 1,
-                campaignId: null,
                 campaign: {
                     daysDetails: [0, 1, 2, 3, 4, 5, 6],
                     timesDetails: [1, 2, 3, 4, 5, 6],
@@ -179,56 +150,42 @@
                             }
                         }
                     }
-                },
-                categoriesList: false,
-                creatives: [],
-                currentFolder: {},
-                ageChange: false,
-                stateReady: false
+                }
             }
         },
 
         methods: {
 
             validDetailsPage() {
-                var a = true;
-                var b = false;
-                if (this.validName == true && this.validBid == true && this.validBudget == true && this.validStart == true && this.validEnd == true && this.validDomain == true && this.validUrl == true && this.validPacing == true){
-                    return a;
-                }
-                else return b;
+                return (this.valid_new_campaign.name && this.valid_new_campaign.bid && this.valid_new_campaign.budget && this.valid_new_campaign.start && this.valid_new_campaign.end && this.valid_new_campaign.domain && this.valid_new_campaign.url && this.valid_new_campaign.pacing) ? true : false;
             },
 
             validCreativesPage() {
-                if (this.validCreatives == true) {
-                    return true;      
-                }
-                else return false;
+                return this.valid_new_campaign.creatives ? true : false;
             },
+
             validCategoriesPage() {
-                if (this.validCategories == true) {
-                    return true;      
-                }
-                else return false;
-            },
-            validTargettingPage() {
-                if(this.validGeo == true && this.validDevices == true) {
-                    return true;      
-                }
-                else return false;
+                return this.valid_new_campaign.categories ? true : false;
             },
             
-            startDraft() {
-                if(this.$root.editMode == false){
-                    axios.post(this.$root.uri + '/campaigns', this.draftStartData(), this.$root.config).then(response => {
+            validTargettingPage() {
+                return (this.valid_new_campaign.geo && this.valid_new_campaign.devices) ? true : false;
+            },
+            
+            createNewDraft() {
+                axios.post(
+                    this.$root.uri + '/campaigns', 
+                    this.collectDraft(), 
+                    this.$root.config
+                ).then(response => {
                         this.campaign.id = response.data.data.id;
                     }, error => {
                         this.$root.showAlertPopUp('error', 'Something went wrong');
-                    });
-                }
+                    }
+                );
             },
 
-            draftStartData() {
+            collectDraft() {
                 return {
                     name: 'Draft',
                     description: '',
@@ -245,64 +202,55 @@
                 }
             },
 
-            loadCategories() {
-                axios.get('/data/categories.json').then(response => {
-                    this.categoriesList = response.data;
-                }, error => {
-                    this.$root.showAlertPopUp('error', 'Something went wrong');
-                });
-            },
-
             fetchCampaign(id) {
-
-                // Details
-                axios.get(this.$root.uri + '/campaigns/' + id, this.$root.config).then(response => {
-                    this.campaign = response.data.data;
-
-                    this.fetchCampaignCategories(id);
-                }, error => {
-                    this.$root.showAlertPopUp('error', 'Something went wrong');
-                });
+                axios.get(
+                    this.$root.uri + '/campaigns/' + id, 
+                    this.$root.config
+                ).then(response => {
+                        this.campaign = response.data.data;
+                        this.fetchCampaignCategories(id);
+                    }, error => {
+                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                    }
+                );
             },
 
             fetchCampaignCategories(id) {
-                // Categories
-                axios.get(this.$root.uri + '/campaigns/' + id + '/cat', this.$root.config).then(response => {
-                    this.campaign.cat = response.data;
-                    this.categories = this.campaign.cat.data;
-
-                    this.fetchCampaignUser(id);
-                }, error => {
-                    this.$root.showAlertPopUp('error', 'Something went wrong');
-                });
+                axios.get(
+                    this.$root.uri + '/campaigns/' + id + '/cat', 
+                    this.$root.config
+                ).then(response => {
+                        this.campaign.cat = response.data;
+                        this.fetchCampaignUser(id);
+                    }, error => {
+                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                    }
+                );
             },
             
             fetchCampaignUser(id) {
-                axios.get(this.$root.uri + '/campaigns/' + id + '/users', this.$root.config).then(response => {
-                    this.campaign.user = response.data;
-                    this.fetchCampaignBudget(id);
-                }, error => {
-                    this.$root.showAlertPopUp('error', 'Something went wrong');
-                });
+                axios.get(
+                    this.$root.uri + '/campaigns/' + id + '/users', 
+                    this.$root.config
+                ).then(response => {
+                        this.campaign.user = response.data;
+                        this.fetchCampaignBudget(id);
+                    }, error => {
+                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                    }
+                );
             },
 
             fetchCampaignBudget(id) {
-
-                axios.get(this.$root.uri + '/campaigns/' + id + '/budget', this.$root.config).then(response => {
-                    this.campaign.budget = response.data;
-
-                }, error => {
-                    this.$root.showAlertPopUp('error', 'Something went wrong');
-                });
-            },
-
-            selectedGender() {
-                if (this.campaign.user.data.gender.length == 2 || !this.campaign.user.data.gender.length) {
-                    return "M&F";
-                } else {
-                    return this.campaign.user.data.gender.join('').toUpperCase();
-                }
-
+                axios.get(
+                    this.$root.uri + '/campaigns/' + id + '/budget', 
+                    this.$root.config
+                ).then(response => {
+                        this.campaign.budget = response.data;
+                    }, error => {
+                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                    }
+                );
             },
 
             getDate(days) {
@@ -314,110 +262,22 @@
                 let month = toTwoDigits(date.getMonth() + 1);
                 let day = toTwoDigits(date.getDate());
                 return `${year}-${month}-${day}`;
-            },
-
-            loadTechnologies() {
-
-                axios.get('/data/technologies.json').then(response => {
-                    this.technologiesList = response.data;
-                }, error => {
-                    this.$root.showAlertPopUp('error', 'Something went wrong');
-                });
-            },
-        },
-        computed: {
-            selectedOs() {
-                var os = [];
-                var technologiesList = this.technologiesList.operatingsystems;
-                var selections = this.campaign.device.data.os;
-                for (var s in selections) {
-                    var id = selections[s];
-                    for(var tech in technologiesList) {
-                        if(id == technologiesList[tech].device_id) {
-
-                        os.push(technologiesList[tech]);
-                        break;
-                        }       
-                    }
-                }
-                return os;  
-            },
-            selectedDevices() {
-                var devices = [];
-                var technologiesList = this.technologiesList.devices;
-                var selections = this.campaign.device.data.type;
-                for (var s in selections) {
-                    var id = selections[s];
-                    for(var tech in technologiesList) {
-                        if(id == technologiesList[tech].device_id) {
-
-                        devices.push(technologiesList[tech]);
-                        break;
-                        }       
-                    }
-                } 
-                return devices;  
-            },
-            selectedUa() {
-                var ua = [];
-                var technologiesList = this.technologiesList.browsers;
-                var selections = this.campaign.device.data.ua;
-                for (var s in selections) {
-                    var id = selections[s];
-                    for(var tech in technologiesList) {
-                        if(id == technologiesList[tech].device_id) {
-
-                        ua.push(technologiesList[tech]);
-                        break;
-                        }       
-                    }
-                }
-                return ua;  
-            },
-            selectedCategories() {
-                var categories = [];
-                var categoriesList = this.categoriesList;
-                var selections = this.campaign.cat.data;
-                for (var s in selections) {
-                    var id = selections[s];
-                    for(var category in categoriesList) {
-                        if(id == categoriesList[category].code) {
-
-                        categories.push(categoriesList[category]);
-                        break;
-                        }       
-                    }
-                }
-                return categories;
             }
         },
+
         watch: {
             token (value) {
-
-                this.stateReady = true;
-
                 if (this.$root.editMode) {
-                    var campaignId = this.$root.getCampaignId();
-
+                    var campaignId = window.location.pathname.replace('/admin/campaigns/edit/', '');
                     this.fetchCampaign(campaignId);
                 }
-
-            this.startDraft();
-            },
-
-            editMode(value) {
-
-                this.campaignId = window.location.pathname.replace('/admin/campaigns/edit/', '');
+                else this.createNewDraft();
             },
 
             campaign(value) {
                 // Update folder
                 this.folder = (typeof this.campaign.creatives.data[0] != 'undefined') ? this.campaign.creatives.data[0].folder : [];
-            },
-
-            gender(value) {
-
-            },
+            }
         }
 
     }

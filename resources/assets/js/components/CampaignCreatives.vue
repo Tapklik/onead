@@ -143,7 +143,7 @@
             this.$root.isLoading = false;
         },
 
-        props:['token','user','campaign'],
+        props:['token','campaign'],
 
         data() {
             return {

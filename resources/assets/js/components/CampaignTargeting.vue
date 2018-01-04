@@ -178,7 +178,7 @@
             vueSlider
         },
 
-        props: ['campaign', 'selectedDevices','selectedUa','selectedOs'],
+        props: ['campaign'],
 
         data() {
             return {
@@ -262,7 +262,7 @@
                     this.$root.showAlertPopUp('error', 'Something went wrong');
                 });
             },
-            
+
             reloadGeo() {
                 var locations = this.campaign.geo.data;
                 if(!this.searchCountry) {
@@ -392,6 +392,22 @@
         },
 
         computed: {
+            selected_os() {
+                return this.campaign.device.data.os;
+            },
+
+            selected_ua() {
+                return this.campaign.device.data.ua;
+            },
+
+            selected_types() {
+                return this.campaign.device.data.type;
+            },
+
+            selected_gender() {
+                return this.campaign.user.data.gender;
+            },
+
             stepActive() {
                 return this.$parent.isActive
             }
@@ -400,7 +416,6 @@
         watch: {
 
             geo(value) {
-
                 this.$parent.countries = value;
             },
 
@@ -418,24 +433,24 @@
                 this.campaign.user.data.age.max = value[1];
                 this.updateDraftUser();
             },
-            selectedUa(value) {
+            selected_ua(value) {
                 if(this.campaign.id == undefined) return;
                 this.updateDraftUa();
             },
 
-            selectedOs(value) {
+            selected_ua(value) {
                 if(this.campaign.id == undefined) return;
                 this.updateDraftOs();
             },
             
-            selectedDevices(value) {
+            selected_types(value) {
                 if(this.campaign.id == undefined) return;
                 this.updateDraftTypes();
                 this.devicesRules();
             },
             
-            gender(value) {
-                if(this.campaign.id) return;
+            selected_gender(value) {
+                if(this.campaign.id == undefined) return;
                 this.updateDraftUser();
             },
 

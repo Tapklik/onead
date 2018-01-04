@@ -293,7 +293,7 @@
             this.$root.isLoading = false;
         },
 
-        props: ['campaign'],
+        props: ['campaign', 'valid'],
         
         data() {
             return {
@@ -329,19 +329,19 @@
         methods: {
             campaignNameRules() {
                 var name = ['too short'];
-                this.$parent.$parent.$parent.validName = this.campaign.name.length < 4 ? false : true;
-                if(!this.$parent.$parent.$parent.validName) return name;
+                this.valid.name = this.campaign.name.length < 4 ? false : true;
+                if(!this.valid.name) return name;
             },
 
             budgetRules() {
                 var budget = ['budget must be higher than bid'];
                 var zero = ['Budget can not be 0'];
                 if(this.campaign.bid > this.campaign.budget.data.amount || this.campaign.budget.data.amount == 0) {
-                    this.$parent.$parent.$parent.validBudget = false;
+                    this.valid.budget = false;
                     return this.campaign.budget.data.amount == 0 ? zero : budget;
                 }
                 else {
-                    this.$parent.$parent.$parent.validBudget = true;
+                    this.valid.budget = true;
                 }
             },
 
@@ -349,11 +349,11 @@
                 var bid = ['budget must be higher than bid'];
                 var zero = ['Bid can not be 0'];
                 if(this.campaign.bid > this.campaign.budget.data.amount || this.campaign.bid == 0) {
-                    this.$parent.$parent.$parent.validBid = false;
+                    this.valid.bid = false;
                     return this.campaign.bid == 0 ? zero : bid;
                 }
                 else {
-                    this.$parent.$parent.$parent.validBid = true;
+                    this.valid.bid = true;
                 }
             },
 
@@ -363,15 +363,15 @@
                 var today = this.$parent.$parent.$parent.getDate(0);
                 if (this.campaign.start_time >= this.campaign.end_time) {
                     return date;
-                    this.$parent.$parent.$parent.validStart = false;
+                    this.valid.start = false;
                 }
                 else if(this.campaign.start_time < today && this.$root.editMode == false) {
                     return todayDate;
-                    this.$parent.$parent.$parent.validStart = false;
+                    this.valid.start = false;
                 }
 
                 else {
-                    this.$parent.$parent.$parent.validStart = true;
+                    this.valid.start = true;
                 }
             },
 
@@ -383,8 +383,8 @@
                     '(\\?[;&a-z\\d%_.~+=-]*)?'+
                     '(\\#[-a-z\\d_]*)?$','i');
 
-                this.$parent.$parent.$parent.validDomain = regexp.test(this.campaign.adomain) ? true : false;
-                if(!this.$parent.$parent.$parent.validDomain) return url;
+                this.valid.domain = regexp.test(this.campaign.adomain) ? true : false;
+                if(!this.valid.domain) return url;
             },
 
             urlRules() {
@@ -396,8 +396,8 @@
                     '(\\?[;&a-z\\d%_.~+=-]*)?'+
                     '(\\#[-a-z\\d_]*)?$','i'); 
 
-                this.$parent.$parent.$parent.validUrl = regexp.test(this.campaign.ctrurl) ? true : false;
-                if(!this.$parent.$parent.$parent.validUrl) return url;
+                this.valid.url = regexp.test(this.campaign.ctrurl) ? true : false;
+                if(!this.valid.url) return url;
             },
 
             endDateRules() {
@@ -405,26 +405,26 @@
                 var todayDate = ['this date is before today'];
                 var today = this.$parent.$parent.$parent.getDate(0);
                 if (this.campaign.start_time >= this.campaign.end_time) {
-                    this.$parent.$parent.$parent.validEnd = false;
+                    this.valid.end = false;
                     return date;
                 }
                 else if(this.campaign.end_time < today && this.$root.editMode == false) {
-                    this.$parent.$parent.$parent.validEnd = false;
+                    this.valid.end = false;
                     return todayDate;
                 }
                 else {
-                    this.$parent.$parent.$parent.validEnd = true;
+                    this.valid.end = true;
                 }
             },
 
             daysAndTimesRules() {
                 if(this.selectedTimes == '' || this.selectedDays=='') {
-                    this.$parent.$parent.$parent.validPacing = false;
+                    this.valid.pacing = false;
                     return true;
                 }
        
                 else {
-                    this.$parent.$parent.$parent.validPacing = true;
+                    this.valid.pacing = true;
                     return false
                 }
             

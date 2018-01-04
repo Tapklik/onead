@@ -281,19 +281,14 @@
         },
 
         mounted() {
+            this.loadTechnologies();
+            this.loadCategories();
             this.$root.isLoading = false;
         },
 
         props: [
-            'campaign', 
-            'folder', 
-            'gender',
-            'token',
-            'user',
-            'selectedUa',
-            'selectedOs',
-            'selectedDevices',
-            'selectedCategories'
+            'campaign',
+            'token'
         ],
 
         data() {
@@ -304,11 +299,29 @@
                 checkCounter: 0,
                 loading: false,
                 errorCounter: 0,
-                folders: []
+                folders: [],
+                categoriesList: [],
+                technologiesList: []
             }
         },
 
         methods: {
+            loadCategories() {
+                axios.get('/data/categories.json').then(response => {
+                    this.categoriesList = response.data;
+                }, error => {
+                    this.$root.showAlertPopUp('error', 'Something went wrong');
+                });
+            },
+
+            loadTechnologies() {
+
+                axios.get('/data/technologies.json').then(response => {
+                    this.technologiesList = response.data;
+                }, error => {
+                    this.$root.showAlertPopUp('error', 'Something went wrong');
+                });
+            },
 
             getFolders() {
                 axios.get(this.$root.uri + '/creatives/folders', this.$root.config).then(response => {
@@ -534,6 +547,76 @@
 
             genderIcon(g) {
                 return g == 'F' ? 'mdi-human-female' : 'mdi-human-male'
+            }
+        },
+
+        computed: {
+            selectedOs() {
+                var os = [];
+                var technologiesList = this.technologiesList.operatingsystems;
+                var selections = this.campaign.device.data.os;
+                for (var s in selections) {
+                    var id = selections[s];
+                    for(var tech in technologiesList) {
+                        if(id == technologiesList[tech].device_id) {
+
+                        os.push(technologiesList[tech]);
+                        break;
+                        }       
+                    }
+                }
+                return os;  
+            },
+
+            selectedDevices() {
+                var devices = [];
+                var technologiesList = this.technologiesList.devices;
+                var selections = this.campaign.device.data.type;
+                for (var s in selections) {
+                    var id = selections[s];
+                    for(var tech in technologiesList) {
+                        if(id == technologiesList[tech].device_id) {
+
+                        devices.push(technologiesList[tech]);
+                        break;
+                        }       
+                    }
+                } 
+                return devices;  
+            },
+
+            selectedUa() {
+                var ua = [];
+                var technologiesList = this.technologiesList.browsers;
+                var selections = this.campaign.device.data.ua;
+                for (var s in selections) {
+                    var id = selections[s];
+                    for(var tech in technologiesList) {
+                        if(id == technologiesList[tech].device_id) {
+
+                        ua.push(technologiesList[tech]);
+                        break;
+                        }       
+                    }
+                }
+                return ua;  
+            },
+
+            selectedCategories() {
+                var categories = [];
+                var categoriesList = this.categoriesList;
+                var selections = this.campaign.cat.data;
+                for (var s in selections) {
+                    var id = selections[s];
+                    for(var category in categoriesList) {
+                        if(id == categoriesList[category].code) {
+
+                        categories.push(categoriesList[category]);
+                        break;
+                        }       
+                    }
+                }
+                return categories;
             }
         },
 
