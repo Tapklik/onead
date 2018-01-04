@@ -178,7 +178,7 @@
                         </p>
                     </v-flex>
                     <v-flex xs8 md5>
-                        <v-dialog v-model="showModal" lazy absolute width="70%">
+                        <v-dialog v-model="show_pacing_modal" lazy absolute width="70%">
                             <v-btn slot="activator">
                                 <v-icon left class="small">monetization_on</v-icon>
                                 Set Budget Pacing
@@ -255,7 +255,7 @@
                                  <v-divider></v-divider>
                                 <v-card-actions>
                                     <v-spacer></v-spacer>
-                                    <v-btn @click="showModal = false" class="elevation-0">
+                                    <v-btn @click="show_pacing_modal = false" class="elevation-0">
                                         <v-icon>close</v-icon>                                    
                                         Cancel
                                     </v-btn>
@@ -263,7 +263,7 @@
                                     primary 
                                     dark 
                                     @click="applyPlan(),
-                                    showModal=false, 
+                                    show_pacing_modal=false, 
                                     updateDraftBudget()" 
                                     class="elevation-0"
                                     >
@@ -273,7 +273,9 @@
                                 </v-card-actions>
                             </v-card>   
                         </v-dialog>
-                        <span class="red--text" v-show="daysAndTimesRules()">You must select days and times</span>
+                        <span class="red--text" v-show="daysAndTimesRules()">
+                            You must select days and times
+                        </span>
                     </v-flex>
                 </v-layout>
             </v-flex>
@@ -295,33 +297,31 @@
         
         data() {
             return {
-                showModal: false,
-                dateFormat: 'yyyy-MM-dd',
+                show_pacing_modal: false,
                 isActive: true,
                 days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
                 timesOfDay: ['12:00AM - 7:00AM', '7:00AM - 10:00AM', '10:00AM - 1:00PM', '1:00PM - 4:00PM', '4:00PM - 7:00PM', 
                 '7:00PM - 10:00PM', '10:00PM - 12:00AM'],
                 selectedDays: [0, 1, 2, 3, 4, 5, 6],
                 selectedTimes: [1, 2, 3, 4, 5, 6],
-                pacing: this.campaign.budget.data.pacing,
-                ctrurlCheck: false 
+                pacing: this.campaign.budget.data.pacing
             }
         },
         
         computed: {
             bidUsd: {
-                get: function () {
+                get() {
                     return this.campaign.bid / 1000000 
                 },
-                set: function (usd) {
+                set(usd) {
                     this.campaign.bid = usd * 1000000
                 }
             },
             budgetUsd: {
-                get: function () {
+                get() {
                     return this.campaign.budget.data.amount / 1000000
                 },
-                set: function (usd) {
+                set(usd) {
                     this.campaign.budget.data.amount = usd * 1000000
                 }
             }
@@ -329,13 +329,8 @@
         methods: {
             campaignNameRules() {
                 var name = ['too short'];
-                if(this.campaign.name.length < 4) {
-                    this.$parent.$parent.$parent.validName = false;
-                    return name;
-                }
-                else {
-                    this.$parent.$parent.$parent.validName = true;   
-                }
+                this.$parent.$parent.$parent.validName = this.campaign.name.length < 4 ? false : true;
+                if(!this.$parent.$parent.$parent.validName) return name;
             },
 
             budgetRules() {
@@ -343,12 +338,7 @@
                 var zero = ['Budget can not be 0'];
                 if(this.campaign.bid > this.campaign.budget.data.amount || this.campaign.budget.data.amount == 0) {
                     this.$parent.$parent.$parent.validBudget = false;
-                    if(this.campaign.budget.data.amount == 0) {
-                        return zero;
-                    }
-                    else {
-                        return budget;
-                    }
+                    return this.campaign.budget.data.amount == 0 ? zero : budget;
                 }
                 else {
                     this.$parent.$parent.$parent.validBudget = true;
@@ -360,12 +350,7 @@
                 var zero = ['Bid can not be 0'];
                 if(this.campaign.bid > this.campaign.budget.data.amount || this.campaign.bid == 0) {
                     this.$parent.$parent.$parent.validBid = false;
-                    if(this.campaign.bid == 0) {
-                        return zero;
-                    }
-                    else {
-                        return bid;
-                    }
+                    return this.campaign.bid == 0 ? zero : bid;
                 }
                 else {
                     this.$parent.$parent.$parent.validBid = true;
@@ -397,14 +382,9 @@
                     '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+
                     '(\\?[;&a-z\\d%_.~+=-]*)?'+
                     '(\\#[-a-z\\d_]*)?$','i');
-                if(!this.campaign.adomain) return;
-                else if(regexp.test(this.campaign.adomain) == true) {
-                    this.$parent.$parent.$parent.validDomain = true;
-                }
-                else { 
-                    this.$parent.$parent.$parent.validDomain = false;
-                    return url;
-                }
+
+                this.$parent.$parent.$parent.validDomain = regexp.test(this.campaign.adomain) ? true : false;
+                if(!this.$parent.$parent.$parent.validDomain) return url;
             },
 
             urlRules() {
@@ -414,16 +394,10 @@
                     '((\\d{1,3}\\.){3}\\d{1,3}))' + 
                     '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+
                     '(\\?[;&a-z\\d%_.~+=-]*)?'+
-                    '(\\#[-a-z\\d_]*)?$','i');                
-                if(!this.campaign.ctrurl) return;
-                else if(regexp.test(this.campaign.ctrurl) == true) { 
-                    this.$parent.$parent.$parent.validUrl = true;
-                }
+                    '(\\#[-a-z\\d_]*)?$','i'); 
 
-                else { 
-                    this.$parent.$parent.$parent.validUrl = false;
-                    return url;
-                }
+                this.$parent.$parent.$parent.validUrl = regexp.test(this.campaign.ctrurl) ? true : false;
+                if(!this.$parent.$parent.$parent.validUrl) return url;
             },
 
             endDateRules() {
@@ -512,14 +486,10 @@
             applyPlan() {
                 var plan = ""
                 for (var d = 0; d < 7; d++) {
-                    if (d > 0) {plan += " "}
+                    if (d > 0) plan += " ";
                         if (this.selectedDays.indexOf(d) >= 0 ) {
                             for( var t = 0; t < 7; t++) {
-                                if(this.selectedTimes.indexOf(t) >= 0) {
-                                    plan += "1"
-                                } else {
-                                    plan += "0"
-                                }
+                                plan += this.selectedTimes.indexOf(t) >= 0 ? "1" : "0";
                             }
                         } else {
                             plan += "0000000"
@@ -548,8 +518,8 @@
                 selectedTimes(value) {
                     this.campaign.timesDetails = value;
                     this.applyCurrentlyPlan();
-                
                 },
+            
                 selectedDays(value) {
                     this.campaign.daysDetails = value;
                     this.applyCurrentlyPlan();

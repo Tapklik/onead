@@ -54,11 +54,6 @@
             this.$root.isLoading = false;
         },
         
-        props: ['user', 'token'],
-
-        data() {
-            return {
-            }
-        }
+        props: ['user', 'token']
     }
 </script>

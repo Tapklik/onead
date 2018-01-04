@@ -1,26 +1,34 @@
 <template>
     <v-container fluid grid-list-md>
-        <v-stepper class="elevation-2" v-model="e1">
+        <v-stepper class="elevation-2" v-model="step">
             <v-divider></v-divider>
             <v-stepper-header class="elevation-0">
-                <v-stepper-step step="1" :complete="e1 > 1" editable>
+                <v-stepper-step  step="1"  :complete="step > 1" editable>
                     DETAILS
-                    <small class="red--text" v-if="validDetailsPage() == false  && e1 >1">Errors Found</small>
+                    <small class="red--text" v-if="validDetailsPage() == false && step > 1">
+                        Errors Found
+                    </small>
                 </v-stepper-step>
                 <v-divider></v-divider>
-                <v-stepper-step step="2" :complete="e1 > 2" editable>
+                <v-stepper-step step="2" :complete="step > 2" editable>
                     CATEGORIES
-                    <small class="red--text" v-if="validCategoriesPage() == false && e1 >2">Select categories</small>
+                    <small class="red--text" v-if="validCategoriesPage() == false && step > 2">
+                        Select categories
+                    </small>
                 </v-stepper-step>
                 <v-divider></v-divider>
-                <v-stepper-step step="3" :complete="e1 > 3" editable>
+                <v-stepper-step step="3" :complete="step > 3" editable>
                     CREATIVES
-                    <small class="red--text" v-if="validCreativesPage() == false && e1 >3">Select creatives</small>
+                    <small class="red--text" v-if="validCreativesPage() == false && step > 3">
+                        Select creatives
+                    </small>
                 </v-stepper-step>
                 <v-divider></v-divider>
-                <v-stepper-step step="4" :complete="e1 > 4" editable>
+                <v-stepper-step step="4" :complete="step > 4" editable>
                     TARGETING
-                    <small class="red--text" v-if="validTargettingPage() == false && e1 >4">Errors Found</small>
+                    <small class="red--text" v-if="validTargettingPage() == false && step > 4">
+                        Errors Found
+                    </small>
                 </v-stepper-step>
                 <v-divider></v-divider>
                 <v-stepper-step step="5" editable>
@@ -38,17 +46,16 @@
             </v-stepper-content>
             <v-stepper-content step="2">
                 <campaign-categories 
-                :campaign="campaign" 
-                :selectedCategories="selectedCategories" 
+                :campaign="campaign"
                 :state="stateReady"
                 ></campaign-categories>
             </v-stepper-content>
             <v-stepper-content step="3">
-               <campaign-creatives 
-               :user="user" 
-               :token="token" 
-               :campaign="campaign"
-               ></campaign-creatives>
+                <campaign-creatives 
+                :user="user" 
+                :token="token" 
+                :campaign="campaign"
+                ></campaign-creatives>
             </v-stepper-content>
             <v-stepper-content step="4">
                 <campaign-targeting 
@@ -85,6 +92,7 @@
 
         mounted() {
             this.$root.isLoading = false;
+            this.loadCategories();
             this.loadTechnologies();
         },
 
@@ -92,6 +100,21 @@
 
         data() {
             return {
+                validate: {
+                    name: false,
+                    bid: false,
+                    budget: false,
+                    start: false,
+                    end: false,
+                    domain: false,
+                    url: false,
+                    pacing: false,
+                    creatives: false,
+                    categories: false,
+                    geo: false,
+                    devices: false,
+                },
+
                 validName: false,
                 validBid: false,
                 validBudget: false,
@@ -105,7 +128,7 @@
                 validGeo: false,
                 validDevices: false,
                 technologiesList: [],
-                e1: 1,
+                step: 1,
                 campaignId: null,
                 campaign: {
                     daysDetails: [0, 1, 2, 3, 4, 5, 6],
@@ -167,31 +190,32 @@
 
         methods: {
 
-            trueCreatives() {
-                var creatives = this.campaign.creatives;
-                for (var c in creatives) {
-                    if(creatives[c].ctrurl == '') {
-                        creatives[c].ctrurl == this.campaign.ctrurl;
-                    }
-                }
-                this.campaign.creatives = creatives;
-            },            
-
             validDetailsPage() {
+                var a = true;
+                var b = false;
                 if (this.validName == true && this.validBid == true && this.validBudget == true && this.validStart == true && this.validEnd == true && this.validDomain == true && this.validUrl == true && this.validPacing == true){
-                    return true;
+                    return a;
                 }
-                else return false;
+                else return b;
             },
 
             validCreativesPage() {
-                return this.validCreatives == true ? true : false;
+                if (this.validCreatives == true) {
+                    return true;      
+                }
+                else return false;
             },
             validCategoriesPage() {
-                return this.validCategories == true ? true : false;
+                if (this.validCategories == true) {
+                    return true;      
+                }
+                else return false;
             },
             validTargettingPage() {
-                return (this.validGeo == true && this.validDevices == true) ? true : false;
+                if(this.validGeo == true && this.validDevices == true) {
+                    return true;      
+                }
+                else return false;
             },
             
             startDraft() {
@@ -221,6 +245,14 @@
                 }
             },
 
+            loadCategories() {
+                axios.get('/data/categories.json').then(response => {
+                    this.categoriesList = response.data;
+                }, error => {
+                    this.$root.showAlertPopUp('error', 'Something went wrong');
+                });
+            },
+
             fetchCampaign(id) {
 
                 // Details
@@ -246,10 +278,8 @@
             },
             
             fetchCampaignUser(id) {
-
                 axios.get(this.$root.uri + '/campaigns/' + id + '/users', this.$root.config).then(response => {
                     this.campaign.user = response.data;
-
                     this.fetchCampaignBudget(id);
                 }, error => {
                     this.$root.showAlertPopUp('error', 'Something went wrong');
@@ -257,6 +287,7 @@
             },
 
             fetchCampaignBudget(id) {
+
                 axios.get(this.$root.uri + '/campaigns/' + id + '/budget', this.$root.config).then(response => {
                     this.campaign.budget = response.data;
 
@@ -283,7 +314,7 @@
                 let month = toTwoDigits(date.getMonth() + 1);
                 let day = toTwoDigits(date.getDate());
                 return `${year}-${month}-${day}`;
-            },                                       
+            },
 
             loadTechnologies() {
 
@@ -382,7 +413,11 @@
             campaign(value) {
                 // Update folder
                 this.folder = (typeof this.campaign.creatives.data[0] != 'undefined') ? this.campaign.creatives.data[0].folder : [];
-            }
+            },
+
+            gender(value) {
+
+            },
         }
 
     }

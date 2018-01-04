@@ -8,7 +8,9 @@
         <v-layout row wrap>
             <v-flex xs12 md9 class="valign-wrapper mt-4">
                 <span class="title">IAB Campaign Categories</span>
-                <p class="caption ma-0">Select major IAB categories into which your campaign and target audience best fits</p>
+                <p class="caption ma-0">
+                    Select major IAB categories into which your campaign and target audience best fits
+                </p>
             </v-flex>
         </v-layout>
         <v-layout row wrap>
@@ -38,11 +40,17 @@
         },
 
 
-        props: ['campaign','selectedCategories'],
+        props: ['campaign'],
 
         data() {
             return {
                 categories: []
+            }
+        },
+        
+        computed: {
+            selected_categories() {
+                return this.campaign.cat.data;
             }
         },
 
@@ -60,27 +68,28 @@
             },
 
             categoriesRules() {
-                this.$parent.$parent.$parent.validCategories = this.selectedCategories == '' ? false : true;
+                this.$parent.$parent.$parent.validCategories = this.selected_categories == '' ? false : true;
             },
 
             updateDraftCategories(){
-
                 if(this.campaign.status != 'draft') return;
+                var payload = this.campaign.cat.data;
 
-                else {
-                    var payload = this.campaign.cat.data;
-    
-                    axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/cat', payload, this.$root.config).then(response => {
+                axios.post(
+                    this.$root.uri + '/campaigns/' + this.campaign.id + '/cat', 
+                    this.campaign.cat.data, 
+                    this.$root.config
+                ).then(response => {
+
                     }, error => {
                         this.$root.showAlertPopUp('error', 'Something went wrong');
-                    });
-                }
-            },
-           
+                    }
+                );
+            }
         },
 
         watch: {
-            selectedCategories(value) {
+            selected_categories(value) {
                 if(this.campaign.id == undefined) return;
                 this.updateDraftCategories();
                 this.categoriesRules();

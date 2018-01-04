@@ -665,9 +665,9 @@
                     h: 0,
                     w: 0,
                     class: 'banner',
-                    folder: '',
-                    thumbnail: ''
+                    folder: ''
                 },
+                thumbnail: '',
 
                 //NEW FOLDER
                 show_new_folder_modal: false,
@@ -723,7 +723,8 @@
                                 name: file.name.slice(0,file.name.lastIndexOf('.')),
                                 class: 'banner',
                                 url: '',
-                                responsive: 0
+                                responsive: 0,
+                                folder: this.folders[0].key
                             };
                             clearInterval(sizeInterval);
                         }
@@ -731,7 +732,7 @@
                 }.bind(this));
 
                 this.dropzone.on("thumbnail", function(file, thumb) {
-                    this.new_creative.thumbnail = thumb;
+                    this.thumbnail = thumb;
                 }.bind(this));
             },
 
@@ -750,7 +751,7 @@
                     h: this.new_creative.h,
                     responsive: this.new_creative.responsive,
                     class: this.new_creative.class,
-                    thumb: this.new_creative.thumbnail
+                    thumb: this.thumbnail
                 };
                 this.dropzone.processQueue();
 
@@ -795,17 +796,17 @@
             },
 
             creativeNameRules() {
-                this.valid_new_creative.name = this.new_creative.name.lenght < 4 ? false : true;
+                this.valid_new_creative.name = this.new_creative.name.length < 4 ? false : true;
                 if(!this.valid_new_creative.name) return ['Too short'];
             },
 
             heightRules() {
-                this.valid_new_creative.h = this.new_creative.h == '' ? false : true;
+                this.valid_new_creative.h = this.new_creative.h <= 0 ? false : true;
                 if(!this.valid_new_creative.h) return ['This must be filled in'];
             },
 
             widthRules() {
-                this.valid_new_creative.w = this.new_creative.w == '' ? false : true;
+                this.valid_new_creative.w = this.new_creative.w <= 0 ? false : true;
                 if(!this.valid_new_creative.w) return ['This must be filled in'];
             },
 
@@ -845,6 +846,7 @@
                     this.$root.config
                 ).then(response => {
                         this.folders = this.changeFoldersAndCreativesData(response.data.data);
+                        this.new_creative.folder = this.folders[0].key;
                         this.folders_table_loading = false;
                     }, error => {
                         this.folders_table_loading = false;
