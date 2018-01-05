@@ -251,8 +251,8 @@
         },
 
         filters: {
-            uppercase: function(v) {
-              return v.toUpperCase();
+            uppercase(value) {
+              return value.toUpperCase();
           }
       },
 
@@ -262,6 +262,7 @@
                 this.getFolders();
             }
         },
+        
         campaign(value) {
             this.collectCreatives();
             this.creativesRules();

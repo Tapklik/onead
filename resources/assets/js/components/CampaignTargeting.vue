@@ -17,7 +17,7 @@
                     <v-flex xs12 class="mt-3">
                         <tk-select-list v-model="campaign.device.data.type">
                             <tk-select 
-                            v-for="technology in technologiesList.devices" 
+                            v-for="technology in technologies.devices" 
                             :icon="technology.icon" 
                             :trueValue="technology.device_id" 
                             :key="technology.device_id"
@@ -37,7 +37,7 @@
                     <v-flex xs12>
                             <tk-select-list v-model="campaign.device.data.os">
                             <tk-select 
-                            v-for="technology in technologiesList.operatingsystems" 
+                            v-for="technology in technologies.operatingsystems" 
                             :icon="technology.icon" 
                             :trueValue="technology.device_id" 
                             :key="technology.device_id"
@@ -57,7 +57,7 @@
                     <v-flex xs12>
                         <tk-select-list v-model="campaign.device.data.ua">
                             <tk-select 
-                            v-for="technology in technologiesList.browsers" 
+                            v-for="technology in technologies.browsers" 
                             :icon="technology.icon" 
                             :trueValue="technology.device_id" 
                             :key="technology.device_id"
@@ -78,15 +78,15 @@
                 <v-layout row wrap xs12>
                     <v-flex xs12>
                         <v-select
-                          v-bind:items="geo"
+                          :items="geo"
                           v-model="campaign.geo.data"
                           :rules="geoRules()"
                           item-text="key"
                           return-object
                           prepend-icon="add_location"
-                          :search-input.sync="searchCountry"
+                          :search-input.sync="search_geo"
                           @change="showNothing()"
-                          @blur="updateDraftGeography(), geoBlurred = true"
+                          @blur="geo_blurred = true"
                           label="Country or city name"
                           hint="Start typing location name to see the list..."
                           multiple
@@ -146,8 +146,8 @@
                     <v-flex xs12 md10 lg8 class="mt-5">
                         <vue-slider
                         ref="slider"
-                        v-model="ageRange"
-                        v-bind="ageSlider"
+                        v-model="age_range"
+                        v-bind="age_slider"
                         :show="true"
                         :real-time="true"
                         ></vue-slider>
@@ -170,7 +170,7 @@
 
         mounted() {
             this.$root.isLoading = false;
-            this.loadTechnologies();
+            this.getTechnologies();
         },
 
 
@@ -182,22 +182,15 @@
 
         data() {
             return {
-                technologies: [],
-                geoBlurred: false,
-                writtenCountries: '',
-                desktopValue: 2,
-                mobileValue: 4,
-                tabletValue: 5,
-                type: [],
-                os: [],
-                browser: [],
+                //GEO
+                geo_blurred: false,
                 geo: this.campaign.geo.data,
-                searchCountry: '',
-                selectedLocations: this.campaign.geo.data,
-                geoTemplate: '<div class="geo-dropdown"><flag :iso2="item.country_iso2"></flag><div class="text"><span class="key">{{ item.key }}</span><br><span class="comment">{{ item.comment }}</span></div></div>',
-                technologiesList: false,
-                ageRange: [1, 120],
-                ageSlider: {
+                search_geo: '',
+
+                //TOOLS
+                technologies: [],
+                age_range: [1, 120],
+                age_slider: {
                     width: "100%",
                     tooltip: "always",
                     disabled: false,
@@ -230,66 +223,83 @@
         },
         methods: {
 
+            //VALIDATION
             geoRules() {
                 var geo = ['you must select at least one location']
                 this.valid.geo = this.campaign.geo.data == '' ? false : true;
-                if(!this.valid.geo && this.geoBlurred) return geo;
+                if(!this.valid.geo && this.geo_blurred) return geo;
             },
 
             devicesRules() {
                 this.valid.devices = this.campaign.device.data.type == '' ? false : true;
             },
 
-            showNothing() {
-                var a = {key: ''};
-                return a;
+            //TARGETTING TOOLS
+            getTechnologies() {
+                axios.get(
+                    '/data/technologies.json'
+                ).then(response => {
+                        this.technologies = response.data;
+                    }, error => {
+                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                    }
+                );
             },
 
-            removeGeo(id) {
-                var locations = this.campaign.geo.data;
-                for(var l in locations) {
-                    if(id == locations[l].id) {
-                        locations.splice(l,1);
-                    }    
-                }
-                this.campaign.geo.data = locations;
-            },
+            createSlider(from, to) {
+                var age_slider = document.getElementById('age-slider');
 
-            loadTechnologies() {
-                axios.get('/data/technologies.json').then(response => {
-                    this.technologiesList = response.data;
-                }, error => {
-                    this.$root.showAlertPopUp('error', 'Something went wrong');
+                noUiSlider.create(age_slider, {
+                    start: [from, to],
+                    connect: [false, true, false],
+                    behaviour: 'tap-drag',
+                    range: {
+                        'min': [1, 12],
+                        '12%': [12, 18],
+                        '25%': [18, 26],
+                        '43%': [26, 40],
+                        '62%': [40, 55],
+                        '78%': [55, 65],
+                        '90%': [65, 120],
+                        'max': 120
+                    }
                 });
+
+                age_slider.noUiSlider.on('update', function (values, handle) {
+                    this.campaign.user.data.age.min = parseInt(values[0]);
+                    this.campaign.user.data.age.max = parseInt(values[1]);
+                }.bind(this));
+            },
+
+            //GEO
+            getGeo() {
+                axios.get(
+                    this.$root.uri + '/core/search/geo?key=' + this.search_geo, 
+                    this.$root.config
+                ).then(response => {
+                        this.geo = response.data.data;
+                    }, error => {
+                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                    }
+                );
             },
 
             reloadGeo() {
-                var locations = this.campaign.geo.data;
-                if(!this.searchCountry) {
-                    for(var l in locations) {
-                        this.geo.push(locations[l]);
-                    }
-                }
-
-                else if(this.searchCountry.length >= 3){
-                    axios.get(this.$root.uri + '/core/search/geo?key=' + this.searchCountry, this.$root.config).then(response => {
-                            this.geo = response.data.data;
-                            for(var l in locations) {
-                                this.geo.push(locations[l]);
-                            }
-                        }, error => {
-                            this.$root.showAlertPopUp('error', 'Something went wrong');
-                        }
-                    )
-                }
-                
-                else {
-                    for(var l in locations) {
-                        this.geo.push(locations[l]);
-                    }
-                }
+                if(!this.search_geo || this.search_geo.length < 3) this.geo = this.campaign.geo.data;
+                else this.getGeo();
             },
 
+            showNothing() {
+                var empty = { key: '' };
+                return empty;
+            },
+
+            removeGeo(id) {
+                var removed_geo = this.campaign.geo.data.map(location => location.id).indexOf(id);
+                this.campaign.geo.data.splice(removed_geo, 1);
+            },
+
+            //DRAFT UPDATE
             updateDraftOs() {
                 if(this.campaign.status != 'draft') return;
                 axios.post(
@@ -329,49 +339,25 @@
                 );
             },
 
-            createSlider(from, to) {
-                var ageSlider = document.getElementById('age-slider');
-
-                noUiSlider.create(ageSlider, {
-                    start: [from, to],
-                    connect: [false, true, false],
-                    behaviour: 'tap-drag',
-                    range: {
-                        'min': [1, 12],
-                        '12%': [12, 18],
-                        '25%': [18, 26],
-                        '43%': [26, 40],
-                        '62%': [40, 55],
-                        '78%': [55, 65],
-                        '90%': [65, 120],
-                        'max': 120
-                    }
-                });
-
-                ageSlider.noUiSlider.on('update', function (values, handle) {
-
-                    this.campaign.user.data.age.min = parseInt(values[0]);
-                    this.campaign.user.data.age.max = parseInt(values[1]);
-                }.bind(this));
-            },
-
             collectGeography() {
                 return this.campaign.geo.data.map(geo => geo.id);
             },
 
             updateDraftGeography(){
-
                 if(this.campaign.status != 'draft') return;
 
-                else {
-                    var payload = this.collectGeography();
-    
-                    axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/geo', {geo: payload}, this.$root.config).then(response => {
+                axios.post(
+                    this.$root.uri + '/campaigns/' + this.campaign.id + '/geo', 
+                    { geo: this.collectGeography() }, 
+                    this.$root.config
+                ).then(response => {
+                
                     }, error => {
                         this.$root.showAlertPopUp('error', 'Something went wrong');
-                    });
-                }
+                    }
+                );
             },
+
             collectUser() {
                 return this.campaign.user.data;
             },
@@ -388,12 +374,15 @@
                     }
                 );
             }
-
         },
 
         computed: {
             selected_os() {
                 return this.campaign.device.data.os;
+            },
+
+            selected_geo() {
+                return this.campaign.geo.data;
             },
 
             selected_ua() {
@@ -423,24 +412,26 @@
                 this.$nextTick(() => this.$refs.slider.refresh())
             },
 
-            technologies(value) {
-                console.log(value);
-            },
-
-            ageRange(value) {
+            age_range(value) {
                 if(this.campaign.id == undefined) return;
                 this.campaign.user.data.age.min = value[0];
                 this.campaign.user.data.age.max = value[1];
                 this.updateDraftUser();
             },
+
             selected_ua(value) {
                 if(this.campaign.id == undefined) return;
                 this.updateDraftUa();
             },
 
-            selected_ua(value) {
+            selected_os(value) {
                 if(this.campaign.id == undefined) return;
                 this.updateDraftOs();
+            },
+            
+            selected_geo(value) {
+                if(this.campaign.id == undefined) return;
+                this.updateDraftGeography();
             },
             
             selected_types(value) {
@@ -454,7 +445,7 @@
                 this.updateDraftUser();
             },
 
-            searchCountry(value) {
+            search_geo(value) {
                 this.reloadGeo();
             }
         }
