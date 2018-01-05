@@ -43,7 +43,9 @@
                         <v-select
                         v-bind:items="countries"
                         v-model="account.localization.country"
-                        label="Select" item-text="country_name" item-value="country"
+                        label="Select" 
+                        item-text="country_name" 
+                        item-value="country"
                         single-line
                         prepend-icon="language"
                         bottom
@@ -74,7 +76,9 @@
                         v-bind:items="timezones"
                         v-model="account.localization.timezone"
                         prepend-icon="language"
-                        label="Select" item-text="text" item-value="text"
+                        label="Select" 
+                        item-text="text" 
+                        item-value="text"
                         single-line
                         bottom
                         ></v-select>
@@ -115,7 +119,7 @@
 
         data() {
             return {
-                account: {  
+                account: {
                     localization: {
                         country: '',
                         city: '',

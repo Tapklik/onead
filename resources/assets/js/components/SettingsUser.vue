@@ -239,7 +239,7 @@
                 var short_password = ['The password is too short'];
                 var different_passwords = ['The passwords do not match'];
                 this.validNewPassword = (password != password2 || password2.length < 8) ? false : true;
-                if(!validNewPassword) return password != password2 ? different_passwords : short_password;
+                if(!this.validNewPassword) return password != password2 ? different_passwords : short_password;
             },
 
             fetchUsersDet() {
