@@ -1,10 +1,15 @@
 <template>
     <v-container grid-list-md>
+
+        <!-- HEADER START -->
          <v-layout row wrap>
             <v-flex xs12 class="valign-wrapper mb-1">
                 <h5>CAMPAIGN CATEGORIES</h5>
             </v-flex>
         </v-layout>
+        <!-- HEADER END -->
+
+        <!-- SUBHEADER START -->
         <v-layout row wrap>
             <v-flex xs12 md9 class="valign-wrapper mt-4">
                 <span class="title">IAB Campaign Categories</span>
@@ -13,6 +18,9 @@
                 </p>
             </v-flex>
         </v-layout>
+        <!-- SUBHEADER END -->
+
+        <!-- CATEGORIES START -->
         <v-layout row wrap>
             <v-flex xs12 class="mt-3">
                 <tk-select-list v-model="campaign.cat.data">
@@ -28,6 +36,8 @@
                 </tk-select-list>
             </v-flex>
         </v-layout>
+        <!-- CATEGORIES END -->
+
     </v-container>
 </template>
 
@@ -47,6 +57,7 @@
 
         data() {
             return {
+                //CATEGORIES
                 categories: []
             }
         },
@@ -58,7 +69,12 @@
         },
 
         methods: {
+            //VALIDATION
+            categoriesRules() {
+                this.valid.categories = this.selected_categories == '' ? false : true;
+            },
 
+            //CATEGORIES
             getCategories() {
                 axios.get(
                     '/data/categories.json'
@@ -70,13 +86,9 @@
                 );
             },
 
-            categoriesRules() {
-                this.valid.categories = this.selected_categories == '' ? false : true;
-            },
-
+            //UPDATE DRAFT
             updateDraftCategories(){
                 if(this.campaign.status != 'draft') return;
-                var payload = this.campaign.cat.data;
 
                 axios.post(
                     this.$root.uri + '/campaigns/' + this.campaign.id + '/cat', 
