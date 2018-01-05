@@ -65,7 +65,7 @@
                                 <tr @mouseenter="imageSource = props.item.thumb, sample= props.item.name, statusShow = props.item.approved, typeShow = props.item.class, dimensionsShow = props.item.w + 'x' + props.item.h" v-show="props.item.approved == 'approved'">
                                     <td width="40" class="text-xs-right">
                                         <v-checkbox
-                                        @click="props.selected = !props.selected, creativesRules(), updateDraftCreatives()"
+                                        @click="props.selected = !props.selected, creativesRules()"
                                         :input-value="props.selected"
                                         hide-details
                                         ></v-checkbox>
@@ -174,6 +174,12 @@
                 search: ''
             }
         },
+        
+        computed: {
+            selected_creatives() {
+                return this.campaign.creatives.data;
+            }
+        },
 
         methods: {
             creativesRules() {
@@ -181,19 +187,22 @@
             },
 
             collectCreatives() {
-                this.campaign.creatives.data.map(creative => creative.id);
+                return this.campaign.creatives.data.map(creative => creative.id);
             },
 
             updateDraftCreatives() {
                 if(this.campaign.status != 'draft') return;
-                else {
-                    var payload = this.collectCreatives();
-    
-                    axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/creatives', {creatives: payload}, this.$root.config).then(response => {
+                
+                axios.post(
+                    this.$root.uri + '/campaigns/' + this.campaign.id + '/creatives', 
+                    { creatives: this.collectCreatives() }, 
+                    this.$root.config
+                ).then(response => {
+
                     }, error => {
                         this.$root.showAlertPopUp('error', 'Something went wrong');
-                    });
-                }
+                    }
+                );
             },
 
             getFolders() {
@@ -208,7 +217,6 @@
             },
 
             openFolder(folderObj) {
-
                 this.currentFolder = folderObj;
                 this.loading=true;
 
@@ -228,26 +236,7 @@
                     this.$root.showAlertPopUp('error', 'Something went wrong');
                     this.loading=false;
                 });
-            },
-
-            renderIconFromStatus(status) {
-
-                return (status == 'approved') ? 'fa fa-fw fa-check green' : 'fa fa-fw fa-times red';
-            },
-
-            openCreative(src) {
-                window.open(src);
-            },
-
-            openModal() {
-                this.$root.modalIsOpen = true;
-                return false;
-            },
-
-            toggleAll () {
-                if (this.selected.length) this.selected = []
-                    else this.selected = this.items.slice()
-                }
+            }
         },
 
         filters: {
@@ -258,13 +247,14 @@
 
     watch: {
         token(value) {
-            if(typeof value != 'undefined') {
-                this.getFolders();
-            }
+            this.getFolders();
         },
-        
+
+        selected_creatives(value) {
+            this.updateDraftCreatives();
+        },
+
         campaign(value) {
-            this.collectCreatives();
             this.creativesRules();
         }
     },
