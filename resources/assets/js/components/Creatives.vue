@@ -613,7 +613,6 @@
                           </v-card>
                     </v-flex>
                     <!-- PREVIEW END -->
-
                 </v-layout>
             </v-card-text>
             <!-- CREATIVES END -->
@@ -757,7 +756,6 @@
 
                 this.dropzone.on("complete", function (file) {
                     if (file.status == 'success') {
-
                         this.clearUploadModal();
                         this.new_file_status = 'empty';
                         this.new_creative_button_loading = false;
@@ -776,6 +774,7 @@
             },
 
             clearUploadModal() {
+                this.new_file_status = 'empty';
                 this.dropzone.removeAllFiles(true);
                 this.new_creative.name = '';
                 this.new_creative.url = '';

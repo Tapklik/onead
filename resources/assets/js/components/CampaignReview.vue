@@ -293,9 +293,7 @@
         ],
 
         data() {
-
             return {
-                ajax: false,
                 batch: [],
                 checkCounter: 0,
                 loading: false,
@@ -343,28 +341,26 @@
 
             createCampaign () {
                 this.batch.push(0);
-                this.ajax = true;
-
-                axios.put(this.$root.uri + '/campaigns/' + this.campaign.id, {status: 'not started'}, this.$root.config).then(response => {
-
-                    this.$root.alertpopup.alertMessage = 'Successfully created a new campaign.';
-                    window.location = '/admin/campaigns?m=' + this.$root.alertpopup.alertMessage;
-                }, error => {
-
-                    this.loading = false;
-                    this.$root.showAlertPopUp('error', 'Something went wrong.');
-                });
+                axios.put(
+                    this.$root.uri + '/campaigns/' + this.campaign.id, 
+                    { status: 'not started' }, 
+                    this.$root.config
+                ).then(response => {
+                        this.$root.alertpopup.alertMessage = 'Successfully created a new campaign.';
+                        window.location = '/admin/campaigns?m=' + this.$root.alertpopup.alertMessage;
+                    }, error => {
+                        this.loading = false;
+                        this.$root.showAlertPopUp('error', 'Something went wrong.');
+                    }
+                );
             },
 
             updateMessage() {
-
                 this.$root.alertpopup.alertMessage = 'Successfully created a new campaign.';
                 window.location = '/admin/campaigns?m=' + this.$root.alertpopup.alertMessage;
             },
 
             updateCampaign () {
-                this.ajax = true;
-
                 this.updateCampaignDetails();
                 this.updateCampaignCategories();
                 this.updateCampaignUser();
@@ -431,7 +427,6 @@
             },
 
             updateCampaignDevice(){
-
                 var payload = this.collectDevices();
 
                 axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/device/type', {types: payload.types}, this.$root.config).then(response => {
@@ -460,10 +455,8 @@
                 });
             },
 
-            updateCampaignBudget()
-            {
+            updateCampaignBudget() {
                 var payload = this.collectBudget();
-
                 axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/budget', payload, this.$root.config).then(response => {
                     this.batch.push(7);
                     this.checkCounter = this.checkCounter + 1;
@@ -475,9 +468,7 @@
             },
 
             updateCampaignCreatives() {
-
                 var payload = this.collectCreatives();
-
                 axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/creatives', {creatives: payload}, this.$root.config).then(response => {
                     this.batch.push(8);
                     this.checkCounter = this.checkCounter + 1;
@@ -540,54 +531,27 @@
 
         computed: {
             selectedOs() {
-                var os = [];
-                var technologiesList = this.technologiesList.operatingsystems;
-                var selections = this.campaign.device.data.os;
-                for (var s in selections) {
-                    var id = selections[s];
-                    for(var tech in technologiesList) {
-                        if(id == technologiesList[tech].device_id) {
-
-                        os.push(technologiesList[tech]);
-                        break;
-                        }       
-                    }
-                }
-                return os;  
+                if(!this.technologiesList.operatingsystems) return;
+                var self = this;
+                return this.technologiesList.operatingsystems.filter(operatingsystem => 
+                    self.campaign.device.data.os.indexOf(operatingsystem.device_id) != -1
+                );  
             },
 
             selectedDevices() {
-                var devices = [];
-                var technologiesList = this.technologiesList.devices;
-                var selections = this.campaign.device.data.type;
-                for (var s in selections) {
-                    var id = selections[s];
-                    for(var tech in technologiesList) {
-                        if(id == technologiesList[tech].device_id) {
-
-                        devices.push(technologiesList[tech]);
-                        break;
-                        }       
-                    }
-                } 
-                return devices;  
+                if(!this.technologiesList.devices) return;
+                var self = this;
+                return this.technologiesList.devices.filter(device => 
+                    self.campaign.device.data.type.indexOf(device.device_id) != -1
+                );
             },
 
             selectedUa() {
-                var ua = [];
-                var technologiesList = this.technologiesList.browsers;
-                var selections = this.campaign.device.data.ua;
-                for (var s in selections) {
-                    var id = selections[s];
-                    for(var tech in technologiesList) {
-                        if(id == technologiesList[tech].device_id) {
-
-                        ua.push(technologiesList[tech]);
-                        break;
-                        }       
-                    }
-                }
-                return ua;  
+                if(!this.technologiesList.browsers) return;
+                var self = this;
+                return this.technologiesList.browsers.filter(ua => 
+                    self.campaign.device.data.ua.indexOf(ua.device_id) != -1
+                );  
             },
 
             selectedCategories() {
@@ -598,9 +562,8 @@
                     var id = selections[s];
                     for(var category in categoriesList) {
                         if(id == categoriesList[category].code) {
-
-                        categories.push(categoriesList[category]);
-                        break;
+                            categories.push(categoriesList[category]);
+                            break;
                         }       
                     }
                 }
@@ -614,7 +577,6 @@
             },
             batch(value) {
                 if (value.length == 7) {
-                    this.ajax = false;
                     this.batch = [];
                 }
             },

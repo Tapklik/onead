@@ -103,10 +103,7 @@
         </v-layout>
     </v-container>
 </template>
-
-
 <script>
-
     export default {
 
         mounted() {
@@ -134,7 +131,6 @@
         methods: {
 
             getCountries() {
-
                 axios.get(
                     '/data/countries.json'
                 ).then(response => {
@@ -192,14 +188,13 @@
                     }
                 );
             }
-   },
+       },
 
-    watch: {
-        user(value) {
-            if(!value) return;
-            this.getAccount();
-        }
-
-    }   
-}
+        watch: {
+            user(value) {
+                if(!value) return;
+                this.getAccount();
+            }
+        }   
+    }
 </script>

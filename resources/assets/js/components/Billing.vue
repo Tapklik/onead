@@ -22,7 +22,13 @@
             </v-card-title>
             <v-divider></v-divider>
             <v-card-text v-if="billLoader == true">
-                <scale-loader :loading="true" color="#9e9e9e" height="15px" width="3px" class="mt-5"></scale-loader>
+                <scale-loader 
+                :loading="true" 
+                color="#9e9e9e" 
+                height="15px" 
+                width="3px" 
+                class="mt-5"
+                ></scale-loader>
             </v-card-text>
             <v-card-text v-else>                        
                 <v-data-table 
@@ -352,51 +358,50 @@
             },
 
             fetchBills() {
-
-            axios.get(this.$root.uri + '/accounts/' + this.user.accountUuId + '/banker/main?type=billing', this.$root.config).then(response => {
-                this.bills = response.data.data;
-                this.billLoader = false;
-
-            }, error => {
-                this.$root.showAlertPopUp('error', 'Something went wrong');
-                this.billLoader = false;
-            
-            })
-        }
-    },
-
-    computed: {
-        filteredBills() {
-
-            if(!this.bills) return this.bills;
-            var bills = this.trueBills;
-            var search = this.search;
-            var result = [];
-            for(var b in bills) {
-                var name = bills[b].id.id.toLowerCase();
-                var searchLower = search.toLowerCase();
-                if(name.includes(searchLower)) {
-                    result.push(bills[b]);
-                }
-                        
+                axios.get(this.$root.uri + '/accounts/' + this.user.accountUuId + '/banker/main?type=billing', this.$root.config).then(response => {
+                    this.bills = response.data.data;
+                    this.billLoader = false;
+                }, error => {
+                    this.$root.showAlertPopUp('error', 'Something went wrong');
+                    this.billLoader = false;
+                });
             }
-            return result;
-        }
-    },
-
-    filters: {
-        uppercase: function(v) {
-          return v.toUpperCase();
-        }
-    },
-
-    watch: {
-        user(value) {
-            this.fetchBills();
         },
-        bills(value) {
-            this.defineBills();
+
+        computed: {
+
+            filteredBills() {
+
+                if(!this.bills) return this.bills;
+                var bills = this.trueBills;
+                var search = this.search;
+                var result = [];
+                for(var b in bills) {
+                    var name = bills[b].id.id.toLowerCase();
+                    var searchLower = search.toLowerCase();
+                    if(name.includes(searchLower)) {
+                        result.push(bills[b]);
+                    }
+                            
+                }
+                return result;
+            }
+        },
+
+        filters: {
+            uppercase(value) {
+              return value.toUpperCase();
+            }
+        },
+
+        watch: {
+            user(value) {
+                this.fetchBills();
+            },
+            bills(value) {
+                this.defineBills();
+            }
         }
     }
-}
+
 </script>

@@ -1,10 +1,15 @@
 <template>
     <v-container grid-list-md>
+
+        <!-- HEADER START -->
         <v-layout row wrap>
             <v-flex xs12 class="valign-wrapper mb-1">
                 <h5>CAMPAIGN DETAILS</h5>
             </v-flex>
         </v-layout>
+        <!-- HEADER END -->
+
+        <!-- FORM START -->
         <v-layout row wrap>
             <v-flex xs12 md6>
                 <v-layout row wrap class="mt-4">
@@ -14,12 +19,12 @@
                     </v-flex>
                     <v-flex xs8 md6>
                         <v-text-field
-                        :rules="campaignNameRules()"
+                        :rules="nameRules()"
                         label="Campaign Name"
                         prepend-icon="mode_edit"
                         v-model="campaign.name"
                         single-line
-                        v-on:blur="updateDetailsDraft()"
+                        @blur="updateDetails()"
                         ></v-text-field>
                     </v-flex>
                 </v-layout>
@@ -43,7 +48,7 @@
                             :rules="startDateRules()"
                             slot="activator"
                             v-model="campaign.start_time"
-                            v-on:change="updateDetailsDraft()"
+                            @change="updateDetails()"
                             ></v-text-field>
                             <v-date-picker 
                             v-model="campaign.start_time" 
@@ -65,7 +70,7 @@
                             readonly
                             :rules="endDateRules()"
                             slot="activator"
-                            v-on:change="updateDetailsDraft()"
+                            @change="updateDetails()"
                             v-model="campaign.end_time"
                             ></v-text-field>
                             <v-date-picker 
@@ -89,7 +94,7 @@
                             prepend-icon="language"
                             single-line
                             type="url"
-                            v-on:blur="updateDetailsDraft()"
+                            @blur="updateDetails()"
                             :rules="domainRules()"
                             v-model="campaign.adomain"
                             ></v-text-field>
@@ -108,7 +113,7 @@
                             prepend-icon="language"
                             single-line
                             type="url"
-                            v-on:blur="updateDetailsDraft()"
+                            @blur="updateDetails()"
                             :rules="urlRules()"
                             v-model="campaign.ctrurl"
                             ></v-text-field>
@@ -127,7 +132,7 @@
                     <v-flex xs12 md9 class="valign-wrapper">
                         <v-radio-group 
                         v-model="campaign.budget.data.type" 
-                        @change="updateDraftBudget()"
+                        @change="updateBudget()"
                         row 
                         class="pa-1"
                         >
@@ -144,7 +149,7 @@
                     <v-flex xs8 md5>
                         <v-text-field
                         label="0.00"
-                        v-on:blur="updateDraftBudget()"
+                        @blur="updateBudget()"
                         prepend-icon="attach_money"
                         v-model="budgetUsd"
                         :rules="budgetRules()"
@@ -162,7 +167,7 @@
                         <v-text-field
                         :rules="bidRules()"
                         label="0.00"
-                        v-on:blur="updateDetailsDraft()"
+                        @blur="updateDetails()"
                         prepend-icon="attach_money"
                         v-model="bidUsd"
                         single-line
@@ -177,6 +182,8 @@
                             Default pacing is enabled every day between 7:00AM and 1:00AM next day
                         </p>
                     </v-flex>
+
+                    <!-- PACING MODAL START -->
                     <v-flex xs8 md5>
                         <v-dialog v-model="show_pacing_modal" lazy absolute width="70%">
                             <v-btn slot="activator">
@@ -199,7 +206,7 @@
                                                     <v-checkbox 
                                                     color="orange darken-4"
                                                     :label="day" 
-                                                    v-model="selectedDays" 
+                                                    v-model="selected_days" 
                                                     :value="days.indexOf(day)"
                                                     ></v-checkbox>
                                                 </v-flex>
@@ -209,12 +216,12 @@
                                                     <span class="title">Active Hour of Day</span>
                                                     <p class="caption ma-0">Hours will be only edited for active days</p>
                                                 </v-flex>
-                                                <v-flex xs12 md6 lg4 v-for="time in timesOfDay" :key="time.index">
+                                                <v-flex xs12 md6 lg4 v-for="time in times" :key="time.index">
                                                     <v-checkbox  
                                                     color="orange darken-4"
                                                     :label="time" 
-                                                    v-model="selectedTimes"
-                                                    :value="timesOfDay.indexOf(time)"
+                                                    v-model="selected_times"
+                                                    :value="times.indexOf(time)"
                                                     ></v-checkbox>
                                                 </v-flex>
                                             </v-layout>
@@ -224,7 +231,7 @@
                                                 <v-card-text>
                                                     <span class="title">Plan Preview</span>
                                                     <p class="caption ma-0">Here you can see your weekly budget pacing plan</p>
-                                                    <v-data-table class="mt-4 @blurpacing-preview" :items="timesOfDay" hide-actions>
+                                                    <v-data-table class="mt-4 @blurpacing-preview" :items="times" hide-actions>
                                                         <template slot="headers" scope="props">
                                                             <th>Time</th>
                                                             <th class="pa-0">S</th>
@@ -241,8 +248,8 @@
                                                                 <td 
                                                                 class="small pa-0" 
                                                                 v-for="day in days" 
-                                                                v-html="getTimeActiveClass(days.indexOf(day), 
-                                                                timesOfDay.indexOf(props.item))"
+                                                                v-html="toggleActiveTimes(days.indexOf(day), 
+                                                                times.indexOf(props.item))"
                                                                 ></td>
                                                             </tr>
                                                         </template>
@@ -263,8 +270,7 @@
                                     primary 
                                     dark 
                                     @click="applyPlan(),
-                                    show_pacing_modal=false, 
-                                    updateDraftBudget()" 
+                                    show_pacing_modal=false" 
                                     class="elevation-0"
                                     >
                                         <v-icon>done</v-icon>
@@ -273,13 +279,18 @@
                                 </v-card-actions>
                             </v-card>   
                         </v-dialog>
-                        <span class="red--text" v-show="daysAndTimesRules()">
+                        <!-- PACING MODAL END -->
+
+                        <br />
+                        <span class="red--text" v-show="!pacingRules()">
                             You must select days and times
                         </span>
                     </v-flex>
                 </v-layout>
             </v-flex>
         </v-layout>
+        <!-- FORM END -->
+
     </v-container>
 </template>
 <script>
@@ -297,13 +308,20 @@
         
         data() {
             return {
+                //PACING MODAL
                 show_pacing_modal: false,
-                isActive: true,
                 days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-                timesOfDay: ['12:00AM - 7:00AM', '7:00AM - 10:00AM', '10:00AM - 1:00PM', '1:00PM - 4:00PM', '4:00PM - 7:00PM', 
-                '7:00PM - 10:00PM', '10:00PM - 12:00AM'],
-                selectedDays: [0, 1, 2, 3, 4, 5, 6],
-                selectedTimes: [1, 2, 3, 4, 5, 6],
+                times: [
+                    '12:00AM - 7:00AM', 
+                    '7:00AM - 10:00AM', 
+                    '10:00AM - 1:00PM', 
+                    '1:00PM - 4:00PM', 
+                    '4:00PM - 7:00PM',
+                    '7:00PM - 10:00PM', 
+                    '10:00PM - 12:00AM'
+                ],
+                selected_days: [0, 1, 2, 3, 4, 5, 6],
+                selected_times: [1, 2, 3, 4, 5, 6],
                 pacing: this.campaign.budget.data.pacing
             }
         },
@@ -326,8 +344,11 @@
                 }
             }
         },
+
         methods: {
-            campaignNameRules() {
+
+            //VALIDATION
+            nameRules() {
                 var name = ['too short'];
                 this.valid.name = this.campaign.name.length < 4 ? false : true;
                 if(!this.valid.name) return name;
@@ -417,20 +438,13 @@
                 }
             },
 
-            daysAndTimesRules() {
-                if(this.selectedTimes == '' || this.selectedDays=='') {
-                    this.valid.pacing = false;
-                    return true;
-                }
-       
-                else {
-                    this.valid.pacing = true;
-                    return false
-                }
-            
+            pacingRules() {
+                this.valid.pacing = (this.selected_times == '' || this.selected_days=='') ? false : true;
+                return this.valid.pacing ? true : false;
             },
 
-            draftData() {
+            //UPDATE DRAFT
+            collectDraft() {
                 return {
                     name: this.campaign.name,
                     description: '',
@@ -446,84 +460,76 @@
                 }
             },
 
-            updateDetailsDraft() {
+            updateDetails() {
                 if(this.campaign.status != 'draft') return;
-                else {
-                    var payload = this.draftData();
 
-                    axios.put(this.$root.uri + '/campaigns/' + this.campaign.id, payload, this.$root.config).then(response => {
+                axios.put(
+                    this.$root.uri + '/campaigns/' + this.campaign.id, 
+                    this.collectDraft(), 
+                    this.$root.config
+                ).then(response => {
+                
                     }, error => {
                         this.$root.showAlertPopUp('error', 'Something went wrong');
-                    });  
-                }
+                    }
+                );  
             },
 
-            updateDraftBudget() {
+            updateBudget() {
                 if(this.campaign.status != 'draft') return;
-                else {
-                    var payload = this.campaign.budget.data;
-    
-                    axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/budget', payload, this.$root.config).then(response => {
+
+                axios.post(
+                    this.$root.uri + '/campaigns/' + this.campaign.id + '/budget', 
+                    this.campaign.budget.data, 
+                    this.$root.config
+                ).then(response => {
+                
                     }, error => {
                         this.$root.showAlertPopUp('error', 'Something went wrong');
-                    });
-                }
+                    }
+                );
             },
             
-            getTimeActiveClass(d, t) {
-                var timeActiveClass = false
-                var hPlan = this.pacing
-                var timeOfWeek = d * 7 + t + d
-                var activeT = hPlan.charAt(timeOfWeek)
-                if(activeT == "1") {
-                    timeActiveClass = '<i class="material-icons icon orange--text text--darken-4">check</i>'
-                } else {
-                    timeActiveClass = '<i class="material-icons icon grey--text ">remove</i>'
-                }
-                return timeActiveClass  
+            //PACING MODAL
+            toggleActiveTimes(day, time) {
+                var result = '';
+                var time_of_week = day * 7 + time + day;
+                var active_time = this.pacing.charAt(time_of_week);
+                var active = '<i class="material-icons icon orange--text text--darken-4">check</i>';
+                var inactive = '<i class="material-icons icon grey--text ">remove</i>';
+                result = active_time == "1" ? active : inactive;
+                return result;
             },
 
             applyPlan() {
+                this.campaign.budget.data.pacing = this.pacing;
+                this.updateBudget();
+            },
+            
+            calculatePacing() {
                 var plan = ""
                 for (var d = 0; d < 7; d++) {
                     if (d > 0) plan += " ";
-                        if (this.selectedDays.indexOf(d) >= 0 ) {
-                            for( var t = 0; t < 7; t++) {
-                                plan += this.selectedTimes.indexOf(t) >= 0 ? "1" : "0";
-                            }
-                        } else {
-                            plan += "0000000"
+                    var selected_day = this.selected_days.indexOf(d) != -1 ? true : false;
+                    if (!selected_day) plan += "0000000";
+                    else {
+                        for(var t = 0; t < 7; t++) {
+                            plan += this.selected_times.indexOf(t) >= 0 ? "1" : "0";
                         }
-                    }
-                    this.campaign.budget.data.pacing = plan
-                },
-            
-            applyCurrentlyPlan() {
-                var plan = ""
-                for (var d = 0; d < 7; d++) {
-                    if (d > 0) {plan += " "}
-                        if (this.selectedDays.indexOf(d) >= 0 ) {
-                            for( var t = 0; t < 7; t++) {
-                                plan += this.selectedTimes.indexOf(t) >= 0 ? "1" : "0";
-                            }
-                        } else {
-                            plan += "0000000"
-                        }
-                    }
-                    this.pacing = plan
+                    }    
                 }
+                this.pacing = plan
+            }
+        },
+            
+        watch: {
+            selected_times(value) {
+                this.calculatePacing();
             },
-            
-            watch: {
-                selectedTimes(value) {
-                    this.campaign.timesDetails = value;
-                    this.applyCurrentlyPlan();
-                },
-            
-                selectedDays(value) {
-                    this.campaign.daysDetails = value;
-                    this.applyCurrentlyPlan();
-                }
+        
+            selected_days(value) {
+                this.calculatePacing();
             }
         }
-    </script>
+    }
+</script>

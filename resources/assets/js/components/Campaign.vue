@@ -115,8 +115,6 @@
 
                 //CONTENT
                 campaign: {
-                    daysDetails: [0, 1, 2, 3, 4, 5, 6],
-                    timesDetails: [1, 2, 3, 4, 5, 6],
                     name: '',
                     adomain: '',
                     ctrurl: '',
@@ -287,11 +285,6 @@
                     this.fetchCampaign(campaignId);
                 }
                 else this.createNewDraft();
-            },
-
-            campaign(value) {
-                // Update folder
-                this.folder = (typeof this.campaign.creatives.data[0] != 'undefined') ? this.campaign.creatives.data[0].folder : [];
             }
         }
 

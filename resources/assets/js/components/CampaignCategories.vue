@@ -16,10 +16,13 @@
         <v-layout row wrap>
             <v-flex xs12 class="mt-3">
                 <tk-select-list v-model="campaign.cat.data">
-                    <tk-select v-for="category in categories" 
-                    :key="category.code" :icon="category.img" 
+                    <tk-select 
+                    v-for="category in categories" 
+                    :key="category.code" 
+                    :icon="category.img" 
                     :trueValue="category.code" 
-                    :subtitle="category.code">
+                    :subtitle="category.code"
+                    >
                         {{ category.type }}
                     </tk-select>
                 </tk-select-list>
