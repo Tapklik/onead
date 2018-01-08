@@ -68,6 +68,7 @@ var envUri = 'https://api.tapklik.com/v1';
 
 if(window.location.hostname.search('local') > -1 || window.location.hostname.search('127')  > -1) envUri = '//local.api.tapklik.com/v1';
 if(window.location.hostname.search('alpha') > -1) envUri = '//104.225.218.101:10006/v1';
+if(window.location.hostname.search('local.material.tapklik.com') > -1) envUri = '//104.225.218.101:10006/v1';
 
 const app = new Vue({
     el: '#app',
@@ -80,7 +81,7 @@ const app = new Vue({
     },
 
     data: {
-        version: 'v0.6.6-BETA',
+        version: 'v0.6.7-BETA',
         uri: envUri,
         reportUri: '//104.225.218.101:10002/api/query',
         user: {
@@ -166,7 +167,6 @@ const app = new Vue({
         },
 
         getCampaignId() {
-
             return window.location.pathname.replace('/admin/campaigns/edit/', '');
         },
 
@@ -182,7 +182,7 @@ const app = new Vue({
             if(value) {
                 return (value * 1000000);
             } else {
-                return 0
+                return 0;
             }
         },
 

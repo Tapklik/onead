@@ -16,7 +16,7 @@
                     <v-flex xs12 md4 lg3 class="valign-wrapper">
                         <span class="caption">Campaign Name</span>
                     </v-flex>
-                    <v-flex xs8 md5 v-if="$parent.$parent.$parent.validName == true">
+                    <v-flex xs8 md5 v-if="valid.name">
                         <v-icon>mode_edit</v-icon>
                         <span>{{campaign.name}}</span>
                     </v-flex>
@@ -32,7 +32,7 @@
                     <v-flex 
                     xs8 
                     md5 
-                    v-if="$parent.$parent.$parent.validStart == true && $parent.$parent.$parent.validEnd == true"
+                    v-if="valid.start && valid.end"
                     >
                         <v-icon>flight_takeoff</v-icon>
                         <span>From {{campaign.start_time}} to {{campaign.end_time}}</span>
@@ -46,7 +46,7 @@
                     <v-flex xs12 md4 lg3 class="valign-wrapper">
                         <span class="caption">Advertiser Domain</span>
                     </v-flex>
-                    <v-flex xs12 md8 v-if="$parent.$parent.$parent.validDomain == true">
+                    <v-flex xs12 md8 v-if="valid.domain">
                         <v-icon>language</v-icon>
                         <span>{{campaign.adomain}}</span>
                     </v-flex>
@@ -59,7 +59,7 @@
                     <v-flex xs12 md4 lg3 class="valign-wrapper">
                         <span class="caption">Click-through URL</span>
                     </v-flex>
-                    <v-flex xs12 md8 v-if="$parent.$parent.$parent.validUrl == true">
+                    <v-flex xs12 md8 v-if="valid.url">
                         <v-icon>language</v-icon>
                         <span>{{campaign.ctrurl}}</span>
                     </v-flex>
@@ -83,7 +83,7 @@
                     <v-flex xs12 md4 lg3 class="valign-wrapper">
                         <span class="caption">Budget</span>
                     </v-flex>
-                    <v-flex xs8 md5 v-if="$parent.$parent.$parent.validBudget == true">
+                    <v-flex xs8 md5 v-if="valid.budget">
                         <v-icon>attach_money</v-icon>
                         <span>{{$root.fromMicroDollars(campaign.budget.data.amount)}}</span>
                     </v-flex>
@@ -96,7 +96,7 @@
                     <v-flex xs12 md4 lg3 class="valign-wrapper">
                         <span class="caption">Target Bid</span>
                     </v-flex>
-                    <v-flex xs12 md8 v-if="$parent.$parent.$parent.validBid == true">
+                    <v-flex xs12 md8 v-if="valid.bid == true">
                         <v-icon>attach_money</v-icon>
                         <span>{{$root.fromMicroDollars(campaign.bid)}}</span>
                     </v-flex>
@@ -109,7 +109,7 @@
                     <v-flex xs12 md4 lg3 class="valign-wrapper">
                         <span class="caption">Budget Pacing</span>
                     </v-flex>
-                    <v-flex xs12 md8 v-if="$parent.$parent.$parent.validPacing == true">
+                    <v-flex xs12 md8 v-if="valid.pacing">
                         <i>* view in campaign details</i>
                     </v-flex>
                     <v-flex xs12 md8 v-else>
@@ -125,7 +125,7 @@
             </v-flex>
         </v-layout>
         <v-layout row wrap>                    
-            <v-flex xs12 v-if="$parent.$parent.$parent.validCategories == true">
+            <v-flex xs12 v-if="valid.categories">
                 <v-btn icon v-for="category in selectedCategories" :key="category.code">
                     <v-icon>{{category.img}}</v-icon>
                 </v-btn>
@@ -144,7 +144,7 @@
             </v-flex>
         </v-layout>
         <v-layout row wrap>
-            <v-flex xs12 v-if="$parent.$parent.$parent.validCreatives == true">
+            <v-flex xs12 v-if="valid.creatives">
                 <v-layout row wrap class="mt-4">
                     <v-flex xs12>
                         <v-list two-line>
@@ -181,7 +181,7 @@
                     <v-flex xs4 class="valign-wrapper">
                         <span class="caption">Devices</span>
                     </v-flex>
-                    <v-flex xs8 v-if="$parent.$parent.$parent.validDevices == true">
+                    <v-flex xs8 v-if="valid.devices">
                         <v-btn icon :key="device.device_id" v-for="device in selectedDevices">
                             <v-icon>{{device.icon}}</v-icon>
                         </v-btn>
@@ -234,7 +234,7 @@
             </v-flex>
             <v-flex xs12 md4>
                 <v-layout row wrap class="mt-4">
-                    <v-flex xs12 v-if="$parent.$parent.$parent.validGeo == true">
+                    <v-flex xs12 v-if="valid.geo">
                         <v-list two-line>
                             <span class="caption">Geo Location</span>
                             <v-list-tile avatar v-for="g in campaign.geo.data" :key="g.id">
@@ -281,34 +281,46 @@
         },
 
         mounted() {
+            this.loadTechnologies();
+            this.loadCategories();
             this.$root.isLoading = false;
         },
 
         props: [
-            'campaign', 
-            'folder', 
-            'gender',
+            'campaign',
             'token',
-            'user',
-            'selectedUa',
-            'selectedOs',
-            'selectedDevices',
-            'selectedCategories'
+            'valid'
         ],
 
         data() {
-
             return {
-                ajax: false,
                 batch: [],
                 checkCounter: 0,
                 loading: false,
                 errorCounter: 0,
-                folders: []
+                folders: [],
+                categoriesList: [],
+                technologiesList: []
             }
         },
 
         methods: {
+            loadCategories() {
+                axios.get('/data/categories.json').then(response => {
+                    this.categoriesList = response.data;
+                }, error => {
+                    this.$root.showAlertPopUp('error', 'Something went wrong');
+                });
+            },
+
+            loadTechnologies() {
+
+                axios.get('/data/technologies.json').then(response => {
+                    this.technologiesList = response.data;
+                }, error => {
+                    this.$root.showAlertPopUp('error', 'Something went wrong');
+                });
+            },
 
             getFolders() {
                 axios.get(this.$root.uri + '/creatives/folders', this.$root.config).then(response => {
@@ -323,47 +335,32 @@
             },
 
             validCampaign() {
-                if (this.$parent.$parent.$parent.validName == true &&
-                    this.$parent.$parent.$parent.validBid == true &&
-                    this.$parent.$parent.$parent.validBudget == true &&
-                    this.$parent.$parent.$parent.validStart == true &&
-                    this.$parent.$parent.$parent.validEnd == true &&
-                    this.$parent.$parent.$parent.validDomain == true &&
-                    this.$parent.$parent.$parent.validUrl == true &&
-                    this.$parent.$parent.$parent.validPacing == true &&
-                    this.$parent.$parent.$parent.validCreatives == true &&
-                    this.$parent.$parent.$parent.validCategories == true &&
-                    this.$parent.$parent.$parent.validGeo == true &&
-                    this.$parent.$parent.$parent.validDevices == true) {
-                    return true;      
-                }
-                else return false;
+                var keys = Object.keys(this.valid);
+                return keys.every(key => this.valid[key] == true);
             },
 
             createCampaign () {
                 this.batch.push(0);
-                this.ajax = true;
-
-                axios.put(this.$root.uri + '/campaigns/' + this.campaign.id, {status: 'not started'}, this.$root.config).then(response => {
-
-                    this.$root.alertpopup.alertMessage = 'Successfully created a new campaign.';
-                    window.location = '/admin/campaigns?m=' + this.$root.alertpopup.alertMessage;
-                }, error => {
-
-                    this.loading = false;
-                    this.$root.showAlertPopUp('error', 'Something went wrong.');
-                });
+                axios.put(
+                    this.$root.uri + '/campaigns/' + this.campaign.id, 
+                    { status: 'not started' }, 
+                    this.$root.config
+                ).then(response => {
+                        this.$root.alertpopup.alertMessage = 'Successfully created a new campaign.';
+                        window.location = '/admin/campaigns?m=' + this.$root.alertpopup.alertMessage;
+                    }, error => {
+                        this.loading = false;
+                        this.$root.showAlertPopUp('error', 'Something went wrong.');
+                    }
+                );
             },
 
             updateMessage() {
-
                 this.$root.alertpopup.alertMessage = 'Successfully created a new campaign.';
                 window.location = '/admin/campaigns?m=' + this.$root.alertpopup.alertMessage;
             },
 
             updateCampaign () {
-                this.ajax = true;
-
                 this.updateCampaignDetails();
                 this.updateCampaignCategories();
                 this.updateCampaignUser();
@@ -430,7 +427,6 @@
             },
 
             updateCampaignDevice(){
-
                 var payload = this.collectDevices();
 
                 axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/device/type', {types: payload.types}, this.$root.config).then(response => {
@@ -459,10 +455,8 @@
                 });
             },
 
-            updateCampaignBudget()
-            {
+            updateCampaignBudget() {
                 var payload = this.collectBudget();
-
                 axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/budget', payload, this.$root.config).then(response => {
                     this.batch.push(7);
                     this.checkCounter = this.checkCounter + 1;
@@ -474,9 +468,7 @@
             },
 
             updateCampaignCreatives() {
-
                 var payload = this.collectCreatives();
-
                 axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/creatives', {creatives: payload}, this.$root.config).then(response => {
                     this.batch.push(8);
                     this.checkCounter = this.checkCounter + 1;
@@ -537,13 +529,54 @@
             }
         },
 
+        computed: {
+            selectedOs() {
+                if(!this.technologiesList.operatingsystems) return;
+                var self = this;
+                return this.technologiesList.operatingsystems.filter(operatingsystem => 
+                    self.campaign.device.data.os.indexOf(operatingsystem.device_id) != -1
+                );  
+            },
+
+            selectedDevices() {
+                if(!this.technologiesList.devices) return;
+                var self = this;
+                return this.technologiesList.devices.filter(device => 
+                    self.campaign.device.data.type.indexOf(device.device_id) != -1
+                );
+            },
+
+            selectedUa() {
+                if(!this.technologiesList.browsers) return;
+                var self = this;
+                return this.technologiesList.browsers.filter(ua => 
+                    self.campaign.device.data.ua.indexOf(ua.device_id) != -1
+                );  
+            },
+
+            selectedCategories() {
+                var categories = [];
+                var categoriesList = this.categoriesList;
+                var selections = this.campaign.cat.data;
+                for (var s in selections) {
+                    var id = selections[s];
+                    for(var category in categoriesList) {
+                        if(id == categoriesList[category].code) {
+                            categories.push(categoriesList[category]);
+                            break;
+                        }       
+                    }
+                }
+                return categories;
+            }
+        },
+
         watch: {
             token(value) {
                 this.getFolders();
             },
             batch(value) {
                 if (value.length == 7) {
-                    this.ajax = false;
                     this.batch = [];
                 }
             },

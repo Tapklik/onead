@@ -25,7 +25,7 @@
                 <v-spacer></v-spacer>
                 <v-btn class="elevation-0" @click="$root.alertpopup.alert = false">
                     <v-icon>close</v-icon>
-                    Cancel
+                    OK
                 </v-btn>
             </v-card-actions>
         </v-card>

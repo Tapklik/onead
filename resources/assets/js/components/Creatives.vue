@@ -26,11 +26,11 @@
                                                 </v-layout>
                                                 <v-layout row wrap class="mt-2">
                                                     <v-flex xs12>
-                                                        <v-card 
-                                                        id="uploader" 
-                                                        height="80px" 
-                                                        class="elevation-0"
-                                                        @mouseenter="dropzoneMaker()">
+                                                        <v-card
+                                                                id="uploader"
+                                                                height="80px"
+                                                                class="elevation-0"
+                                                                @mouseenter="dropzoneMaker()">
                                                             <v-btn icon v-if="uploadLoader == true" :loading="true">
                                                                 <v-icon>cloud_upload</v-icon>
                                                             </v-btn>
@@ -111,7 +111,7 @@
                                                     <v-flex xs12 md3 lg2 class="valign-wrapper">
                                                         <span class="title">Click-Through URL</span><br>
                                                         <span class="caption ma-0">Click-through url per creative</span>
-                                                    </v-flex>    
+                                                    </v-flex>
                                                     <v-flex xs12 md9>
                                                         <v-text-field prepend-icon="language" v-model="creativeAttributes.url" placeholder="URL" @keyup="checkFile()"></v-text-field>
                                                     </v-flex>
@@ -132,7 +132,7 @@
                                     <v-card-actions>
                                         <v-spacer></v-spacer>
                                         <v-btn @click="clearUploadModal(), showModal = false" class="elevation-0">
-                                            <v-icon>close</v-icon>                                    
+                                            <v-icon>close</v-icon>
                                             Cancel
                                         </v-btn>
                                         <v-btn v-if="checkDimensions() == true" :loading="loading" primary :disabled="!(validClass && validWidth && validHeight && validName && validFolder)" @click="loading = true, uploadCreative()" class="elevation-0">
@@ -156,7 +156,7 @@
                                                 <v-card-actions>
                                                     <v-spacer></v-spacer>
                                                     <v-btn @click="showModal = false" class="elevation-0">
-                                                        <v-icon>close</v-icon>                                    
+                                                        <v-icon>close</v-icon>
                                                         Cancel
                                                     </v-btn>
                                                     <v-btn :loading="loading" primary :disabled="!(validClass && validWidth && validHeight && validName && validFolder)" @click="loading = true, uploadCreative()" class="elevation-0">
@@ -167,12 +167,12 @@
                                             </v-card>
                                         </v-dialog>
                                     </v-card-actions>
-                                </v-card>   
+                                </v-card>
                             </v-dialog>
                             <v-dialog v-model="showModal1" lazy absolute width="500px">
                                 <v-btn v-if="!currentFolder.id" slot="activator" class="white elevation-0">
                                     <v-icon>create_new_folder</v-icon>&nbsp;
-                                     New Folder
+                                    New Folder
                                 </v-btn>
                                 <v-card>
                                     <v-card-title>
@@ -189,9 +189,9 @@
                                                 <v-layout row wrap class="mt-2">
                                                     <v-flex xs12>
                                                         <v-text-field
-                                                        label="Folder"
-                                                        prepend-icon="folder"
-                                                        v-model="newFolder"
+                                                                label="Folder"
+                                                                prepend-icon="folder"
+                                                                v-model="newFolder"
                                                         ></v-text-field>
                                                     </v-flex>
                                                 </v-layout>
@@ -202,7 +202,7 @@
                                     <v-card-actions>
                                         <v-spacer></v-spacer>
                                         <v-btn class="elevation-0" @click="showModal1 = false">
-                                            <v-icon>close</v-icon>                                    
+                                            <v-icon>close</v-icon>
                                             Cancel
                                         </v-btn>
                                         <v-btn primary dark class="elevation-0" @click="storeNewFolder(), showModal1=false">
@@ -210,22 +210,22 @@
                                             Save
                                         </v-btn>
                                     </v-card-actions>
-                                </v-card>   
+                                </v-card>
                             </v-dialog>
                         </v-flex>
                         <v-flex xs12 md5>
                             <v-layout row wrap justify-space-between>
                                 <v-flex xs12 md6>
-                                    
+
                                 </v-flex>
                                 <v-flex xs12 md6>
-                                    <v-text-field 
-                                        label="Search..."
-                                        append-icon="search"
-                                        single-line 
-                                        hide-details 
-                                        class="right" 
-                                        v-model="search">
+                                    <v-text-field
+                                            label="Search..."
+                                            append-icon="search"
+                                            single-line
+                                            hide-details
+                                            class="right"
+                                            v-model="search">
                                     </v-text-field>
                                 </v-flex>
                             </v-layout>
@@ -239,7 +239,7 @@
                         <v-layout row wrap>
                             <v-flex xs12 md10 lg8>
                                 <v-alert dismissible v-bind:success='$root.alert.success' v-bind:error='$root.alert.error' v-model="$root.alert.alert" transition="scale-transition">
-                                {{$root.alert.alertMessage}}
+                                    {{$root.alert.alertMessage}}
                                 </v-alert>
                                 <v-data-table :items="filteredFolders" hide-actions class="no-headers creatives-explorer">
                                     <template slot="headers" scope="props">
@@ -255,7 +255,7 @@
                                             </td>
                                             <td class="text-xs-right">
                                                 <v-btn v-if="props.item.id.items == 0" icon class="grey--text" @click="deleteFolder(props.item.id.id, props.item.id.name)">
-                                                        <v-icon>delete</v-icon>
+                                                    <v-icon>delete</v-icon>
                                                 </v-btn>
                                                 <v-dialog v-else v-model="props.item.modal" lazy absolute width="400px">
                                                     <v-btn icon class="grey--text" @click="deleteFolderId = props.item.id.id, deleteFolderName = props.item.id.name" slot="activator">
@@ -276,7 +276,7 @@
                                                                 </v-flex>
                                                             </v-layout>
                                                         </v-card-text>
-                                                         <v-divider></v-divider>
+                                                        <v-divider></v-divider>
                                                         <v-card-actions>
                                                             <v-spacer></v-spacer>
                                                             <v-btn class="elevation-0" @click="props.item.modal = false">
@@ -318,9 +318,9 @@
                                     </template>
                                     <template slot="items" scope="props">
                                         <tr
-                                        @mouseenter="imageSource = props.item.id.thumb, sample= props.item.id.name, statusShow = props.item.id.approved,
+                                                @mouseenter="imageSource = props.item.id.thumb, sample= props.item.id.name, statusShow = props.item.id.approved,
                                         typeShow = props.item.id.class, dimensionsShow = props.item.id.w + 'x' + props.item.id.h"
-                                        @mouseleave="imageSource = '', sample='sample', statusShow = '',
+                                                @mouseleave="imageSource = '', sample='sample', statusShow = '',
                                         typeShow = 'TYPE', dimensionsShow = ''"
                                         >
                                             <td class="text-xs-left">
@@ -414,7 +414,7 @@
                                                     </v-flex>
                                                 </v-layout>
                                             </v-card-text>
-                                          </v-card>
+                                        </v-card>
                                     </v-flex>
                                 </v-layout>
                             </v-flex>
@@ -606,13 +606,12 @@
                 });
 
                 this.dropzone.on("addedfile", function(file, thumb) {
-
                     if(file.type.indexOf('zip') != -1) {
 
                         this.validFile = true;
                         this.checkFileUploaded = 'uploaded';
 
-                        this.creativeAttributes = {
+                        this.new_creative = {
                             w: 0,
                             h: 0,
                             name: file.name.slice(0,file.name.lastIndexOf('.')),
@@ -622,28 +621,27 @@
                         };
                     } else {
                         var sizeInterval = setInterval(function () {
-                            if(typeof file.width != 'undefined') {
+                            if (typeof file.width != 'undefined') {
+                                this.valid_new_creative.file = true;
+                                this.new_file_status = 'uploaded';
 
-                                this.validFile = true;
-                                this.checkFileUploaded = 'uploaded';
-
-                                this.creativeAttributes = {
+                                this.new_creative = {
                                     w: file.width,
                                     h: file.height,
-                                    name: file.name.slice(0,file.name.lastIndexOf('.')),
+                                    name: file.name.slice(0, file.name.lastIndexOf('.')),
                                     class: 'banner',
                                     url: '',
-                                    responsive: 0
+                                    responsive: 0,
+                                    folder: this.folders[0].key
                                 };
                                 clearInterval(sizeInterval);
                             }
                         }.bind(this), 1000);
 
-                        this.dropzone.on("thumbnail", function(file, thumb) {
+                        this.dropzone.on("thumbnail", function (file, thumb) {
                             this.thumb = thumb;
                         }.bind(this));
                     }
-
                 }.bind(this));
             },
 
@@ -730,7 +728,7 @@
                 this.creativeAttributes.w = 0;
                 this.creativeAttributes.h = 0;
                 this.creativeAttributes.responsive = 0;
-                this.creativeAttributes.class = 'banner';            
+                this.creativeAttributes.class = 'banner';
             },
 
             uploadCreative() {
@@ -746,33 +744,33 @@
                 };
                 this.dropzone.processQueue();
 
-                    this.dropzone.on("complete", function (file) {
-                        if (file.status == 'success') {
+                this.dropzone.on("complete", function (file) {
+                    if (file.status == 'success') {
 
-                            this.clearUploadModal();
-                            this.checkFileUploaded = 'empty';
-                            this.loading = false;
-                            this.showModal = false;
-                            this.showModalDimensionsCheck = false;
+                        this.clearUploadModal();
+                        this.checkFileUploaded = 'empty';
+                        this.loading = false;
+                        this.showModal = false;
+                        this.showModalDimensionsCheck = false;
 
-                            this.$root.showAlertPopUp('success', 'Uploaded successfully');
+                        this.$root.showAlertPopUp('success', 'Uploaded successfully');
 
-                            if(typeof this.currentFolder.id == 'string') {
-                                this.getFolderCreatives(this.currentFolder.id);
-                            } else {
-                                this.getFolders();
-                            }
+                        if(typeof this.currentFolder.id == 'string') {
+                            this.getFolderCreatives(this.currentFolder.id);
+                        } else {
+                            this.getFolders();
                         }
-                        else {
-                            this.clearUploadModal();
-                            this.checkFileUploaded = 'empty';
-                            this.loading = false;
-                            this.showModal = false;
-                            this.showModalDimensionsCheck = false;
+                    }
+                    else {
+                        this.clearUploadModal();
+                        this.checkFileUploaded = 'empty';
+                        this.loading = false;
+                        this.showModal = false;
+                        this.showModalDimensionsCheck = false;
 
-                            this.$root.showAlertPopUp('error', 'Error uploading the creative.');
-                        }
-                    }.bind(this));
+                        this.$root.showAlertPopUp('error', 'Error uploading the creative.');
+                    }
+                }.bind(this));
             },
 
             storeNewFolder() {
@@ -802,75 +800,75 @@
 
             toggleAll() {
                 if (this.selected.length) this.selected = []
-                    else this.selected = this.items.slice()
-                }
-        },
-
-        computed: {
-
-            filteredCreatives() {
-                if(!this.folderCreatives) return this.folderCreatives;
-                var creatives = this.folderCreatives;
-                var result = [];
-                var search = this.search;
-                for(var c in creatives) {
-                    var name = creatives[c].id.name.toLowerCase();
-                    var searchLower = search.toLowerCase();
-                    if(name.includes(searchLower)) {
-                        result.push(creatives[c]);
-                    }
-                }
-                return result;
-            },
-
-            filteredFolders() {
-                if(!this.folders) return this.folders;
-                var search = this.search;
-                var folders = this.trueFolders;
-                var result = [];
-                for(var f in folders) {
-                    var name = folders[f].id.name.toLowerCase();
-                    var searchLower = search.toLowerCase();
-                    if(name.includes(searchLower)) {
-                        result.push(folders[f]);
-                    }    
-                }
-                return result;
-            },
-            
-            dimension() {
-                return this.creativeAttributes.w + 'x' + this.creativeAttributes.h;
+                else this.selected = this.items.slice()
             }
         },
 
-        filters: {
-            uppercase: function (v) {
-                return v.toUpperCase();
+    computed: {
+
+        filteredCreatives() {
+            if(!this.folderCreatives) return this.folderCreatives;
+            var creatives = this.folderCreatives;
+            var result = [];
+            var search = this.search;
+            for(var c in creatives) {
+                var name = creatives[c].id.name.toLowerCase();
+                var searchLower = search.toLowerCase();
+                if(name.includes(searchLower)) {
+                    result.push(creatives[c]);
+                }
             }
+            return result;
         },
 
-
-        watch: {
-
-            token(value) {
-
-                if (typeof value != 'undefined') {
-                    this.getFolders();
+        filteredFolders() {
+            if(!this.folders) return this.folders;
+            var search = this.search;
+            var folders = this.trueFolders;
+            var result = [];
+            for(var f in folders) {
+                var name = folders[f].id.name.toLowerCase();
+                var searchLower = search.toLowerCase();
+                if(name.includes(searchLower)) {
+                    result.push(folders[f]);
                 }
-
-            },
-            responsiveData(value) {
-                this.creativeAttributes.responsive = value;
-            },
-
-            folders(value) {
-                this.defineFolders();
-            },
-            creatives(value) {
-                this.defineCreatives();
             }
+            return result;
+        },
+
+        dimension() {
+            return this.creativeAttributes.w + 'x' + this.creativeAttributes.h;
+        }
+    },
+
+    filters: {
+        uppercase: function (v) {
+            return v.toUpperCase();
+        }
+    },
+
+
+    watch: {
+
+        token(value) {
+
+            if (typeof value != 'undefined') {
+                this.getFolders();
+            }
+
+        },
+        responsiveData(value) {
+            this.creativeAttributes.responsive = value;
+        },
+
+        folders(value) {
+            this.defineFolders();
+        },
+        creatives(value) {
+            this.defineCreatives();
         }
     }
+}
 </script>
 <style type="text/css">
     .dz-preview {

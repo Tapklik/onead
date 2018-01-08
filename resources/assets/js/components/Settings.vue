@@ -8,7 +8,7 @@
                     <v-tabs-item href="#account-tab">
                         <v-icon class="orange--text text--darken-3">account_balance</v-icon>
                         <span class="orange--text text--darken-3">Account Settings</span>
-                    </v-tabs-item>blade
+                    </v-tabs-item>
                     <v-tabs-item href="#user-tab">
                         <v-icon class="orange--text text--darken-3">person</v-icon>
                         <span class="orange--text text--darken-3">User Settings</span>
@@ -54,11 +54,6 @@
             this.$root.isLoading = false;
         },
         
-        props: ['user', 'token'],
-
-        data() {
-            return {
-            }
-        }
+        props: ['user', 'token']
     }
 </script>

@@ -35,7 +35,9 @@
                 <v-layout row wrap class="mt-4">
                     <v-flex xs8 class="valign-wrapper">
                         <span class="title">Address</span>
-                        <p class="caption mb-0">Please, specify company address that will show on your invoices</p>
+                        <p class="caption mb-0">
+                            Please, specify company address that will show on your invoices
+                        </p>
                     </v-flex>
                     <v-flex xs8 class="mt-0">
                         <v-text-field
@@ -77,28 +79,28 @@
         <v-divider class="mt-4"></v-divider>
         <v-layout row wrap class="mt-4 mb-4"> 
             <v-flex xs12>
-                <v-btn primary large :loading="loading" @click="loading = true, updateBillingDetails()"><v-icon left class="white--text">cloud_upload</v-icon>Update Billing Details</v-btn>
+                <v-btn 
+                primary 
+                large 
+                :loading="billing_button_loading" 
+                @click="updateBillingDetails()"
+                >
+                    <v-icon left class="white--text">cloud_upload</v-icon>
+                    Update Billing Details
+                </v-btn>
             </v-flex>
         </v-layout>
     </v-container>
 </template>
-
 <script>
 
     export default {
-
-
-        mounted() {
-        },
 
         props:['user', 'token'],
 
         data() {
             return {
-                account: false,
-                userDet: {},
-                ajax: false,
-                loading: false,
+                billing_button_loading: false,
                 billing: {
                     company: '',
                     billing_email: '',
@@ -110,37 +112,46 @@
         },
         
         methods: {
-            fetchUsersDet() {
-                var self = this;
-
-                axios.get(this.$root.uri + '/accounts/' + this.user.accountUuId + '/users/' + this.user.uuid, this.$root.config).then( response => {
-                    this.userDet = response.data.data;
-                }, error => {
-                    this.$root.showAlertPopUp('error', 'Something went wrong.');
-                });
-            },     
+            getBillingDetails() {
+                axios.get(
+                    this.$root.uri + '/accounts/' + this.user.accountUuId, 
+                    this.$root.config
+                ).then( response => {
+                        var results = response.data.data.billing;
+                        this.billing.billing_city = results.city;
+                        this.billing.billing_country = results.country;
+                        this.billing.billing_address = results.address;
+                        this.billing.company = results.company;
+                        this.billing.billing_email = results.email;
+                    }, error => {
+                        this.showAlertPopUp('error', 'Something went wrong.');
+                        this.billing_button_loading = false;
+                    }
+                );
+            },
 
             updateBillingDetails() {
-                this.loading = true;
+                this.billing_button_loading = true;
 
-                axios.put(this.$root.uri + '/accounts/' + this.user.accountUuId, this.billing, this.$root.config).then( response => {
-                    this.$root.showAlertPopUp('success', 'Upadated billing details successfully');
-                    this.loading = false;
-                }, error => {
-                    this.showAlertPopUp('error', 'Something went wrong.');
-                    this.loading = false;
-                });
+                axios.put(
+                    this.$root.uri + '/accounts/' + this.user.accountUuId, 
+                    this.billing, 
+                    this.$root.config
+                ).then( response => {
+                        this.$root.showAlertPopUp('success', 'Upadated billing details successfully');
+                        this.billing_button_loading = false;
+                    }, error => {
+                        this.showAlertPopUp('error', 'Something went wrong.');
+                        this.billing_button_loading = false;
+                    }
+                );
             }
         },
 
         watch: {
-
             user(value) {
-
-                if(!value) return;
-                this.fetchUsersDet();
+                this.getBillingDetails();
             }
-
         }
     }
 </script>
