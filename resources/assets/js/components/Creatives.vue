@@ -77,7 +77,7 @@
                                                 prepend-icon="mode_edit" 
                                                 v-model="new_creative.name" 
                                                 placeholder="Name" 
-                                                :rules="creativeNameRules()" 
+                                                :rules="nameRules()" 
                                                 @keyup="checkFile()"
                                                 ></v-text-field>
                                             </v-flex>
@@ -642,7 +642,7 @@
                 search_creatives_and_folders: '',
                 dropzone: false,
                 iab_standard_sizes: ['300x250','250x250','240x400','336x280','180x150','300x100','720x300','468x60','234x60','88x31','120x90','120x60','120x240','125x125','728x90','160x600','120x600','300x600'],
-                classes: ['banner', 'video', 'native'],
+                classes: ['banner', 'video', 'native','html5'],
 
                 //NEW CREATIVE
                 new_file_status: 'empty',
@@ -702,7 +702,7 @@
                     url: this.$root.uri + '/creatives',
                     paramName: 'file',
                     maxFilesize: 2,
-                    acceptedFiles: 'image/*',
+                    acceptedFiles: 'image/*, application/zip',
                     headers: {"Authorization": 'Bearer ' + this.token},
                     autoProcessQueue: false,
                     thumbnailWidth: 120,
@@ -711,17 +711,18 @@
                 });
 
                 this.dropzone.on("addedfile", function(file, thumb) {
+                    var is_zip = file.type.indexOf('zip') != -1 ? true : false;
                     var sizeInterval = setInterval(function () {
-                        console.log(file);
-                        if(typeof file.width != 'undefined') {
+                        console.log(is_zip);
+                        if(typeof file.width != 'undefined' || is_zip) {
                             this.valid_new_creative.file = true;
                             this.new_file_status = 'uploaded';
 
                             this.new_creative = {
-                                w: file.width,
-                                h: file.height,
+                                w: is_zip ? 0 : file.width,
+                                h: is_zip ? 0 : file.height,
                                 name: file.name.slice(0,file.name.lastIndexOf('.')),
-                                class: 'banner',
+                                class: is_zip ? 'html5' : 'banner',
                                 url: '',
                                 responsive: 0,
                                 folder: this.folders[0].key
@@ -759,9 +760,8 @@
                     if (file.status == 'success') {
                         this.clearUploadModal();
                         this.new_file_status = 'empty';
+                        this.show_new_creative_modal = false;
                         this.new_creative_button_loading = false;
-                        this.showModal = false;
-                        this.showModalDimensionsCheck = false;
 
                         if(file.status != 'success') {
                             this.$root.showAlertPopUp('error', 'Error uploading the creative.');
@@ -795,7 +795,7 @@
                 if(this.new_file_status != 'uploaded') this.new_file_status = 'nofile';
             },
 
-            creativeNameRules() {
+            nameRules() {
                 this.valid_new_creative.name = this.new_creative.name.length < 4 ? false : true;
                 if(!this.valid_new_creative.name) return ['Too short'];
             },

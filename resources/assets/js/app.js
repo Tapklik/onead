@@ -182,7 +182,7 @@ const app = new Vue({
             if(value) {
                 return (value * 1000000);
             } else {
-                return 0
+                return 0;
             }
         },
 
