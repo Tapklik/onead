@@ -712,6 +712,7 @@
 
                 this.dropzone.on("addedfile", function(file, thumb) {
                     var sizeInterval = setInterval(function () {
+                        console.log(file);
                         if(typeof file.width != 'undefined') {
                             this.valid_new_creative.file = true;
                             this.new_file_status = 'uploaded';
