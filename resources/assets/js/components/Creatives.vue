@@ -613,6 +613,7 @@
                           </v-card>
                     </v-flex>
                     <!-- PREVIEW END -->
+
                 </v-layout>
             </v-card-text>
             <!-- CREATIVES END -->
@@ -713,7 +714,6 @@
                 this.dropzone.on("addedfile", function(file, thumb) {
                     var is_zip = file.type.indexOf('zip') != -1 ? true : false;
                     var sizeInterval = setInterval(function () {
-                        console.log(is_zip);
                         if(typeof file.width != 'undefined' || is_zip) {
                             this.valid_new_creative.file = true;
                             this.new_file_status = 'uploaded';
