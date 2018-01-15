@@ -760,7 +760,7 @@
             },
 
             range() {
-                var range = '&from=' + this.date_from + ' 00:00:00&to=' + this.date_to + ' 00:00:00';
+                var range = '&from=' + this.date_from + ' 00:00:00&to=' + this.date_to + ' 23:59:59';
                 return range;
             },
 
