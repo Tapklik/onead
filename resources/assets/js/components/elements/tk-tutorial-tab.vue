@@ -1,12 +1,11 @@
 <template>
     <v-layout row wrap>
-        <v-flex xs12 md3>
+        <v-flex xs12 md4>
             <v-carousel 
             class="tutorial elevation-0 ml-3" 
             hide-controls
             light 
-            :left-control-icon="false"
-            :right-control-icon="false"
+            :interval="10000"
             >
                 <v-carousel-item 
                 v-for="(slide,index) in dataset" 
@@ -14,16 +13,18 @@
                 src=""
                 >
                     <v-layout row wrap>
-                        <v-flex xs12 v-show="singleSlide()">
+                        <v-flex xs2 v-show="singleSlide()"></v-flex>
+                        <v-flex xs10 v-show="singleSlide()">
                             <v-layout row wrap class="mb-2">
                                 <v-flex xs12>
                                     <img width="200" src="/images/tapklik-onead-logo.png">
                                 </v-flex>
                             </v-layout>
                         </v-flex>
-                        <v-flex xs12>
+                        <v-flex xs2></v-flex>
+                        <v-flex xs10>
                             <v-layout row wrap>
-                                <v-flex xs1 v-show="!singleSlide()">
+                                <v-flex xs2 v-show="!singleSlide()">
                                     <div class="number-circle orange darken-4 white--text">
                                         {{ index + 1 }}
                                     </div>
@@ -36,10 +37,26 @@
                                 </v-flex>
                             </v-layout>
                         </v-flex>
-                        <v-flex xs12>
+                        <v-flex xs2></v-flex>
+                        <v-flex xs10>
                             <v-layout row wrap>
-                                <v-flex xs12>
-                                    <p>{{ slide.text }}</p>
+                                <v-flex xs10>
+                                    <p>{{ slide.text }}</p><br v-show="singleSlide()">
+                                    <a 
+                                    style="cursor:pointer"
+                                    v-show="singleSlide()" 
+                                    @click="emitStepChange(2)"
+                                    >
+                                        Check creatives tutorial
+                                    </a>
+                                    <br v-show="singleSlide()">
+                                    <a 
+                                    style="cursor:pointer"
+                                    v-show="singleSlide()" 
+                                    @click="emitStepChange(3)"
+                                    >
+                                        Check campaigns tutorial
+                                    </a>
                                 </v-flex>
                             </v-layout>
                         </v-flex>
@@ -48,8 +65,8 @@
             </v-carousel>
         </v-flex>
         <v-spacer></v-spacer>
-        <v-flex xs12 md8>
-            <img :src="image" height="400px">
+        <v-flex xs12 md7>
+            <img :src="image" height="360px">
         </v-flex>
     </v-layout>
 </template>
@@ -60,6 +77,10 @@
         methods: {
             singleSlide() {
                 return this.dataset.length == 1 ? true : false;
+            },
+
+            emitStepChange(value) {
+                this.$emit('changeStep', value);
             }
         }
     }

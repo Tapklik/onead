@@ -217,7 +217,7 @@
             return {
                 //ACTIONS
                 search_campaigns: '',
-                selected_statuses: ['active','draft'],
+                selected_statuses: ['active','draft', 'paused', 'not started'],
                 statuses: {
                     not_started: 'green darken-1 white--text', 
                     expired: 'red lighten-1 white--text', 

@@ -201,8 +201,8 @@
                             <v-card-actions>
                                 <v-spacer></v-spacer>
                                 <v-btn 
-                                @click="clearUploadModal(), 
-                                show_new_creative_modal = false" 
+                                @click="show_new_creative_modal = false,
+                                clearUploadModal()" 
                                 class="elevation-0"
                                 >
                                     <v-icon>close</v-icon>                                    
@@ -213,7 +213,8 @@
                                 :loading="new_creative_button_loading" 
                                 primary 
                                 :disabled="!validCreative()" 
-                                @click="new_creative_button_loading = true, uploadCreative()" 
+                                @click="new_creative_button_loading = true, 
+                                uploadCreative()" 
                                 class="elevation-0"
                                 >
                                     <v-icon>done</v-icon>
@@ -261,7 +262,8 @@
                                             <v-spacer></v-spacer>
                                             <v-btn 
                                             class="elevation-0" 
-                                            @click="show_confirmation_modal = false"
+                                            @click="show_confirmation_modal = false,
+                                            clearUploadModal()"
                                             >
                                                 <v-icon>close</v-icon>
                                                 Cancel
@@ -955,7 +957,7 @@
         watch: {
             token(value) {
                 this.getFolders();
-            },
+            }
         }
     }
 </script>

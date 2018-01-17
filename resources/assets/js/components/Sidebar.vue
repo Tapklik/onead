@@ -14,16 +14,6 @@
 					</v-list-tile-title>
 				</v-list-tile-content>
 			</v-list-tile>
-			<v-list-tile tag="a" href="/admin/campaigns" @click="">
-				<v-list-tile-content>
-					<v-list-tile-title href="/admin/campaigns" class="text-xs-center">
-						<v-icon>add_to_queue</v-icon>
-					</v-list-tile-title>
-					<v-list-tile-title class="text-xs-center">
-						<span class="item-title">Campaigns</span>
-					</v-list-tile-title>
-				</v-list-tile-content>
-			</v-list-tile>
 			<v-list-tile tag="a" href="/admin/creatives" @click="">
 				<v-list-tile-content>
 					<v-list-tile-title href="/admin/creatives" class="text-xs-center">
@@ -31,6 +21,16 @@
 					</v-list-tile-title>
 					<v-list-tile-title class="text-xs-center">
 						<span class="item-title">Creatives</span>
+					</v-list-tile-title>
+				</v-list-tile-content>
+			</v-list-tile>
+			<v-list-tile tag="a" href="/admin/campaigns" @click="">
+				<v-list-tile-content>
+					<v-list-tile-title href="/admin/campaigns" class="text-xs-center">
+						<v-icon>add_to_queue</v-icon>
+					</v-list-tile-title>
+					<v-list-tile-title class="text-xs-center">
+						<span class="item-title">Campaigns</span>
 					</v-list-tile-title>
 				</v-list-tile-content>
 			</v-list-tile>

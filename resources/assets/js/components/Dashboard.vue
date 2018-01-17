@@ -310,7 +310,7 @@
             //CHART
             getOverallData() {
                 axios.get(
-                    this.$root.reportUri + '?table=wins&acc=' + this.user.accountUuId + '&field=clicks,imps,spend&op=sum&from=' + this.date_from + ' 00:00:00&to=' + this.date_to + ' 00:00:00&scale=1d', 
+                    this.$root.reportUri + '?table=wins&acc=' + this.user.accountUuId + '&field=clicks,imps,spend&op=sum&from=' + this.date_from + ' 00:00:00&to=' + this.date_to + ' 23:59:59&scale=1d', 
                     this.$root.config
                 ).then(response => {
                             this.overall_data = response.data.data;
@@ -405,7 +405,7 @@
             //SUMMARY
             getOverallSummary() {
                 axios.get(
-                    this.$root.reportUri + '?table=wins&acc=' + this.user.accountUuId + '&field=clicks,imps,spend&op=summary&from=' + this.date_from + ' 00:00:00&to=' + this.date_to + ' 00:00:00', 
+                    this.$root.reportUri + '?table=wins&acc=' + this.user.accountUuId + '&field=clicks,imps,spend&op=summary&from=' + this.date_from + ' 00:00:00&to=' + this.date_to + ' 23:59:59', 
                     this.$root.config
                 ).then(response => {
                         if(response.data.data != undefined) {
@@ -445,7 +445,6 @@
                         }
                     );
                 }
-                this.creatives = this.filterDataSize(5, this.creatives, true);
             },
 
             //CAMPAIGNS
@@ -509,6 +508,10 @@
 
             folders(value) {
                 this.getCreatives();
+            },
+            
+            creatives(value) {
+                if(value.length > 5) value = this.filterDataSize(5, value, true);
             }
         }
     }

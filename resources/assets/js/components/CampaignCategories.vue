@@ -12,9 +12,9 @@
         <!-- SUBHEADER START -->
         <v-layout row wrap>
             <v-flex xs12 md9 class="valign-wrapper mt-4">
-                <span class="title">IAB Campaign Categories</span>
+                <span class="title">Campaign Categories</span>
                 <p class="caption ma-0">
-                    Select major IAB categories into which your campaign and target audience best fits
+                    Select major categories into which your campaign and target audience best fits
                 </p>
             </v-flex>
         </v-layout>

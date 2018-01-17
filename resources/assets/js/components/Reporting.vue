@@ -157,13 +157,6 @@
 
                 <!-- OVERALL GRAPH START-->
                 <v-tabs-content id="overall-tab">
-                    <reporting-tab 
-                    :tabIndex="tabIndex"
-                    currentTab="overall-tab"
-                    @changeData="loadData($event, 'report')"
-                    graph="chart_overall" 
-                    :summary="responseOverallSummary"
-                    ></reporting-tab>
                 </v-tabs-content>
                 <!-- OVERALL GRAPH END -->
 
@@ -187,13 +180,6 @@
                             </v-container>
                         </v-card-text>
                     </v-card>
-                    <reporting-tab 
-                    :tabIndex="tabIndex"
-                    currentTab="publisher-tab"
-                    @changeData="loadData($event, 'report')"
-                    graph="chart_publisher" 
-                    :summary="responsePublishersSummary"
-                    ></reporting-tab>
                 </v-tabs-content>
                 <!-- PUBLISHER GRAPH END -->
 
@@ -209,7 +195,7 @@
                                     :items="models"
                                     keyValue="type"
                                     title="type"
-                                    value="type"
+                                    value="device_id"
                                     :selection="selectedDevicesTypes1"
                                     @changeSelection="selectedDevicesTypes1 = $event"
                                     ></tk-filter>
@@ -261,13 +247,6 @@
                             </v-container>
                         </v-card-text>
                     </v-card>
-                    <reporting-tab 
-                    :tabIndex="tabIndex"
-                    currentTab="devices-tab"
-                    @changeData="loadData($event, 'report')"
-                    graph="chart_devices" 
-                    :summary="responseDevicesSummary"
-                    ></reporting-tab>
                 </v-tabs-content>
                 <!-- DEVICES GRAPH END -->
 
@@ -299,17 +278,17 @@
                             </v-container>
                         </v-card-text>
                     </v-card>
-                    <reporting-tab 
-                    :tabIndex="tabIndex"
-                    currentTab="geo-tab"
-                    @changeData="loadData($event, 'report')"
-                    graph="chart_geo" 
-                    :summary="responseGeoSummary"
-                    ></reporting-tab>
                 </v-tabs-content>
                 <!-- GEO GRAPH END -->
 
             </v-tabs-items>
+            <reporting-tab 
+            :tabIndex="tabIndex"
+            currentTab="geo-tab"
+            @changeData="loadData($event, 'report')"
+            graph="chart" 
+            :summary="response_summary"
+            ></reporting-tab>
         </v-tabs>
     </v-container>
 </template>
@@ -328,10 +307,7 @@
             this.loadData('technologies', 'models', 'devices');
             this.loadData('countries', 'countries');
             this.loadData('publishers', 'publishers');
-            this.loadData('reportGeo', 'reportGeo');
-            this.loadData('reportOverall', 'reportOverall');
-            this.loadData('reportDevices', 'reportDevices');
-            this.loadData('reportPublishers', 'reportPublishers');
+            this.loadData('reportOverall','report');
             this.$root.isLoading = false;
 
         },
@@ -340,7 +316,6 @@
 
         data() {
             return {
-                hello: {},
                 campaigns: [],
                 creatives: [],
                 publishers: [],
@@ -348,8 +323,8 @@
                 operating_systems: [],
                 browsers: [],
                 countries: [],
-                date_from: this.getDate(-10),
-                date_to: this.getDate(0),
+                date_from: this.$utils.getDate(-10),
+                date_to: this.$utils.getDate(0),
                 stats: ['imps', 'clicks', 'ecpc', 'ecpm', 'spend', 'ctr'],
                 line: 'imps',
                 column: 'clicks',
@@ -362,29 +337,29 @@
                 selectedPublishers1: [],
                 selectedGeoCountries1: [],
 
-                responseOverallList: [],
-                responsePublishersList: [],
-                responseDevicesList: [],
-                responseGeoList: [],
-                
-                responseDevicesSummary: {clicks: 0, imps: 0, spend: 0, ctr: 0, ecpm: 0, ecpc:0},
-                responsePublishersSummary: {clicks: 0, imps: 0, spend: 0, ctr: 0, ecpm: 0, ecpc:0},
-                responseOverallSummary: {clicks: 0, imps: 0, spend: 0, ctr: 0, ecpm: 0, ecpc:0},
-                responseGeoSummary: {clicks: 0, imps: 0, spend: 0, ctr: 0, ecpm: 0, ecpc:0},
-
                 report: [],
                 response: [],
-                response_summary: {clicks: 0, imps: 0, spend: 0, ctr: 0, ecpm: 0, ecpc:0},
-                
-                reportDevices: [],
-                reportGeo: [],
-                reportOverall: [],
-                reportPublishers: [],
+                response_summary: {
+                    clicks: 0, 
+                    imps: 0, 
+                    spend: 0, 
+                    ctr: 0, 
+                    ecpm: 0, 
+                    ecpc:0
+                },
                 
                 campaignsPresent: false,
                 campaignNames: [],
                 creativesNames: [],
-                tabIndex: 'overall-tab'
+                tabIndex: 'overall-tab',
+                startingDataSummary: {
+                    clicks: 0,
+                    ctr: 0,
+                    ecpc: 0,
+                    ecpm: 0,
+                    imps: 0,
+                    spend: 0
+                }
             }
         },
         
@@ -456,24 +431,13 @@
                     {
                         clicks: 0,
                         ctr: 0,
-                        date: this.date_to,
+                        date: this.date_to + ' 23:59:59',
                         ecpc: 0,
                         ecpm: 0,
                         imps: 0,
                         spend: 0 
                     }
                 ]
-            },
-
-            startingDataSummary() {
-                return {
-                    clicks: 0,
-                    ctr: 0,
-                    ecpc: 0,
-                    ecpm: 0,
-                    imps: 0,
-                    spend: 0
-                }
             }
         },
 
@@ -647,17 +611,6 @@
                 }
             },
 
-            getDate(days) {
-                const toTwoDigits = num => num < 10 ? '0' + num : num;
-                let today =  new Date();
-                let date = new Date();
-                date.setDate(today.getDate() + days);
-                let year = date.getFullYear();
-                let month = toTwoDigits(date.getMonth() + 1);
-                let day = toTwoDigits(date.getDate()); 
-                return `${year}-${month}-${day}`;
-            },
-
             generateQuery(queryList, chartOrSum) {
 
                 var queries = queryList.queries;
@@ -744,78 +697,57 @@
                 return filters
             },
 
-            generateCharts() {
-                if (this.tabIndex == 'overall-tab') {
-                    this.dataCall(this.reportOverall, 'responseOverallList', 'responseOverallSummary','chart_overall')
-                }
-                else if(this.tabIndex == 'publisher-tab') {
-                    this.dataCall(this.reportPublishers, 'responsePublishersList', 'responsePublishersSummary', 'chart_publisher')
-                }
-                else if(this.tabIndex == 'devices-tab') {
-                    this.dataCall(this.reportDevices, 'responseDevicesList', 'responseDevicesSummary', 'chart_devices')
-                }
-                else if(this.tabIndex == 'geo-tab') {
-                    this.dataCall(this.reportGeo, 'responseGeoList', 'responseGeoSummary', 'chart_geo')
-                }
-            },
-
             range() {
                 var range = '&from=' + this.date_from + ' 00:00:00&to=' + this.date_to + ' 23:59:59';
                 return range;
             },
 
-            dataCall(report, responseList, responseListSummary, chart) {
-                axios.get(this.$root.reportUri + this.generateQuery(report, 'sum'))
-                .then(response => {
-                    /* var self = this;
-                    
-                    var testing = response.data.data.map(data => 
-                        {
-                            data.imps,
-                            data.clicks,
-                            self.$root.twoDecimalPlaces(data.ecpc);
-                            self.$root.twoDecimalPlaces(data.ecpm);
-                            self.$root.twoDecimalPlaces(data.ctr * 100);
-                            self.$root.twoDecimalPlaces(data.ecpc);
-                            self.$root.fromMicroDollars(data.spend);
-
+            getChartData() {
+                axios.get(
+                    this.$root.reportUri + this.generateQuery(this.report, 'sum')
+                ).then(response => {
+                        var results = response.data.data;
+                        for(var r in results) {
+                            results[r].imps = results[r].imps;
+                            results[r].clicks = results[r].clicks;
+                            results[r].ecpc = this.$root.twoDecimalPlaces(results[r].ecpc);
+                            results[r].ecpm = this.$root.twoDecimalPlaces(results[r].ecpm);
+                            results[r].ctr = this.$root.twoDecimalPlaces(results[r].ctr * 100);
+                            results[r].spend = this.$root.fromMicroDollars(results[r].spend);
                         }
-                    );
-                    console.log(testing); */
-                    var results = response.data.data;
-                    for(var v in results) {
-                        results[v].imps = results[v].imps;
-                        results[v].clicks = results[v].clicks;
-                        results[v].ecpc = this.$root.twoDecimalPlaces(results[v].ecpc);
-                        results[v].ecpm = this.$root.twoDecimalPlaces(results[v].ecpm);
-                        results[v].ctr = this.$root.twoDecimalPlaces(results[v].ctr * 100);
-                        results[v].spend = this.$root.fromMicroDollars(results[v].spend);
+                        this.response = results == undefined ? this.startingData : results;
+                        this.createChart('chart', this.response, this.column, this.line);
+                    }, error => {
+                        this.response = this.startingData;
+                        this.createChart(chart, this.response, this.column, this.line);
+                        this.$root.showAlertPopUp('error', 'Something went wrong.');
                     }
-                    console.log(results);
-                        this[responseList] = results == undefined ? this.startingData : results;
-                        this.createChart(chart, this[responseList], this.column, this.line);
-                }, error => {
-                    this[responseList] = this.startingData;
-                    this.createChart(chart, this[responseList], this.column, this.line);
-                    this.$root.showAlertPopUp('error', 'Something went wrong.');
-                });
+                );
+            },
 
-                axios.get(this.$root.reportUri + this.generateQuery(report, 'summary'))
-                .then(response => {
-                    var summary = response.data.data;
-                    if(summary == undefined) {
-                        this[responseListSummary] = this.startingDataSummary;
-                    } else {
-                        this[responseListSummary] = response.data.data;
+            getSummary() {
+                axios.get(
+                    this.$root.reportUri + this.generateQuery(this.report, 'summary')
+                ).then(response => {
+                        var summary = response.data.data;
+                        this.response_summary = summary == undefined ? this.startingDataSummary : response.data.data;
+                    }, error => {
+                        this.response_summary = this.startingDataSummary;
+                        this.$root.showAlertPopUp('error', 'Something went wrong.');
                     }
-                }, error => {
-                    this[responseListSummary] = this.startingDataSummary;
-                    this.$root.showAlertPopUp('error', 'Something went wrong.');
-                });
+                );
+            },
+
+            generateCharts() {
+                this.getChartData();
+                this.getSummary();
             }
         },
 
         watch: {
+            report(value) {
+                this.generateCharts();
+            },
             column(value) {
                 this.generateCharts();
             },
@@ -832,8 +764,7 @@
                 this.fetchCampaigns();
             },
             selectedCampaigns1(value) {
-                if(value != '') this.campaignsPresent = true;
-                else this.campaignsPresent = false;
+                this.campaignsPresent = value != '' ? true : false;
                 this.generateCharts();
             },
             selectedCreatives1(value) {
@@ -859,9 +790,6 @@
             },
             selectedCampaigns(value) {
                 this.getCreatives();
-            },
-            tabIndex(value) {
-                this.generateCharts();
             }
         }
     }
