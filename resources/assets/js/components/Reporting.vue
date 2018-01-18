@@ -308,6 +308,7 @@
             this.loadData('countries', 'countries');
             this.loadData('publishers', 'publishers');
             this.loadData('reportOverall','report');
+            this.loadData('reportOverall','report_overall');
             this.$root.isLoading = false;
 
         },
@@ -331,12 +332,13 @@
 
                 selectedCampaigns1: [],
                 selectedCreatives1: [],
-                selectedDevicesTypes1: [],
+                selectedDevicesTypes1: [2,4,5],
                 selectedDevicesOs1: [],
                 selectedDevicesUa1: [],
                 selectedPublishers1: [],
                 selectedGeoCountries1: [],
 
+                report_overall: this.loadData('reportOverall','report'),
                 report: [],
                 response: [],
                 response_summary: {
@@ -612,7 +614,6 @@
             },
 
             generateQuery(queryList, chartOrSum) {
-
                 var queries = queryList.queries;
                 var table = queryList.table;
                 var account = this.user.accountUuId;
@@ -719,7 +720,7 @@
                         this.createChart('chart', this.response, this.column, this.line);
                     }, error => {
                         this.response = this.startingData;
-                        this.createChart(chart, this.response, this.column, this.line);
+                        this.createChart('chart', this.response, this.column, this.line);
                         this.$root.showAlertPopUp('error', 'Something went wrong.');
                     }
                 );
@@ -738,6 +739,42 @@
                 );
             },
 
+            getOverallChartData() {
+                axios.get(
+                    this.$root.reportUri + this.generateQuery(this.report_overall, 'sum')
+                ).then(response => {
+                        var results = response.data.data;
+                        for(var r in results) {
+                            results[r].imps = results[r].imps;
+                            results[r].clicks = results[r].clicks;
+                            results[r].ecpc = this.$root.twoDecimalPlaces(results[r].ecpc);
+                            results[r].ecpm = this.$root.twoDecimalPlaces(results[r].ecpm);
+                            results[r].ctr = this.$root.twoDecimalPlaces(results[r].ctr * 100);
+                            results[r].spend = this.$root.fromMicroDollars(results[r].spend);
+                        }
+                        this.response = results == undefined ? this.startingData : results;
+                        this.createChart('chart', this.response, this.column, this.line);
+                    }, error => {
+                        this.response = this.startingData;
+                        this.createChart('chart', this.response, this.column, this.line);
+                        this.$root.showAlertPopUp('error', 'Something went wrong.');
+                    }
+                );
+            },
+
+            getOverallSummary() {
+                axios.get(
+                    this.$root.reportUri + this.generateQuery(this.report_overall, 'summary')
+                ).then(response => {
+                        var summary = response.data.data;
+                        this.response_summary = summary == undefined ? this.startingDataSummary : response.data.data;
+                    }, error => {
+                        this.response_summary = this.startingDataSummary;
+                        this.$root.showAlertPopUp('error', 'Something went wrong.');
+                    }
+                );
+            },
+
             generateCharts() {
                 this.getChartData();
                 this.getSummary();
@@ -746,7 +783,15 @@
 
         watch: {
             report(value) {
-                this.generateCharts();
+                if(this.tabIndex == 'geo-tab' && this.selectedGeoCountries1 == '') {
+                    this.getOverallSummary();
+                    this.getOverallChartData();
+                }
+                else if(this.tabIndex == 'devices-tab' && !(this.selectedDevicesTypes1 != '' || this.selectedDevicesOs1 != '' || this.selectedDevicesUa1 != '')) {
+                    this.getOverallSummary();
+                    this.getOverallChartData();
+                }
+                else this.generateCharts();
             },
             column(value) {
                 this.generateCharts();

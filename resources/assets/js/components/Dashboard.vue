@@ -247,8 +247,8 @@
         },
 
         mounted() {
-            this.date_from = this.getDate(-10);
-            this.date_to = this.getDate(0);
+            this.date_from = this.$utils.getDate(-10);
+            this.date_to = this.$utils.getDate(0);
             this.$root.isLoading = false;
         },
         
@@ -294,17 +294,6 @@
                 var excess = dataset.length - number_of_items; //look for number of items that are more than required
                 if(excess > 0) dataset.splice(number_of_items, excess); //delete those items
                 return dataset;
-            },
-
-            getDate(days) {
-                const toTwoDigits = num => num < 10 ? '0' + num : num;
-                let today = new Date();
-                let date = new Date();
-                date.setDate(today.getDate() + days);
-                let year = date.getFullYear();
-                let month = toTwoDigits(date.getMonth() + 1);
-                let day = toTwoDigits(date.getDate()); 
-                return `${year}-${month}-${day}`;
             },
 
             //CHART

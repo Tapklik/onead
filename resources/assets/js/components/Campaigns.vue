@@ -144,6 +144,9 @@
                     </td>
                      <td class="text-xs-center">
                         <v-btn 
+                        data-toggle="tooltip" 
+                        data-placement="top" 
+                        title="Toggle activation of campaign"
                         :disabled = "disableButton(props.item.status, 'toggle')"
                         icon 
                         class="grey--text" 
@@ -157,6 +160,9 @@
                         </v-btn>
                         <v-btn 
                         v-if="props.item.status == 'draft' || props.item.status == 'archived'" 
+                        data-toggle="tooltip" 
+                        data-placement="top" 
+                        title="Delete campaign"
                         :loading="props.item.delete_button_loading" 
                         :disabled="disableButton(props.item.status, 'delete')"
                         icon 
@@ -167,6 +173,9 @@
                         </v-btn>
                         <tk-confirm
                         v-else
+                        data-toggle="tooltip" 
+                        data-placement="top" 
+                        title="Archive campaign"
                         :icon="'archive'"
                         :data = "props.item"
                         :iconButton="true"
@@ -176,6 +185,9 @@
                             {{'Are you sure you want to archive ' + props.item.name + '?'}}
                         </tk-confirm>
                         <v-btn 
+                        data-toggle="tooltip" 
+                        data-placement="top" 
+                        title="Edit campaign"
                         :disabled="props.item.status == 'archived'" 
                         icon 
                         class="grey--text" 

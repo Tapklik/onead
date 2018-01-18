@@ -47,12 +47,27 @@
                 :campaign="campaign"
                 :valid="valid_new_campaign"
                 ></campaign-details>
+                <v-layout>
+                    <v-spacer></v-spacer>
+                    <v-btn primary @click="step = 2">
+                        <v-icon left class="white--text">skip_next</v-icon>Next
+                    </v-btn>
+                </v-layout>
             </v-stepper-content>
             <v-stepper-content step="2">
                 <campaign-categories 
                 :campaign="campaign"
                 :valid="valid_new_campaign"
                 ></campaign-categories>
+                <v-layout>
+                    <v-btn primary @click="step = 1">
+                        <v-icon left class="white--text">skip_previous</v-icon>Back
+                    </v-btn>
+                    <v-spacer></v-spacer>
+                    <v-btn primary @click="step = 3">
+                        <v-icon left class="white--text">skip_next</v-icon>Next
+                    </v-btn>
+                </v-layout>
             </v-stepper-content>
             <v-stepper-content step="3">
                 <campaign-creatives
@@ -60,12 +75,30 @@
                 :campaign="campaign"
                 :valid="valid_new_campaign"
                 ></campaign-creatives>
+                <v-layout>
+                    <v-btn primary @click="step = 2">
+                        <v-icon left class="white--text">skip_previous</v-icon>Back
+                    </v-btn>
+                    <v-spacer></v-spacer>
+                    <v-btn primary @click="step = 4">
+                        <v-icon left class="white--text">skip_next</v-icon>Next
+                    </v-btn>
+                </v-layout>
             </v-stepper-content>
             <v-stepper-content step="4">
                 <campaign-targeting 
                 :campaign="campaign"
                 :valid="valid_new_campaign"
                 ></campaign-targeting>
+                <v-layout>
+                    <v-btn primary @click="step = 3">
+                        <v-icon left class="white--text">skip_previous</v-icon>Back
+                    </v-btn>
+                    <v-spacer></v-spacer>
+                    <v-btn primary @click="step = 5">
+                        <v-icon left class="white--text">skip_next</v-icon>Next
+                    </v-btn>
+                </v-layout>
             </v-stepper-content>
             <v-stepper-content step="5">
                 <campaign-review
@@ -73,6 +106,11 @@
                 :campaign="campaign"
                 :valid="valid_new_campaign"
                 ></campaign-review>
+                <v-layout>
+                    <v-btn primary @click="step = 4">
+                        <v-icon left class="white--text">skip_previous</v-icon>Back
+                    </v-btn>
+                </v-layout>
             </v-stepper-content>
             <!-- COMPONENTS END -->
 
@@ -124,8 +162,8 @@
                     weight: 1,
                     status: 'draft',
                     total: 1,
-                    start_time: this.getDate(0),
-                    end_time: this.getDate(7),
+                    start_time: this.$utils.getDate(0),
+                    end_time: this.$utils.getDate(7),
                     geo: {
                         data: []
                     },
@@ -212,17 +250,6 @@
                     node: this.campaign.node,
                     account_id: 1
                 }
-            },
-
-            getDate(days) {
-                const toTwoDigits = num => num < 10 ? '0' + num : num;
-                let today = new Date();
-                let date = new Date();
-                date.setDate(today.getDate() + days);
-                let year = date.getFullYear();
-                let month = toTwoDigits(date.getMonth() + 1);
-                let day = toTwoDigits(date.getDate());
-                return `${year}-${month}-${day}`;
             },
 
             //CONTENT EDIT

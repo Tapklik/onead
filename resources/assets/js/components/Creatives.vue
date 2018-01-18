@@ -382,7 +382,8 @@
             <v-card-text v-else-if="!current_folder.id">
                 <v-layout row wrap>
                     <v-flex xs12 md10 lg8>
-                        <v-data-table 
+                        <v-data-table
+                        no-data-text="Create a folder by clicking the Add Folder button above"
                         :items="filteredFolders" 
                         hide-actions 
                         class="no-headers creatives-explorer"
@@ -483,6 +484,7 @@
                 <v-layout row wrap>
                     <v-flex xs12 md9>
                         <v-data-table 
+                        no-data-text="Create a creative by clicking the Add Creative button above"
                         :items="filteredCreatives" 
                         hide-actions 
                         class="creatives-explorer no-headers" 

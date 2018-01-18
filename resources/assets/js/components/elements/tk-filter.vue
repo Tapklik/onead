@@ -53,6 +53,10 @@
         watch: {
           storage(value) {
             this.$emit('changeSelection', value);
+          },
+
+          selection(value) {
+            this.storage = value;
           }
         }
     }
