@@ -130,7 +130,9 @@
                     adomain: '',
                     ctrurl: '',
                     bid: 0,
-                    exchange: 1,
+                    exchange: {
+                        data: []
+                    },
                     test: 1,
                     weight: 1,
                     status: 'draft',
@@ -195,12 +197,25 @@
             },
             
             //CONTENT CREATE NEW
+            getExchanges() {
+                axios.get(
+                    this.$root.uri + '/exchanges',
+                    this.$root.config
+                ).then(response=> {
+                        this.campaign.exchange.data = response.data.data.map(exchange => exchange.id);
+                    }, error => {
+                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                    }
+                );
+            },
+
             createNewDraft() {
                 axios.post(
                     this.$root.uri + '/campaigns', 
                     this.collectDraft(), 
                     this.$root.config
                 ).then(response => {
+                        this.getExchanges();
                         this.campaign.id = response.data.data.id;
                     }, error => {
                         this.$root.showAlertPopUp('error', 'Something went wrong');
@@ -231,7 +246,7 @@
                     this.$root.uri + '/campaigns/' + id, 
                     this.$root.config
                 ).then(response => {
-                        this.campaign = response.data.data;
+                        console.log(response.data.data);
                         this.fetchCampaignCategories(id);
                     }, error => {
                         this.$root.showAlertPopUp('error', 'Something went wrong');
