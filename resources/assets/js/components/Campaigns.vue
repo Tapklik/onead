@@ -144,6 +144,9 @@
                     </td>
                      <td class="text-xs-center">
                         <v-btn 
+                        data-toggle="tooltip" 
+                        data-placement="top" 
+                        title="Pause/Resume campaign"
                         :disabled = "disableButton(props.item.status, 'toggle')"
                         icon 
                         class="grey--text" 
@@ -157,6 +160,9 @@
                         </v-btn>
                         <v-btn 
                         v-if="props.item.status == 'draft' || props.item.status == 'archived'" 
+                        data-toggle="tooltip" 
+                        data-placement="top" 
+                        title="Delete campaign"
                         :loading="props.item.delete_button_loading" 
                         :disabled="disableButton(props.item.status, 'delete')"
                         icon 
@@ -167,6 +173,9 @@
                         </v-btn>
                         <tk-confirm
                         v-else
+                        data-toggle="tooltip" 
+                        data-placement="top" 
+                        title="Archive campaign"
                         :icon="'archive'"
                         :data = "props.item"
                         :iconButton="true"
@@ -176,6 +185,9 @@
                             {{'Are you sure you want to archive ' + props.item.name + '?'}}
                         </tk-confirm>
                         <v-btn 
+                        data-toggle="tooltip" 
+                        data-placement="top" 
+                        title="Edit campaign"
                         :disabled="props.item.status == 'archived'" 
                         icon 
                         class="grey--text" 
@@ -217,9 +229,9 @@
             return {
                 //ACTIONS
                 search_campaigns: '',
-                selected_statuses: ['active','draft'],
+                selected_statuses: ['active','draft', 'paused', 'not started'],
                 statuses: {
-                    not_started: 'green darken-1 white--text', 
+                    not_started: 'orange darken-1 white--text', 
                     expired: 'red lighten-1 white--text', 
                     active: 'green lighten-1 white--text', 
                     paused: 'yellow darken-1 white--text', 
@@ -347,11 +359,20 @@
 
         filters: {
             uppercase(value) {
-              return value.toUpperCase();
+                value = value.replace('_', ' ');
+                return value.toUpperCase();
             },
 
             capitalize(value) {
-                return value.charAt(0).toUpperCase() + value.substr(1).replace('_', ' ');
+                var array = value.split(' ');
+                var new_array = [];
+                    
+                for(var x = 0; x < array.length; x++){
+                    new_array.push(array[x].charAt(0).toUpperCase() + array[x].slice(1));
+                }
+                value = new_array.join(' ');
+                value = value.replace('_', ' ');
+                return value.charAt(0).toUpperCase() + value.substr(1);
             }
         },
 

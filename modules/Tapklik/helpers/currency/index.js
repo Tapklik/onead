@@ -2,6 +2,10 @@ function Currency() {
     return this;
 }
 
+Currency.prototype.seperatorAtThousands = function(number) {
+  return number.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+}
+
 Currency.prototype.toMicroDollars = function (amount) {
     return (amount) ? amount * 1000000 : 0;
 }

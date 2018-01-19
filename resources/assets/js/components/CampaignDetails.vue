@@ -381,7 +381,7 @@
             startDateRules() {
                 var date = ['start before end'];
                 var todayDate = ['this date is before today']
-                var today = this.$parent.$parent.$parent.getDate(0);
+                var today = this.$utils.getDate(0);
                 if (this.campaign.start_time >= this.campaign.end_time) {
                     return date;
                     this.valid.start = false;
@@ -424,7 +424,7 @@
             endDateRules() {
                 var date = ['start before end'];
                 var todayDate = ['this date is before today'];
-                var today = this.$parent.$parent.$parent.getDate(0);
+                var today = this.$utils.getDate(0);
                 if (this.campaign.start_time >= this.campaign.end_time) {
                     this.valid.end = false;
                     return date;

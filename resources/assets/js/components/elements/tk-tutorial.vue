@@ -7,7 +7,14 @@
     >
         <!-- CARD START -->
         <v-card>
-
+            <div>
+                <v-layout row wrap>
+                    <v-spacer></v-spacer>
+                    <v-btn icon @click="$root.user.tutorial = false">
+                        <v-icon>close</v-icon>
+                    </v-btn>
+                </v-layout>
+            </div>
             <v-stepper class="elevation-0" v-model="current_step">
 
                 <!-- TABS START -->
@@ -31,6 +38,7 @@
                     <tk-tutorial-tab
                     :dataset="tutorials.welcome"
                     :image="images.welcome"
+                    @changeStep="current_step = $event"
                     ></tk-tutorial-tab>
                 </v-stepper-content>
                 <v-stepper-content step="2">

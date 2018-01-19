@@ -3,12 +3,12 @@
         <v-card-title :class="padding">
             <span class="subheading right orange--text text--darken-4">{{ title }}</span>
         </v-card-title>
-        <v-card-text v-if="value >= 0" class="fixed-z-index">
+        <v-card-text class="fixed-z-index">
             <v-flex xs12>
                 <v-icon :class="size">{{ icon }}</v-icon>
                 <v-layout row v-show="showLg">
                     <v-flex xs12 class="pa-1">
-                        <span class="caption right grey--text text--lighte-1">{{ subtitle }}</span>
+                        <span class="caption right grey--text text--lighten-1">{{ subtitle }}</span>
                     </v-flex>
                 </v-layout>
                 <v-layout row>
@@ -18,92 +18,45 @@
                 </v-layout>
             </v-flex>
         </v-card-text>
-        <v-card-text v-else><scale-loader :loading="true" color="#9e9e9e" height="15px" width="3px"></scale-loader></v-card-text>
+        <v-card-text v-if="value == null">
+            <scale-loader :loading="true" color="#9e9e9e" height="15px" width="3px"></scale-loader>
+        </v-card-text>
     </v-card>
 </template>
 
 <script>
 export default {
 
-    props: {
+    props: ['icon', 'value', 'unit', 'defaultValue', 'title', 'subtitle', 'size'],
 
-        icon: {
-            type: String,
-            default: null
-        },
-
-        value: {
-            default: -1
-        },
-
-        unit: {
-            default: null
-        },
-
-        defaultValue: {
-            default: null
-        },
-
-        title: {
-            type: String,
-            default: null
-        },
-
-        subtitle: {
-            type: String,
-            default: null
-        },
-
-        size: {
-            type: String,
-            default: "lg"
-        }
-
-    },
-
-    data: function() {
+    data() {
         return {
-            
         }
     },
 
     computed: {
         displayValue() {
-                if(this.value==null) {
-                    return this.defaultValue
-                } else {
-                    return this.value
-                }
-            },
+            return this.value == null ? this.defaultValue : this.$currency.seperatorAtThousands(this.value);
+        },
 
         height() {
-            if(this.size=="lg") {
-                return "142px"
-            } else {
-                return "100px" 
-            }
+            return this.size=="lg" ? "142px" : "100px";
         },
 
         showLg() {
-            if(this.size=="lg") {
-                return true
-            } else {
-                return false
-            }
+            return this.size=="lg" ? true : false; 
         },
 
         padding() {
-            if(this.size=="lg") {
-                return ""
-            } else {
-                return "pb-0"
-            }
+            return this.size == "lg" ? "" : "pb-0";
         },
 
     },
 
-    methods: {
-
+    watch: {
+        value(value) {
+            this.loading = false;
+        }
     }
 }
 </script>

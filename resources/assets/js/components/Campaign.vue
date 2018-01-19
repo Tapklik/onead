@@ -76,6 +76,17 @@
             </v-stepper-content>
             <!-- COMPONENTS END -->
 
+            <v-divider></v-divider>
+            <v-layout>
+                <v-btn class="grey elevation-0 white--text" v-show="step > 1" @click="step = step - 1">
+                    <v-icon left class="white--text">skip_previous</v-icon>Back
+                </v-btn>
+                <v-spacer></v-spacer>
+                <v-btn primary class="elevation-0" v-show="step < 5" @click="step = step + 1">
+                    <v-icon left class="white--text">skip_next</v-icon>Next
+                </v-btn>
+            </v-layout>
+
         </v-stepper>
     </v-container>         
 </template>
@@ -119,13 +130,15 @@
                     adomain: '',
                     ctrurl: '',
                     bid: 0,
-                    exchange: 1,
+                    exchange: {
+                        data: []
+                    },
                     test: 1,
                     weight: 1,
                     status: 'draft',
                     total: 1,
-                    start_time: this.getDate(0),
-                    end_time: this.getDate(7),
+                    start_time: this.$utils.getDate(0),
+                    end_time: this.$utils.getDate(7),
                     geo: {
                         data: []
                     },
@@ -145,7 +158,7 @@
                     },
                     device: {
                         data: {
-                            type: [],
+                            type: [2,4,5],
                             make: [],
                             model: [],
                             os: [],
@@ -184,12 +197,39 @@
             },
             
             //CONTENT CREATE NEW
+            getExchanges() {
+                axios.get(
+                    this.$root.uri + '/exchanges',
+                    this.$root.config
+                ).then(response=> {
+                        this.campaign.exchange.data = response.data.data.map(exchange => exchange.id);
+                    }, error => {
+                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                    }
+                );
+            },
+
+            updateExchanges() {
+                var payload = this.campaign.exchange.data;
+                axios.post(
+                    this.$root.uri + '/campaigns/' + this.campaign.id + '/exchange',
+                    {exchange: payload},
+                    this.$root.config
+                ).then(response => {
+
+                    }, error => {
+                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                    }
+                )
+            },
+
             createNewDraft() {
                 axios.post(
                     this.$root.uri + '/campaigns', 
                     this.collectDraft(), 
                     this.$root.config
                 ).then(response => {
+                        this.getExchanges();
                         this.campaign.id = response.data.data.id;
                     }, error => {
                         this.$root.showAlertPopUp('error', 'Something went wrong');
@@ -212,17 +252,6 @@
                     node: this.campaign.node,
                     account_id: 1
                 }
-            },
-
-            getDate(days) {
-                const toTwoDigits = num => num < 10 ? '0' + num : num;
-                let today = new Date();
-                let date = new Date();
-                date.setDate(today.getDate() + days);
-                let year = date.getFullYear();
-                let month = toTwoDigits(date.getMonth() + 1);
-                let day = toTwoDigits(date.getDate());
-                return `${year}-${month}-${day}`;
             },
 
             //CONTENT EDIT
@@ -278,7 +307,17 @@
             }
         },
 
+        computed: {
+            campaign_exchange() {
+                return this.campaign.exchange.data;
+            }
+        },
+
         watch: {
+            campaign_exchange(value) {
+                if(!this.$root.editMode) this.updateExchanges();
+            },
+
             token (value) {
                 if (this.$root.editMode) {
                     var campaignId = window.location.pathname.replace('/admin/campaigns/edit/', '');

@@ -86,12 +86,7 @@ export default {
                 devices: 'reportDevices',
                 geo: 'reportGeo'
             },
-
-            hello: {
-                response: [],
-                responseSummary: {},
-                report: ''
-            }
+            report: ''
         }
     },
 
@@ -99,14 +94,14 @@ export default {
         getData() {
             var length = this.tabIndex.length;
             var tabIndex = this.tabIndex.slice(0, length - 4);
-            this.hello.report = this.tabs[tabIndex];
+            this.report = this.tabs[tabIndex];
         }
     },
 
     watch: {
         tabIndex(value) {
             this.getData();
-            value = this.currentTab ? this.$emit('changeData', this.hello.report) : '';
+            value = this.currentTab ? this.$emit('changeData', this.report) : '';
         }
     }
 }

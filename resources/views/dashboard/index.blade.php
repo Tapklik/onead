@@ -5,7 +5,7 @@
 @component('layouts.partials.title')
     DASHBOARD
 @endcomponent
-
+        <tk-tutorial></tk-tutorial>
         <dashboard :user="user" :token="token"></dashboard>
 @stop
 

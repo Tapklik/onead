@@ -5,6 +5,48 @@
                 <h5>CREATIVES VAULT</h5>
             </v-flex>
         </v-layout>
+
+        <!-- SUBHEADER START -->
+        <v-layout row wrap>
+            <v-flex xs12 md8 class="valign-wrapper">
+                <span class="title">Campaign Creatives</span>
+                <p class="caption ma-0">
+                    Select creatives that are a part of the campaign you are going to run.
+                </p>
+            </v-flex>
+            <v-spacer></v-spacer>
+            <v-dialog v-model="show_formats_modal" lazy absolute width="50%">
+                <span slot="activator" style="cursor: pointer;">
+                    <v-icon primary>help_outline</v-icon>
+                    <a> Learn About Supported Creative Formats </a>
+                </span> 
+                <v-card>
+                    <v-card-title>
+                        <h4>Supported Creative Formats</h4>
+                    </v-card-title>
+                    <v-divider></v-divider>
+                    <v-card-text class="pr-5 pl-5">
+                        <v-chip v-for="size in iab_standard_sizes" :key="size" text-color="white">
+                            <v-icon right>star</v-icon>
+                            {{ size }}
+                        </v-chip>
+                    </v-card-text>
+                    <v-divider></v-divider>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn 
+                        @click="show_formats_modal = false" 
+                        class="elevation-0"
+                        >
+                            <v-icon>close</v-icon>                                    
+                            OK
+                        </v-btn>
+                    </v-card-actions>
+                </v-card>   
+            </v-dialog>
+        </v-layout>
+        <!-- SUBHEADER END -->
+
         <v-card class="elevation-0">
             <v-card-text v-if="loading">
                 <scale-loader 
@@ -18,7 +60,8 @@
             <v-card-text v-else-if="!currentFolder.id">
                 <v-layout row wrap>
                     <v-flex xs12>
-                        <v-data-table 
+                        <v-data-table
+                        no-data-text="Create your first Ad group through the Creatives page!"
                         :items="folders.data"
                         hide-actions
                         class="creatives-explorer no-headers"
@@ -51,7 +94,8 @@
                 </v-layout>
                 <v-layout row wrap>
                     <v-flex xs12 md8 >
-                        <v-data-table                                        
+                        <v-data-table
+                        no-data-text="Upload your first creative in this Ad group through the Creatives page!"
                         :items="creatives.data"
                         hide-actions
                         v-model="campaign.creatives.data"
@@ -62,9 +106,23 @@
                                 &nbsp;
                             </template>
                             <template slot="items" scope="props">
-                                <tr @mouseenter="imageSource = props.item.thumb, sample= props.item.name, statusShow = props.item.approved, typeShow = props.item.class, dimensionsShow = props.item.w + 'x' + props.item.h" v-show="props.item.approved == 'approved'">
+                                <tr 
+                                @mouseenter="imageSource = props.item.thumb, 
+                                sample= props.item.name, 
+                                statusShow = props.item.approved, 
+                                typeShow = props.item.class, 
+                                dimensionsShow = props.item.w + 'x' + props.item.h" 
+                                v-show="props.item.approved == 'approved' || 
+                                props.item.approved == 'pending'"
+                                >
                                     <td width="40" class="text-xs-right">
                                         <v-checkbox
+                                        v-if="props.item.approved == 'pending'"
+                                        :disabled="true"
+                                        indeterminate
+                                        ></v-checkbox>
+                                        <v-checkbox
+                                        v-else
                                         @click="props.selected = !props.selected, creativesRules()"
                                         :input-value="props.selected"
                                         hide-details
@@ -133,117 +191,118 @@
 </template>
 
 <script>
+export default {
+    created() {
+        this.$root.isLoading = true;
+    },
 
-    export default {
-        created() {
-            this.$root.isLoading = true;
-        },
+    mounted() {
+        this.$root.isLoading = false;
+    },
 
-        mounted() {
-            this.$root.isLoading = false;
-        },
+    props:['token','campaign','valid'],
 
-        props:['token','campaign','valid'],
-
-        data() {
-            return {
-                dimensionsShow: '',
-                loading: true,
-                typeShow: '',
-                statusShow: '',
-                sample:'sample',
-                imageSource: '',
-                showModal: false,
-                dropzone: false,
-                newFolder: '',
-                checked:[],
-                folders: {
-                    data: []
-                },
-                creatives: {},
-                currentFolder: {},
-                createFolderFlag: false,
-                creativeAttributes: {
-                    name: '',
-                    url: '',
-                    responsive: false,
-                    h: 0,
-                    w: 0,
-                    class: 'banner'
-                },
-                search: ''
+    data() {
+        return {
+            show_formats_modal: false,
+            iab_standard_sizes: ['300x250','250x250','240x400','336x280','180x150','300x100','720x300','468x60','234x60','88x31','120x90','120x60','120x240','125x125','728x90','160x600','120x600','300x600'],
+            dimensionsShow: '',
+            loading: true,
+            typeShow: '',
+            statusShow: '',
+            sample:'sample',
+            imageSource: '',
+            showModal: false,
+            dropzone: false,
+            newFolder: '',
+            checked:[],
+            folders: {
+                data: []
+            },
+            creatives: {},
+            currentFolder: {},
+            createFolderFlag: false,
+            creativeAttributes: {
+                name: '',
+                url: '',
+                responsive: false,
+                h: 0,
+                w: 0,
+                class: 'banner'
             }
+        }
+    },
+    
+    computed: {
+        selected_creatives() {
+            return this.campaign.creatives.data;
+        }
+    },
+
+    methods: {
+
+        creativesRules() {
+            this.valid.creatives = this.campaign.creatives.data == '' ? false : true;
         },
-        
-        computed: {
-            selected_creatives() {
-                return this.campaign.creatives.data;
-            }
+
+        collectCreatives() {
+            return this.campaign.creatives.data.map(creative => creative.id);
         },
 
-        methods: {
-            creativesRules() {
-                this.valid.creatives = this.campaign.creatives.data == '' ? false : true;
-            },
+        updateDraftCreatives() {
+            if(this.campaign.status != 'draft') return;
+            
+            axios.post(
+                this.$root.uri + '/campaigns/' + this.campaign.id + '/creatives', 
+                { creatives: this.collectCreatives() }, 
+                this.$root.config
+            ).then(response => {
 
-            collectCreatives() {
-                return this.campaign.creatives.data.map(creative => creative.id);
-            },
-
-            updateDraftCreatives() {
-                if(this.campaign.status != 'draft') return;
-                
-                axios.post(
-                    this.$root.uri + '/campaigns/' + this.campaign.id + '/creatives', 
-                    { creatives: this.collectCreatives() }, 
-                    this.$root.config
-                ).then(response => {
-
-                    }, error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong');
-                    }
-                );
-            },
-
-            getFolders() {
-                axios.get(this.$root.uri + '/creatives/folders', this.$root.config).then(response => {
-                    this.folders = response.data;
-                    if(!this.currentFolder.id) {
-                        this.loading = false;
-                    }
                 }, error => {
                     this.$root.showAlertPopUp('error', 'Something went wrong');
-                });
-            },
-
-            openFolder(folderObj) {
-                this.currentFolder = folderObj;
-                this.loading=true;
-
-                this.getFolderCreatives(this.currentFolder.id);
-            },
-
-            closeFolder() {
-                this.currentFolder = {};
-                this.creatives = {};
-            },
-
-            getFolderCreatives(folderId) {
-                axios.get(this.$root.uri + '/creatives/folders/' + folderId, this.$root.config).then(response => {
-                    this.creatives = response.data;
-                    this.loading=false;
-                }, error => {                  
-                    this.$root.showAlertPopUp('error', 'Something went wrong');
-                    this.loading=false;
-                });
-            }
+                }
+            );
         },
 
-        filters: {
-            uppercase(value) {
-              return value.toUpperCase();
-          }
-      },
+        getFolders() {
+            axios.get(this.$root.uri + '/creatives/folders', this.$root.config).then(response => {
+                this.folders = response.data;
+                if(!this.currentFolder.id) {
+                    this.loading = false;
+                }
+            }, error => {
+                this.$root.showAlertPopUp('error', 'Something went wrong');
+            });
+        },
+
+        openFolder(folderObj) {
+            this.currentFolder = folderObj;
+            this.loading=true;
+
+            this.getFolderCreatives(this.currentFolder.id);
+        },
+
+        closeFolder() {
+            this.currentFolder = {};
+            this.creatives = {};
+        },
+
+        getFolderCreatives(folderId) {
+            axios.get(this.$root.uri + '/creatives/folders/' + folderId, this.$root.config).then(response => {
+                this.creatives = response.data;
+                this.loading=false;
+            }, error => {                  
+                this.$root.showAlertPopUp('error', 'Something went wrong');
+                this.loading=false;
+            });
+        }
+    },
+
+    filters: {
+        uppercase(value) {
+            return value.toUpperCase();
+        }
+    },
 
     watch: {
         token(value) {

@@ -20,7 +20,6 @@
         <sidebar></sidebar>
         <main>
             <v-container fluid>
-                <tk-tutorial></tk-tutorial>
 
                 <!-- MAIN CONTENT -->
                 <div id="content">

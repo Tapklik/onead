@@ -84,9 +84,9 @@
                                         </v-layout>
                                         <v-layout row wrap class="mt-4">
                                             <v-flex xs12 md4 lg3 class="valign-wrapper">
-                                                <span class="title">Folder</span><br>
+                                                <span class="title">Ad Group</span><br>
                                                 <p class="caption ma-0">
-                                                    The folder where your creative will be uploaded
+                                                    The Ad group where your creative will be uploaded
                                                 </p>
                                             </v-flex>
                                             <v-flex xs12 md5>
@@ -97,7 +97,7 @@
                                                 item-text="name" 
                                                 item-value="key" 
                                                 v-model="new_creative.folder" 
-                                                placeholder="Folder" 
+                                                placeholder="Ad Group" 
                                                 @change="checkFile()"
                                                 ></v-select>
                                             </v-flex>
@@ -201,8 +201,8 @@
                             <v-card-actions>
                                 <v-spacer></v-spacer>
                                 <v-btn 
-                                @click="clearUploadModal(), 
-                                show_new_creative_modal = false" 
+                                @click="show_new_creative_modal = false,
+                                clearUploadModal()" 
                                 class="elevation-0"
                                 >
                                     <v-icon>close</v-icon>                                    
@@ -213,7 +213,8 @@
                                 :loading="new_creative_button_loading" 
                                 primary 
                                 :disabled="!validCreative()" 
-                                @click="new_creative_button_loading = true, uploadCreative()" 
+                                @click="new_creative_button_loading = true, 
+                                uploadCreative()" 
                                 class="elevation-0"
                                 >
                                     <v-icon>done</v-icon>
@@ -261,7 +262,8 @@
                                             <v-spacer></v-spacer>
                                             <v-btn 
                                             class="elevation-0" 
-                                            @click="show_confirmation_modal = false"
+                                            @click="show_confirmation_modal = false,
+                                            clearUploadModal()"
                                             >
                                                 <v-icon>close</v-icon>
                                                 Cancel
@@ -293,24 +295,24 @@
                         class="white elevation-0"
                         >
                             <v-icon>create_new_folder</v-icon>&nbsp;
-                             New Folder
+                            New Ad Group
                         </v-btn>
                         <v-card>
                             <v-card-title>
-                                <h4>Create a Folder</h4>
+                                <h4>Create New Ad Group</h4>
                             </v-card-title>
                             <v-divider></v-divider>
                             <v-card-text>
                                 <v-layout row wrap class="pl-5 pr-5">
                                     <v-flex xs12>
                                         <v-flex xs12 class="valign-wrapper">
-                                            <span class="title">Folder Name</span>
-                                            <p class="caption">The name of the newly created folder</p>
+                                            <span class="title">Ad Group Name</span>
+                                            <p class="caption">The name of the newly created Ad group</p>
                                         </v-flex>
                                         <v-layout row wrap class="mt-2">
                                             <v-flex xs12>
                                                 <v-text-field
-                                                label="Folder"
+                                                label="Ad Group"
                                                 prepend-icon="folder"
                                                 v-model="new_folder.name"
                                                 ></v-text-field>
@@ -380,7 +382,8 @@
             <v-card-text v-else-if="!current_folder.id">
                 <v-layout row wrap>
                     <v-flex xs12 md10 lg8>
-                        <v-data-table 
+                        <v-data-table
+                        no-data-text="Create your first Ad Group by clicking above!"
                         :items="filteredFolders" 
                         hide-actions 
                         class="no-headers creatives-explorer"
@@ -481,6 +484,7 @@
                 <v-layout row wrap>
                     <v-flex xs12 md9>
                         <v-data-table 
+                        no-data-text="Create a creative by clicking the Add Creative button above"
                         :items="filteredCreatives" 
                         hide-actions 
                         class="creatives-explorer no-headers" 
@@ -613,6 +617,7 @@
                           </v-card>
                     </v-flex>
                     <!-- PREVIEW END -->
+
                 </v-layout>
             </v-card-text>
             <!-- CREATIVES END -->
@@ -713,7 +718,6 @@
                 this.dropzone.on("addedfile", function(file, thumb) {
                     var is_zip = file.type.indexOf('zip') != -1 ? true : false;
                     var sizeInterval = setInterval(function () {
-                        console.log(is_zip);
                         if(typeof file.width != 'undefined' || is_zip) {
                             this.valid_new_creative.file = true;
                             this.new_file_status = 'uploaded';
@@ -846,7 +850,7 @@
                     this.$root.config
                 ).then(response => {
                         this.folders = this.changeFoldersAndCreativesData(response.data.data);
-                        this.new_creative.folder = this.folders[0].key;
+                        if(this.folders != '') this.new_creative.folder = this.folders[0].key;
                         this.folders_table_loading = false;
                     }, error => {
                         this.folders_table_loading = false;
@@ -955,7 +959,7 @@
         watch: {
             token(value) {
                 this.getFolders();
-            },
+            }
         }
     }
 </script>
