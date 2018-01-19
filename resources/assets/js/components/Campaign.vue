@@ -209,6 +209,20 @@
                 );
             },
 
+            updateExchanges() {
+                var payload = this.campaign.exchange.data;
+                axios.post(
+                    this.$root.uri + '/campaigns/' + this.campaign.id + '/exchange',
+                    {exchange: payload},
+                    this.$root.config
+                ).then(response => {
+
+                    }, error => {
+                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                    }
+                )
+            },
+
             createNewDraft() {
                 axios.post(
                     this.$root.uri + '/campaigns', 
@@ -246,7 +260,7 @@
                     this.$root.uri + '/campaigns/' + id, 
                     this.$root.config
                 ).then(response => {
-                        console.log(response.data.data);
+                        this.campaign = response.data.data;
                         this.fetchCampaignCategories(id);
                     }, error => {
                         this.$root.showAlertPopUp('error', 'Something went wrong');
@@ -293,7 +307,17 @@
             }
         },
 
+        computed: {
+            campaign_exchange() {
+                return this.campaign.exchange.data;
+            }
+        },
+
         watch: {
+            campaign_exchange(value) {
+                if(!this.$root.editMode) this.updateExchanges();
+            },
+
             token (value) {
                 if (this.$root.editMode) {
                     var campaignId = window.location.pathname.replace('/admin/campaigns/edit/', '');
