@@ -8,7 +8,7 @@
 
         <!-- SUBHEADER START -->
         <v-layout row wrap>
-            <v-flex xs12 md9 class="valign-wrapper">
+            <v-flex xs12 md8 class="valign-wrapper">
                 <span class="title">Campaign Creatives</span>
                 <p class="caption ma-0">
                     Select creatives that are a part of the campaign you are going to run.
@@ -16,13 +16,13 @@
             </v-flex>
             <v-spacer></v-spacer>
             <v-dialog v-model="show_formats_modal" lazy absolute width="50%">
-                <v-btn slot="activator" primary dark class="elevation-0">
-                    <v-icon>find_in_page</v-icon>
-                    Creative Formats
+                <v-btn slot="activator" class="grey elevation-0" dark>
+                    <v-icon>help</v-icon>
+                    Learn About Supported Creative Formats
                 </v-btn>
                 <v-card>
                     <v-card-title>
-                        <h4>Supported creative formats</h4>
+                        <h4>Supported Creative Formats</h4>
                     </v-card-title>
                     <v-divider></v-divider>
                     <v-card-text class="pr-5 pl-5">

@@ -46,7 +46,7 @@
         ],
         data() {
           return {
-            storage: []
+            storage: this.selection
           }
         },
         

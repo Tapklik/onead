@@ -146,7 +146,7 @@
                         <v-btn 
                         data-toggle="tooltip" 
                         data-placement="top" 
-                        title="Toggle activation of campaign"
+                        title="Pause/Resume campaign"
                         :disabled = "disableButton(props.item.status, 'toggle')"
                         icon 
                         class="grey--text" 
@@ -231,7 +231,7 @@
                 search_campaigns: '',
                 selected_statuses: ['active','draft', 'paused', 'not started'],
                 statuses: {
-                    not_started: 'green darken-1 white--text', 
+                    not_started: 'orange darken-1 white--text', 
                     expired: 'red lighten-1 white--text', 
                     active: 'green lighten-1 white--text', 
                     paused: 'yellow darken-1 white--text', 
@@ -359,11 +359,20 @@
 
         filters: {
             uppercase(value) {
-              return value.toUpperCase();
+                value = value.replace('_', ' ');
+                return value.toUpperCase();
             },
 
             capitalize(value) {
-                return value.charAt(0).toUpperCase() + value.substr(1).replace('_', ' ');
+                var array = value.split(' ');
+                var new_array = [];
+                    
+                for(var x = 0; x < array.length; x++){
+                    new_array.push(array[x].charAt(0).toUpperCase() + array[x].slice(1));
+                }
+                value = new_array.join(' ');
+                value = value.replace('_', ' ');
+                return value.charAt(0).toUpperCase() + value.substr(1);
             }
         },
 

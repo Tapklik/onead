@@ -47,6 +47,8 @@
                 :campaign="campaign"
                 :valid="valid_new_campaign"
                 ></campaign-details>
+                <v-divider></v-divider>
+                <v-divider></v-divider>
                 <v-layout>
                     <v-spacer></v-spacer>
                     <v-btn primary @click="step = 2">
@@ -59,8 +61,10 @@
                 :campaign="campaign"
                 :valid="valid_new_campaign"
                 ></campaign-categories>
+                <v-divider></v-divider>
+                <v-divider></v-divider>
                 <v-layout>
-                    <v-btn primary @click="step = 1">
+                    <v-btn class="grey elevation-0 white--text" @click="step = 1">
                         <v-icon left class="white--text">skip_previous</v-icon>Back
                     </v-btn>
                     <v-spacer></v-spacer>
@@ -75,8 +79,10 @@
                 :campaign="campaign"
                 :valid="valid_new_campaign"
                 ></campaign-creatives>
+                <v-divider></v-divider>
+                <v-divider></v-divider>
                 <v-layout>
-                    <v-btn primary @click="step = 2">
+                    <v-btn class="grey elevation-0 white--text" @click="step = 2">
                         <v-icon left class="white--text">skip_previous</v-icon>Back
                     </v-btn>
                     <v-spacer></v-spacer>
@@ -90,8 +96,10 @@
                 :campaign="campaign"
                 :valid="valid_new_campaign"
                 ></campaign-targeting>
+                <v-divider></v-divider>
+                <v-divider></v-divider>
                 <v-layout>
-                    <v-btn primary @click="step = 3">
+                    <v-btn class="grey elevation-0 white--text" @click="step = 3">
                         <v-icon left class="white--text">skip_previous</v-icon>Back
                     </v-btn>
                     <v-spacer></v-spacer>
@@ -106,8 +114,10 @@
                 :campaign="campaign"
                 :valid="valid_new_campaign"
                 ></campaign-review>
+                <v-divider></v-divider>
+                <v-divider></v-divider>
                 <v-layout>
-                    <v-btn primary @click="step = 4">
+                    <v-btn class="grey elevation-0 white--text" @click="step = 4">
                         <v-icon left class="white--text">skip_previous</v-icon>Back
                     </v-btn>
                 </v-layout>
@@ -183,7 +193,7 @@
                     },
                     device: {
                         data: {
-                            type: [],
+                            type: [2,4,5],
                             make: [],
                             model: [],
                             os: [],
