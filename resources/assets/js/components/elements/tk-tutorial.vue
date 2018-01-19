@@ -10,7 +10,7 @@
             <div>
                 <v-layout row wrap>
                     <v-spacer></v-spacer>
-                    <v-btn icon>
+                    <v-btn icon @click="$root.user.tutorial = false">
                         <v-icon>close</v-icon>
                     </v-btn>
                 </v-layout>

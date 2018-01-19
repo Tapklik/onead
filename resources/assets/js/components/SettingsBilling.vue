@@ -52,12 +52,16 @@
                         <p class="caption">Your country for your invoices</p>
                     </v-flex>
                     <v-flex xs8 md5>
-                        <v-text-field
-                        label="Country"
-                        prepend-icon="language"
-                        single-line
+                        <v-select
+                        v-bind:items="countries"
                         v-model="billing.billing_country"
-                        ></v-text-field>
+                        label="Select" 
+                        item-text="country_name" 
+                        item-value="country"
+                        single-line
+                        prepend-icon="language"
+                        bottom
+                        ></v-select>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap class="mt-4">
@@ -98,8 +102,13 @@
 
         props:['user', 'token'],
 
+        mounted() {
+            this.getCountries();
+        },
+
         data() {
             return {
+                countries: [],
                 billing_button_loading: false,
                 billing: {
                     company: '',
@@ -112,6 +121,18 @@
         },
         
         methods: {
+
+            getCountries() {
+                axios.get(
+                    '/data/countries.json'
+                ).then(response => {
+                        this.countries = response.data;
+                    }, error => {
+                        this.$root.showAlertPopUp('error', 'Something went wrong.');
+                    }
+                );
+            },
+
             getBillingDetails() {
                 axios.get(
                     this.$root.uri + '/accounts/' + this.user.accountUuId, 
@@ -138,7 +159,7 @@
                     this.billing, 
                     this.$root.config
                 ).then( response => {
-                        this.$root.showAlertPopUp('success', 'Upadated billing details successfully');
+                        this.$root.showAlertPopUp('success', 'Updated billing details successfully');
                         this.billing_button_loading = false;
                     }, error => {
                         this.showAlertPopUp('error', 'Something went wrong.');

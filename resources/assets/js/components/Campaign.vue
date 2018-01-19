@@ -47,31 +47,12 @@
                 :campaign="campaign"
                 :valid="valid_new_campaign"
                 ></campaign-details>
-                <v-divider></v-divider>
-                <v-divider></v-divider>
-                <v-layout>
-                    <v-spacer></v-spacer>
-                    <v-btn primary @click="step = 2">
-                        <v-icon left class="white--text">skip_next</v-icon>Next
-                    </v-btn>
-                </v-layout>
             </v-stepper-content>
             <v-stepper-content step="2">
                 <campaign-categories 
                 :campaign="campaign"
                 :valid="valid_new_campaign"
                 ></campaign-categories>
-                <v-divider></v-divider>
-                <v-divider></v-divider>
-                <v-layout>
-                    <v-btn class="grey elevation-0 white--text" @click="step = 1">
-                        <v-icon left class="white--text">skip_previous</v-icon>Back
-                    </v-btn>
-                    <v-spacer></v-spacer>
-                    <v-btn primary @click="step = 3">
-                        <v-icon left class="white--text">skip_next</v-icon>Next
-                    </v-btn>
-                </v-layout>
             </v-stepper-content>
             <v-stepper-content step="3">
                 <campaign-creatives
@@ -79,34 +60,12 @@
                 :campaign="campaign"
                 :valid="valid_new_campaign"
                 ></campaign-creatives>
-                <v-divider></v-divider>
-                <v-divider></v-divider>
-                <v-layout>
-                    <v-btn class="grey elevation-0 white--text" @click="step = 2">
-                        <v-icon left class="white--text">skip_previous</v-icon>Back
-                    </v-btn>
-                    <v-spacer></v-spacer>
-                    <v-btn primary @click="step = 4">
-                        <v-icon left class="white--text">skip_next</v-icon>Next
-                    </v-btn>
-                </v-layout>
             </v-stepper-content>
             <v-stepper-content step="4">
                 <campaign-targeting 
                 :campaign="campaign"
                 :valid="valid_new_campaign"
                 ></campaign-targeting>
-                <v-divider></v-divider>
-                <v-divider></v-divider>
-                <v-layout>
-                    <v-btn class="grey elevation-0 white--text" @click="step = 3">
-                        <v-icon left class="white--text">skip_previous</v-icon>Back
-                    </v-btn>
-                    <v-spacer></v-spacer>
-                    <v-btn primary @click="step = 5">
-                        <v-icon left class="white--text">skip_next</v-icon>Next
-                    </v-btn>
-                </v-layout>
             </v-stepper-content>
             <v-stepper-content step="5">
                 <campaign-review
@@ -114,15 +73,19 @@
                 :campaign="campaign"
                 :valid="valid_new_campaign"
                 ></campaign-review>
-                <v-divider></v-divider>
-                <v-divider></v-divider>
-                <v-layout>
-                    <v-btn class="grey elevation-0 white--text" @click="step = 4">
-                        <v-icon left class="white--text">skip_previous</v-icon>Back
-                    </v-btn>
-                </v-layout>
             </v-stepper-content>
             <!-- COMPONENTS END -->
+
+            <v-divider></v-divider>
+            <v-layout>
+                <v-btn class="grey elevation-0 white--text" v-show="step > 1" @click="step = step - 1">
+                    <v-icon left class="white--text">skip_previous</v-icon>Back
+                </v-btn>
+                <v-spacer></v-spacer>
+                <v-btn primary class="elevation-0" v-show="step < 5" @click="step = step + 1">
+                    <v-icon left class="white--text">skip_next</v-icon>Next
+                </v-btn>
+            </v-layout>
 
         </v-stepper>
     </v-container>         

@@ -16,10 +16,10 @@
             </v-flex>
             <v-spacer></v-spacer>
             <v-dialog v-model="show_formats_modal" lazy absolute width="50%">
-                <v-btn slot="activator" class="grey elevation-0" dark>
-                    <v-icon>help</v-icon>
-                    Learn About Supported Creative Formats
-                </v-btn>
+                <span slot="activator" style="cursor: pointer;">
+                    <v-icon primary>help_outline</v-icon>
+                    <a> Learn About Supported Creative Formats </a>
+                </span> 
                 <v-card>
                     <v-card-title>
                         <h4>Supported Creative Formats</h4>
@@ -61,7 +61,7 @@
                 <v-layout row wrap>
                     <v-flex xs12>
                         <v-data-table
-                        no-data-text="Create folders through the creatives page"
+                        no-data-text="Create your first Ad group through the Creatives page!"
                         :items="folders.data"
                         hide-actions
                         class="creatives-explorer no-headers"
@@ -95,7 +95,7 @@
                 <v-layout row wrap>
                     <v-flex xs12 md8 >
                         <v-data-table
-                        no-data-text="Upload creatives in this folder through the creatives page"
+                        no-data-text="Upload your first creative in this Ad group through the Creatives page!"
                         :items="creatives.data"
                         hide-actions
                         v-model="campaign.creatives.data"

@@ -49,7 +49,7 @@
                                     >
                                         Check creatives tutorial
                                     </a>
-                                    <br v-show="singleSlide()">
+                                    <br />
                                     <a 
                                     style="cursor:pointer"
                                     v-show="singleSlide()" 
@@ -57,6 +57,17 @@
                                     >
                                         Check campaigns tutorial
                                     </a>
+                                    <a 
+                                    style="cursor:pointer"
+                                    @click="emitPrevious()" 
+                                    v-show="!singleSlide()"
+                                    >Previous</a>
+                                    <a 
+                                    style="cursor:pointer"
+                                    class="right" 
+                                    @click="emitNext()" 
+                                    v-show="!singleSlide()"
+                                    >Next</a>
                                 </v-flex>
                             </v-layout>
                         </v-flex>
@@ -73,6 +84,10 @@
 <script type="text/javascript">
     export default {
         props: ['step', 'dataset', 'image'],
+
+        mounted() {
+            this.displayNone();
+        },
         
         methods: {
             singleSlide() {
@@ -81,6 +96,18 @@
 
             emitStepChange(value) {
                 this.$emit('changeStep', value);
+            },
+            
+            displayNone() {
+                $('.carousel__left').hide();
+                $('.carousel__right').hide();
+            },
+
+            emitPrevious() {
+                $(".carousel__left button").click();
+            },
+            emitNext() {
+                $(".carousel__right button").click();
             }
         }
     }

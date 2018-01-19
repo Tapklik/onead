@@ -84,9 +84,9 @@
                                         </v-layout>
                                         <v-layout row wrap class="mt-4">
                                             <v-flex xs12 md4 lg3 class="valign-wrapper">
-                                                <span class="title">Folder</span><br>
+                                                <span class="title">Ad Group</span><br>
                                                 <p class="caption ma-0">
-                                                    The folder where your creative will be uploaded
+                                                    The Ad group where your creative will be uploaded
                                                 </p>
                                             </v-flex>
                                             <v-flex xs12 md5>
@@ -97,7 +97,7 @@
                                                 item-text="name" 
                                                 item-value="key" 
                                                 v-model="new_creative.folder" 
-                                                placeholder="Folder" 
+                                                placeholder="Ad Group" 
                                                 @change="checkFile()"
                                                 ></v-select>
                                             </v-flex>
@@ -295,24 +295,24 @@
                         class="white elevation-0"
                         >
                             <v-icon>create_new_folder</v-icon>&nbsp;
-                             New Folder
+                            New Ad Group
                         </v-btn>
                         <v-card>
                             <v-card-title>
-                                <h4>Create a Folder</h4>
+                                <h4>Create New Ad Group</h4>
                             </v-card-title>
                             <v-divider></v-divider>
                             <v-card-text>
                                 <v-layout row wrap class="pl-5 pr-5">
                                     <v-flex xs12>
                                         <v-flex xs12 class="valign-wrapper">
-                                            <span class="title">Folder Name</span>
-                                            <p class="caption">The name of the newly created folder</p>
+                                            <span class="title">Ad Group Name</span>
+                                            <p class="caption">The name of the newly created Ad group</p>
                                         </v-flex>
                                         <v-layout row wrap class="mt-2">
                                             <v-flex xs12>
                                                 <v-text-field
-                                                label="Folder"
+                                                label="Ad Group"
                                                 prepend-icon="folder"
                                                 v-model="new_folder.name"
                                                 ></v-text-field>
@@ -383,7 +383,7 @@
                 <v-layout row wrap>
                     <v-flex xs12 md10 lg8>
                         <v-data-table
-                        no-data-text="Create a folder by clicking the Add Folder button above"
+                        no-data-text="Create your first Ad Group by clicking above!"
                         :items="filteredFolders" 
                         hide-actions 
                         class="no-headers creatives-explorer"
@@ -850,7 +850,7 @@
                     this.$root.config
                 ).then(response => {
                         this.folders = this.changeFoldersAndCreativesData(response.data.data);
-                        this.new_creative.folder = this.folders[0].key;
+                        if(this.folders != '') this.new_creative.folder = this.folders[0].key;
                         this.folders_table_loading = false;
                     }, error => {
                         this.folders_table_loading = false;
