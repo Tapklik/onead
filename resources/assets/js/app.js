@@ -79,7 +79,7 @@ const app = new Vue({
 
       console.log(this.$utils);
     },
-
+    
     data: {
         version: 'v0.6.7-BETA',
         uri: envUri,
