@@ -131,7 +131,7 @@
                     ctrurl: '',
                     bid: 0,
                     exchange: {
-                        data: []
+                        data: 3
                     },
                     test: 1,
                     weight: 1,
@@ -210,7 +210,7 @@
             },
 
             updateExchanges() {
-                var payload = this.campaign.exchange.data;
+                var payload = 3;
                 axios.post(
                     this.$root.uri + '/campaigns/' + this.campaign.id + '/exchange',
                     {exchange: payload},
