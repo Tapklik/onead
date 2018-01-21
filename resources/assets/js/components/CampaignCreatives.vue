@@ -16,9 +16,9 @@
             </v-flex>
             <v-spacer></v-spacer>
             <v-dialog v-model="show_formats_modal" lazy absolute width="50%">
-                <span slot="activator" style="cursor: pointer;">
-                    <v-icon primary>help_outline</v-icon>
-                    <a> Learn About Supported Creative Formats </a>
+                <span slot="activator" class="clickable caption">
+                    <v-icon class="small orange--text text--darken-2">help_outline</v-icon>
+                    <a> Learn about supported creative formats </a>
                 </span> 
                 <v-card>
                     <v-card-title>
@@ -71,8 +71,8 @@
                             </template>
                             <template slot="items" scope="props">
                                 <tr :active="props.selected" @click="openFolder(props.item)">
-                                    <td width="40" class="text-xs-right"><v-icon>folder</v-icon></td>
-                                    <td class="text-xs-left"><span class="title">{{ props.item.name }}</span></td>
+                                    <td width="40" class="text-xs-right clickable"><v-icon>folder</v-icon></td>
+                                    <td class="text-xs-left clickable"><span class="title">{{ props.item.name }}</span></td>
                                 </tr>
                             </template>
                         </v-data-table>

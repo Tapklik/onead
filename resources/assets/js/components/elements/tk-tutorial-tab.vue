@@ -43,7 +43,7 @@
                                 <v-flex xs10>
                                     <p>{{ slide.text }}</p><br v-show="singleSlide()">
                                     <a 
-                                    style="cursor:pointer"
+                                    class="clickable"
                                     v-show="singleSlide()" 
                                     @click="emitStepChange(2)"
                                     >
@@ -51,20 +51,19 @@
                                     </a>
                                     <br />
                                     <a 
-                                    style="cursor:pointer"
+                                    class="clickable"
                                     v-show="singleSlide()" 
                                     @click="emitStepChange(3)"
                                     >
                                         Check campaigns tutorial
                                     </a>
                                     <a 
-                                    style="cursor:pointer"
+                                    class="clickable"
                                     @click="emitPrevious()" 
                                     v-show="!singleSlide()"
                                     >Previous</a>
                                     <a 
-                                    style="cursor:pointer"
-                                    class="right" 
+                                    class="right clickable" 
                                     @click="emitNext()" 
                                     v-show="!singleSlide()"
                                     >Next</a>

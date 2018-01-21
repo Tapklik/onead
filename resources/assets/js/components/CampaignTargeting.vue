@@ -146,7 +146,7 @@
                     <v-flex xs12 md10 lg8 class="mt-5">
                         <vue-slider
                         ref="slider"
-                        v-model="age_range"
+                        v-model="selected_age"
                         v-bind="age_slider"
                         :show="true"
                         :real-time="true"
@@ -399,7 +399,19 @@
 
             stepActive() {
                 return this.$parent.isActive
-            }
+            },
+
+            selected_age: {
+                get: function () {
+                    var min = this.campaign.user.data.age.min;
+                    var max = this.campaign.user.data.age.max;
+                    return [min, max]
+                },
+
+                set: function(value) {
+                    this.age_range = [value[0], value[1]];
+                }
+            },
         },
 
         watch: {

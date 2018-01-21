@@ -13,7 +13,7 @@
                 </v-layout>
                 <v-layout row>
                     <v-flex xs12 class="pa-0">
-                        <span class="display-2 right">{{ unit }} {{ displayValue }}</span>
+                        <span class="display-2 right blue-grey--text"><b>{{ unit }} {{ displayValue }}</b></span>
                     </v-flex>
                 </v-layout>
             </v-flex>
@@ -79,9 +79,9 @@ export default {
 }
 
 .tapklik-card .icon.lg {
-    font-size: 8rem;
+    font-size: 9rem;
     left: -25px;
-    bottom: -25px;
+    bottom: -60px;
 }
 
 .tapklik-card .icon.sm {

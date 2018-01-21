@@ -259,8 +259,8 @@
                 overall_data: [],
                 date_from: '',
                 date_to: '',
-                column: 'clicks',
-                line: 'imps',
+                column: 'imps',
+                line: 'ctr',
                 
                 //SUMMARY
                 overall_summary: {
@@ -299,7 +299,7 @@
             //CHART
             getOverallData() {
                 axios.get(
-                    this.$root.reportUri + '?table=wins&acc=' + this.user.accountUuId + '&field=clicks,imps,spend&op=sum&from=' + this.date_from + ' 00:00:00&to=' + this.date_to + ' 23:59:59&scale=1d', 
+                    this.$root.reportUri + '?table=wins&acc=' + this.user.accountUuId + '&field=ctr,imps,spend&op=sum&from=' + this.date_from + ' 00:00:00&to=' + this.date_to + ' 23:59:59&scale=1d', 
                     this.$root.config
                 ).then(response => {
                             this.overall_data = response.data.data;
@@ -316,8 +316,8 @@
                     "type": "serial",
                     "theme": "light",
                     "marginRight": 40,
-                    "marginLeft": 40,
-                    "marginTop": 40,
+                    "marginLeft": 70,
+                    "marginTop": 20,
                     "autoMarginOffset": 20,
                     "mouseWheelZoomEnabled":false,
                     "dataDateFormat": "YYYY-MM-DD HH",
@@ -326,27 +326,27 @@
                         "axisAlpha": 0,
                         "gridAlpha": 0,
                         "position": "left",
-                        "labelsEnabled": false,
-                        "ignoreAxisWidth":true
-                    },
-                    {
+                        "labelsEnabled": true,
+                        "ignoreAxisWidth":true,
+                    }, {
                         "id": "v2",
                         "axisAlpha": 0,
                         "gridAlpha": 0,
                         "position": "right",
-                        "labelsEnabled": false,
-                        "ignoreAxisWidth":true
-                    }
-                    ],
+                        "labelsEnabled": true,
+                        "ignoreAxisWidth":true,
+                        labelFunction: function(number, label, axis) {
+                            return number * 100 + '%'
+                        }
+                    }],
                     "graphs": [{
                         "valueAxis": "v1",
                         "id": "g1",
                         "type" : "column",
                         "fillAlphas": 1,
-                        "fillColors":"#ccc",
-                        "lineColor":"#ccc",
-                        "lineThickness": 2,
-                        "balloonText": "[[date]] <br> ---------------- <br> Clicks: [[clicks]]<br>Imps: [[imps]]",
+                        "fillColors":"#78909c",
+                        "lineThickness": 0,
+                        "balloonText": "[[date]] <br><br>CTR: [[ctr]]<br>Imps: [[imps]]",
                         "title": "Imps",
                         "valueField": column,
                     },
@@ -355,9 +355,15 @@
                         "id": "g2",
                         "type" : "smoothedLine",
                         "lineColor":"#f76c06",
+                        "fillAlphas": 0.0,
+                        "fillColors":"#f76c06",
+                        "bullet": "round",
+                        "bulletBorderAlpha": 1,
+                        "useLineColorForBulletBorder": true,
+                        "bulletColor": "#FFFFFF",
                         "showBalloon": false,
                         "lineThickness": 2,
-                        "title": "Clicks",
+                        "title": "CTR",
                         "valueField": line,
                         
                     }],
@@ -365,21 +371,30 @@
                     "categoryAxis": {
                         "parseDates": true,
                         "dashLength": 0,
-                        "axisAlpha": 0,
+                        "axisAlpha": 0.1,
+                        "axisThickness": 2,
                         "gridAlpha": 0,
                         "minPeriod": "DD",
                         "minorGridEnabled": false
                     },
                     "balloon": {
-                        "borderColor": "#f76c06",
+                        "borderColor": "#222",
                         "borderAlpha": 0,
                         "borderThickness": 0,
                         "shadowAlpha": 0,
                         "color": "#ffffff",
                         "drop": false,
                         "cornerRadius": 5,
-                        "fillColor": "#f76c06",
+                        "fillColor": "#222",
                         "fillAlpha": 1,
+                    },
+                    "chartCursor": {
+                        "categoryBalloonDateFormat": "DD MM",
+                        "cursorAlpha": 0.1,
+                        "cursorColor":"#000000",
+                         "fullWidth":true,
+                        "valueBalloonsEnabled": false,
+                        "zoomable": false
                     },
                     "legend": {
                         "useGraphSettings": true

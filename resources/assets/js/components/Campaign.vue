@@ -121,7 +121,7 @@
                     creatives: false,
                     categories: false,
                     geo: false,
-                    devices: false,
+                    devices: true,
                 },
 
                 //CONTENT
@@ -167,7 +167,7 @@
                     },
                     user: {
                         data: {
-                            gender: [],
+                            gender: ["M", "F"],
                             age: {
                                 min: 18,
                                 max: 55

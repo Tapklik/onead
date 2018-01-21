@@ -393,10 +393,10 @@
                             </template>
                             <template slot="items" scope="props">
                                 <tr :active="props.selected">
-                                    <td width="40" class="text-xs-right" @click="openFolder(props.item)">
+                                    <td width="40" class="text-xs-right clickable" @click="openFolder(props.item)">
                                         <v-icon>folder</v-icon>
                                     </td>
-                                    <td class="text-xs-left" @click="openFolder(props.item)">
+                                    <td class="text-xs-left clickable" @click="openFolder(props.item)">
                                         <span class="title">{{ props.item.name }}</span>
                                     </td>
                                     <td class="text-xs-right">

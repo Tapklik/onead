@@ -532,7 +532,7 @@
                     "theme": "light",
                     "marginRight": 40,
                     "marginLeft": 40,
-                    "marginTop": 40,
+                    "marginTop": 20,
                     "autoMarginOffset": 20,
                     "mouseWheelZoomEnabled":false,
                     "dataDateFormat": "YYYY-MM-DD HH",
@@ -557,10 +557,9 @@
                         "type" : "column",
                         "fixedColumnWidth": 40,
                         "fillAlphas": 1,
-                        "fillColors":"#ccc",
-                        "lineColor":"#ccc",
-                        "lineThickness": 2,
-                        "balloonText": "[[date]] <br> ---------------- <br>"+column+" :[["+column+"]]<br>"+line+": [["+line+"]]",
+                        "fillColors":"#78909c",
+                        "lineThickness": 0,
+                        "balloonText": "[[date]] <br> <br>"+column+" :[["+column+"]]<br>"+line+": [["+line+"]]",
                         "title": column,
                         "valueField": column
                     },
@@ -569,9 +568,13 @@
                         "id": "g2",
                         "type" : "smoothedLine",
                         "lineColor":"#f76c06",
-                        "balloonText": "[[date]] <br> ---------------- <br>"+column+" :[["+column+"]]<br>"+line+": [["+line+"]]",
+                        "fillColors":"#f76c06",
+                        "fillAlphas": 0,
+                        "balloonText": "[[date]] <br> <br>"+column+" :[["+column+"]]<br>"+line+": [["+line+"]]",
                         "bullet": "round",
-                        "bulletSize": 4,
+                        "bulletBorderAlpha": 1,
+                        "useLineColorForBulletBorder": true,
+                        "bulletColor": "#FFFFFF",
                         "lineThickness": 2,
                         "title": line,
                         "valueField": line
@@ -581,21 +584,29 @@
                     "categoryAxis": {
                         "parseDates": true,
                         "dashLength": 0,
-                        "axisAlpha": 0,
+                        "axisAlpha": 0.1,
                         "gridAlpha": 0,
                         "minPeriod": "hh",
                         "minorGridEnabled": false
                     },
                     "balloon": {
-                        "borderColor": "#f76c06",
+                        "borderColor": "#222",
                         "borderAlpha": 0,
                         "borderThickness": 0,
                         "shadowAlpha": 0,
                         "color": "#ffffff",
                         "drop": false,
                         "cornerRadius": 5,
-                        "fillColor": "#f76c06",
+                        "fillColor": "#222",
                         "fillAlpha": 1,
+                    },
+                    "chartCursor": {
+                        "categoryBalloonDateFormat": "DD MM",
+                        "cursorAlpha": 0.1,
+                        "cursorColor":"#000000",
+                        "fullWidth":true,
+                        "valueBalloonsEnabled": false,
+                        "zoomable": false
                     },
                     "legend": {
                         "useGraphSettings": true
@@ -620,6 +631,8 @@
                 var dims = this.getQueryDims(queryList);
                 var filters = this.getQueryFilters(queryList);
 
+                //console.log(dims)
+
                 var request = ''
                 for (var dim in dims) {
                     request += '&' + dims[dim].name + '=' + dims[dim].value
@@ -636,8 +649,8 @@
 
                 var queriesString = '&field=' + queries.queries_list.join(',') + '&op=' + chartOrSum
 
-
                 request = '?table=' + table + '&acc=' + account + request + queriesString + this.range();
+
                 return request;
             },
 
@@ -651,14 +664,20 @@
                     }
                     this[dim.list].forEach((dimVal) => {
                        if (dimVal && dimVal.value != '') {
-                        valueString += dimVal.value + ','
-                        dimObj = {
-                            name: dim.name,
-                            value: valueString.slice(0,-1)
+                            valueString += dimVal.value + ','
+                            dimObj = {
+                                name: dim.name,
+                                value: valueString.slice(0,-1)
+                            }
                         }
+                        //remove previous objects with same name before re-adding with new values
+                        for (var i = 0; i < dims.length; i++) {
+                                if (dims[i].name == dim.name) {
+                                    dims.splice(i, 1);
+                                }
+                            }
                         if (dimObj && dimObj.value != '') dims.push(dimObj);
-                    }
-                })
+                    })
                 })
                 return dims
             },
