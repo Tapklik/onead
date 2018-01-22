@@ -99,7 +99,7 @@
         <v-divider class="mt-4"></v-divider>
         <v-layout row wrap class="mt-4 mb-4"> 
             <v-flex xs12>
-                <v-btn primary large @click="updateAccount()">
+                <v-btn primary :loading="account_settings_button_loading" large @click="updateAccount()">
                     <v-icon left class="white--text">cloud_upload</v-icon>
                     Update Account Details
                 </v-btn>
@@ -127,6 +127,7 @@
                         language: ''
                     }
                 },
+                account_settings_button_loading: false,
                 countries: [],
                 timezones: []
             }
@@ -157,13 +158,17 @@
             },
 
             updateAccount(){
+                this.account_settings_button_loading = true; 
+
                 axios.put(
                     this.$root.uri + '/accounts/' + this.user.accountUuId, 
                     this.collectAccount(), 
                     this.$root.config
                 ).then(response => {
+                        this.account_settings_button_loading = false; 
                         this.$root.showAlertPopUp('success', 'Successful.');
                     }, error => {
+                        this.account_settings_button_loading = false; 
                         this.$root.showAlertPopUp('error', 'Something went wrong.');
                     }
                 );

@@ -44,7 +44,7 @@
                         <p class="caption">Click to set a new password</p>
                     </v-flex>
                     <v-flex xs8 md6>
-                        <v-dialog v-model="showModal" lazy width="500px">
+                        <v-dialog v-model="show_password_modal" lazy width="500px">
                             <v-btn slot="activator"  
                             ><v-icon left class="small">lock_open</v-icon>Change Password</v-btn>
                             <v-card>
@@ -98,13 +98,13 @@
                                 <v-divider></v-divider>
                                 <v-card-actions>
                                     <v-spacer></v-spacer>
-                                    <v-btn @click="showModal = false" class="elevation-0">
+                                    <v-btn @click="show_password_modal = false, clearPasswordModal()" class="elevation-0">
                                         <v-icon>close</v-icon>                                    
                                         Cancel
                                     </v-btn>
                                     <v-btn 
                                     primary 
-                                    :loading="loading" 
+                                    :loading="password_change_button_loading"
                                     :disabled="!(validNewPassword && validOldPassword)" 
                                     @click="changePassword()" 
                                     class="elevation-0"
@@ -172,9 +172,10 @@
                 userDet: {},
                 password: '',
                 confPassword: '',
-                showModal: false,
+                show_password_modal: false,
                 oldPassword: '',
                 loading: false,
+                password_change_button_loading: false,
                 validOldPassword: false,
                 validNewPassword: false
             }
@@ -197,17 +198,29 @@
         },
 
         methods: {
+            clearPasswordModal() {
+                this.oldPassword = '';
+                this.confPassword = '';
+                this.password = '';
+            },
             changePassword() {
+                this.password_change_button_loading = true;
                 var payload = {password: this.confPassword};
 
-                axios.put(this.$root.uri + '/accounts/' + this.user.accountUuId + '/users/' + this.user.uuid, payload, this.$root.config).then(response => {
+                axios.put(
+                    this.$root.uri + '/accounts/' + this.user.accountUuId + '/users/' + this.user.uuid, 
+                    payload, 
+                    this.$root.config
+                ).then(response => {
+                    this.clearPasswordModal();
                     this.$root.showAlertPopUp('success', 'Succesful.');
-                    this.loading = false;
-                    this.showModal = false;
+                    this.password_change_button_loading = false;
+                    this.show_password_modal = false;
                 }, error => {
+                    this.clearPasswordModal();
                     this.$root.showAlertPopUp('error', 'Something went wrong.');
-                    this.loading = false;
-                    this.showModal= false;
+                    this.password_change_button_loading = false;
+                    this.show_password_modal= false;
                 });
             },
             
