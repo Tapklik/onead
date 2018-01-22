@@ -871,7 +871,7 @@
                 else this.generateCharts();
             },
             selectedGeoCountries1(value) {
-                if(this.tabIndex == 'geo-tab' && value) {
+                if(this.tabIndex == 'geo-tab' && value == '') {
                     this.getOverallSummary();
                     this.getOverallChartData();
                 }
