@@ -402,13 +402,13 @@
             },
 
             selected_age: {
-                get: function () {
+                get() {
                     var min = this.campaign.user.data.age.min;
                     var max = this.campaign.user.data.age.max;
                     return [min, max]
                 },
 
-                set: function(value) {
+                set(value) {
                     this.age_range = [value[0], value[1]];
                 }
             },

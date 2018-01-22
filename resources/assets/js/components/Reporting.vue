@@ -838,16 +838,48 @@
                 this.generateCharts();
             },
             selectedDevicesTypes1(value) {
-                this.generateCharts();
+                if(this.tabIndex == 'geo-tab' && this.selectedGeoCountries1 == '') {
+                    this.getOverallSummary();
+                    this.getOverallChartData();
+                }
+                else if(this.tabIndex == 'devices-tab' && !(value != '' || this.selectedDevicesOs1 != '' || this.selectedDevicesUa1 != '')) {
+                    this.getOverallSummary();
+                    this.getOverallChartData();
+                }
+                else this.generateCharts();
             },
             selectedDevicesOs1(value) {
-                this.generateCharts();
+                if(this.tabIndex == 'geo-tab' && this.selectedGeoCountries1 == '') {
+                    this.getOverallSummary();
+                    this.getOverallChartData();
+                }
+                else if(this.tabIndex == 'devices-tab' && !(this.selectedDevicesTypes1 != '' || value != '' || this.selectedDevicesUa1 != '')) {
+                    this.getOverallSummary();
+                    this.getOverallChartData();
+                }
+                else this.generateCharts();
             },
             selectedDevicesUa1(value) {
-                this.generateCharts();
+                if(this.tabIndex == 'geo-tab' && this.selectedGeoCountries1 == '') {
+                    this.getOverallSummary();
+                    this.getOverallChartData();
+                }
+                else if(this.tabIndex == 'devices-tab' && !(this.selectedDevicesTypes1 != '' || this.selectedDevicesOs1 != '' || value != '')) {
+                    this.getOverallSummary();
+                    this.getOverallChartData();
+                }
+                else this.generateCharts();
             },
             selectedGeoCountries1(value) {
-                this.generateCharts();
+                if(this.tabIndex == 'geo-tab' && value) {
+                    this.getOverallSummary();
+                    this.getOverallChartData();
+                }
+                else if(this.tabIndex == 'devices-tab' && !(this.selectedDevicesTypes1 != '' || this.selectedDevicesOs1 != '' || this.selectedDevicesUa1 != '')) {
+                    this.getOverallSummary();
+                    this.getOverallChartData();
+                }
+                else this.generateCharts();
             },
             user(value) {
                 this.generateCharts();

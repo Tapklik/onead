@@ -197,6 +197,19 @@
             },
             
             //CONTENT CREATE NEW
+            updateDraftUser(){
+                if(this.campaign.status != 'draft') return;
+                axios.post(
+                    this.$root.uri + '/campaigns/' + this.campaign.id + '/users', 
+                    this.campaign.user.data, 
+                    this.$root.config
+                ).then(response => {
+                    }, error => {
+                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                    }
+                );
+            },
+
             getExchanges() {
                 axios.get(
                     this.$root.uri + '/exchanges',
@@ -216,11 +229,25 @@
                     {exchange: payload},
                     this.$root.config
                 ).then(response => {
-
+                        this.updateDraftTypes();
                     }, error => {
                         this.$root.showAlertPopUp('error', 'Something went wrong');
                     }
                 )
+            },
+
+            updateDraftTypes() {
+                if(this.campaign.status != 'draft') return;
+                axios.post(
+                    this.$root.uri + '/campaigns/' + this.campaign.id + '/device/type', 
+                    { types: this.campaign.device.data.type }, 
+                    this.$root.config
+                ).then(response => {
+                        this.updateDraftUser();
+                    }, error => {
+                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                    }
+                );
             },
 
             createNewDraft() {
