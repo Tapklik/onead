@@ -109,7 +109,6 @@
 </template>
 <script>
     export default {
-
         mounted() {
             this.getTimezones();
             this.getCountries();
@@ -134,7 +133,6 @@
         },
 
         methods: {
-
             getCountries() {
                 axios.get(
                     '/data/countries.json'

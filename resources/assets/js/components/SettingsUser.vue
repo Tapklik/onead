@@ -205,8 +205,7 @@
             },
             changePassword() {
                 this.password_change_button_loading = true;
-                var payload = {password: this.confPassword};
-
+                var payload = { password: this.confPassword };
                 axios.put(
                     this.$root.uri + '/accounts/' + this.user.accountUuId + '/users/' + this.user.uuid, 
                     payload, 
@@ -227,9 +226,7 @@
             oldPasswordError() {
                 var valid = this.validOldPassword;
                 var message = ['Your password is incorrect']; 
-                if(valid == false) {
-                    return message;
-                }
+                if(!valid) return message;
             },
 
             checkOldPassword() {
