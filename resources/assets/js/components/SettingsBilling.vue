@@ -1,5 +1,7 @@
 <template>
     <v-container grid-list-md>
+
+        <!-- BILLING DETAILS START -->
         <v-layout row wrap class="mt-3">
             <v-flex xs12 md6>
                 <v-layout row wrap class="mt-4">
@@ -80,7 +82,11 @@
                 </v-layout>
             </v-flex>
         </v-layout>
+        <!-- BILLING DETAILS END -->
+
         <v-divider class="mt-4"></v-divider>
+
+        <!-- ACTIONS START -->
         <v-layout row wrap class="mt-4 mb-4"> 
             <v-flex xs12>
                 <v-btn 
@@ -94,6 +100,8 @@
                 </v-btn>
             </v-flex>
         </v-layout>
+        <!-- ACTIONS END -->
+
     </v-container>
 </template>
 <script>
@@ -108,8 +116,11 @@
 
         data() {
             return {
+                //OVERALL
                 countries: [],
                 billing_button_loading: false,
+                
+                //BILLING
                 billing: {
                     company: '',
                     billing_email: '',
@@ -122,6 +133,7 @@
         
         methods: {
 
+            //OVERALL
             getCountries() {
                 axios.get(
                     '/data/countries.json'
@@ -133,20 +145,24 @@
                 );
             },
 
+            //UPDATE BILLING
+            assignBillingDetails(results) {
+                this.billing.billing_city = results.city;
+                this.billing.billing_country = results.country;
+                this.billing.billing_address = results.address;
+                this.billing.company = results.company;
+                this.billing.billing_email = results.email;
+            },
+
             getBillingDetails() {
                 axios.get(
                     this.$root.uri + '/accounts/' + this.user.accountUuId, 
                     this.$root.config
                 ).then( response => {
                         var results = response.data.data.billing;
-                        this.billing.billing_city = results.city;
-                        this.billing.billing_country = results.country;
-                        this.billing.billing_address = results.address;
-                        this.billing.company = results.company;
-                        this.billing.billing_email = results.email;
+                        this.assignBillingDetails(results);
                     }, error => {
                         this.showAlertPopUp('error', 'Something went wrong.');
-                        this.billing_button_loading = false;
                     }
                 );
             },

@@ -2,6 +2,8 @@
     <v-container fluid grid-list-md>
         <v-tabs icons light fixed :scrollable="false" class="elevation-2 white">
             <v-divider></v-divider>
+
+            <!-- TABS START -->
             <v-card light extended  class="elevation-0">
                 <v-tabs-bar class="white">
                     <v-tabs-slider class="orange darken-3"></v-tabs-slider>
@@ -19,7 +21,11 @@
                     </v-tabs-item>
                 </v-tabs-bar>
             </v-card>
+            <!-- TABS END -->
+
             <v-divider></v-divider>
+
+            <!-- TABS CONTENT START -->
             <v-tabs-items>
                 <v-tabs-content id="account-tab">
                     <settings-account 
@@ -40,6 +46,8 @@
                     ></settings-billing>
                 </v-tabs-content>                
             </v-tabs-items>
+            <!-- TABS CONTENT END -->
+
         </v-tabs>
     </v-container>
 </template>
