@@ -35,7 +35,7 @@
                 </v-layout>
                 <v-layout row wrap>
                     <v-flex xs12>
-                            <tk-select-list v-model="campaign.device.data.os">
+                        <tk-select-list v-model="campaign.device.data.os">
                             <tk-select 
                             v-for="technology in technologies.operatingsystems" 
                             :icon="technology.icon" 
@@ -78,20 +78,21 @@
                 <v-layout row wrap xs12>
                     <v-flex xs12>
                         <v-select
-                          :items="geo"
-                          v-model="campaign.geo.data"
-                          :rules="geoRules()"
-                          item-text="key"
-                          return-object
-                          prepend-icon="add_location"
-                          :search-input.sync="search_geo"
-                          @change="showNothing()"
-                          @blur="geo_blurred = true"
-                          label="Country or city name"
-                          hint="Start typing location name to see the list..."
-                          multiple
-                          single-line
-                          autocomplete>
+                        :items="geo"
+                        v-model="campaign.geo.data"
+                        :rules="geoRules()"
+                        item-text="key"
+                        return-object
+                        prepend-icon="add_location"
+                        :search-input.sync="search_geo"
+                        @change="showNothing()"
+                        @blur="geo_blurred = true"
+                        label="Country or city name"
+                        hint="Start typing location name to see the list..."
+                        multiple
+                        single-line
+                        autocomplete
+                        >
                             <template slot="item" scope="data">
                                 <v-list-tile-avatar>
                                     <img v-bind:src='"/images/flags/" + data.item.country_iso2 + ".png"'/>

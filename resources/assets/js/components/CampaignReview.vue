@@ -356,7 +356,7 @@
             },
 
             updateMessage() {
-                this.$root.alertpopup.alertMessage = 'Successfully created a new campaign.';
+                this.$root.alertpopup.alertMessage = 'Successfully updated ' + this.campaign.name + '.';
                 window.location = '/admin/campaigns?m=' + this.$root.alertpopup.alertMessage;
             },
 

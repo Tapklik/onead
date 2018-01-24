@@ -1,6 +1,6 @@
 <template>
     <v-container fluid grid-list-md>
-        <v-tabs icons v-model="tabIndex" light fixed :scrollable="false" class="elevation-2 white">
+        <v-tabs icons v-model="tab_name" light fixed :scrollable="false" class="elevation-2 white">
 
             <!-- CARD START-->
             <v-card light extended class="elevation-0">
@@ -283,7 +283,7 @@
 
             </v-tabs-items>
             <reporting-tab 
-            :tabIndex="tabIndex"
+            :tabIndex="tab_name"
             currentTab="geo-tab"
             @changeData="loadData($event, 'report')"
             graph="chart" 
@@ -353,7 +353,7 @@
                 campaignsPresent: false,
                 campaignNames: [],
                 creativesNames: [],
-                tabIndex: 'overall-tab',
+                tab_name: 'overall-tab',
                 startingDataSummary: {
                     clicks: 0,
                     ctr: 0,
@@ -794,7 +794,7 @@
                 );
             },
 
-            generateCharts() {
+            generateChart() {
                 this.getChartData();
                 this.getSummary();
             }
@@ -802,87 +802,87 @@
 
         watch: {
             report(value) {
-                if(this.tabIndex == 'geo-tab' && this.selectedGeoCountries1 == '') {
+                if(this.tab_name == 'geo-tab' && this.selectedGeoCountries1 == '') {
                     this.getOverallSummary();
                     this.getOverallChartData();
                 }
-                else if(this.tabIndex == 'devices-tab' && !(this.selectedDevicesTypes1 != '' || this.selectedDevicesOs1 != '' || this.selectedDevicesUa1 != '')) {
+                else if(this.tab_name == 'devices-tab' && !(this.selectedDevicesTypes1 != '' || this.selectedDevicesOs1 != '' || this.selectedDevicesUa1 != '')) {
                     this.getOverallSummary();
                     this.getOverallChartData();
                 }
-                else this.generateCharts();
+                else this.generateChart();
             },
             column(value) {
-                this.generateCharts();
+                this.generateChart();
             },
             line(value) {
-                this.generateCharts();
+                this.generateChart();
             },
             date_from(value) {
-                this.generateCharts();
+                this.generateChart();
             },
             date_to(value) {
-                this.generateCharts();
+                this.generateChart();
             },
             token(value) {
                 this.fetchCampaigns();
             },
             selectedCampaigns1(value) {
                 this.campaignsPresent = value != '' ? true : false;
-                this.generateCharts();
+                this.generateChart();
             },
             selectedCreatives1(value) {
-                this.generateCharts();
+                this.generateChart();
             },
             selectedPublishers1(value) {
-                this.generateCharts();
+                this.generateChart();
             },
             selectedDevicesTypes1(value) {
-                if(this.tabIndex == 'geo-tab' && this.selectedGeoCountries1 == '') {
+                if(this.tab_name == 'geo-tab' && this.selectedGeoCountries1 == '') {
                     this.getOverallSummary();
                     this.getOverallChartData();
                 }
-                else if(this.tabIndex == 'devices-tab' && !(value != '' || this.selectedDevicesOs1 != '' || this.selectedDevicesUa1 != '')) {
+                else if(this.tab_name == 'devices-tab' && !(value != '' || this.selectedDevicesOs1 != '' || this.selectedDevicesUa1 != '')) {
                     this.getOverallSummary();
                     this.getOverallChartData();
                 }
-                else this.generateCharts();
+                else this.generateChart();
             },
             selectedDevicesOs1(value) {
-                if(this.tabIndex == 'geo-tab' && this.selectedGeoCountries1 == '') {
+                if(this.tab_name == 'geo-tab' && this.selectedGeoCountries1 == '') {
                     this.getOverallSummary();
                     this.getOverallChartData();
                 }
-                else if(this.tabIndex == 'devices-tab' && !(this.selectedDevicesTypes1 != '' || value != '' || this.selectedDevicesUa1 != '')) {
+                else if(this.tab_name == 'devices-tab' && !(this.selectedDevicesTypes1 != '' || value != '' || this.selectedDevicesUa1 != '')) {
                     this.getOverallSummary();
                     this.getOverallChartData();
                 }
-                else this.generateCharts();
+                else this.generateChart();
             },
             selectedDevicesUa1(value) {
-                if(this.tabIndex == 'geo-tab' && this.selectedGeoCountries1 == '') {
+                if(this.tab_name == 'geo-tab' && this.selectedGeoCountries1 == '') {
                     this.getOverallSummary();
                     this.getOverallChartData();
                 }
-                else if(this.tabIndex == 'devices-tab' && !(this.selectedDevicesTypes1 != '' || this.selectedDevicesOs1 != '' || value != '')) {
+                else if(this.tab_name == 'devices-tab' && !(this.selectedDevicesTypes1 != '' || this.selectedDevicesOs1 != '' || value != '')) {
                     this.getOverallSummary();
                     this.getOverallChartData();
                 }
-                else this.generateCharts();
+                else this.generateChart();
             },
             selectedGeoCountries1(value) {
-                if(this.tabIndex == 'geo-tab' && value == '') {
+                if(this.tab_name == 'geo-tab' && value == '') {
                     this.getOverallSummary();
                     this.getOverallChartData();
                 }
-                else if(this.tabIndex == 'devices-tab' && !(this.selectedDevicesTypes1 != '' || this.selectedDevicesOs1 != '' || this.selectedDevicesUa1 != '')) {
+                else if(this.tab_name == 'devices-tab' && !(this.selectedDevicesTypes1 != '' || this.selectedDevicesOs1 != '' || this.selectedDevicesUa1 != '')) {
                     this.getOverallSummary();
                     this.getOverallChartData();
                 }
-                else this.generateCharts();
+                else this.generateChart();
             },
             user(value) {
-                this.generateCharts();
+                this.generateChart();
             },
             selectedCampaigns(value) {
                 this.getCreatives();
