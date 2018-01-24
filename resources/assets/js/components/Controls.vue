@@ -94,7 +94,7 @@
             {{ account_name }}
         </span> 
         <span class="ml-2 mr-1 grey--text text--lighten1">
-            $ {{ $root.fromMicroDollars($root.balance + $root.flight) }}
+            $ {{ $currency.formatNumber($currency.fromMicroDollars(balance + flight)) }}
         </span>
         <v-btn 
         icon 
@@ -136,7 +136,9 @@
                 sections: ['Dashboard', 'Campaigns', 'Creatives', 'Reporting', 'bug_reporting'],
 
                 //DETAILS
-                account_name: ''
+                account_name: '',
+                balance: 0,
+                flight: 0
             }
         },
         
@@ -184,6 +186,31 @@
                 );
             },
 
+
+            getAccountBalance() {
+                axios.get(
+                    this.$root.uri + '/accounts/' + this.user.accountUuId + '/banker/main?query=balance', 
+                    this.$root.config
+                ).then(response => {
+                        this.balance = response.data.data.balance;
+                    }, error => {
+                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                    }
+                );
+            },
+
+            getAccountFlight() {
+                axios.get(
+                    this.$root.uri + '/accounts/' + this.user.accountUuId + '/banker/flight?query=balance', 
+                    this.$root.config
+                ).then(response => {
+                        this.flight = response.data.data.balance;
+                    }, error => {
+                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                    }
+                );
+            }
+
         },
 
         computed: {
@@ -195,6 +222,8 @@
 
         watch: {
             user(value) {
+                this.getAccountFlight();
+                this.getAccountBalance();
                 this.getAccountName();
             },
         }

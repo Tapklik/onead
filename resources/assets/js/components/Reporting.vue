@@ -730,10 +730,10 @@
                         for(var r in results) {
                             results[r].imps = results[r].imps;
                             results[r].clicks = results[r].clicks;
-                            results[r].ecpc = this.$root.twoDecimalPlaces(results[r].ecpc);
-                            results[r].ecpm = this.$root.twoDecimalPlaces(results[r].ecpm);
-                            results[r].ctr = this.$root.twoDecimalPlaces(results[r].ctr * 100);
-                            results[r].spend = this.$root.fromMicroDollars(results[r].spend);
+                            results[r].ecpc = this.$currency.formatNumber(results[r].ecpc);
+                            results[r].ecpm = this.$currency.formatNumber(results[r].ecpm);
+                            results[r].ctr = this.$currency.formatNumber(results[r].ctr * 100);
+                            results[r].spend = this.$currency.fromMicroDollars(results[r].spend);
                         }
                         this.response = results == undefined ? this.startingData : results;
                         this.createChart('chart', this.response, this.column, this.line);
@@ -766,10 +766,10 @@
                         for(var r in results) {
                             results[r].imps = results[r].imps;
                             results[r].clicks = results[r].clicks;
-                            results[r].ecpc = this.$root.twoDecimalPlaces(results[r].ecpc);
-                            results[r].ecpm = this.$root.twoDecimalPlaces(results[r].ecpm);
-                            results[r].ctr = this.$root.twoDecimalPlaces(results[r].ctr * 100);
-                            results[r].spend = this.$root.fromMicroDollars(results[r].spend);
+                            results[r].ecpc = this.$currency.formatNumber(results[r].ecpc);
+                            results[r].ecpm = this.$currency.formatNumber(results[r].ecpm);
+                            results[r].ctr = this.$currency.formatNumber(results[r].ctr * 100);
+                            results[r].spend = this.$currency.fromMicroDollars(results[r].spend);
                         }
                         this.response = results == undefined ? this.startingData : results;
                         this.createChart('chart', this.response, this.column, this.line);

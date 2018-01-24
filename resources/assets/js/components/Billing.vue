@@ -55,8 +55,8 @@
                             <span class="title">{{ props.item.id.timestamp }}</span>
                         </td>
                         <td class="text-xs-right">
-                            <span v-if="props.item.id.debit == 0" class="title"> $ {{$root.fromMicroDollars(props.item.id.credit) }}</span>
-                            <span v-else class="title"> $ {{$root.fromMicroDollars(props.item.id.debit) }}</span>
+                            <span v-if="props.item.id.debit == 0" class="title"> $ {{$currency.fromMicroDollars(props.item.id.credit) }}</span>
+                            <span v-else class="title"> $ {{$currency.fromMicroDollars(props.item.id.debit) }}</span>
                         </td>
                         <td>
                             <v-dialog v-model="props.item.modal" lazy absolute width="1500px">
@@ -133,8 +133,8 @@
                                                     </v-flex>
                                                     <v-flex xs12 md5>
                                                         <v-icon>attach_money</v-icon>
-                                                        <span v-if="props.item.id.credit == 0">{{$root.fromMicroDollars(props.item.id.debit)}}</span>
-                                                        <span v-else>$ {{$root.fromMicroDollars(props.item.id.credit)}}</span>
+                                                        <span v-if="props.item.id.credit == 0">{{$currency.fromMicroDollars(props.item.id.debit)}}</span>
+                                                        <span v-else>$ {{$currency.fromMicroDollars(props.item.id.credit)}}</span>
                                                     </v-flex>
                                                 </v-layout>
                                             </v-flex>
@@ -351,7 +351,7 @@
 
             collectBill() {
                 return {
-                    credit: this.$root.toMicroDollars(this.payment),
+                    credit: this.$currency.toMicroDollars(this.payment),
                     description: this.paymentMethod,
                     type: "billing"
                 }

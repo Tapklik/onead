@@ -118,7 +118,7 @@
                     </td>
                     <td class="text-xs-right">
                         <span class="title"> 
-                        $ {{$root.fromMicroDollars(props.item.budget.data.amount) }}
+                        $ {{$currency.fromMicroDollars(props.item.budget.data.amount) }}
                         </span>
                         <br />
                         <span class="caption"> 

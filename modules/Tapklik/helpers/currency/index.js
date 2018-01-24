@@ -16,7 +16,6 @@ Currency.prototype.fromMicroDollars = function (amount) {
 
 Currency.prototype.formatNumber = function (value, decimals) {
     if(!decimals) decimals = 2;
-
     return value.toFixed(decimals);
 }
 

@@ -75,9 +75,6 @@ const app = new Vue({
 
     mounted() {
       this.getApiToken();
-      this.previousURL();
-
-      console.log(this.$utils);
     },
     
     data: {
@@ -99,21 +96,10 @@ const app = new Vue({
         drawer: null,
         search: '',
         section: '',
-        ajax: false,
-        modalIsOpen: false,
         token: false,
         config: {},
         editMode: (window.location.pathname.search('/edit/') == -1) ? false : true,
         isLoading: true,
-        pagetitle: 'Something',
-        balance: 0,
-        flight: 0,
-        alert: {
-            alert: false,
-            error: false,
-            success: false,
-            alertMessage: ''
-        },
         alertpopup: {
             alert: false,
             error: false,
@@ -123,18 +109,7 @@ const app = new Vue({
     },
 
     methods: {
-
-        previousURL() {
-            var oldURL = document.referrer;
-            return oldURL;
-        },
-        currentURL() {
-            var URL = window.location.href;
-            return URL;
-        },
-
         getApiToken() {
-
             axios.get('/core/token').then(response => {
                 this.token = response.data.token;
             }, error => {
@@ -143,69 +118,15 @@ const app = new Vue({
         },
 
         getUserInfo() {
-            axios.get(this.uri + '/accounts/info', this.config).then(response => {
-                this.user = response.data;
-
-            }, error => {
-                this.showAlertPopUp('error', 'Something went wrong');
-            });
-        },
-
-        getAccountBalance() {
-            axios.get(this.uri + '/accounts/' + this.user.accountUuId + '/banker/main?query=balance', this.config).then(response => {
-                this.balance = response.data.data.balance;
-
-            }, error => {
-                this.showAlertPopUp('error', 'Something went wrong');
-            });
-            axios.get(this.uri + '/accounts/' + this.user.accountUuId + '/banker/flight?query=balance', this.config).then(response => {
-                this.flight = response.data.data.balance;
-
-            }, error => {
-                this.showAlertPopUp('error', 'Something went wrong');
-            });
-        },
-
-        getCampaignId() {
-            return window.location.pathname.replace('/admin/campaigns/edit/', '');
-        },
-
-        fromMicroDollars(value) {
-            if(value) {
-                return (value / 1000000).toFixed(2);
-            } else {
-                return 0.00;
-            }
-        },
-
-        toMicroDollars(value) {
-            if(value) {
-                return (value * 1000000);
-            } else {
-                return 0;
-            }
-        },
-
-        twoDecimalPlaces(value) {
-            if(value) {
-                return value.toFixed(2);
-            } else {
-                return 0;
-            }
-        },
-
-        showAlert(type, message, timeout) {
-
-            var timeout = (!timeout) ? 2000 : parseInt(timeout);
-
-            this.alert.alert = true;
-            this.alert.success = (type == 'success') ? true : false;
-            this.alert.error = (type == 'error') ? true : false;
-            this.alert.alertMessage = message;
-
-            setTimeout(function () {
-                this.alert.alert = false;
-            }.bind(this), timeout);
+            axios.get(
+                this.uri + '/accounts/info', 
+                this.config
+            ).then(response => {
+                    this.user = response.data;
+                }, error => {
+                    this.showAlertPopUp('error', 'Something went wrong');
+                }
+            );
         },
 
         showAlertPopUp(type, message) {
@@ -219,38 +140,15 @@ const app = new Vue({
     watch: {
         token(value) {
             if(value == null) return;
-
             this.$children[0].token = value;
             this.config = {headers: {'Authorization': "Bearer " + this.token}};
-
             this.getUserInfo();
-        },
-
-        user(value) {
-            this.getAccountBalance();
         }
     },
     computed: {
-
         tutorial_show() {
-            if(this.previousURL().endsWith('auth') && this.currentURL().endsWith('dashboard') && this.user.tutorial == 1) {
-                return true;
-            }
-            else return false;
-        },
-
-        getFirstUuidSegment() {
-
-            if(!this.user.accountUuId) return '';
-
-            return this.user.accountUuId.slice(0, 8);
-        },
-
-        getFirstUserUuidSegment() {
-
-            if(!this.user.uuid) return '';
-
-            return this.user.uuid.slice(0, 8);
+            var previous_url = document.referrer;
+            return previous_url.endsWith('auth') && this.user.tutorial == 1 ? true : false;
         }
     }
 });

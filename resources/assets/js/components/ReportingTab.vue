@@ -25,7 +25,7 @@
                         <tk-widget
                             icon="mouse"
                             title="CTR"
-                            :value="$root.twoDecimalPlaces(summary.ctr * 100)"
+                            :value="$currency.formatNumber(summary.ctr * 100)"
                             unit="%"
                             defaultValue="0.00"
                             size="sm"
@@ -35,7 +35,7 @@
                         <tk-widget
                             icon="monetization_on"
                             title="eCPM"
-                            :value="$root.twoDecimalPlaces(summary.ecpm)"
+                            :value="$currency.formatNumber(summary.ecpm)"
                             unit="$"
                             defaultValue="0.00"
                             size="sm"
@@ -45,7 +45,7 @@
                         <tk-widget
                             icon="star_half"
                             title="eCPC"
-                            :value="$root.twoDecimalPlaces(summary.ecpc)"
+                            :value="$currency.formatNumber(summary.ecpc)"
                             unit="$"
                             defaultValue="0.00"
                             size="sm"
@@ -55,7 +55,7 @@
                         <tk-widget
                             icon="monetization_on"
                             title="SPEND"
-                            :value="$root.fromMicroDollars(summary.spend)"
+                            :value="$currency.fromMicroDollars(summary.spend)"
                             unit="$"
                             defaultValue="0.00"
                             size="sm"
@@ -64,7 +64,13 @@
                     <v-flex xs12>
                         <v-card class="elevation-1">
                             <v-card-media :id="graph" class="tapklik-chart" height="350px"> 
-                                <scale-loader :loading="true" color="#9e9e9e" height="15px" width="3px" class="mt-5"></scale-loader>
+                                <scale-loader 
+                                :loading="true" 
+                                color="#9e9e9e" 
+                                height="15px" 
+                                width="3px" 
+                                class="mt-5"
+                                ></scale-loader>
                             </v-card-media>
                         </v-card>
                     </v-flex>

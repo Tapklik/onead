@@ -11,7 +11,7 @@
                     </v-flex>
                     <v-flex xs8 md5>
                         <v-icon>perm_identity</v-icon>
-                        <span>{{$root.getFirstUuidSegment}}</span>
+                        <span>{{user.accountUuId != null ? $utils.getUuidLength(user.accountUuId, 8) : null}}</span>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap class="mt-4">

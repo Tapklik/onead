@@ -85,7 +85,7 @@
                     </v-flex>
                     <v-flex xs8 md5 v-if="valid.budget">
                         <v-icon>attach_money</v-icon>
-                        <span>{{$root.fromMicroDollars(campaign.budget.data.amount)}}</span>
+                        <span>{{$currency.fromMicroDollars(campaign.budget.data.amount)}}</span>
                     </v-flex>
                     <v-flex xs8 md5 v-else>
                         <v-icon class="red--text">attach_money</v-icon>
@@ -98,7 +98,7 @@
                     </v-flex>
                     <v-flex xs12 md8 v-if="valid.bid == true">
                         <v-icon>attach_money</v-icon>
-                        <span>{{$root.fromMicroDollars(campaign.bid)}}</span>
+                        <span>{{$currency.fromMicroDollars(campaign.bid)}}</span>
                     </v-flex>
                     <v-flex xs12 md8 v-else>
                         <v-icon class="red--text">attach_money</v-icon>
