@@ -55,7 +55,7 @@
                         <tk-widget
                             icon="monetization_on"
                             title="SPEND"
-                            :value="$currency.fromMicroDollars(summary.spend)"
+                            :value="$currency.formatNumber($currency.fromMicroDollars(summary.spend))"
                             unit="$"
                             defaultValue="0.00"
                             size="sm"

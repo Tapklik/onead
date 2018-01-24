@@ -42,7 +42,7 @@
                         icon="monetization_on"
                         title="SPEND"
                         subtitle="TOTAL LAST 10 DAYS"
-                        :value="$currency.fromMicroDollars(overall_summary.spend)"
+                        :value="$currency.formatNumber($currency.fromMicroDollars(overall_summary.spend))"
                         unit="$"
                         defaultValue="0.00"
                         size="lg"

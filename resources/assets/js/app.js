@@ -91,10 +91,8 @@ const app = new Vue({
             role: '',
             tutorial: 0,
             uuid: ''
-
         },
         drawer: null,
-        search: '',
         section: '',
         token: false,
         config: {},
