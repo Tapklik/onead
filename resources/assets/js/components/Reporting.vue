@@ -155,12 +155,12 @@
             </v-card>
             <v-tabs-items>
 
-                <!-- OVERALL GRAPH START-->
+                <!-- OVERALL FILTERS START-->
                 <v-tabs-content id="overall-tab">
                 </v-tabs-content>
-                <!-- OVERALL GRAPH END -->
+                <!-- OVERALL FILTERS END -->
 
-                <!-- PUBLISHER GRAPH START -->
+                <!-- PUBLISHER FILTERS START -->
                 <v-tabs-content id="publisher-tab">
                     <v-card>
                         <v-card-text>
@@ -181,9 +181,9 @@
                         </v-card-text>
                     </v-card>
                 </v-tabs-content>
-                <!-- PUBLISHER GRAPH END -->
+                <!-- PUBLISHER FILTERS END -->
 
-                <!-- DEVICES GRAPH START -->
+                <!-- DEVICES FILTERS START -->
                 <v-tabs-content id="devices-tab">
                     <v-card>
                         <v-card-text>
@@ -248,9 +248,9 @@
                         </v-card-text>
                     </v-card>
                 </v-tabs-content>
-                <!-- DEVICES GRAPH END -->
+                <!-- DEVICES FILTERS END -->
 
-                <!-- GEO GRAPH START -->
+                <!-- GEO FILTERS START -->
                 <v-tabs-content id="geo-tab">
                     <v-card>
                         <v-card-text>
@@ -279,9 +279,11 @@
                         </v-card-text>
                     </v-card>
                 </v-tabs-content>
-                <!-- GEO GRAPH END -->
+                <!-- GEO FILTERS END -->
 
             </v-tabs-items>
+
+            <!-- GRAPH START -->
             <reporting-tab 
             :tabIndex="tab_name"
             currentTab="geo-tab"
@@ -289,6 +291,8 @@
             graph="chart" 
             :summary="response_summary"
             ></reporting-tab>
+            <!-- GRAPH END -->
+            
         </v-tabs>
     </v-container>
 </template>
