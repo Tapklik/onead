@@ -270,9 +270,6 @@
             this.date_from = this.$utils.getDate(-10);
             this.date_to = this.$utils.getDate(0);
             this.$root.isLoading = false;
-            this.getRealTimeDates();
-            console.log(this.$root.reportUri + '?table=wins&acc=' + this.user.accountUuId + '&field=ctr,imps,spend&op=sum&from=' + this.date_from + ' 00:00:00&to=' + this.date_to + ' 23:59:59&scale=1d');
-            console.log(this.$root.reportUri + '?table=wins&acc=' + this.user.accountUuId + '&field=ctr,imps,spend&op=sum&from=' + this.real_time_start + '&to=' + this.real_time_end + '&scale=5m');
         },
         
         data() {
@@ -282,7 +279,7 @@
                 real_time_end: '',
                 real_time_data: '',
                 real_time_lenght: 2,
-                time_to_redraw: 5000,
+                time_to_redraw: 300000,
 
                 //WEEKLY CHART
                 chartLoaded: false,
@@ -349,8 +346,9 @@
                 minute = today.getMinutes().toString().length == 1 ? "0" + today.getMinutes() : today.getMinutes();
                 seconds = today.getSeconds().toString().length == 1 ? "0" + today.getSeconds() : today.getSeconds();
                 this.real_time_start = year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + seconds;
+                this.getRealTimeData();
 
-                setTimeout(this.getRealTimeStart, this.time_to_redraw);
+                setTimeout(this.getRealTimeDates, this.time_to_redraw);
             },
 
             getRealTimeData() {
@@ -376,7 +374,7 @@
                     "marginTop": 20,
                     "autoMarginOffset": 20,
                     "mouseWheelZoomEnabled":false,
-                    "dataDateFormat": "YYYY-MM-DD HH",
+                    "dataDateFormat": "YYYY-MM-DD HH:NN",
                     "valueAxes": [{
                         "id": "v1",
                         "axisAlpha": 0,
@@ -425,6 +423,8 @@
                     }],
                     "categoryField": "date",
                     "categoryAxis": {
+                        "parseDates": true,
+                        "minPeriod": "mm",
                         "axisAlpha": 0.1,
                         "axisThickness": 2,
                         "minorGridEnabled": false,
@@ -441,7 +441,7 @@
                         "fillAlpha": 1,
                     },
                     "chartCursor": {
-                        "categoryBalloonDateFormat": "DD JJ:NN",
+                        "categoryBalloonDateFormat": "YYYY-MM-DD JJ:NN",
                         "cursorAlpha": 0.1,
                         "cursorColor":"#000000",
                          "fullWidth":true,
@@ -663,9 +663,9 @@
         watch: {
             user(value) {
                 this.getCampaigns();
-                setTimeout(this.getOverallData(), 2000);
-                setTimeout(this.getOverallSummary(), 2000);
-                this.getRealTimeData();
+                this.getOverallData();
+                this.getOverallSummary();
+                this.getRealTimeDates();
             },
 
             token(value) {
