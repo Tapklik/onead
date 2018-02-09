@@ -1,9 +1,9 @@
 <template>
     <v-container fluid grid-list-lg>
         <v-layout row wrap>
-            <v-flex d-flex md12 lg6>
 
-                <!-- CHART START -->
+            <!-- WEEK CHART START -->
+            <v-flex d-flex md12 lg6>
                 <v-card height="300px" class="elevation-2">
                     <v-card-title>
                         <span class="subheading orange--text text--darken-4">
@@ -20,9 +20,8 @@
                         ></scale-loader>
                     </v-card-media>
                 </v-card>
-                <!-- CHART END -->
-
             </v-flex>
+            <!-- WEEK CHART END -->
 
             <!-- SUMMARY START -->
             <v-flex d-flex xs6 md4 lg2>
@@ -102,6 +101,27 @@
                 </v-layout>
             </v-flex> 
             <!-- SUMMARY END -->
+
+            <!-- REAL-TIME CHART START -->
+            <v-flex d-flex md12>
+                <v-card height="300px" class="elevation-2">
+                    <v-card-title>
+                        <span class="subheading orange--text text--darken-4">
+                            REAL-TIME CHART FOR 5 MINUTES
+                        </span>
+                    </v-card-title>
+                    <v-card-media id="chart_real_time" class="tapklik-chart" height="250px"> 
+                        <scale-loader 
+                        :loading="true" 
+                        color="#9e9e9e" 
+                        height="15px" 
+                        width="3px" 
+                        class="mt-5"
+                        ></scale-loader>
+                    </v-card-media>
+                </v-card>
+            </v-flex>
+            <!-- REAL-TIME CHART END -->
 
         </v-layout>
         <v-layout row wrap class="mt-2">
@@ -250,11 +270,21 @@
             this.date_from = this.$utils.getDate(-10);
             this.date_to = this.$utils.getDate(0);
             this.$root.isLoading = false;
+            this.getRealTimeDates();
+            console.log(this.$root.reportUri + '?table=wins&acc=' + this.user.accountUuId + '&field=ctr,imps,spend&op=sum&from=' + this.date_from + ' 00:00:00&to=' + this.date_to + ' 23:59:59&scale=1d');
+            console.log(this.$root.reportUri + '?table=wins&acc=' + this.user.accountUuId + '&field=ctr,imps,spend&op=sum&from=' + this.real_time_start + '&to=' + this.real_time_end + '&scale=5m');
         },
         
         data() {
             return {
-                //CHART
+                //REAL-TIME CHART
+                real_time_start: '',
+                real_time_end: '',
+                real_time_data: '',
+                real_time_lenght: 2,
+                time_to_redraw: 5000,
+
+                //WEEKLY CHART
                 chartLoaded: false,
                 overall_data: [],
                 date_from: '',
@@ -296,14 +326,146 @@
                 return dataset;
             },
 
-            //CHART
+            //REAL TIME CHART
+            getRealTimeDates() {
+                var today = new Date();
+                var year, month, day, hour, minute, seconds;
+                var real_month;
+                year = today.getFullYear();
+                real_month = today.getMonth() + 1;
+                month = real_month.toString().length == 1 ? "0" + real_month : real_month;
+                day = today.getDate().toString().length == 1 ? "0" + today.getDate() : today.getDate();
+                hour = today.getHours().toString().length == 1 ? "0" + today.getHours() : today.getHours();
+                minute = today.getMinutes().toString().length == 1 ? "0" + today.getMinutes() : today.getMinutes();
+                seconds = today.getSeconds().toString().length == 1 ? "0" + today.getSeconds() : today.getSeconds();
+                this.real_time_end = year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + seconds;
+
+                today.setHours(today.getHours() - this.real_time_lenght);
+                year = today.getFullYear();
+                real_month = today.getMonth() + 1;
+                month = real_month.toString().length == 1 ? "0" + real_month : real_month;
+                day = today.getDate().toString().length == 1 ? "0" + today.getDate() : today.getDate();
+                hour = today.getHours().toString().length == 1 ? "0" + today.getHours() : today.getHours();
+                minute = today.getMinutes().toString().length == 1 ? "0" + today.getMinutes() : today.getMinutes();
+                seconds = today.getSeconds().toString().length == 1 ? "0" + today.getSeconds() : today.getSeconds();
+                this.real_time_start = year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + seconds;
+
+                setTimeout(this.getRealTimeStart, this.time_to_redraw);
+            },
+
+            getRealTimeData() {
+                axios.get(
+                    this.$root.reportUri + '?table=wins&acc=' + this.user.accountUuId + '&field=ctr,imps,spend&op=sum&from=' + this.real_time_start + '&to=' + this.real_time_end + '&scale=5m', 
+                    this.$root.config
+                ).then(response => {
+                        this.real_time_data = response.data.data;
+                        this.createRealTimeChart('chart_real_time', this.real_time_data, this.column, this.line);
+                    }, error => {
+                        this.$root.showAlertPopUp('error', 'Something went wrong.');
+                    }
+                );
+            },
+
+            createRealTimeChart(target, dataset, column, line) {
+                var obj = this;
+                var chart = AmCharts.makeChart(target, {
+                    "type": "serial",
+                    "theme": "light",
+                    "marginRight": 40,
+                    "marginLeft": 70,
+                    "marginTop": 20,
+                    "autoMarginOffset": 20,
+                    "mouseWheelZoomEnabled":false,
+                    "dataDateFormat": "YYYY-MM-DD HH",
+                    "valueAxes": [{
+                        "id": "v1",
+                        "axisAlpha": 0,
+                        "gridAlpha": 0,
+                        "position": "left",
+                        "labelsEnabled": true,
+                        "ignoreAxisWidth":true,
+                    }, {
+                        "id": "v2",
+                        "axisAlpha": 0,
+                        "gridAlpha": 0,
+                        "position": "right",
+                        "labelsEnabled": true,
+                        "ignoreAxisWidth":true,
+                        labelFunction: function(number, label, axis) {
+                            return number * 100 + '%'
+                        }
+                    }],
+                    "graphs": [{
+                        "valueAxis": "v1",
+                        "id": "g1",
+                        "type" : "column",
+                        "fillAlphas": 1,
+                        "fillColors":"#78909c",
+                        "lineThickness": 0,
+                        "balloonText": "[[date]] <br><br>CTR: [[ctr]]<br>Imps: [[imps]]",
+                        "title": "Imps",
+                        "valueField": column,
+                    },
+                    {   
+                        "valueAxis": "v2",
+                        "id": "g2",
+                        "type" : "smoothedLine",
+                        "lineColor":"#f76c06",
+                        "fillAlphas": 0.0,
+                        "fillColors":"#f76c06",
+                        "bullet": "round",
+                        "bulletBorderAlpha": 1,
+                        "useLineColorForBulletBorder": true,
+                        "bulletColor": "#FFFFFF",
+                        "showBalloon": false,
+                        "lineThickness": 2,
+                        "title": "CTR",
+                        "valueField": line,
+                        
+                    }],
+                    "categoryField": "date",
+                    "categoryAxis": {
+                        "axisAlpha": 0.1,
+                        "axisThickness": 2,
+                        "minorGridEnabled": false,
+                    },
+                    "balloon": {
+                        "borderColor": "#222",
+                        "borderAlpha": 0,
+                        "borderThickness": 0,
+                        "shadowAlpha": 0,
+                        "color": "#ffffff",
+                        "drop": false,
+                        "cornerRadius": 5,
+                        "fillColor": "#222",
+                        "fillAlpha": 1,
+                    },
+                    "chartCursor": {
+                        "categoryBalloonDateFormat": "JJ:NN:SS",
+                        "cursorAlpha": 0.1,
+                        "cursorColor":"#000000",
+                         "fullWidth":true,
+                        "valueBalloonsEnabled": false,
+                        "zoomable": false
+                    },
+                    "legend": {
+                        "useGraphSettings": true
+                    },
+                    "export": {
+                        "enabled": true
+                    },
+                    "dataProvider": dataset, // Here you need to add the dataset
+                });
+            },
+
+            //WEEK CHART
             getOverallData() {
                 axios.get(
                     this.$root.reportUri + '?table=wins&acc=' + this.user.accountUuId + '&field=ctr,imps,spend&op=sum&from=' + this.date_from + ' 00:00:00&to=' + this.date_to + ' 23:59:59&scale=1d', 
                     this.$root.config
                 ).then(response => {
-                            this.overall_data = response.data.data;
-                            this.createChart('chart_main', this.overall_data, this.column, this.line);
+                        this.overall_data = response.data.data;
+                        this.createChart('chart_main', this.overall_data, this.column, this.line);
                     }, error => {
                         this.$root.showAlertPopUp('error', 'Something went wrong.');
                     }
@@ -503,6 +665,7 @@
                 this.getCampaigns();
                 setTimeout(this.getOverallData(), 2000);
                 setTimeout(this.getOverallSummary(), 2000);
+                this.getRealTimeData();
             },
 
             token(value) {

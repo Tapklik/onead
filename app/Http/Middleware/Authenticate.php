@@ -15,11 +15,9 @@ class Authenticate
      */
     public function handle($request, Closure $next)
     {
-
         $needsToLogIn = (!$request->session()->get('token')) ? true : false;
 
         if ($needsToLogIn == true && str_contains($request->getUri(), 'auth') != true) {
-
             return redirect('/admin/auth');
         } else {
             return $next($request);

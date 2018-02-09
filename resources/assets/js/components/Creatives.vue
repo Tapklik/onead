@@ -10,7 +10,11 @@
                 <v-flex xs12 md7>
 
                     <!-- ADD CREATIVE START -->
-                    <v-dialog v-model="show_new_creative_modal" lazy absolute width="100%">
+                    <v-btn @click="showNoFoldersError()" primary dark class="elevation-0" v-if="folders == ''">
+                        <v-icon>add</v-icon>
+                        Add Creatives
+                    </v-btn>
+                    <v-dialog v-else v-model="show_new_creative_modal" lazy absolute width="100%">
                         <v-btn slot="activator" primary dark class="elevation-0">
                             <v-icon>add</v-icon>
                             Add Creatives
@@ -747,6 +751,20 @@
             },
 
             //NEW CREATIVE
+            showNoFoldersError() {
+                axios.get(
+                    this.$root.uri + '/creatives/folders', 
+                    this.$root.config
+                ).then(response => {
+                        if(response.data.data == '') {
+                            this.$root.showAlertPopUp('error', 'You have no ad groups. You should create an ad group in the creatives tab by pressing the "New Ad Group" button');
+                        }
+                    }, error => {
+                        this.$root.showAlertPopUp('error', 'Error fetching folders.');
+                    }
+                );
+            },
+
             uploadCreative() {
                 this.dropzone.options.params = {
                     folder_id: this.new_creative.folder,
@@ -959,6 +977,10 @@
         watch: {
             token(value) {
                 this.getFolders();
+            },
+
+            current_folder(value) {
+                this.new_creative.folder = value.key;
             }
         }
     }
