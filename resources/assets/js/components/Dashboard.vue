@@ -441,7 +441,7 @@
                         "fillAlpha": 1,
                     },
                     "chartCursor": {
-                        "categoryBalloonDateFormat": "JJ:NN:SS",
+                        "categoryBalloonDateFormat": "DD JJ:NN",
                         "cursorAlpha": 0.1,
                         "cursorColor":"#000000",
                          "fullWidth":true,
