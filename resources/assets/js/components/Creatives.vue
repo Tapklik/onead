@@ -980,7 +980,7 @@
             },
 
             current_folder(value) {
-                this.new_creative.folder = value.key;
+                this.new_creative.folder = value.key == undefined ? this.folders[0].key : value.key;
             }
         }
     }
