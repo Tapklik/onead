@@ -278,8 +278,9 @@
                 real_time_start: '',
                 real_time_end: '',
                 real_time_data: '',
-                real_time_lenght: 2,
+                real_time_length: 2,
                 time_to_redraw: 300000,
+                loaded: false,
 
                 //WEEKLY CHART
                 chartLoaded: false,
@@ -337,7 +338,7 @@
                 seconds = today.getSeconds().toString().length == 1 ? "0" + today.getSeconds() : today.getSeconds();
                 this.real_time_end = year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + seconds;
 
-                today.setHours(today.getHours() - this.real_time_lenght);
+                today.setHours(today.getHours() - this.real_time_length);
                 year = today.getFullYear();
                 real_month = today.getMonth() + 1;
                 month = real_month.toString().length == 1 ? "0" + real_month : real_month;
@@ -348,7 +349,7 @@
                 this.real_time_start = year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + seconds;
                 this.getRealTimeData();
 
-                setTimeout(this.getRealTimeDates, this.time_to_redraw);
+                setTimeout(this.getRealTimeDates, 300000);
             },
 
             getRealTimeData() {
@@ -357,7 +358,6 @@
                     this.$root.config
                 ).then(response => {
                         this.real_time_data = response.data.data;
-                        this.createRealTimeChart('chart_real_time', this.real_time_data, this.column, this.line);
                     }, error => {
                         this.$root.showAlertPopUp('error', 'Something went wrong.');
                     }
@@ -365,7 +365,7 @@
             },
 
             createRealTimeChart(target, dataset, column, line) {
-                var obj = this;
+                var self = this;
                 var chart = AmCharts.makeChart(target, {
                     "type": "serial",
                     "theme": "light",
@@ -411,10 +411,6 @@
                         "lineColor":"#f76c06",
                         "fillAlphas": 0.0,
                         "fillColors":"#f76c06",
-                        "bullet": "round",
-                        "bulletBorderAlpha": 1,
-                        "useLineColorForBulletBorder": true,
-                        "bulletColor": "#FFFFFF",
                         "showBalloon": false,
                         "lineThickness": 2,
                         "title": "CTR",
@@ -424,7 +420,7 @@
                     "categoryField": "date",
                     "categoryAxis": {
                         "parseDates": true,
-                        "minPeriod": "mm",
+                        "minPeriod": "5mm",
                         "axisAlpha": 0.1,
                         "axisThickness": 2,
                         "minorGridEnabled": false,
@@ -456,6 +452,24 @@
                     },
                     "dataProvider": dataset, // Here you need to add the dataset
                 });
+
+                setInterval(function addNewPoint() {
+                    if(self.loaded == true) {
+                        var first_element = chart.dataProvider.shift();
+                        var new_element = self.real_time_data[self.real_time_data.length - 1];
+                        chart.dataProvider.push(new_element);
+                        console.log(chart.dataProvider);
+                        chart.validateData();
+                    }
+                }, 300000);
+            },
+
+            addNewPoint(chart, point) {
+                if(this.loaded == true) {
+                    var first_element = chart.dataProvider.shift();
+                    chart.dataProvider.push(point);
+                    chart.validateData();
+                }
             },
 
             //WEEK CHART
@@ -473,7 +487,6 @@
             },
 
             createChart(target, dataset, column, line) {
-                var obj = this;
                 var chart = AmCharts.makeChart(target, {
                     "type": "serial",
                     "theme": "light",
@@ -679,6 +692,13 @@
             
             creatives(value) {
                 if(value.length > 5) value = this.filterDataSize(5, value, true);
+            },
+
+            real_time_data(value) {
+                if(!this.loaded) {
+                    this.createRealTimeChart('chart_real_time', this.real_time_data, this.column, this.line);
+                    this.loaded = true
+                }
             }
         }
     }
