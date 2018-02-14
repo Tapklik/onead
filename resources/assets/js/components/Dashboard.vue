@@ -678,7 +678,6 @@
                 this.getOverallData();
                 this.getOverallSummary();
                 this.getRealTimeDates();
-                
             },
 
             token(value) {
