@@ -458,7 +458,6 @@
                         var first_element = chart.dataProvider.shift();
                         var new_element = self.real_time_data[self.real_time_data.length - 1];
                         chart.dataProvider.push(new_element);
-                        console.log(chart.dataProvider);
                         chart.validateData();
                     }
                 }, 300000);
@@ -679,6 +678,7 @@
                 this.getOverallData();
                 this.getOverallSummary();
                 this.getRealTimeDates();
+                
             },
 
             token(value) {
