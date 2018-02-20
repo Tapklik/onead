@@ -9,7 +9,7 @@
     
     <title>@yield('page-title', 'Tapklik')</title>
 
-    <link rel="stylesheet" href="/css/materialdesignicons.min.css" />
+    <link rel="stylesheet" href="/css/materialdesignicons.min.css" />    
 
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700">
 
@@ -18,12 +18,10 @@
     <link rel="stylesheet" href="/css/vuetify.css" />
 
     <link rel="stylesheet" href="/css/app.css" />
-
-
     <script>
         window.Laravel = <?php echo json_encode(['csrfToken' => csrf_token()]); ?>
     </script>
-
+    
     @yield('head-scripts')
     <script>
      @yield('head-js')
