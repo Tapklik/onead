@@ -221,16 +221,24 @@
                         <v-card-text>
                             <v-container fluid grid-list-md>
                                 <v-layout row wrap>
-                                    <tk-filter
-                                    leftIcon="filter_list"
-                                    buttonText="Country"
-                                    :items="countries"
-                                    keyValue="key"
-                                    title="country_name"
-                                    value="country"
-                                    :selection="selectedGeoCountries1"
-                                    @changeSelection="selectedGeoCountries1 = $event"
-                                    ></tk-filter>
+                                    <v-flex xs12 lg3>
+                                        <v-select
+                                        prepend-icon="language"
+                                        @change="showNothing()"
+                                        :items="countries" 
+                                        item-text="key" 
+                                        item-value="country" 
+                                        v-model="selectedGeoCountries1" 
+                                        label="Countries" 
+                                        multiple 
+                                        autocomplete
+                                        >
+                                            <template 
+                                            slot="selection" 
+                                            scope="data"
+                                            ></template>
+                                        </v-select>
+                                    </v-flex>
                                     <v-chip 
                                     @input="removeChip('selectedGeoCountries1')" 
                                     close 
@@ -255,6 +263,8 @@
             @changeData="loadData($event, 'report')"
             graph="chart" 
             :summary="response_summary"
+            :tableData="response"
+            :tableLoading="table_loading"
             ></reporting-tab>
             <!-- GRAPH END -->
             
@@ -291,6 +301,7 @@ import VueRangedatePicker from 'vue-rangedate-picker'
 
         data() {
             return {
+                table_loading: true,
                 campaigns: [],
                 creatives: [],
                 publishers: [],
@@ -422,6 +433,11 @@ import VueRangedatePicker from 'vue-rangedate-picker'
         },
 
         methods: {
+            showNothing() {
+                var empty = { key: '' };
+                return empty;
+            },
+
             styleInputDiv(reload) {
                 if(!reload){
                     var input = document.getElementsByClassName('input-date');
@@ -734,6 +750,7 @@ import VueRangedatePicker from 'vue-rangedate-picker'
             },
 
             getChartData() {
+                this.table_loading = true;
                 axios.get(
                     this.$root.reportUri + this.generateQuery(this.report, 'sum')
                 ).then(response => {
@@ -747,9 +764,11 @@ import VueRangedatePicker from 'vue-rangedate-picker'
                             results[r].spend = this.$currency.fromMicroDollars(results[r].spend);
                         }
                         this.response = results == undefined ? this.startingData : results;
+                        this.table_loading = false;
                         this.createChart('chart', this.response, this.column, this.line);
                     }, error => {
                         this.response = this.startingData;
+                        this.table_loading = false;
                         this.createChart('chart', this.response, this.column, this.line);
                         this.$root.showAlertPopUp('error', 'Something went wrong.');
                     }
@@ -783,9 +802,11 @@ import VueRangedatePicker from 'vue-rangedate-picker'
                             results[r].spend = this.$currency.fromMicroDollars(results[r].spend);
                         }
                         this.response = results == undefined ? this.startingData : results;
+                        this.table_loading = false;
                         this.createChart('chart', this.response, this.column, this.line);
                     }, error => {
                         this.response = this.startingData;
+                        this.table_loading = false;
                         this.createChart('chart', this.response, this.column, this.line);
                         this.$root.showAlertPopUp('error', 'Something went wrong.');
                     }
