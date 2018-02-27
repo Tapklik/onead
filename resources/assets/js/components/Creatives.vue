@@ -708,7 +708,7 @@
                 if (this.dropzone !== false) return;
 
                 this.dropzone = new Dropzone("#uploader", {
-                    url: this.$root.uri + '/creatives',
+                    url: this.$root.uri + '/v1/core/upload',
                     paramName: 'file',
                     maxFilesize: 2,
                     acceptedFiles: 'image/*, application/zip',
@@ -733,7 +733,7 @@
                                 class: is_zip ? 'html5' : 'banner',
                                 url: '',
                                 responsive: 0,
-                                folder: this.folders[0].key
+                                folder: this.new_creative.folder
                             };
                             clearInterval(sizeInterval);
                         }

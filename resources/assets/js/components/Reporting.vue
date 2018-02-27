@@ -593,7 +593,7 @@ import VueRangedatePicker from 'vue-rangedate-picker'
                     {   
                         "valueAxis": "v2",
                         "id": "g2",
-                        "type" : "smoothedLine",
+                        "type" : "line",
                         "lineColor":"#f76c06",
                         "fillColors":"#f76c06",
                         "fillAlphas": 0,
