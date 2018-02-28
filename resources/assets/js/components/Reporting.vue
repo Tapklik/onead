@@ -1,9 +1,9 @@
 <template>
     <v-container fluid grid-list-md>
-        <v-tabs icons v-model="tabIndex" light fixed :scrollable="false" class="elevation-2 white">
+        <v-tabs icons v-model="tab_name" light fixed :scrollable="false" class="elevation-2 white">
 
             <!-- CARD START-->
-            <v-card light extended class="elevation-0">
+            <v-card light extended class="elevation-0" style="overflow:visible">
 
                 <!-- TABS START -->
                 <v-tabs-bar class="white" slot="extension">
@@ -34,46 +34,11 @@
                     <v-layout row wrap>
                         <v-flex xs12 md5 lg4>
                             <v-layout>
-                                <v-flex xs12 md6 lg6>
-                                    <v-dialog
-                                    :v-model="false"
-                                    lazy
-                                    full-width
-                                    >
-                                        <v-text-field
-                                        label="From"
-                                        prepend-icon="flight_takeoff"
-                                        append-icon="date_range"
-                                        readonly
-                                        v-model="date_from"
-                                        slot="activator"
-                                        ></v-text-field>
-                                        <v-date-picker 
-                                        v-model="date_from" 
-                                        no-title 
-                                        scrollable 
-                                        autosave
-                                        ></v-date-picker>
-                                    </v-dialog>
-                                </v-flex>
-                                <v-spacer></v-spacer>
-                                <v-flex xs12 md6 lg6>
-                                    <v-dialog :v-model="false" lazy full-width>
-                                        <v-text-field
-                                        label="To"
-                                        prepend-icon="flight_land"
-                                        append-icon="date_range"
-                                        readonly
-                                        v-model="date_to"
-                                        slot="activator"
-                                        ></v-text-field>
-                                        <v-date-picker 
-                                        v-model="date_to" 
-                                        no-title 
-                                        scrollable 
-                                        autosave
-                                        ></v-date-picker>
-                                    </v-dialog>
+                                <v-flex xs12 md8>
+                                    <vue-rangedate-picker 
+                                    i18n="EN" 
+                                    @selected="selectDates"
+                                    ></vue-rangedate-picker>
                                 </v-flex>
                             </v-layout>
                         </v-flex>
@@ -155,12 +120,12 @@
             </v-card>
             <v-tabs-items>
 
-                <!-- OVERALL GRAPH START-->
+                <!-- OVERALL FILTERS START-->
                 <v-tabs-content id="overall-tab">
                 </v-tabs-content>
-                <!-- OVERALL GRAPH END -->
+                <!-- OVERALL FILTERS END -->
 
-                <!-- PUBLISHER GRAPH START -->
+                <!-- PUBLISHER FILTERS START -->
                 <v-tabs-content id="publisher-tab">
                     <v-card>
                         <v-card-text>
@@ -181,9 +146,9 @@
                         </v-card-text>
                     </v-card>
                 </v-tabs-content>
-                <!-- PUBLISHER GRAPH END -->
+                <!-- PUBLISHER FILTERS END -->
 
-                <!-- DEVICES GRAPH START -->
+                <!-- DEVICES FILTERS START -->
                 <v-tabs-content id="devices-tab">
                     <v-card>
                         <v-card-text>
@@ -248,24 +213,32 @@
                         </v-card-text>
                     </v-card>
                 </v-tabs-content>
-                <!-- DEVICES GRAPH END -->
+                <!-- DEVICES FILTERS END -->
 
-                <!-- GEO GRAPH START -->
+                <!-- GEO FILTERS START -->
                 <v-tabs-content id="geo-tab">
                     <v-card>
                         <v-card-text>
                             <v-container fluid grid-list-md>
                                 <v-layout row wrap>
-                                    <tk-filter
-                                    leftIcon="filter_list"
-                                    buttonText="Country"
-                                    :items="countries"
-                                    keyValue="key"
-                                    title="country_name"
-                                    value="country"
-                                    :selection="selectedGeoCountries1"
-                                    @changeSelection="selectedGeoCountries1 = $event"
-                                    ></tk-filter>
+                                    <v-flex xs12 lg3>
+                                        <v-select
+                                        prepend-icon="language"
+                                        @change="showNothing()"
+                                        :items="countries" 
+                                        item-text="key" 
+                                        item-value="country" 
+                                        v-model="selectedGeoCountries1" 
+                                        label="Countries" 
+                                        multiple 
+                                        autocomplete
+                                        >
+                                            <template 
+                                            slot="selection" 
+                                            scope="data"
+                                            ></template>
+                                        </v-select>
+                                    </v-flex>
                                     <v-chip 
                                     @input="removeChip('selectedGeoCountries1')" 
                                     close 
@@ -279,21 +252,28 @@
                         </v-card-text>
                     </v-card>
                 </v-tabs-content>
-                <!-- GEO GRAPH END -->
+                <!-- GEO FILTERS END -->
 
             </v-tabs-items>
+
+            <!-- GRAPH START -->
             <reporting-tab 
-            :tabIndex="tabIndex"
+            :tabIndex="tab_name"
             currentTab="geo-tab"
             @changeData="loadData($event, 'report')"
             graph="chart" 
             :summary="response_summary"
+            :tableData="response"
+            :tableLoading="table_loading"
             ></reporting-tab>
+            <!-- GRAPH END -->
+            
         </v-tabs>
     </v-container>
 </template>
 
 <script>
+import VueRangedatePicker from 'vue-rangedate-picker'
 
     export default {
 
@@ -310,13 +290,18 @@
             this.loadData('reportOverall','report');
             this.loadData('reportOverall','report_overall');
             this.$root.isLoading = false;
+            this.styleInputDiv();
+        },
 
+        components: {
+            VueRangedatePicker
         },
 
         props: ['user', 'token'],
 
         data() {
             return {
+                table_loading: true,
                 campaigns: [],
                 creatives: [],
                 publishers: [],
@@ -324,6 +309,7 @@
                 operating_systems: [],
                 browsers: [],
                 countries: [],
+
                 date_from: this.$utils.getDate(-10),
                 date_to: this.$utils.getDate(0),
                 stats: ['imps', 'clicks', 'ecpc', 'ecpm', 'spend', 'ctr'],
@@ -353,7 +339,7 @@
                 campaignsPresent: false,
                 campaignNames: [],
                 creativesNames: [],
-                tabIndex: 'overall-tab',
+                tab_name: 'overall-tab',
                 startingDataSummary: {
                     clicks: 0,
                     ctr: 0,
@@ -366,6 +352,9 @@
         },
         
         computed: {
+            full_date() {
+                return 'From: ' + this.date_from + '     To: ' + this.date_to;
+            },
             selectedPublishers() {
                 return this.selectedPackager('selectedPublishers1', 'publisher_site');
             },
@@ -444,6 +433,44 @@
         },
 
         methods: {
+            showNothing() {
+                var empty = { key: '' };
+                return empty;
+            },
+
+            styleInputDiv(reload) {
+                if(!reload){
+                    var input = document.getElementsByClassName('input-date');
+                    var element = input[0];
+                    element.classList.remove('input-date');
+                    element.setAttribute("id", "custom-calender-input");
+                }
+                else var element = document.getElementById('custom-calender-input');
+
+                element.innerHTML = '<div class="input-group input-group--dirty input-group--append-icon input-group--prepend-icon input-group--text-field"><label>Range</label><div class="input-group__input"><i aria-hidden="true" class="material-icons icon input-group__prepend-icon">flight_land</i><input readonly="readonly" tabindex="0" aria-label="To" type="text" value="' + this.full_date + '"><i aria-hidden="true" class="material-icons icon input-group__append-icon">date_range</i></div><div class="input-group__details"><div class="input-group__messages"></div></div></div>';
+            },
+
+            selectDates(new_dates) {
+                const toTwoDigits = num => num < 10 ? '0' + num : num;
+                let dates = Object.assign({}, new_dates);
+
+                dates.start.setDate(dates.start.getDate() - 1);
+                let start_year = dates.start.getFullYear();
+                let start_month = toTwoDigits(dates.start.getMonth() + 1);
+                let start_day = toTwoDigits(dates.start.getDate()); 
+                this.date_from = `${start_year}-${start_month}-${start_day}`;
+
+                dates.end.setDate(dates.end.getDate() - 1);
+                let end_year = dates.end.getFullYear();
+                let end_month = toTwoDigits(dates.end.getMonth() + 1);
+                let end_day = toTwoDigits(dates.end.getDate()); 
+                this.date_to = `${end_year}-${end_month}-${end_day}`;
+
+                dates.start.setDate(dates.start.getDate() + 1);
+                dates.end.setDate(dates.end.getDate() + 1);
+                this.styleInputDiv(true);
+                
+            },
             selectedPackager(list, objectName) {
                 var result = [];
                 var selections = this[list];
@@ -566,7 +593,7 @@
                     {   
                         "valueAxis": "v2",
                         "id": "g2",
-                        "type" : "smoothedLine",
+                        "type" : "line",
                         "lineColor":"#f76c06",
                         "fillColors":"#f76c06",
                         "fillAlphas": 0,
@@ -723,6 +750,7 @@
             },
 
             getChartData() {
+                this.table_loading = true;
                 axios.get(
                     this.$root.reportUri + this.generateQuery(this.report, 'sum')
                 ).then(response => {
@@ -730,15 +758,17 @@
                         for(var r in results) {
                             results[r].imps = results[r].imps;
                             results[r].clicks = results[r].clicks;
-                            results[r].ecpc = this.$root.twoDecimalPlaces(results[r].ecpc);
-                            results[r].ecpm = this.$root.twoDecimalPlaces(results[r].ecpm);
-                            results[r].ctr = this.$root.twoDecimalPlaces(results[r].ctr * 100);
-                            results[r].spend = this.$root.fromMicroDollars(results[r].spend);
+                            results[r].ecpc = this.$currency.formatNumber(results[r].ecpc);
+                            results[r].ecpm = this.$currency.formatNumber(results[r].ecpm);
+                            results[r].ctr = this.$currency.formatNumber(results[r].ctr * 100);
+                            results[r].spend = this.$currency.fromMicroDollars(results[r].spend);
                         }
                         this.response = results == undefined ? this.startingData : results;
+                        this.table_loading = false;
                         this.createChart('chart', this.response, this.column, this.line);
                     }, error => {
                         this.response = this.startingData;
+                        this.table_loading = false;
                         this.createChart('chart', this.response, this.column, this.line);
                         this.$root.showAlertPopUp('error', 'Something went wrong.');
                     }
@@ -766,15 +796,17 @@
                         for(var r in results) {
                             results[r].imps = results[r].imps;
                             results[r].clicks = results[r].clicks;
-                            results[r].ecpc = this.$root.twoDecimalPlaces(results[r].ecpc);
-                            results[r].ecpm = this.$root.twoDecimalPlaces(results[r].ecpm);
-                            results[r].ctr = this.$root.twoDecimalPlaces(results[r].ctr * 100);
-                            results[r].spend = this.$root.fromMicroDollars(results[r].spend);
+                            results[r].ecpc = this.$currency.formatNumber(results[r].ecpc);
+                            results[r].ecpm = this.$currency.formatNumber(results[r].ecpm);
+                            results[r].ctr = this.$currency.formatNumber(results[r].ctr * 100);
+                            results[r].spend = this.$currency.fromMicroDollars(results[r].spend);
                         }
                         this.response = results == undefined ? this.startingData : results;
+                        this.table_loading = false;
                         this.createChart('chart', this.response, this.column, this.line);
                     }, error => {
                         this.response = this.startingData;
+                        this.table_loading = false;
                         this.createChart('chart', this.response, this.column, this.line);
                         this.$root.showAlertPopUp('error', 'Something went wrong.');
                     }
@@ -794,7 +826,7 @@
                 );
             },
 
-            generateCharts() {
+            generateChart() {
                 this.getChartData();
                 this.getSummary();
             }
@@ -802,87 +834,87 @@
 
         watch: {
             report(value) {
-                if(this.tabIndex == 'geo-tab' && this.selectedGeoCountries1 == '') {
+                if(this.tab_name == 'geo-tab' && this.selectedGeoCountries1 == '') {
                     this.getOverallSummary();
                     this.getOverallChartData();
                 }
-                else if(this.tabIndex == 'devices-tab' && !(this.selectedDevicesTypes1 != '' || this.selectedDevicesOs1 != '' || this.selectedDevicesUa1 != '')) {
+                else if(this.tab_name == 'devices-tab' && !(this.selectedDevicesTypes1 != '' || this.selectedDevicesOs1 != '' || this.selectedDevicesUa1 != '')) {
                     this.getOverallSummary();
                     this.getOverallChartData();
                 }
-                else this.generateCharts();
+                else this.generateChart();
             },
             column(value) {
-                this.generateCharts();
+                this.generateChart();
             },
             line(value) {
-                this.generateCharts();
+                this.generateChart();
             },
             date_from(value) {
-                this.generateCharts();
+                this.generateChart();
             },
             date_to(value) {
-                this.generateCharts();
+                this.generateChart();
             },
             token(value) {
                 this.fetchCampaigns();
             },
             selectedCampaigns1(value) {
                 this.campaignsPresent = value != '' ? true : false;
-                this.generateCharts();
+                this.generateChart();
             },
             selectedCreatives1(value) {
-                this.generateCharts();
+                this.generateChart();
             },
             selectedPublishers1(value) {
-                this.generateCharts();
+                this.generateChart();
             },
             selectedDevicesTypes1(value) {
-                if(this.tabIndex == 'geo-tab' && this.selectedGeoCountries1 == '') {
+                if(this.tab_name == 'geo-tab' && this.selectedGeoCountries1 == '') {
                     this.getOverallSummary();
                     this.getOverallChartData();
                 }
-                else if(this.tabIndex == 'devices-tab' && !(value != '' || this.selectedDevicesOs1 != '' || this.selectedDevicesUa1 != '')) {
+                else if(this.tab_name == 'devices-tab' && !(value != '' || this.selectedDevicesOs1 != '' || this.selectedDevicesUa1 != '')) {
                     this.getOverallSummary();
                     this.getOverallChartData();
                 }
-                else this.generateCharts();
+                else this.generateChart();
             },
             selectedDevicesOs1(value) {
-                if(this.tabIndex == 'geo-tab' && this.selectedGeoCountries1 == '') {
+                if(this.tab_name == 'geo-tab' && this.selectedGeoCountries1 == '') {
                     this.getOverallSummary();
                     this.getOverallChartData();
                 }
-                else if(this.tabIndex == 'devices-tab' && !(this.selectedDevicesTypes1 != '' || value != '' || this.selectedDevicesUa1 != '')) {
+                else if(this.tab_name == 'devices-tab' && !(this.selectedDevicesTypes1 != '' || value != '' || this.selectedDevicesUa1 != '')) {
                     this.getOverallSummary();
                     this.getOverallChartData();
                 }
-                else this.generateCharts();
+                else this.generateChart();
             },
             selectedDevicesUa1(value) {
-                if(this.tabIndex == 'geo-tab' && this.selectedGeoCountries1 == '') {
+                if(this.tab_name == 'geo-tab' && this.selectedGeoCountries1 == '') {
                     this.getOverallSummary();
                     this.getOverallChartData();
                 }
-                else if(this.tabIndex == 'devices-tab' && !(this.selectedDevicesTypes1 != '' || this.selectedDevicesOs1 != '' || value != '')) {
+                else if(this.tab_name == 'devices-tab' && !(this.selectedDevicesTypes1 != '' || this.selectedDevicesOs1 != '' || value != '')) {
                     this.getOverallSummary();
                     this.getOverallChartData();
                 }
-                else this.generateCharts();
+                else this.generateChart();
             },
             selectedGeoCountries1(value) {
-                if(this.tabIndex == 'geo-tab' && value == '') {
+                if(this.tab_name == 'geo-tab' && value == '') {
                     this.getOverallSummary();
                     this.getOverallChartData();
                 }
-                else if(this.tabIndex == 'devices-tab' && !(this.selectedDevicesTypes1 != '' || this.selectedDevicesOs1 != '' || this.selectedDevicesUa1 != '')) {
+                else if(this.tab_name == 'devices-tab' && !(this.selectedDevicesTypes1 != '' || this.selectedDevicesOs1 != '' || this.selectedDevicesUa1 != '')) {
                     this.getOverallSummary();
                     this.getOverallChartData();
                 }
-                else this.generateCharts();
+                else this.generateChart();
             },
             user(value) {
-                this.generateCharts();
+                this.generateChart();
             },
             selectedCampaigns(value) {
                 this.getCreatives();
