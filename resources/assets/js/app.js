@@ -6,6 +6,7 @@
  */
 
 require('./bootstrap');
+require('dotenv').config();
 
 window.Vue = require('vue');
 
@@ -64,8 +65,6 @@ var utils = require('../../../modules/Tapklik/helpers/utils');
 Vue.use(currency);
 Vue.use(utils);
 
-var envUri = 'https://api.tapklik.com/v1';
-
 if(window.location.hostname.search('local') > -1 || window.location.hostname.search('127')  > -1) envUri = '//local.api.tapklik.com/v1';
 if(window.location.hostname.search('alpha') > -1) envUri = '//104.225.218.101:10006/v1';
 if(window.location.hostname.search('local.material.tapklik.com') > -1) envUri = '//104.225.218.101:10006/v1';
@@ -76,14 +75,12 @@ const app = new Vue({
     mounted() {
       this.getApiToken();
       this.previousURL();
-
-      console.log(this.$utils);
     },
     
     data: {
         version: 'v0.6.8',
-        uri: envUri,
-        reportUri: '//104.225.218.101:10002/api/query',
+        uri: process.env.API_URL,
+        reportUri: process.env.REPORT_URL,
         user: {
             accountId: null,
             accountUuId: null,
