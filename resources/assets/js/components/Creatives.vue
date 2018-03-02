@@ -558,7 +558,7 @@
                                                     @click="props.item.show_preview = false"
                                                     >
                                                         <v-icon>close</v-icon>
-                                                        Cancel
+                                                        OK
                                                     </v-btn>
                                                 </v-card-actions>
                                             </v-card>
@@ -958,14 +958,15 @@
             getPreview(creative) {
                 var html5 = creative.class != 'html5' ? false : true;
                 var validate = '';
+                var url = creative.ctrurl == null ? creative.adm_url : creative.ctrurl;
                 if(html5) {
                     validate = creative.adm_iframe;
-                    var adm_url_replacement = 'ct=' + encodeURIComponent(creative.adm_url) + '?preview=1';
+                    var adm_url_replacement = 'ct=' + encodeURIComponent(url) + '?preview=1';
                     var result = validate.replace('{{ADM_URL}}', adm_url_replacement);
                     return result;
                 } else {
                     validate = creative.adm;
-                    var result = validate.replace('{{ADM_URL}}', creative.adm_url + '?preview=1');
+                    var result = validate.replace('{{ADM_URL}}', url + '?preview=1');
                     return result;
                 }
             },
