@@ -25,6 +25,7 @@
     "dropzone": "^5.1.1",
     "mdi": "^2.0.46",
     "vue-material": "^0.7.4",
+    "vue-rangedate-picker": "^0.3.2",
     "vue-slider-component": "^2.4.1",
     "vue-spinner": "^1.0.2"
   }
