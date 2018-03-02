@@ -10859,6 +10859,10 @@ table.table tfoot tr {
   -webkit-transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
   transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
 }
+.input-group--text-field input::-ms-input-placeholder {
+  -webkit-transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+  transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+}
 .input-group--text-field input::placeholder {
   -webkit-transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
   transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
@@ -10914,6 +10918,9 @@ table.table tfoot tr {
   opacity: 0;
 }
 .input-group--text-field.input-group--placeholder:not(.input-group--focused):not(.input-group--dirty) input:-ms-input-placeholder {
+  opacity: 0;
+}
+.input-group--text-field.input-group--placeholder:not(.input-group--focused):not(.input-group--dirty) input::-ms-input-placeholder {
   opacity: 0;
 }
 .input-group--text-field.input-group--placeholder:not(.input-group--focused):not(.input-group--dirty) input::placeholder {

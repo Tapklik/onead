@@ -525,6 +525,45 @@
                                     </td>
                                     <td>
                                         <v-dialog 
+                                        v-model="props.item.show_preview" 
+                                        lazy 
+                                        :width="props.item.w + 80"
+                                        max-width="100%"
+                                        >
+                                            <v-btn 
+                                            icon 
+                                            class="grey--text" 
+                                            slot="activator">
+                                                <v-icon>search</v-icon>
+                                            </v-btn>
+                                            <v-card>
+                                                <v-card-title>
+                                                    <h4>Preview</h4>
+                                                </v-card-title>
+                                                <v-divider></v-divider>
+                                                <v-card-text>
+                                                    <v-layout row wrap>
+                                                        <v-flex 
+                                                        xs12 
+                                                        class="valign-wrapper px-4" 
+                                                        v-html="getPreview(props.item)"
+                                                        ></v-flex>
+                                                    </v-layout>
+                                                </v-card-text>
+                                                <v-divider></v-divider>
+                                                <v-card-actions>
+                                                    <v-spacer></v-spacer>
+                                                    <v-btn 
+                                                    class="elevation-0" 
+                                                    @click="props.item.show_preview = false"
+                                                    >
+                                                        <v-icon>close</v-icon>
+                                                        Cancel
+                                                    </v-btn>
+                                                </v-card-actions>
+                                            </v-card>
+                                        </v-dialog>
+                                        <v-dialog 
                                         v-model="props.item.show_modal" 
                                         lazy 
                                         absolute width="400px"
@@ -708,7 +747,7 @@
                 if (this.dropzone !== false) return;
 
                 this.dropzone = new Dropzone("#uploader", {
-                    url: this.$root.uri + '/v1/core/upload',
+                    url: this.$root.uri + '/creatives',
                     paramName: 'file',
                     maxFilesize: 2,
                     acceptedFiles: 'image/*, application/zip',
@@ -747,6 +786,7 @@
 
             changeFoldersAndCreativesData(data) {
                 for(var index in data) Vue.set(data[index], 'show_modal', false); //add datapoint
+                for(var index in data) Vue.set(data[index], 'show_preview', false); //add datapoint
                 return data;
             },
 
@@ -915,6 +955,21 @@
             },
 
             //CREATIVES
+            getPreview(creative) {
+                var html5 = creative.class != 'html5' ? false : true;
+                var validate = '';
+                if(html5) {
+                    validate = creative.adm_iframe;
+                    var adm_url_replacement = 'ct=' + encodeURIComponent(creative.adm_url) + '?preview=1';
+                    var result = validate.replace('{{ADM_URL}}', adm_url_replacement);
+                    return result;
+                } else {
+                    validate = creative.adm;
+                    var result = validate.replace('{{ADM_URL}}', creative.adm_url + '?preview=1');
+                    return result;
+                }
+            },
+
             getFolderCreatives(folder_id) {
                 this.creatives_table_loading = true; 
 
