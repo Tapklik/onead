@@ -65,7 +65,7 @@
                     class="elevation-0"
                     @click="toggleModal()"
                     >
-                    <v-icon>close</v-icon>                                    
+                        <v-icon>close</v-icon>                                    
                         Cancel
                     </v-btn>
                     <v-btn
@@ -96,6 +96,30 @@
         <span class="ml-2 mr-1 grey--text text--lighten1">
             $ {{ $currency.formatNumber($currency.fromMicroDollars(balance + flight)) }}
         </span>
+        <v-menu offset-y left>
+            <v-btn 
+            icon 
+            class="grey--text text--lighten2"
+            slot="activator"
+            >
+                <v-icon :primary="number_of_notifications > 0">
+                    {{ number_of_notifications > 0 ? 'notifications_active' : 'notifications' }}
+                </v-icon>
+            </v-btn>
+            <v-list style="padding: 0px">
+                <v-list-tile two-line v-for="notification in notifications" :key="notification.schedule" @click="">
+                    <v-list-tile-avatar>
+                        <v-avatar>
+                            <v-icon primary>{{notification.seen ? 'notifications_none' : 'notifications'}}</v-icon>
+                        </v-avatar>
+                    </v-list-tile-avatar>
+                    <v-list-tile-content>                    
+                        <v-list-tile-title>{{ notification.message }}</v-list-tile-title>
+                        <v-list-tile-sub-title>{{ notification.schedule }}</v-list-tile-sub-title>
+                    </v-list-tile-content>
+                </v-list-tile>
+            </v-list>
+        </v-menu>
         <v-btn 
         icon 
         class="grey--text text--lighten2" 
@@ -103,6 +127,14 @@
         >
             <v-icon>settings</v-icon>
         </v-btn>
+        <v-snackbar
+        :timeout="timeout"
+        top
+        v-model="snackbar"
+        >
+            You have {{ number_of_notifications }} unseen notifications
+            <v-btn flat primary @click.native="snackbar = false">Close</v-btn>
+        </v-snackbar>
         <v-btn 
         icon 
         class="grey--text text--lighten2" 
@@ -127,6 +159,28 @@
         
         data() {
             return {
+                //snackbar
+                snackbar: true,
+                timeout: 2500,
+                notifications: [
+                    {
+                        schedule: 'Hello',
+                        message: 'Motherfucker',
+                        seen: 0
+                    },
+                    {
+                        schedule: 'Sup',
+                        message: 'Piece of Shit',
+                        seen: 1
+                    },
+                    {
+                        schedule: 'Yo',
+                        message: 'Nigguhh',
+                        seen: 1
+                    }
+                ],
+                number_of_notifications: 1,
+
                 //BUG REPORT
                 new_bug: {
                     description: '',
@@ -145,6 +199,18 @@
         props: ['user'],
 
         methods: {
+            //NOTIFICATIONS
+            getNotifications() {
+                axios.get(
+                    this.$root.uri + '/core/notifications',
+                    this.$root.config
+                ).then(response => {
+                        this.notifications = response.data.data;
+                    },error => {
+                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                    }
+                );
+            },
 
             //BUG REPORT
             toggleModal() {
@@ -186,7 +252,6 @@
                 );
             },
 
-
             getAccountBalance() {
                 axios.get(
                     this.$root.uri + '/accounts/' + this.user.accountUuId + '/banker/main?query=balance', 
@@ -225,7 +290,16 @@
                 this.getAccountFlight();
                 this.getAccountBalance();
                 this.getAccountName();
+                //this.getNotifications();
             },
+
+            notifications(value) {
+                this.number_of_notifications = value.length;
+            },
+
+            number_of_notifications(value) {
+                if(value > 0) this.snackbar = true;
+            }
         }
     }
 </script>
