@@ -235,7 +235,7 @@
                                         >
                                             <template 
                                             slot="selection" 
-                                            scope="data"
+                                            slot-scope="data"
                                             ></template>
                                         </v-select>
                                     </v-flex>

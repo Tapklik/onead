@@ -143,10 +143,10 @@
                         </v-btn>
                     </v-card-title>
                     <v-data-table v-bind:items="campaigns" hide-actions>
-                        <template slot="headers" scope="props">
+                        <template slot="headers" slot-scope="props">
                             &nbsp;
                         </template>
-                        <template slot="items" scope="props">
+                        <template slot="items" slot-scope="props">
                             <td>
                                 <span class="title">{{ props.item.name }}</span>
                             </td>
@@ -185,10 +185,10 @@
                         </v-btn>
                     </v-card-title>
                     <v-data-table v-bind:items="creatives"  hide-actions>
-                        <template slot="headers" scope="props">
+                        <template slot="headers" slot-scope="props">
                             &nbsp;
                         </template>
-                        <template slot="items" scope="props">
+                        <template slot="items" slot-scope="props">
                             <td>
                                 <span class="title">{{ props.item.name }}</span>
                             </td>
@@ -234,10 +234,10 @@
                         <v-spacer></v-spacer>
                     </v-card-title>
                     <v-data-table v-bind:items="logs" hide-actions>
-                        <template slot="headers" scope="props">
+                        <template slot="headers" slot-scope="props">
                             &nbsp;
                         </template>
-                        <template slot="items" scope="props">
+                        <template slot="items" slot-scope="props">
                             <td>
                             <v-icon>person</v-icon>
                             </td>

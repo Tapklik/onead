@@ -92,10 +92,10 @@
             v-bind:rows-per-page-items="[10, 25, { value: -1 }]"
             class="no-headers"
             >
-                <template slot="headers" scope="props">
+                <template slot="headers" slot-scope="props">
                     &nbsp;
                 </template>
-                <template slot="items" scope="props">
+                <template slot="items" slot-scope="props">
                     <td>
                         <span class="title">
                             {{ props.item.name }}
@@ -197,7 +197,7 @@
                         </v-btn>
                     </td>
                 </template>
-                <template slot="pageText" scope="{ pageStart, pageStop }">
+                <template slot="pageText" slot-scope="{ pageStart, pageStop }">
                     From {{ pageStart }} to {{ pageStop }}
                 </template>
             </v-data-table>

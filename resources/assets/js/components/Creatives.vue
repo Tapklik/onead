@@ -392,10 +392,10 @@
                         hide-actions 
                         class="no-headers creatives-explorer"
                         >
-                            <template slot="headers" scope="props">
+                            <template slot="headers" slot-scope="props">
                                 &nbsp;
                             </template>
-                            <template slot="items" scope="props">
+                            <template slot="items" slot-scope="props">
                                 <tr :active="props.selected">
                                     <td width="40" class="text-xs-right clickable" @click="openFolder(props.item)">
                                         <v-icon>folder</v-icon>
@@ -494,10 +494,10 @@
                         class="creatives-explorer no-headers" 
                         v-bind:rows-per-page-items="[10, 25, { value: -1 }]"
                         >
-                            <template slot="headers" scope="props">
+                            <template slot="headers" slot-scope="props">
                                 &nbsp;
                             </template>
-                            <template slot="items" scope="props">
+                            <template slot="items" slot-scope="props">
                                 <tr
                                 @mouseenter="togglePreview(props.item, true)"
                                 @mouseleave="togglePreview(props.item, false)"
@@ -618,7 +618,7 @@
                                     </td>
                                 </tr>
                             </template>
-                            <template slot="pageText" scope="{ pageStart, pageStop }">
+                            <template slot="pageText" slot-scope="{ pageStart, pageStop }">
                                 From {{ pageStart }} to {{ pageStop }}
                             </template>
                         </v-data-table>
@@ -958,7 +958,7 @@
             getPreview(creative) {
                 var html5 = creative.class != 'html5' ? false : true;
                 var validate = '';
-                var url = creative.ctrurl == null ? creative.adm_url : creative.ctrurl;
+                var url = creative.adm_url == null ? creative.ctrurl : creative.adm_url;
                 if(html5) {
                     validate = creative.adm_iframe;
                     var adm_url_replacement = 'ct=' + encodeURIComponent(url) + '?preview=1';

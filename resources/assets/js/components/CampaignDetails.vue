@@ -232,7 +232,7 @@
                                                     <span class="title">Plan Preview</span>
                                                     <p class="caption ma-0">Here you can see your weekly budget pacing plan</p>
                                                     <v-data-table class="mt-4 @blurpacing-preview" :items="times" hide-actions>
-                                                        <template slot="headers" scope="props">
+                                                        <template slot="headers" slot-scope="props">
                                                             <th>Time</th>
                                                             <th class="pa-0">S</th>
                                                             <th class="pa-0">M</th>
@@ -242,7 +242,7 @@
                                                             <th class="pa-0">F</th>
                                                             <th class="pa-0">S</th>
                                                         </template>
-                                                        <template slot="items" scope="props">
+                                                        <template slot="items" slot-scope="props">
                                                             <tr>
                                                                 <th class="caption pa-0">{{ props.item }}</th>
                                                                 <td 

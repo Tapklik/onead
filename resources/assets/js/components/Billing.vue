@@ -35,10 +35,10 @@
                 v-bind:items="filteredBills"
                 v-bind:rows-per-page-items="[10, 25, { text: 'All', value: -1 }]"
                 class="no-headers">
-                    <template slot="headers" scope="props">
+                    <template slot="headers" slot-scope="props">
                         &nbsp;
                     </template>
-                    <template slot="items" scope="props">
+                    <template slot="items" slot-scope="props">
                         <td width="40px">
                             <v-chip v-if="props.item.id.debit == 0" small class="green white--text">
                                 <v-icon class="white--text">add</v-icon>
@@ -295,7 +295,7 @@
                             </v-dialog>
                         </td>
                     </template>
-                    <template slot="pageText" scope="{ pageStart, pageStop }">
+                    <template slot="pageText" slot-scope="{ pageStart, pageStop }">
                         From {{ pageStart }} to {{ pageStop }}
                     </template>
                 </v-data-table>

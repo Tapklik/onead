@@ -93,7 +93,7 @@
                         single-line
                         autocomplete
                         >
-                            <template slot="item" scope="data">
+                            <template slot="item" slot-scope="data">
                                 <v-list-tile-avatar>
                                     <img v-bind:src='"/images/flags/" + data.item.country_iso2 + ".png"'/>
                                 </v-list-tile-avatar>
@@ -102,7 +102,7 @@
                                     <v-list-tile-sub-title v-html="data.item.comment"></v-list-tile-sub-title>
                                 </v-list-tile-content>
                             </template>
-                            <template slot="selection" scope="data">
+                            <template slot="selection" slot-scope="data">
                             </template>
                         </v-select>
                         <v-chip 
