@@ -102,21 +102,35 @@
             class="grey--text text--lighten2"
             slot="activator"
             >
-                <v-icon :primary="number_of_notifications > 0">
+                <v-icon>
                     {{ number_of_notifications > 0 ? 'notifications_active' : 'notifications' }}
                 </v-icon>
+                <div v-show="number_of_notifications > 0" style="background-color: #ef6c00; color: white; border-radius:5px; margin-left: -8px; margin-bottom: -15px; padding-left: 5px; padding-right: 5px;">
+                    {{ number_of_notifications }}
+                </div>
             </v-btn>
-            <v-list style="padding: 0px">
-                <v-list-tile two-line v-for="notification in notifications" :key="notification.schedule" @click="">
+            <v-list>
+                <v-list-tile ripple avatar v-for="notification in notifications" :key="notification.schedule" @click="">
                     <v-list-tile-avatar>
                         <v-avatar>
-                            <v-icon primary>{{notification.seen ? 'notifications_none' : 'notifications'}}</v-icon>
+                            <v-icon primary>{{notification.seen ? 'create_new_folder' : 'add_to_queue'}}</v-icon>
                         </v-avatar>
                     </v-list-tile-avatar>
                     <v-list-tile-content>                    
                         <v-list-tile-title>{{ notification.message }}</v-list-tile-title>
                         <v-list-tile-sub-title>{{ notification.schedule }}</v-list-tile-sub-title>
                     </v-list-tile-content>
+                    <v-list-tile-action>
+                        <v-list-tile-action-text>{{ notification.time }}</v-list-tile-action-text>
+                        <v-icon primary>{{notification.seen ? 'star_border' : 'star'}}</v-icon>
+                    </v-list-tile-action>
+                </v-list-tile>
+                <v-divider></v-divider>
+                <v-divider></v-divider>
+                <v-list-tile>
+                    <a href="">Something else</a>
+                    <v-spacer></v-spacer>
+                    <a href="#" @click="number_of_notifications = 0">Mark all as read</a>
                 </v-list-tile>
             </v-list>
         </v-menu>
@@ -127,14 +141,6 @@
         >
             <v-icon>settings</v-icon>
         </v-btn>
-        <v-snackbar
-        :timeout="timeout"
-        top
-        v-model="snackbar"
-        >
-            You have {{ number_of_notifications }} unseen notifications
-            <v-btn flat primary @click.native="snackbar = false">Close</v-btn>
-        </v-snackbar>
         <v-btn 
         icon 
         class="grey--text text--lighten2" 
@@ -159,24 +165,25 @@
         
         data() {
             return {
-                //snackbar
-                snackbar: true,
-                timeout: 2500,
+                //NOTIFICATIONS
                 notifications: [
                     {
-                        schedule: 'Hello',
-                        message: 'Motherfucker',
-                        seen: 0
+                        schedule: 'New Campaign',
+                        message: 'User Halid has created a new campaign with an id of #12D56RT',
+                        seen: 0,
+                        time: '2hr'
                     },
                     {
-                        schedule: 'Sup',
-                        message: 'Piece of Shit',
-                        seen: 1
+                        schedule: 'New Creative',
+                        message: 'User Halid has created a new creative with an id of #12D56RT',
+                        seen: 1,
+                        time: '15m'
                     },
                     {
-                        schedule: 'Yo',
-                        message: 'Nigguhh',
-                        seen: 1
+                        schedule: 'Update Campaign',
+                        message: 'User Halid has updated a campaign with an id of #12D56RT',
+                        seen: 1,
+                        time: '2d'
                     }
                 ],
                 number_of_notifications: 1,
