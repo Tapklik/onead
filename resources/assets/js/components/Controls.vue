@@ -128,8 +128,6 @@
                 <v-divider></v-divider>
                 <v-divider></v-divider>
                 <v-list-tile>
-                    <a href="">Something else</a>
-                    <v-spacer></v-spacer>
                     <a href="#" @click="number_of_notifications = 0">Mark all as read</a>
                 </v-list-tile>
             </v-list>
