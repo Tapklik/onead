@@ -259,7 +259,7 @@ export default {
             ).then(response => {
 
                 }, error => {
-                    this.$root.showAlertPopUp('error', 'Something went wrong');
+                    this.$root.showAlertPopUp('error', 'Can not update campaign creatives.');
                 }
             );
         },
@@ -271,7 +271,7 @@ export default {
                     this.loading = false;
                 }
             }, error => {
-                this.$root.showAlertPopUp('error', 'Something went wrong');
+                this.$root.showAlertPopUp('error', 'Can not access ad groups.');
             });
         },
 
@@ -292,7 +292,7 @@ export default {
                 this.creatives = response.data;
                 this.loading=false;
             }, error => {                  
-                this.$root.showAlertPopUp('error', 'Something went wrong');
+                this.$root.showAlertPopUp('error', 'Can not access creatives');
                 this.loading=false;
             });
         }

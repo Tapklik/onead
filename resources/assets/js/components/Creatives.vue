@@ -800,7 +800,7 @@
                             this.$root.showAlertPopUp('error', 'You have no ad groups. You should create an ad group in the creatives tab by pressing the "New Ad Group" button');
                         }
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Error fetching folders.');
+                        this.$root.showAlertPopUp('error', 'Can not access folders.');
                     }
                 );
             },
@@ -826,7 +826,7 @@
                         this.new_creative_button_loading = false;
 
                         if(file.status != 'success') {
-                            this.$root.showAlertPopUp('error', 'Error uploading the creative.');
+                            this.$root.showAlertPopUp('error', 'Can not upload new creative.');
                         }
                         else {
                             this.$root.showAlertPopUp('success', 'Uploaded successfully');
@@ -894,7 +894,7 @@
                         this.createFolderFlag = false;
                         this.$root.showAlertPopUp('success', 'You have successfully created a new folder.');
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Error creating folder.');
+                        this.$root.showAlertPopUp('error', 'Can not create new folder.');
                     }
                 );
             },
@@ -912,7 +912,7 @@
                         this.folders_table_loading = false;
                     }, error => {
                         this.folders_table_loading = false;
-                        this.$root.showAlertPopUp('error', 'Error fetching folders.');
+                        this.$root.showAlertPopUp('error', 'Can not access folders.');
                     }
                 );
             },
@@ -948,7 +948,7 @@
                         this.getFolders();
                     }, error => {
                         this.folders_table_loading = false;
-                        this.$root.showAlertPopUp('error', 'Something went wrong.');
+                        this.$root.showAlertPopUp('error', 'Can not delete folder.');
                         this.getFolders();
                     }
                 );
@@ -982,7 +982,7 @@
                         this.creatives_table_loading = false;
                     }, error => {
                         this.creatives_table_loading = false;
-                        this.$root.showAlertPopUp('error', 'Something went wrong.');
+                        this.$root.showAlertPopUp('error', 'Can not access creatives.');
                     }
                 );
             },
@@ -997,7 +997,7 @@
                         this.$root.showAlertPopUp('success', 'You have successfully deleted ' + creative_name + '.');
                         this.getFolderCreatives(this.current_folder.id);
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong.');
+                        this.$root.showAlertPopUp('error', 'Can not access creatives.');
                         this.getFolderCreatives(this.current_folder.id);
                     }
                 );

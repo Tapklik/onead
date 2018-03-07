@@ -480,7 +480,7 @@
                         this.overall_data = response.data.data;
                         this.createChart('chart_main', this.overall_data, this.column, this.line);
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong.');
+                        this.$root.showAlertPopUp('error', 'Can not access overall static graph data.');
                     }
                 );
             },
@@ -590,7 +590,7 @@
                             this.overall_summary = response.data.data;
                         }
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong.');
+                        this.$root.showAlertPopUp('error', 'Can not access overall data.');
                     }
                 );
             },
@@ -603,7 +603,7 @@
                 ).then(response => {
                         this.folders = response.data.data;
                     }, error => {     
-                        this.$root.showAlertPopUp('error', 'Something went wrong.');
+                        this.$root.showAlertPopUp('error', 'Can not access ad groups');
                     }
                 );
             },
@@ -619,7 +619,7 @@
                             this.creatives.push(response.data.data);
                             this.creatives = [].concat.apply([], this.creatives);
                         }, error => {
-                            this.$root.showAlertPopUp('error', 'Something went wrong.');
+                            this.$root.showAlertPopUp('error', 'Can not access creatives.');
                         }
                     );
                 }
@@ -635,7 +635,7 @@
                         campaigns = campaigns.filter(campaign => campaign.status == 'active');
                         this.campaigns = this.filterDataSize(5, campaigns, true);
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong.');
+                        this.$root.showAlertPopUp('error', 'Can not access campaigns');
                     }
                 );
             },
@@ -648,7 +648,7 @@
                 ).then(response => {
                         this.logs = this.filterDataSize(5, response.data.data);
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong.');
+                        this.$root.showAlertPopUp('error', 'Can not access logs.');
                     }
                 );
             },

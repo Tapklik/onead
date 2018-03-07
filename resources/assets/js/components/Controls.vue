@@ -212,7 +212,7 @@
                 ).then(response => {
                         this.notifications = response.data.data;
                     },error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                        this.$root.showAlertPopUp('error', 'Can not access notifications.');
                     }
                 );
             },
@@ -239,7 +239,7 @@
                 ).then(response => {
                         this.$root.showAlertPopUp('success', 'You have successfully sent the bug report');
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                        this.$root.showAlertPopUp('error', 'Can not create bug report.');
                     }
                 );
             },
@@ -264,7 +264,7 @@
                 ).then(response => {
                         this.balance = response.data.data.balance;
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                        this.$root.showAlertPopUp('error', 'Can not access account balance.');
                     }
                 );
             },
@@ -276,7 +276,7 @@
                 ).then(response => {
                         this.flight = response.data.data.balance;
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                        this.$root.showAlertPopUp('error', 'Can not access account flight.');
                     }
                 );
             }

@@ -221,7 +221,7 @@
                 ).then(response => {
                         this.user_details = response.data.data;
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong.');
+                        this.$root.showAlertPopUp('error', 'Can not access user details.');
                     }
                 );
             },
@@ -276,12 +276,12 @@
                     this.$root.config
                 ).then(response => {
                     this.clearPasswordModal();
-                    this.$root.showAlertPopUp('success', 'Succesful.');
+                    this.$root.showAlertPopUp('success', 'Succesfuly updated password.');
                     this.password_change_button_loading = false;
                     this.show_password_modal = false;
                 }, error => {
                     this.clearPasswordModal();
-                    this.$root.showAlertPopUp('error', 'Something went wrong.');
+                    this.$root.showAlertPopUp('error', 'Can not update password.');
                     this.password_change_button_loading = false;
                     this.show_password_modal= false;
                 });
@@ -309,7 +309,7 @@
                 ).then(response => {
                         this.user_settings_button_loading = false;
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong.');
+                        this.$root.showAlertPopUp('error', 'Can not update user details.');
                         this.user_settings_button_loading = false;
                     }
                 );

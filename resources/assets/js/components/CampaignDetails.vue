@@ -470,7 +470,7 @@
                 ).then(response => {
                 
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                        this.$root.showAlertPopUp('error', 'Can not update campaign details.');
                     }
                 );  
             },
@@ -485,7 +485,7 @@
                 ).then(response => {
                 
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                        this.$root.showAlertPopUp('error', 'Can not update campaign budget details.');
                     }
                 );
             },

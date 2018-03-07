@@ -156,7 +156,7 @@
                 ).then(response => {
                         this.countries = response.data;
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong.');
+                        this.$root.showAlertPopUp('error', 'Can not access countries.');
                     }
                 );
             },
@@ -167,7 +167,7 @@
                 ).then(response => {
                         this.timezones = response.data;
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong.');
+                        this.$root.showAlertPopUp('error', 'Can not access timezones.');
                     }
                 );
             },
@@ -180,7 +180,7 @@
                 ).then( response => {
                         this.account = response.data.data;
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong.');
+                        this.$root.showAlertPopUp('error', 'Can not access account.');
                     }
                 );
             },
@@ -209,7 +209,7 @@
                         this.$root.showAlertPopUp('success', 'Successful.');
                     }, error => {
                         this.account_settings_button_loading = false; 
-                        this.$root.showAlertPopUp('error', 'Something went wrong.');
+                        this.$root.showAlertPopUp('error', 'Can not update account.');
                     }
                 );
             }

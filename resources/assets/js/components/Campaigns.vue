@@ -283,7 +283,7 @@
                 ).then(response => {
                         this.getCampaigns();
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                        this.$root.showAlertPopUp('error', 'Can not toggle campaign status.');
                     }
                 );
             },
@@ -309,7 +309,7 @@
                     this.campaigns_table_loading = false;
                 }, error => {
                     this.campaigns_table_loading = false;
-                    this.$root.showAlertPopUp('error', 'Something went wrong');
+                    this.$root.showAlertPopUp('error', 'Can not access campaigns.');
                 })
             },
 
@@ -327,7 +327,7 @@
                     }, error => {
                         campaign.delete_button_loading = false;
                         campaign.show_modal = false;
-                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                        this.$root.showAlertPopUp('error', 'Can not archive campaign.');
                     }
                 );
             },
@@ -341,7 +341,7 @@
                 ).then(response => {
                         this.getCampaigns();
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                        this.$root.showAlertPopUp('error', 'Can not delete campaign.');
                     }
                 );
             }

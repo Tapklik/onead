@@ -81,7 +81,7 @@
                 ).then(response => {
                         this.categories = response.data;
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                        this.$root.showAlertPopUp('error', 'Can not access categories.');
                     }
                 );
             },
@@ -97,7 +97,7 @@
                 ).then(response => {
 
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                        this.$root.showAlertPopUp('error', 'Can not update campaign categories.');
                     }
                 );
             }

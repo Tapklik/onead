@@ -205,7 +205,7 @@
                     this.$root.config
                 ).then(response => {
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                        this.$root.showAlertPopUp('error', 'Can not update campaign user details.');
                     }
                 );
             },
@@ -217,7 +217,7 @@
                 ).then(response=> {
                         this.campaign.exchange.data = response.data.data.map(exchange => exchange.id);
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                        this.$root.showAlertPopUp('error', 'Can not access campaign exchanges.');
                     }
                 );
             },
@@ -231,7 +231,7 @@
                 ).then(response => {
                         this.updateDraftTypes();
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                        this.$root.showAlertPopUp('error', 'Can not update campaign exchanges.');
                     }
                 )
             },
@@ -245,7 +245,7 @@
                 ).then(response => {
                         this.updateDraftUser();
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                        this.$root.showAlertPopUp('error', 'Can not update campaign device types.');
                     }
                 );
             },
@@ -259,7 +259,7 @@
                         this.getExchanges();
                         this.campaign.id = response.data.data.id;
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                        this.$root.showAlertPopUp('error', 'Can not Create new draft.');
                     }
                 );
             },

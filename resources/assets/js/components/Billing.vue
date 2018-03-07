@@ -345,7 +345,7 @@
                     this.$root.showAlertPopUp('success', 'You have created a bill successfully.');
 
                 }, error => {
-                    this.$root.showAlertPopUp('error', 'Something went wrong');
+                    this.$root.showAlertPopUp('error', 'Can not create new bill.');
                 });
             },
 
@@ -362,7 +362,7 @@
                     this.bills = response.data.data;
                     this.billLoader = false;
                 }, error => {
-                    this.$root.showAlertPopUp('error', 'Something went wrong');
+                    this.$root.showAlertPopUp('error', 'Can not access bills.');
                     this.billLoader = false;
                 });
             }

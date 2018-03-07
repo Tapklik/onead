@@ -162,7 +162,7 @@
                         var results = response.data.data.billing;
                         this.assignBillingDetails(results);
                     }, error => {
-                        this.showAlertPopUp('error', 'Something went wrong.');
+                        this.showAlertPopUp('error', 'Can not access billing details.');
                     }
                 );
             },
@@ -178,7 +178,7 @@
                         this.$root.showAlertPopUp('success', 'Updated billing details successfully');
                         this.billing_button_loading = false;
                     }, error => {
-                        this.showAlertPopUp('error', 'Something went wrong.');
+                        this.showAlertPopUp('error', 'Can not update billing details.');
                         this.billing_button_loading = false;
                     }
                 );

@@ -279,7 +279,7 @@
                 ).then(response => {
                         this.geo = response.data.data;
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                        this.$root.showAlertPopUp('error', 'Can not access geo.');
                     }
                 );
             },
@@ -307,7 +307,7 @@
                     { os: this.campaign.device.data.os }, 
                     this.$root.config).then(response => {
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                        this.$root.showAlertPopUp('error', 'Can not update campaign device os.');
                     }
                 );
             },
@@ -320,7 +320,7 @@
                     this.$root.config
                 ).then(response => {
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                        this.$root.showAlertPopUp('error', 'Can not update campaign device model.');
                     }
                 );
 
@@ -334,7 +334,7 @@
                     this.$root.config
                 ).then(response => {
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                        this.$root.showAlertPopUp('error', 'Can not update campaign device types.');
                     }
                 );
             },
@@ -353,7 +353,7 @@
                 ).then(response => {
                 
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                        this.$root.showAlertPopUp('error', 'Can not update campaign geo.');
                     }
                 );
             },
@@ -370,7 +370,7 @@
                     this.$root.config
                 ).then(response => {
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                        this.$root.showAlertPopUp('error', 'Can not update campaign user.');
                     }
                 );
             }
