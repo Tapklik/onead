@@ -118,11 +118,11 @@
                     </v-list-tile-avatar>
                     <v-list-tile-content>                    
                         <v-list-tile-title>{{ notification.message }}</v-list-tile-title>
-                        <v-list-tile-sub-title>{{ notification.schedule }}</v-list-tile-sub-title>
+                        <v-list-tile-sub-title>Notification</v-list-tile-sub-title>
                     </v-list-tile-content>
                     <v-list-tile-action>
-                        <v-list-tile-action-text>{{ notification.time }}</v-list-tile-action-text>
-                        <v-icon primary>{{notification.seen ? 'star_border' : 'star'}}</v-icon>
+                        <v-list-tile-action-text v-html="changeCreatedAtNotifications(notification)"></v-list-tile-action-text>
+                        <v-icon primary>{{notification.status == 1 ? 'star_border' : 'star'}}</v-icon>
                     </v-list-tile-action>
                 </v-list-tile>
                 <v-divider></v-divider>
@@ -164,27 +164,8 @@
         data() {
             return {
                 //NOTIFICATIONS
-                notifications: [
-                    {
-                        schedule: 'New Campaign',
-                        message: 'User Halid has created a new campaign with an id of #12D56RT',
-                        seen: 0,
-                        time: '2hr'
-                    },
-                    {
-                        schedule: 'New Creative',
-                        message: 'User Halid has created a new creative with an id of #12D56RT',
-                        seen: 1,
-                        time: '15m'
-                    },
-                    {
-                        schedule: 'Update Campaign',
-                        message: 'User Halid has updated a campaign with an id of #12D56RT',
-                        seen: 1,
-                        time: '2d'
-                    }
-                ],
-                number_of_notifications: 1,
+                notifications: [],
+                number_of_notifications: 0,
 
                 //BUG REPORT
                 new_bug: {
@@ -207,7 +188,7 @@
             //NOTIFICATIONS
             getNotifications() {
                 axios.get(
-                    this.$root.uri + '/core/notifications',
+                    this.$root.uri + '/core/notifications/' + this.user.id,
                     this.$root.config
                 ).then(response => {
                         this.notifications = response.data.data;
@@ -215,6 +196,41 @@
                         this.$root.showAlertPopUp('error', 'Can not access notifications.');
                     }
                 );
+            },
+
+            createNotification() {
+                var today = new Date();
+                var created_at = today.getTime() / 1000;
+                var payload = {
+                    service: ['onead'],
+                    message: 'Some message',
+                    users: [this.user.id],
+                    created_at: created_at.toString()
+                }
+
+                axios.post(
+                    this.$root.uri + '/core/notifications',
+                    {config: payload},
+                    this.$root.config
+                ).then(response => {
+
+                }, error => {
+
+                });
+            },
+
+            changeCreatedAtNotifications(notification) {
+                var creation = new Date(notification.created_at);
+                var now = new Date();
+                if(creation.getDate() < now.getDate()) {
+                    return (now.getDate() - creation.getDate()) + 'dy';
+                }
+                else if(creation.getHours() < now.getHours()) {
+                    return (now.getHours() - creation.getHours()) + 'hr';
+                }
+                else if(creation.getMinutes() < now.getMinutes()) {
+                    return (now.getMinutes() - creation.getMinutes()) + 'm';
+                }
             },
 
             //BUG REPORT
@@ -295,7 +311,8 @@
                 this.getAccountFlight();
                 this.getAccountBalance();
                 this.getAccountName();
-                //this.getNotifications();
+                this.createNotification();
+                this.getNotifications();
             },
 
             notifications(value) {
