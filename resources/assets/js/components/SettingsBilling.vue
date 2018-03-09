@@ -175,6 +175,7 @@
                     this.billing, 
                     this.$root.config
                 ).then( response => {
+                        this.$root.createNotification(this.$root.user.name + ' has updated the billing details.');
                         this.$root.showAlertPopUp('success', 'Updated billing details successfully');
                         this.billing_button_loading = false;
                     }, error => {

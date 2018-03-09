@@ -826,6 +826,7 @@
                         this.new_creative_button_loading = false;
 
                         if(file.status != 'success') {
+                            this.$root.createNotification(this.$root.user.name + ' has uploaded creative ' + this.new_creative.name + '.');
                             this.$root.showAlertPopUp('error', 'Can not upload new creative.');
                         }
                         else {
@@ -884,6 +885,8 @@
 
             //NEW FOLDER
             createNewFolder() {
+                var folder_name = this.new_folder.name;
+
                 axios.post(
                     this.$root.uri + '/creatives/folders', 
                     this.new_folder, 
@@ -891,7 +894,7 @@
                 ).then(response => {
                         this.getFolders();
                         this.current_folder = {};
-                        this.createFolderFlag = false;
+                        this.$root.createNotification(this.$root.user.name + ' has created a new folder ' + folder_name + '.');
                         this.$root.showAlertPopUp('success', 'You have successfully created a new folder.');
                     }, error => {
                         this.$root.showAlertPopUp('error', 'Can not create new folder.');
@@ -944,6 +947,7 @@
                     this.$root.config
                 ).then(response => {
                         this.folders_table_loading = false;
+                        this.$root.createNotification(this.$root.user.name + ' has deleted ' + this.campaign.name + '.');
                         this.$root.showAlertPopUp('success', 'You have successfully deleted ' + folder_name + '.');
                         this.getFolders();
                     }, error => {
@@ -995,6 +999,7 @@
                     this.$root.config
                 ).then(response => {
                         this.$root.showAlertPopUp('success', 'You have successfully deleted ' + creative_name + '.');
+                        this.$root.createNotification(this.$root.user.name + ' has deleted ' + creative_name + '.');
                         this.getFolderCreatives(this.current_folder.id);
                     }, error => {
                         this.$root.showAlertPopUp('error', 'Can not access creatives.');

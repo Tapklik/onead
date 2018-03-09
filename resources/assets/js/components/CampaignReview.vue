@@ -346,6 +346,7 @@
                     this.$root.config
                 ).then(response => {
                         this.$root.alertpopup.alertMessage = 'Successfully created a new campaign.';
+                        this.$root.createNotification(this.$root.user.name + ' has created a new campaign.');                        
                         window.location = '/admin/campaigns?m=' + this.$root.alertpopup.alertMessage;
                     }, error => {
                         this.loading = false;
@@ -356,6 +357,7 @@
 
             updateMessage() {
                 this.$root.alertpopup.alertMessage = 'Successfully updated ' + this.campaign.name + '.';
+                this.$root.createNotification(this.$root.user.name + ' has updated ' + this.campaign.name + '.');
                 window.location = '/admin/campaigns?m=' + this.$root.alertpopup.alertMessage;
             },
 

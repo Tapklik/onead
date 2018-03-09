@@ -206,6 +206,7 @@
                     this.$root.config
                 ).then(response => {
                         this.account_settings_button_loading = false; 
+                        this.$root.createNotification(this.$root.user.name + ' has updated the account details.');
                         this.$root.showAlertPopUp('success', 'Successful.');
                     }, error => {
                         this.account_settings_button_loading = false; 

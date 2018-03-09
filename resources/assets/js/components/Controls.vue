@@ -311,7 +311,6 @@
                 this.getAccountFlight();
                 this.getAccountBalance();
                 this.getAccountName();
-                this.createNotification();
                 this.getNotifications();
             },
 

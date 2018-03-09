@@ -257,6 +257,7 @@
                     this.$root.config
                 ).then(response => {
                         this.getExchanges();
+                        this.$root.createNotification(this.$root.user.name + ' has created a campaign draft.');
                         this.campaign.id = response.data.data.id;
                     }, error => {
                         this.$root.showAlertPopUp('error', 'Can not Create new draft.');

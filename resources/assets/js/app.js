@@ -115,6 +115,27 @@ const app = new Vue({
             });
         },
 
+        createNotification(notification_message) {
+            var today = new Date();
+            var created_at = today.getTime() / 1000;
+            var payload = {
+                service: ['onead'],
+                message: notification_message,
+                users: [this.user.id],
+                created_at: created_at.toString()
+            }
+
+            axios.post(
+                this.$root.uri + '/core/notifications',
+                {config: payload},
+                this.$root.config
+            ).then(response => {
+
+            }, error => {
+
+            });
+        },
+
         getUserInfo() {
             axios.get(
                 this.uri + '/accounts/info', 

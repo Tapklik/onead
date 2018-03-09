@@ -281,6 +281,7 @@
                     { status: new_status }, 
                     this.$root.config
                 ).then(response => {
+                        this.$root.createNotification(this.$root.user.name + ' has changed ' + campaign.name + '\'s status.');
                         this.getCampaigns();
                     }, error => {
                         this.$root.showAlertPopUp('error', 'Can not toggle campaign status.');
@@ -334,11 +335,13 @@
 
             deleteCampaign(campaign) {
                 campaign.delete_button_loading = true;
+                var campaign_name = campaign.name;
 
                 axios.delete(
                     this.$root.uri + '/campaigns/' + campaign.id, 
                     this.$root.config
                 ).then(response => {
+                        this.$root.createNotification(this.$root.user.name + ' has successfully deleted campaign ' + campaign_name + '.');
                         this.getCampaigns();
                     }, error => {
                         this.$root.showAlertPopUp('error', 'Can not delete campaign.');
