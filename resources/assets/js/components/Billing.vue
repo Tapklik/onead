@@ -35,10 +35,10 @@
                 v-bind:items="filteredBills"
                 v-bind:rows-per-page-items="[10, 25, { text: 'All', value: -1 }]"
                 class="no-headers">
-                    <template slot="headers" scope="props">
+                    <template slot="headers" slot-scope="props">
                         &nbsp;
                     </template>
-                    <template slot="items" scope="props">
+                    <template slot="items" slot-scope="props">
                         <td width="40px">
                             <v-chip v-if="props.item.id.debit == 0" small class="green white--text">
                                 <v-icon class="white--text">add</v-icon>
@@ -55,8 +55,8 @@
                             <span class="title">{{ props.item.id.timestamp }}</span>
                         </td>
                         <td class="text-xs-right">
-                            <span v-if="props.item.id.debit == 0" class="title"> $ {{$root.fromMicroDollars(props.item.id.credit) }}</span>
-                            <span v-else class="title"> $ {{$root.fromMicroDollars(props.item.id.debit) }}</span>
+                            <span v-if="props.item.id.debit == 0" class="title"> $ {{$currency.fromMicroDollars(props.item.id.credit) }}</span>
+                            <span v-else class="title"> $ {{$currency.fromMicroDollars(props.item.id.debit) }}</span>
                         </td>
                         <td>
                             <v-dialog v-model="props.item.modal" lazy absolute width="1500px">
@@ -133,8 +133,8 @@
                                                     </v-flex>
                                                     <v-flex xs12 md5>
                                                         <v-icon>attach_money</v-icon>
-                                                        <span v-if="props.item.id.credit == 0">{{$root.fromMicroDollars(props.item.id.debit)}}</span>
-                                                        <span v-else>$ {{$root.fromMicroDollars(props.item.id.credit)}}</span>
+                                                        <span v-if="props.item.id.credit == 0">{{$currency.fromMicroDollars(props.item.id.debit)}}</span>
+                                                        <span v-else>$ {{$currency.fromMicroDollars(props.item.id.credit)}}</span>
                                                     </v-flex>
                                                 </v-layout>
                                             </v-flex>
@@ -295,7 +295,7 @@
                             </v-dialog>
                         </td>
                     </template>
-                    <template slot="pageText" scope="{ pageStart, pageStop }">
+                    <template slot="pageText" slot-scope="{ pageStart, pageStop }">
                         From {{ pageStart }} to {{ pageStop }}
                     </template>
                 </v-data-table>
@@ -345,13 +345,13 @@
                     this.$root.showAlertPopUp('success', 'You have created a bill successfully.');
 
                 }, error => {
-                    this.$root.showAlertPopUp('error', 'Something went wrong');
+                    this.$root.showAlertPopUp('error', 'Can not create new bill.');
                 });
             },
 
             collectBill() {
                 return {
-                    credit: this.$root.toMicroDollars(this.payment),
+                    credit: this.$currency.toMicroDollars(this.payment),
                     description: this.paymentMethod,
                     type: "billing"
                 }
@@ -362,7 +362,7 @@
                     this.bills = response.data.data;
                     this.billLoader = false;
                 }, error => {
-                    this.$root.showAlertPopUp('error', 'Something went wrong');
+                    this.$root.showAlertPopUp('error', 'Can not access bills.');
                     this.billLoader = false;
                 });
             }

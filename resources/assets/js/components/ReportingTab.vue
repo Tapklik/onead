@@ -86,7 +86,7 @@
                     :disable-initial-sort="true"
                     >
                         <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
-                        <template slot="items" scope="props">
+                        <template slot="items" slot-scope="props">
                             <td>{{ props.item.date }}</td>
                             <td class="text-xs-right">{{ props.item.imps }}</td>
                             <td class="text-xs-right">{{ props.item.clicks }}</td>

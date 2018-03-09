@@ -1,10 +1,22 @@
 <template>
     <v-card class="tk-select pa-1 elevation-0 grey lighten-4" height="85px" @click="toggleClick()">
-        <div class="tk-select-wrapper" @mouseenter="toggleHover()" @mouseleave="toggleHover()" v-bind:class="{active:
-            checked, hovered: hovering }">         
+        <div 
+        class="tk-select-wrapper" 
+        @mouseenter="toggleHover()" 
+        @mouseleave="toggleHover()" 
+        :class="{active: checked, hovered: hovering }"
+        >         
             <v-icon large :class="textColor">{{ icon }}</v-icon>  
-            <v-checkbox :input-value="checked" :true-value="trueValue" :false-value="falseValue" class="tk-select-checkbox" color="orange darken-4"></v-checkbox>
-            <p class="body-1" :class="textColor"><slot></slot></p>
+            <v-checkbox 
+            :input-value="checked" 
+            :true-value="trueValue" 
+            :false-value="falseValue" 
+            class="tk-select-checkbox" 
+            color="orange darken-4"
+            ></v-checkbox>
+            <p class="body-1" :class="textColor">
+                <slot></slot>
+            </p>
         </div>      
     </v-card>
 </template>
@@ -12,85 +24,9 @@
 <script>
 
 export default {
-
-    props: {
-
-        icon: {
-            type: String,
-            default: null
-        },
-
-        value: {
-            default: null
-        },
-
-        trueValue: {
-            default: true
-        },
-
-        falseValue: {
-            default: false
-        },
-
-        subtitle: {
-            type: String,
-            default: null
-        }
-
-    },
-
-    data: function() {
-        return {
-            hovering: false,
-            checked: function() {
-                return this.parentValue
-            }
-        }
-
-    },
-
-    computed: {
-        inGroup() {
-            return this.$parent.name == "tk-select-list"
-        },
-        parentValue() {
-            return this.$parent.val
-        },
-        textColor() {
-            if (this.checked || this.hovering) {
-                return "orange--text text--darken-4"
-            }
-        }
-    },
-
-    watch: {
-
-        parentValue: function(val) {
-            this.updateFromParent();
-        },
-
-        checked: function(val, old) {
-            var value = val ? this.trueValue : this.falseValue
-            this.$emit('checked', val)
-            this.$emit('input', value)
-            this.updateParent()
-        },
-
-        value: function(val) {
-            if (val === this.trueValue) {
-                this.$emit('input', this.trueValue)
-                return this.checked = true
-            } 
-
-            else {
-                this.$emit('input', this.falseValue)
-                return this.checked = false
-            }
-        }
-    },
-
+    
     created() {
-        if (this.inGroup) {
+        if(this.inGroup) {
             const parent = this.$parent
             if (!(parent.val instanceof Array)) {
                 parent.val = []
@@ -100,6 +36,18 @@ export default {
 
     mounted() {
         this.updateFromParent()
+    },
+
+    props: ['icon', 'value', 'trueValue', 'falseValue', 'subtitle'], 
+
+    data() {
+        return {
+            hovering: false,
+            checked: function() {
+                return this.parentValue
+            }
+        }
+
     },
 
     methods: {
@@ -126,7 +74,46 @@ export default {
         toggleClick() {
             this.checked = !this.checked
         }
+    },
 
+    computed: {
+        inGroup() {
+            return this.$parent.name == "tk-select-list"
+        },
+        parentValue() {
+            return this.$parent.val
+        },
+        textColor() {
+            if (this.checked || this.hovering) {
+                return "orange--text text--darken-4"
+            }
+        }
+    },
+
+    watch: {
+
+        parentValue(val) {
+            this.updateFromParent();
+        },
+
+        checked(val, old) {
+            var value = val ? this.trueValue : this.falseValue
+            this.$emit('checked', val)
+            this.$emit('input', value)
+            this.updateParent()
+        },
+
+        value(val) {
+            if (val === this.trueValue) {
+                this.$emit('input', this.trueValue)
+                return this.checked = true
+            } 
+
+            else {
+                this.$emit('input', this.falseValue)
+                return this.checked = false
+            }
+        }
     }
 }
 </script>

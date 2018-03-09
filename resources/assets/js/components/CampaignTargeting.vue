@@ -35,7 +35,7 @@
                 </v-layout>
                 <v-layout row wrap>
                     <v-flex xs12>
-                            <tk-select-list v-model="campaign.device.data.os">
+                        <tk-select-list v-model="campaign.device.data.os">
                             <tk-select 
                             v-for="technology in technologies.operatingsystems" 
                             :icon="technology.icon" 
@@ -78,21 +78,22 @@
                 <v-layout row wrap xs12>
                     <v-flex xs12>
                         <v-select
-                          :items="geo"
-                          v-model="campaign.geo.data"
-                          :rules="geoRules()"
-                          item-text="key"
-                          return-object
-                          prepend-icon="add_location"
-                          :search-input.sync="search_geo"
-                          @change="showNothing()"
-                          @blur="geo_blurred = true"
-                          label="Country or city name"
-                          hint="Start typing location name to see the list..."
-                          multiple
-                          single-line
-                          autocomplete>
-                            <template slot="item" scope="data">
+                        :items="geo"
+                        v-model="campaign.geo.data"
+                        :rules="geoRules()"
+                        item-text="key"
+                        return-object
+                        prepend-icon="add_location"
+                        :search-input.sync="search_geo"
+                        @change="showNothing()"
+                        @blur="geo_blurred = true"
+                        label="Country or city name"
+                        hint="Start typing location name to see the list..."
+                        multiple
+                        single-line
+                        autocomplete
+                        >
+                            <template slot="item" slot-scope="data">
                                 <v-list-tile-avatar>
                                     <img v-bind:src='"/images/flags/" + data.item.country_iso2 + ".png"'/>
                                 </v-list-tile-avatar>
@@ -101,7 +102,7 @@
                                     <v-list-tile-sub-title v-html="data.item.comment"></v-list-tile-sub-title>
                                 </v-list-tile-content>
                             </template>
-                            <template slot="selection" scope="data">
+                            <template slot="selection" slot-scope="data">
                             </template>
                         </v-select>
                         <v-chip 
@@ -160,7 +161,6 @@
 
 <script>
     import vueSlider from 'vue-slider-component'
-
 
     export default {
 
@@ -279,7 +279,7 @@
                 ).then(response => {
                         this.geo = response.data.data;
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                        this.$root.showAlertPopUp('error', 'Can not access geo.');
                     }
                 );
             },
@@ -307,7 +307,7 @@
                     { os: this.campaign.device.data.os }, 
                     this.$root.config).then(response => {
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                        this.$root.showAlertPopUp('error', 'Can not update campaign device os.');
                     }
                 );
             },
@@ -320,7 +320,7 @@
                     this.$root.config
                 ).then(response => {
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                        this.$root.showAlertPopUp('error', 'Can not update campaign device model.');
                     }
                 );
 
@@ -334,7 +334,7 @@
                     this.$root.config
                 ).then(response => {
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                        this.$root.showAlertPopUp('error', 'Can not update campaign device types.');
                     }
                 );
             },
@@ -353,7 +353,7 @@
                 ).then(response => {
                 
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                        this.$root.showAlertPopUp('error', 'Can not update campaign geo.');
                     }
                 );
             },
@@ -370,7 +370,7 @@
                     this.$root.config
                 ).then(response => {
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                        this.$root.showAlertPopUp('error', 'Can not update campaign user.');
                     }
                 );
             }

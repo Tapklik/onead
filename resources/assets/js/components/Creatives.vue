@@ -392,10 +392,10 @@
                         hide-actions 
                         class="no-headers creatives-explorer"
                         >
-                            <template slot="headers" scope="props">
+                            <template slot="headers" slot-scope="props">
                                 &nbsp;
                             </template>
-                            <template slot="items" scope="props">
+                            <template slot="items" slot-scope="props">
                                 <tr :active="props.selected">
                                     <td width="40" class="text-xs-right clickable" @click="openFolder(props.item)">
                                         <v-icon>folder</v-icon>
@@ -494,10 +494,10 @@
                         class="creatives-explorer no-headers" 
                         v-bind:rows-per-page-items="[10, 25, { value: -1 }]"
                         >
-                            <template slot="headers" scope="props">
+                            <template slot="headers" slot-scope="props">
                                 &nbsp;
                             </template>
-                            <template slot="items" scope="props">
+                            <template slot="items" slot-scope="props">
                                 <tr
                                 @mouseenter="togglePreview(props.item, true)"
                                 @mouseleave="togglePreview(props.item, false)"
@@ -558,7 +558,7 @@
                                                     @click="props.item.show_preview = false"
                                                     >
                                                         <v-icon>close</v-icon>
-                                                        Cancel
+                                                        OK
                                                     </v-btn>
                                                 </v-card-actions>
                                             </v-card>
@@ -618,7 +618,7 @@
                                     </td>
                                 </tr>
                             </template>
-                            <template slot="pageText" scope="{ pageStart, pageStop }">
+                            <template slot="pageText" slot-scope="{ pageStart, pageStop }">
                                 From {{ pageStart }} to {{ pageStop }}
                             </template>
                         </v-data-table>
@@ -800,7 +800,7 @@
                             this.$root.showAlertPopUp('error', 'You have no ad groups. You should create an ad group in the creatives tab by pressing the "New Ad Group" button');
                         }
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Error fetching folders.');
+                        this.$root.showAlertPopUp('error', 'Can not access folders.');
                     }
                 );
             },
@@ -826,7 +826,8 @@
                         this.new_creative_button_loading = false;
 
                         if(file.status != 'success') {
-                            this.$root.showAlertPopUp('error', 'Error uploading the creative.');
+                            this.$root.createNotification(this.$root.user.name + ' has uploaded creative ' + this.new_creative.name + '.');
+                            this.$root.showAlertPopUp('error', 'Can not upload new creative.');
                         }
                         else {
                             this.$root.showAlertPopUp('success', 'Uploaded successfully');
@@ -884,6 +885,8 @@
 
             //NEW FOLDER
             createNewFolder() {
+                var folder_name = this.new_folder.name;
+
                 axios.post(
                     this.$root.uri + '/creatives/folders', 
                     this.new_folder, 
@@ -891,10 +894,10 @@
                 ).then(response => {
                         this.getFolders();
                         this.current_folder = {};
-                        this.createFolderFlag = false;
+                        this.$root.createNotification(this.$root.user.name + ' has created a new ad group ' + folder_name + '.');
                         this.$root.showAlertPopUp('success', 'You have successfully created a new folder.');
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Error creating folder.');
+                        this.$root.showAlertPopUp('error', 'Can not create new folder.');
                     }
                 );
             },
@@ -912,7 +915,7 @@
                         this.folders_table_loading = false;
                     }, error => {
                         this.folders_table_loading = false;
-                        this.$root.showAlertPopUp('error', 'Error fetching folders.');
+                        this.$root.showAlertPopUp('error', 'Can not access folders.');
                     }
                 );
             },
@@ -944,11 +947,12 @@
                     this.$root.config
                 ).then(response => {
                         this.folders_table_loading = false;
+                        this.$root.createNotification(this.$root.user.name + ' has deleted ad group ' + folder_name + '.');
                         this.$root.showAlertPopUp('success', 'You have successfully deleted ' + folder_name + '.');
                         this.getFolders();
                     }, error => {
                         this.folders_table_loading = false;
-                        this.$root.showAlertPopUp('error', 'Something went wrong.');
+                        this.$root.showAlertPopUp('error', 'Can not delete folder.');
                         this.getFolders();
                     }
                 );
@@ -958,14 +962,15 @@
             getPreview(creative) {
                 var html5 = creative.class != 'html5' ? false : true;
                 var validate = '';
+                var url = creative.adm_url == null ? creative.ctrurl : creative.adm_url;
                 if(html5) {
                     validate = creative.adm_iframe;
-                    var adm_url_replacement = 'ct=' + encodeURIComponent(creative.adm_url) + '?preview=1';
+                    var adm_url_replacement = 'ct=' + encodeURIComponent(url) + '?preview=1';
                     var result = validate.replace('{{ADM_URL}}', adm_url_replacement);
                     return result;
                 } else {
                     validate = creative.adm;
-                    var result = validate.replace('{{ADM_URL}}', creative.adm_url + '?preview=1');
+                    var result = validate.replace('{{ADM_URL}}', url + '?preview=1');
                     return result;
                 }
             },
@@ -981,7 +986,7 @@
                         this.creatives_table_loading = false;
                     }, error => {
                         this.creatives_table_loading = false;
-                        this.$root.showAlertPopUp('error', 'Something went wrong.');
+                        this.$root.showAlertPopUp('error', 'Can not access creatives.');
                     }
                 );
             },
@@ -994,9 +999,10 @@
                     this.$root.config
                 ).then(response => {
                         this.$root.showAlertPopUp('success', 'You have successfully deleted ' + creative_name + '.');
+                        this.$root.createNotification(this.$root.user.name + ' has deleted creative ' + creative_name + '.');
                         this.getFolderCreatives(this.current_folder.id);
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong.');
+                        this.$root.showAlertPopUp('error', 'Can not access creatives.');
                         this.getFolderCreatives(this.current_folder.id);
                     }
                 );

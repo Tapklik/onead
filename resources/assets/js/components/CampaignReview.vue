@@ -85,7 +85,7 @@
                     </v-flex>
                     <v-flex xs8 md5 v-if="valid.budget">
                         <v-icon>attach_money</v-icon>
-                        <span>{{$root.fromMicroDollars(campaign.budget.data.amount)}}</span>
+                        <span>{{$currency.fromMicroDollars(campaign.budget.data.amount)}}</span>
                     </v-flex>
                     <v-flex xs8 md5 v-else>
                         <v-icon class="red--text">attach_money</v-icon>
@@ -98,7 +98,7 @@
                     </v-flex>
                     <v-flex xs12 md8 v-if="valid.bid == true">
                         <v-icon>attach_money</v-icon>
-                        <span>{{$root.fromMicroDollars(campaign.bid)}}</span>
+                        <span>{{$currency.fromMicroDollars(campaign.bid)}}</span>
                     </v-flex>
                     <v-flex xs12 md8 v-else>
                         <v-icon class="red--text">attach_money</v-icon>
@@ -309,16 +309,15 @@
                 axios.get('/data/categories.json').then(response => {
                     this.categoriesList = response.data;
                 }, error => {
-                    this.$root.showAlertPopUp('error', 'Something went wrong');
+                    this.$root.showAlertPopUp('error', 'Can not access categories.');
                 });
             },
 
             loadTechnologies() {
-
                 axios.get('/data/technologies.json').then(response => {
                     this.technologiesList = response.data;
                 }, error => {
-                    this.$root.showAlertPopUp('error', 'Something went wrong');
+                    this.$root.showAlertPopUp('error', 'Can not access technologies.');
                 });
             },
 
@@ -326,7 +325,7 @@
                 axios.get(this.$root.uri + '/creatives/folders', this.$root.config).then(response => {
                     this.folders = response.data.data;
                 }, error => {
-                    this.$root.showAlertPopUp('error', 'Something went wrong');
+                    this.$root.showAlertPopUp('error', 'Can not access folders.');
                 });
             },
 
@@ -347,16 +346,18 @@
                     this.$root.config
                 ).then(response => {
                         this.$root.alertpopup.alertMessage = 'Successfully created a new campaign.';
+                        this.$root.createNotification(this.$root.user.name + ' has created a new campaign.');                        
                         window.location = '/admin/campaigns?m=' + this.$root.alertpopup.alertMessage;
                     }, error => {
                         this.loading = false;
-                        this.$root.showAlertPopUp('error', 'Something went wrong.');
+                        this.$root.showAlertPopUp('error', 'Can not create new campaign.');
                     }
                 );
             },
 
             updateMessage() {
-                this.$root.alertpopup.alertMessage = 'Successfully created a new campaign.';
+                this.$root.alertpopup.alertMessage = 'Successfully updated ' + this.campaign.name + '.';
+                this.$root.createNotification(this.$root.user.name + ' has updated ' + this.campaign.name + '.');
                 window.location = '/admin/campaigns?m=' + this.$root.alertpopup.alertMessage;
             },
 
@@ -378,10 +379,8 @@
                 axios.put(this.$root.uri + '/campaigns/' + this.campaign.id, payload, this.$root.config).then(response => {
                     this.batch.push(0);
                     this.checkCounter = this.checkCounter + 1;
-
                 }, error => {
-
-                    this.$root.showAlertPopUp('error', 'Something went wrong.');
+                    this.$root.showAlertPopUp('error', 'Can not update campaign details.');
                 });
             },
 
@@ -395,7 +394,7 @@
                 }, error => {
                     this.loading = false;
                     this.errorCounter = this.errorCounter + 1;
-                    this.$root.showAlertPopUp('error', 'Something went wrong.');
+                    this.$root.showAlertPopUp('error', 'Can not update campaign categories.');
                 });
             },
 
@@ -408,7 +407,7 @@
                 }, error => {
                     this.errorCounter = this.errorCounter + 1;
                     this.loading = false;
-                    this.$root.showAlertPopUp('error', 'Something went wrong.');
+                    this.$root.showAlertPopUp('error', 'Can not update campaign user.');
                 });
             },
 
@@ -422,7 +421,7 @@
                 }, error => {
                     this.errorCounter = this.errorCounter + 1;
                     this.loading = false;
-                    this.$root.showAlertPopUp('error', 'Something went wrong.');
+                    this.$root.showAlertPopUp('error', 'Can not update campaign geo.');
                 });
             },
 
@@ -435,7 +434,7 @@
                 }, error => {
                     this.errorCounter = this.errorCounter + 1;
                     this.loading = false;
-                    this.$root.showAlertPopUp('error', 'Something went wrong.');
+                    this.$root.showAlertPopUp('error', 'Can not update campaign device types.');
                 });
                 axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/device/model', {models: payload.models}, this.$root.config).then(response => {
                     this.batch.push(5);
@@ -443,7 +442,7 @@
                 }, error => {
                     this.errorCounter = this.errorCounter + 1;
                     this.loading = false;
-                    this.$root.showAlertPopUp('error', 'Something went wrong.');
+                    this.$root.showAlertPopUp('error', 'Can ont update campaign device models.');
                 });
                 axios.post(this.$root.uri + '/campaigns/' + this.campaign.id + '/device/os', {os: payload.os}, this.$root.config).then(response => {
                     this.batch.push(6);
@@ -451,7 +450,7 @@
                 }, error => {
                     this.errorCounter = this.errorCounter + 1;
                     this.loading = false;
-                    this.$root.showAlertPopUp('error', 'Something went wrong.');
+                    this.$root.showAlertPopUp('error', 'Can not update campaign device os.');
                 });
             },
 
@@ -463,7 +462,7 @@
                 }, error => {
                     this.errorCounter = this.errorCounter + 1;
                     this.loading = false;
-                    this.$root.showAlertPopUp('error', 'Something went wrong.');
+                    this.$root.showAlertPopUp('error', 'Can not update campaign budget.');
                 });
             },
 
@@ -475,7 +474,7 @@
                 }, error => {
                     this.errorCounter = this.errorCounter + 1;
                     this.loading = false;
-                    this.$root.showAlertPopUp('error', 'Something went wrong.');
+                    this.$root.showAlertPopUp('error', 'Can not update campaign creatives.');
                 });
             },
 

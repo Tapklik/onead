@@ -66,10 +66,10 @@
                         hide-actions
                         class="creatives-explorer no-headers"
                         >
-                            <template slot="headers" scope="props">
+                            <template slot="headers" slot-scope="props">
                                 &nbsp;
                             </template>
-                            <template slot="items" scope="props">
+                            <template slot="items" slot-scope="props">
                                 <tr :active="props.selected" @click="openFolder(props.item)">
                                     <td width="40" class="text-xs-right clickable"><v-icon>folder</v-icon></td>
                                     <td class="text-xs-left clickable"><span class="title">{{ props.item.name }}</span></td>
@@ -102,10 +102,10 @@
                         class="creatives-explorer no-headers"
                         v-bind:rows-per-page-items="[10, 25, { text: 'All', value: -1 }]"
                         >
-                            <template slot="headers" scope="props">
+                            <template slot="headers" slot-scope="props">
                                 &nbsp;
                             </template>
-                            <template slot="items" scope="props">
+                            <template slot="items" slot-scope="props">
                                 <tr 
                                 @mouseenter="imageSource = props.item.thumb, 
                                 sample= props.item.name, 
@@ -147,7 +147,7 @@
                                      <td>{{ props.item.w }} x {{ props.item.h }}</td>
                                 </tr>
                             </template>
-                            <template slot="pageText" scope="{ pageStart, pageStop }">
+                            <template slot="pageText" slot-scope="{ pageStart, pageStop }">
                                 From {{ pageStart }} to {{ pageStop }}
                             </template>
                         </v-data-table>
@@ -259,7 +259,7 @@ export default {
             ).then(response => {
 
                 }, error => {
-                    this.$root.showAlertPopUp('error', 'Something went wrong');
+                    this.$root.showAlertPopUp('error', 'Can not update campaign creatives.');
                 }
             );
         },
@@ -271,7 +271,7 @@ export default {
                     this.loading = false;
                 }
             }, error => {
-                this.$root.showAlertPopUp('error', 'Something went wrong');
+                this.$root.showAlertPopUp('error', 'Can not access ad groups.');
             });
         },
 
@@ -292,7 +292,7 @@ export default {
                 this.creatives = response.data;
                 this.loading=false;
             }, error => {                  
-                this.$root.showAlertPopUp('error', 'Something went wrong');
+                this.$root.showAlertPopUp('error', 'Can not access creatives');
                 this.loading=false;
             });
         }

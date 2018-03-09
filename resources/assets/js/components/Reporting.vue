@@ -235,7 +235,7 @@
                                         >
                                             <template 
                                             slot="selection" 
-                                            scope="data"
+                                            slot-scope="data"
                                             ></template>
                                         </v-select>
                                     </v-flex>
@@ -447,7 +447,7 @@ import VueRangedatePicker from 'vue-rangedate-picker'
                 }
                 else var element = document.getElementById('custom-calender-input');
 
-                element.innerHTML = '<div class="input-group input-group--dirty input-group--append-icon input-group--prepend-icon input-group--text-field"><label>Range</label><div class="input-group__input"><i aria-hidden="true" class="material-icons icon input-group__prepend-icon">flight_land</i><input readonly="readonly" tabindex="0" aria-label="To" type="text" value="' + this.full_date + '"><i aria-hidden="true" class="material-icons icon input-group__append-icon">date_range</i></div><div class="input-group__details"><div class="input-group__messages"></div></div></div>';
+                element.innerHTML = '<div style="cursor:pointer" class="input-group input-group--dirty input-group--append-icon input-group--prepend-icon input-group--text-field"><label>Range</label><div class="input-group__input"><i aria-hidden="true" class="material-icons icon input-group__prepend-icon">flight_land</i><input style="cursor:pointer" readonly="readonly" tabindex="0" aria-label="To" type="text" value="' + this.full_date + '"><i aria-hidden="true" class="material-icons icon input-group__append-icon">date_range</i></div><div class="input-group__details"><div class="input-group__messages"></div></div></div>';
             },
 
             selectDates(new_dates) {
@@ -540,7 +540,7 @@ import VueRangedatePicker from 'vue-rangedate-picker'
                 axios.get(this.$root.uri + '/campaigns', this.$root.config).then(response => {
                     this.campaigns = response.data.data;
                 }, error => {
-                    this.$root.showAlertPopUp('error', 'Something went wrong.');
+                    this.$root.showAlertPopUp('error', 'Can not access campaigns.');
                 })
             },
 
@@ -548,7 +548,7 @@ import VueRangedatePicker from 'vue-rangedate-picker'
                 axios.get('/data/' + jsonName + '.json').then(response => {
                     technology ? this[list] = response.data[technology] : this[list] = response.data;
                 }, error => {
-                    this.$root.showAlertPopUp('error', 'Something went wrong.');
+                    this.$root.showAlertPopUp('error', 'Can not access data.');
                 });
             },
 
@@ -770,7 +770,7 @@ import VueRangedatePicker from 'vue-rangedate-picker'
                         this.response = this.startingData;
                         this.table_loading = false;
                         this.createChart('chart', this.response, this.column, this.line);
-                        this.$root.showAlertPopUp('error', 'Something went wrong.');
+                        this.$root.showAlertPopUp('error', 'Can not access graph data.');
                     }
                 );
             },
@@ -783,7 +783,7 @@ import VueRangedatePicker from 'vue-rangedate-picker'
                         this.response_summary = summary == undefined ? this.startingDataSummary : response.data.data;
                     }, error => {
                         this.response_summary = this.startingDataSummary;
-                        this.$root.showAlertPopUp('error', 'Something went wrong.');
+                        this.$root.showAlertPopUp('error', 'Can not access summary data.');
                     }
                 );
             },
@@ -808,7 +808,7 @@ import VueRangedatePicker from 'vue-rangedate-picker'
                         this.response = this.startingData;
                         this.table_loading = false;
                         this.createChart('chart', this.response, this.column, this.line);
-                        this.$root.showAlertPopUp('error', 'Something went wrong.');
+                        this.$root.showAlertPopUp('error', 'Can not access graph data.');
                     }
                 );
             },
@@ -821,7 +821,7 @@ import VueRangedatePicker from 'vue-rangedate-picker'
                         this.response_summary = summary == undefined ? this.startingDataSummary : response.data.data;
                     }, error => {
                         this.response_summary = this.startingDataSummary;
-                        this.$root.showAlertPopUp('error', 'Something went wrong.');
+                        this.$root.showAlertPopUp('error', 'Can not access summary data.');
                     }
                 );
             },

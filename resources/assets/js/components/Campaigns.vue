@@ -92,10 +92,10 @@
             v-bind:rows-per-page-items="[10, 25, { value: -1 }]"
             class="no-headers"
             >
-                <template slot="headers" scope="props">
+                <template slot="headers" slot-scope="props">
                     &nbsp;
                 </template>
-                <template slot="items" scope="props">
+                <template slot="items" slot-scope="props">
                     <td>
                         <span class="title">
                             {{ props.item.name }}
@@ -118,7 +118,7 @@
                     </td>
                     <td class="text-xs-right">
                         <span class="title"> 
-                        $ {{$root.fromMicroDollars(props.item.budget.data.amount) }}
+                        $ {{$currency.fromMicroDollars(props.item.budget.data.amount) }}
                         </span>
                         <br />
                         <span class="caption"> 
@@ -197,7 +197,7 @@
                         </v-btn>
                     </td>
                 </template>
-                <template slot="pageText" scope="{ pageStart, pageStop }">
+                <template slot="pageText" slot-scope="{ pageStart, pageStop }">
                     From {{ pageStart }} to {{ pageStop }}
                 </template>
             </v-data-table>
@@ -281,9 +281,10 @@
                     { status: new_status }, 
                     this.$root.config
                 ).then(response => {
+                        this.$root.createNotification(this.$root.user.name + ' has changed ' + campaign.name + '\'s status.');
                         this.getCampaigns();
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                        this.$root.showAlertPopUp('error', 'Can not toggle campaign status.');
                     }
                 );
             },
@@ -309,7 +310,7 @@
                     this.campaigns_table_loading = false;
                 }, error => {
                     this.campaigns_table_loading = false;
-                    this.$root.showAlertPopUp('error', 'Something went wrong');
+                    this.$root.showAlertPopUp('error', 'Can not access campaigns.');
                 })
             },
 
@@ -327,21 +328,23 @@
                     }, error => {
                         campaign.delete_button_loading = false;
                         campaign.show_modal = false;
-                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                        this.$root.showAlertPopUp('error', 'Can not archive campaign.');
                     }
                 );
             },
 
             deleteCampaign(campaign) {
                 campaign.delete_button_loading = true;
+                var campaign_name = campaign.name;
 
                 axios.delete(
                     this.$root.uri + '/campaigns/' + campaign.id, 
                     this.$root.config
                 ).then(response => {
+                        this.$root.createNotification(this.$root.user.name + ' has successfully deleted campaign ' + campaign_name + '.');
                         this.getCampaigns();
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong');
+                        this.$root.showAlertPopUp('error', 'Can not delete campaign.');
                     }
                 );
             }

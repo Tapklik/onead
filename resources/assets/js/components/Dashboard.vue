@@ -2,6 +2,51 @@
     <v-container fluid grid-list-lg>
         <v-layout row wrap>
 
+            <!-- REAL-TIME CHART START -->
+            <v-flex d-flex md12 lg4>
+                <v-card height="300px" class="elevation-2">
+                    <v-card-title>
+                        <span class="subheading orange--text text--darken-4">
+                            REAL-TIME CHART FOR 5 MINUTES
+                        </span>
+                    </v-card-title>
+                    <v-card-media id="chart_real_time" class="tapklik-chart" height="250px"> 
+                        <scale-loader 
+                        :loading="true" 
+                        color="#9e9e9e" 
+                        height="15px" 
+                        width="3px" 
+                        class="mt-5"
+                        ></scale-loader>
+                    </v-card-media>
+                </v-card>
+            </v-flex>
+            <!-- REAL-TIME CHART END -->
+
+            <!-- REAL-TIME CHART START -->
+            <v-flex d-flex md12 lg4>
+                <v-card height="300px" class="elevation-2">
+                    <v-card-title>
+                        <span class="subheading orange--text text--darken-4">
+                            REAL-TIME CHART FOR 5 MINUTES
+                        </span>
+                    </v-card-title>
+                    <v-card-media id="chart_real_time_spend" class="tapklik-chart" height="250px"> 
+                        <scale-loader 
+                        :loading="true" 
+                        color="#9e9e9e" 
+                        height="15px" 
+                        width="3px" 
+                        class="mt-5"
+                        ></scale-loader>
+                    </v-card-media>
+                </v-card>
+            </v-flex>
+            <!-- REAL-TIME CHART END -->
+
+        </v-layout>
+        <v-layout row wrap>
+
             <!-- WEEK CHART START -->
             <v-flex d-flex md12 lg6>
                 <v-card height="300px" class="elevation-2">
@@ -102,30 +147,9 @@
             </v-flex> 
             <!-- SUMMARY END -->
 
-            <!-- REAL-TIME CHART START -->
-            <v-flex d-flex md12>
-                <v-card height="300px" class="elevation-2">
-                    <v-card-title>
-                        <span class="subheading orange--text text--darken-4">
-                            REAL-TIME CHART FOR 5 MINUTES
-                        </span>
-                    </v-card-title>
-                    <v-card-media id="chart_real_time" class="tapklik-chart" height="250px"> 
-                        <scale-loader 
-                        :loading="true" 
-                        color="#9e9e9e" 
-                        height="15px" 
-                        width="3px" 
-                        class="mt-5"
-                        ></scale-loader>
-                    </v-card-media>
-                </v-card>
-            </v-flex>
-            <!-- REAL-TIME CHART END -->
-
         </v-layout>
         <v-layout row wrap class="mt-2">
-            <v-flex d-flex xs12 md4>
+            <v-flex d-flex xs12 md6>
                 
                 <!-- CAMPAIGNS START -->
                 <v-card height="350px" class="elevation-2">
@@ -142,11 +166,11 @@
                             <v-icon>search</v-icon>
                         </v-btn>
                     </v-card-title>
-                    <v-data-table v-bind:items="campaigns" hide-actions>
-                        <template slot="headers" scope="props">
+                    <v-data-table :items="campaigns" hide-actions>
+                        <template slot="headers" slot-scope="props">
                             &nbsp;
                         </template>
-                        <template slot="items" scope="props">
+                        <template slot="items" slot-scope="props">
                             <td>
                                 <span class="title">{{ props.item.name }}</span>
                             </td>
@@ -167,7 +191,7 @@
                 <!-- CAMPAIGNS END -->
 
             </v-flex>
-            <v-flex d-flex xs12 md4>
+            <v-flex d-flex xs12 md6>
 
                 <!-- CREATIVES START -->
                 <v-card height="350px" class="elevation-2">
@@ -185,10 +209,10 @@
                         </v-btn>
                     </v-card-title>
                     <v-data-table v-bind:items="creatives"  hide-actions>
-                        <template slot="headers" scope="props">
+                        <template slot="headers" slot-scope="props">
                             &nbsp;
                         </template>
-                        <template slot="items" scope="props">
+                        <template slot="items" slot-scope="props">
                             <td>
                                 <span class="title">{{ props.item.name }}</span>
                             </td>
@@ -223,39 +247,6 @@
                 <!-- CREATIVES END -->
 
             </v-flex>
-            <v-flex d-flex xs12 md4>
-
-                <!-- LOG START -->
-                <v-card height="350px" class="elevation-2">
-                    <v-card-title>
-                        <span class="subheading orange--text text--darken-4">
-                            LOG
-                        </span>
-                        <v-spacer></v-spacer>
-                    </v-card-title>
-                    <v-data-table v-bind:items="logs" hide-actions>
-                        <template slot="headers" scope="props">
-                            &nbsp;
-                        </template>
-                        <template slot="items" scope="props">
-                            <td>
-                            <v-icon>person</v-icon>
-                            </td>
-                            <td class="caption text-xs-right">
-                                <span>
-                                    {{ formatLogTime(props.item.taken_at.date) }} <br />
-                                    {{ formatLogDate(props.item.taken_at.date) }}
-                                </span> 
-                            </td>
-                            <td>
-                                <span class="small">{{ props.item.action }}</span>
-                            </td>
-                        </template>
-                    </v-data-table>
-                </v-card>
-                <!-- LOG END -->
-
-            </v-flex>
         </v-layout>
     </v-container>
 </template>
@@ -278,9 +269,12 @@
                 real_time_start: '',
                 real_time_end: '',
                 real_time_data: '',
-                real_time_length: 2,
+                real_time_length: 1,
                 time_to_redraw: 300000,
                 loaded: false,
+                real_time_line: 'imps',
+                real_time_line_two: 'clicks',
+                real_time_line_three: 'spend',
 
                 //WEEKLY CHART
                 chartLoaded: false,
@@ -349,7 +343,7 @@
                 this.real_time_start = year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + seconds;
                 this.getRealTimeData();
 
-                setTimeout(this.getRealTimeDates, 300000);
+                setTimeout(this.getRealTimeDates, this.time_to_redraw);
             },
 
             getRealTimeData() {
@@ -364,7 +358,7 @@
                 );
             },
 
-            createRealTimeChart(target, dataset, column, line) {
+            createRealTimeChart(target, dataset, line, second_line) {
                 var self = this;
                 var chart = AmCharts.makeChart(target, {
                     "type": "serial",
@@ -396,25 +390,33 @@
                     "graphs": [{
                         "valueAxis": "v1",
                         "id": "g1",
-                        "type" : "column",
+                        "type" : "line",
                         "fillAlphas": 1,
                         "fillColors":"#78909c",
-                        "lineThickness": 0,
-                        "balloonText": "[[date]] <br><br>CTR: [[ctr]]<br>Imps: [[imps]]",
-                        "title": "Imps",
-                        "valueField": column,
+                        "bullet": "round",
+                        "bulletBorderAlpha": 1,
+                        "useLineColorForBulletBorder": true,
+                        "bulletColor": "#FFFFFF",
+                        "showBalloon": false,
+                        "lineThickness": 2,
+                        "title": line.charAt(0).toUpperCase() + line.slice(1),
+                        "valueField": line,
                     },
                     {   
                         "valueAxis": "v2",
                         "id": "g2",
-                        "type" : "smoothedLine",
+                        "type" : "line",
                         "lineColor":"#f76c06",
                         "fillAlphas": 0.0,
                         "fillColors":"#f76c06",
+                        "bullet": "round",
+                        "bulletBorderAlpha": 1,
+                        "useLineColorForBulletBorder": true,
+                        "bulletColor": "#FFFFFF",
                         "showBalloon": false,
                         "lineThickness": 2,
-                        "title": "CTR",
-                        "valueField": line,
+                        "title": second_line ? second_line.charAt(0).toUpperCase() + second_line.slice(1) : '',
+                        "valueField": second_line,
                         
                     }],
                     "categoryField": "date",
@@ -452,6 +454,12 @@
                     },
                     "dataProvider": dataset, // Here you need to add the dataset
                 });
+                
+                if(!second_line) {
+                    chart.graphs.splice(1, 1);
+                    chart.valueAxes.splice(1, 1);
+                    chart.validateData()
+                }
 
                 setInterval(function addNewPoint() {
                     if(self.loaded == true) {
@@ -463,14 +471,6 @@
                 }, 300000);
             },
 
-            addNewPoint(chart, point) {
-                if(this.loaded == true) {
-                    var first_element = chart.dataProvider.shift();
-                    chart.dataProvider.push(point);
-                    chart.validateData();
-                }
-            },
-
             //WEEK CHART
             getOverallData() {
                 axios.get(
@@ -480,7 +480,7 @@
                         this.overall_data = response.data.data;
                         this.createChart('chart_main', this.overall_data, this.column, this.line);
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong.');
+                        this.$root.showAlertPopUp('error', 'Can not access overall static graph data.');
                     }
                 );
             },
@@ -590,7 +590,7 @@
                             this.overall_summary = response.data.data;
                         }
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong.');
+                        this.$root.showAlertPopUp('error', 'Can not access overall data.');
                     }
                 );
             },
@@ -603,7 +603,7 @@
                 ).then(response => {
                         this.folders = response.data.data;
                     }, error => {     
-                        this.$root.showAlertPopUp('error', 'Something went wrong.');
+                        this.$root.showAlertPopUp('error', 'Can not access ad groups');
                     }
                 );
             },
@@ -619,7 +619,7 @@
                             this.creatives.push(response.data.data);
                             this.creatives = [].concat.apply([], this.creatives);
                         }, error => {
-                            this.$root.showAlertPopUp('error', 'Something went wrong.');
+                            this.$root.showAlertPopUp('error', 'Can not access creatives.');
                         }
                     );
                 }
@@ -628,14 +628,14 @@
             //CAMPAIGNS
             getCampaigns() {
                 axios.get(
-                    this.$root.uri + '/accounts/' + this.user.accountUuId + '/campaigns', 
+                    this.$root.uri + '/campaigns', 
                     this.$root.config
                 ).then(response => {
                         var campaigns = response.data.data;
                         campaigns = campaigns.filter(campaign => campaign.status == 'active');
                         this.campaigns = this.filterDataSize(5, campaigns, true);
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong.');
+                        this.$root.showAlertPopUp('error', 'Can not access campaigns');
                     }
                 );
             },
@@ -648,7 +648,7 @@
                 ).then(response => {
                         this.logs = this.filterDataSize(5, response.data.data);
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong.');
+                        this.$root.showAlertPopUp('error', 'Can not access logs.');
                     }
                 );
             },
@@ -695,7 +695,8 @@
 
             real_time_data(value) {
                 if(!this.loaded) {
-                    this.createRealTimeChart('chart_real_time', this.real_time_data, this.column, this.line);
+                    this.createRealTimeChart('chart_real_time', this.real_time_data, this.real_time_line, this.real_time_line_two);
+                    this.createRealTimeChart('chart_real_time_spend', this.real_time_data, this.real_time_line_three);
                     this.loaded = true
                 }
             }

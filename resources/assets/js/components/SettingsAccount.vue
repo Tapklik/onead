@@ -1,5 +1,7 @@
 <template>
     <v-container grid-list-md>
+
+        <!-- ACCOUNT DETAILS START -->
         <v-layout row wrap class="mt-3">
             <v-flex xs12 md6>
                 <v-layout row wrap class="mt-4">
@@ -9,7 +11,7 @@
                     </v-flex>
                     <v-flex xs8 md5>
                         <v-icon>perm_identity</v-icon>
-                        <span>{{$root.getFirstUuidSegment}}</span>
+                        <span>{{user.accountUuId != null ? $utils.getUuidLength(user.accountUuId, 8) : null}}</span>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap class="mt-4">
@@ -96,15 +98,26 @@
                 </v-layout>
             </v-flex>
         </v-layout>
+        <!-- ACCOUNT DETAILS END -->
+
         <v-divider class="mt-4"></v-divider>
+
+        <!-- ACTIONS START -->
         <v-layout row wrap class="mt-4 mb-4"> 
             <v-flex xs12>
-                <v-btn primary :loading="account_settings_button_loading" large @click="updateAccount()">
+                <v-btn 
+                primary 
+                :loading="account_settings_button_loading" 
+                large 
+                @click="updateAccount()"
+                >
                     <v-icon left class="white--text">cloud_upload</v-icon>
                     Update Account Details
                 </v-btn>
             </v-flex>
         </v-layout>
+        <!-- ACTIONS END -->
+
     </v-container>
 </template>
 <script>
@@ -118,6 +131,12 @@
 
         data() {
             return {
+                //OVERALL
+                account_settings_button_loading: false,
+                countries: [],
+                timezones: [],
+
+                //ACCOUNT
                 account: {
                     localization: {
                         country: '',
@@ -125,21 +144,19 @@
                         timezone:'',
                         language: ''
                     }
-                },
-                account_settings_button_loading: false,
-                countries: [],
-                timezones: []
+                }
             }
         },
 
         methods: {
+            //OVERALL
             getCountries() {
                 axios.get(
                     '/data/countries.json'
                 ).then(response => {
                         this.countries = response.data;
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong.');
+                        this.$root.showAlertPopUp('error', 'Can not access countries.');
                     }
                 );
             },
@@ -150,24 +167,20 @@
                 ).then(response => {
                         this.timezones = response.data;
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong.');
+                        this.$root.showAlertPopUp('error', 'Can not access timezones.');
                     }
                 );
             },
 
-            updateAccount(){
-                this.account_settings_button_loading = true; 
-
-                axios.put(
+            //UPDATE ACCOUNT
+            getAccount() {
+                axios.get(
                     this.$root.uri + '/accounts/' + this.user.accountUuId, 
-                    this.collectAccount(), 
                     this.$root.config
-                ).then(response => {
-                        this.account_settings_button_loading = false; 
-                        this.$root.showAlertPopUp('success', 'Successful.');
+                ).then( response => {
+                        this.account = response.data.data;
                     }, error => {
-                        this.account_settings_button_loading = false; 
-                        this.$root.showAlertPopUp('error', 'Something went wrong.');
+                        this.$root.showAlertPopUp('error', 'Can not access account.');
                     }
                 );
             },
@@ -184,14 +197,20 @@
                 };
             },
 
-            getAccount() {
-                axios.get(
+            updateAccount(){
+                this.account_settings_button_loading = true; 
+
+                axios.put(
                     this.$root.uri + '/accounts/' + this.user.accountUuId, 
+                    this.collectAccount(), 
                     this.$root.config
-                ).then( response => {
-                        this.account = response.data.data;
+                ).then(response => {
+                        this.account_settings_button_loading = false; 
+                        this.$root.createNotification(this.$root.user.name + ' has updated the account details.');
+                        this.$root.showAlertPopUp('success', 'Successful.');
                     }, error => {
-                        this.$root.showAlertPopUp('error', 'Something went wrong.');
+                        this.account_settings_button_loading = false; 
+                        this.$root.showAlertPopUp('error', 'Can not update account.');
                     }
                 );
             }

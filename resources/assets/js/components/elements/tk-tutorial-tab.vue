@@ -96,7 +96,7 @@
             emitStepChange(value) {
                 this.$emit('changeStep', value);
             },
-            
+
             displayNone() {
                 $('.carousel__left').hide();
                 $('.carousel__right').hide();
@@ -105,6 +105,7 @@
             emitPrevious() {
                 $(".carousel__left button").click();
             },
+
             emitNext() {
                 $(".carousel__right button").click();
             }
