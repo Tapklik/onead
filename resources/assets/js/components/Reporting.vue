@@ -447,7 +447,7 @@ import VueRangedatePicker from 'vue-rangedate-picker'
                 }
                 else var element = document.getElementById('custom-calender-input');
 
-                element.innerHTML = '<div class="input-group input-group--dirty input-group--append-icon input-group--prepend-icon input-group--text-field"><label>Range</label><div class="input-group__input"><i aria-hidden="true" class="material-icons icon input-group__prepend-icon">flight_land</i><input readonly="readonly" tabindex="0" aria-label="To" type="text" value="' + this.full_date + '"><i aria-hidden="true" class="material-icons icon input-group__append-icon">date_range</i></div><div class="input-group__details"><div class="input-group__messages"></div></div></div>';
+                element.innerHTML = '<div style="cursor:pointer" class="input-group input-group--dirty input-group--append-icon input-group--prepend-icon input-group--text-field"><label>Range</label><div class="input-group__input"><i aria-hidden="true" class="material-icons icon input-group__prepend-icon">flight_land</i><input style="cursor:pointer" readonly="readonly" tabindex="0" aria-label="To" type="text" value="' + this.full_date + '"><i aria-hidden="true" class="material-icons icon input-group__append-icon">date_range</i></div><div class="input-group__details"><div class="input-group__messages"></div></div></div>';
             },
 
             selectDates(new_dates) {

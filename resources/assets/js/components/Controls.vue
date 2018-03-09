@@ -110,15 +110,15 @@
                 </div>
             </v-btn>
             <v-list>
-                <v-list-tile ripple avatar v-for="notification in notifications" :key="notification.schedule" @click="">
+                <v-list-tile ripple avatar v-for="notification in notifications" :key="notification.schedule" @click="toggleNotificationStatus(notification.id)">
                     <v-list-tile-avatar>
                         <v-avatar>
-                            <v-icon primary>{{notification.seen ? 'create_new_folder' : 'add_to_queue'}}</v-icon>
+                            <v-icon primary>{{insertNotificationIcon(notification.message)}}</v-icon>
                         </v-avatar>
                     </v-list-tile-avatar>
                     <v-list-tile-content>                    
                         <v-list-tile-title>{{ notification.message }}</v-list-tile-title>
-                        <v-list-tile-sub-title>Notification</v-list-tile-sub-title>
+                        <v-list-tile-sub-title> {{ insertSubtitleText(notification.message) }} </v-list-tile-sub-title>
                     </v-list-tile-content>
                     <v-list-tile-action>
                         <v-list-tile-action-text v-html="changeCreatedAtNotifications(notification)"></v-list-tile-action-text>
@@ -128,7 +128,7 @@
                 <v-divider></v-divider>
                 <v-divider></v-divider>
                 <v-list-tile>
-                    <a href="#" @click="number_of_notifications = 0">Mark all as read</a>
+                    <a href="#" @click="toggleStatusAllNotifications()">Mark all as read</a>
                 </v-list-tile>
             </v-list>
         </v-menu>
@@ -186,37 +186,53 @@
 
         methods: {
             //NOTIFICATIONS
+            insertNotificationIcon(message) {
+                if(message.includes('campaign')) return 'add_to_queue';
+                else if(message.includes('creative')) return 'crop_original';
+                else if(message.includes('user')) return 'person';
+                else if(message.includes('bill')) return 'attach_money';
+                else if(message.includes('folder')) return 'create_new_folder';
+                else if(message.includes('account')) return 'account_balance';
+            },
+
+            insertSubtitleText(message) {
+                if(message.includes('campaign')) return 'Campaign';
+                else if(message.includes('creative')) return 'Creative';
+                else if(message.includes('user')) return 'User';
+                else if(message.includes('bill')) return 'Bill';
+                else if(message.includes('ad group')) return 'Ad Group';
+                else if(message.includes('account')) return 'Account';
+            },
+
             getNotifications() {
                 axios.get(
                     this.$root.uri + '/core/notifications/' + this.user.id,
                     this.$root.config
                 ).then(response => {
-                        this.notifications = response.data.data;
+                        this.notifications = response.data.data.reverse().slice(0,10);
                     },error => {
                         this.$root.showAlertPopUp('error', 'Can not access notifications.');
                     }
                 );
             },
 
-            createNotification() {
-                var today = new Date();
-                var created_at = today.getTime() / 1000;
-                var payload = {
-                    service: ['onead'],
-                    message: 'Some message',
-                    users: [this.user.id],
-                    created_at: created_at.toString()
-                }
-
-                axios.post(
-                    this.$root.uri + '/core/notifications',
-                    {config: payload},
+            toggleNotificationStatus(notification_id) {
+                axios.put(
+                    this.$root.uri + '/core/notifications/' + notification_id,
+                    {status: 1},
                     this.$root.config
                 ).then(response => {
+                        
+                    },error => {
+                        this.$root.showAlertPopUp('error', 'Can not mark notifications as read.');
+                    }
+                );
+            },
 
-                }, error => {
-
-                });
+            toggleStatusAllNotifications() {
+                for (var i = 0; i < this.notifications.length; i++) {
+                    this.toggleNotificationStatus(this.notifications[i].id);
+                }
             },
 
             changeCreatedAtNotifications(notification) {
