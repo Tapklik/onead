@@ -35,10 +35,10 @@
                         <v-flex xs12 md5 lg4>
                             <v-layout>
                                 <v-flex xs12 md8>
-                                    <vue-rangedate-picker 
+                                    <tk-datepicker 
                                     i18n="EN" 
                                     @selected="selectDates"
-                                    ></vue-rangedate-picker>
+                                    ></tk-datepicker>
                                 </v-flex>
                             </v-layout>
                         </v-flex>

@@ -21,7 +21,7 @@
                         </v-btn>
                         <v-card>
                             <v-card-title>
-                                <h4>Upload Creatives Here</h4>
+                                <h4>Upload Creatives</h4>
                             </v-card-title>
                             <v-divider></v-divider>
                             <v-card-text class="pr-5 pl-5">
@@ -826,7 +826,6 @@
                         this.new_creative_button_loading = false;
 
                         if(file.status != 'success') {
-                            this.$root.createNotification(this.$root.user.name + ' has uploaded creative ' + this.new_creative.name + '.');
                             this.$root.showAlertPopUp('error', 'Can not upload new creative.');
                         }
                         else {
@@ -894,7 +893,6 @@
                 ).then(response => {
                         this.getFolders();
                         this.current_folder = {};
-                        this.$root.createNotification(this.$root.user.name + ' has created a new ad group ' + folder_name + '.');
                         this.$root.showAlertPopUp('success', 'You have successfully created a new folder.');
                     }, error => {
                         this.$root.showAlertPopUp('error', 'Can not create new folder.');
@@ -947,7 +945,6 @@
                     this.$root.config
                 ).then(response => {
                         this.folders_table_loading = false;
-                        this.$root.createNotification(this.$root.user.name + ' has deleted ad group ' + folder_name + '.');
                         this.$root.showAlertPopUp('success', 'You have successfully deleted ' + folder_name + '.');
                         this.getFolders();
                     }, error => {
@@ -999,7 +996,6 @@
                     this.$root.config
                 ).then(response => {
                         this.$root.showAlertPopUp('success', 'You have successfully deleted ' + creative_name + '.');
-                        this.$root.createNotification(this.$root.user.name + ' has deleted creative ' + creative_name + '.');
                         this.getFolderCreatives(this.current_folder.id);
                     }, error => {
                         this.$root.showAlertPopUp('error', 'Can not access creatives.');

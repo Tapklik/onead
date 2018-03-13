@@ -45,7 +45,7 @@
             <!-- REAL-TIME CHART END -->
 
         </v-layout>
-        <v-layout row wrap>
+        <v-layout row wrap class="mt-2">
 
             <!-- WEEK CHART START -->
             <v-flex d-flex md12 lg6>
