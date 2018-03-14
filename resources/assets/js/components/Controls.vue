@@ -246,6 +246,7 @@
             changeCreatedAtNotifications(notification) {
                 var creation = new Date(notification.created_at);
                 var now = new Date();
+                console.log(creation.getTime() + ' ' + now.getTime());
                 if(creation.getDate() < now.getDate()) {
                     return (now.getDate() - creation.getDate()) + 'dy';
                 }

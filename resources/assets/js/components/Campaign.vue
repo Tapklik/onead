@@ -5,35 +5,35 @@
 
             <!-- TABS START -->
             <v-stepper-header class="elevation-0">
-                <v-stepper-step  step="1" :complete="step > 1" editable>
+                <v-stepper-step :step="1" :complete="step > 1" editable>
                     DETAILS
                     <small class="red--text" v-show="!validDetailsPage() && step > 1">
                         Errors Found
                     </small>
                 </v-stepper-step>
                 <v-divider></v-divider>
-                <v-stepper-step step="2" :complete="step > 2" editable>
+                <v-stepper-step :step="2" :complete="step > 2" editable>
                     CATEGORIES
                     <small class="red--text" v-show="!validCategoriesPage() && step > 2">
                         Select categories
                     </small>
                 </v-stepper-step>
                 <v-divider></v-divider>
-                <v-stepper-step step="3" :complete="step > 3" editable>
+                <v-stepper-step :step="3" :complete="step > 3" editable>
                     CREATIVES
                     <small class="red--text" v-show="!validCreativesPage() && step > 3">
                         Select creatives
                     </small>
                 </v-stepper-step>
                 <v-divider></v-divider>
-                <v-stepper-step step="4" :complete="step > 4" editable>
+                <v-stepper-step :step="4" :complete="step > 4" editable>
                     TARGETING
                     <small class="red--text" v-show="!validTargettingPage() && step > 4">
                         Errors Found
                     </small>
                 </v-stepper-step>
                 <v-divider></v-divider>
-                <v-stepper-step step="5" editable>
+                <v-stepper-step :step="5" editable>
                     REVIEW
                 </v-stepper-step>
             </v-stepper-header>

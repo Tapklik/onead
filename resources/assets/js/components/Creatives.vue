@@ -106,6 +106,20 @@
                                                 ></v-select>
                                             </v-flex>
                                         </v-layout>
+                                        <v-layout row wrap class="mt-4">
+                                            <v-flex xs12 md4 lg3 class="valign-wrapper">
+                                                <span class="title">Click-Through URL</span><br>
+                                                <span class="caption ma-0">Click-through url per creative</span>
+                                            </v-flex>    
+                                            <v-flex xs12 md5>
+                                                <v-text-field 
+                                                prepend-icon="language" 
+                                                v-model="new_creative.url" 
+                                                placeholder="URL" 
+                                                @keyup="checkFile()"
+                                                ></v-text-field>
+                                            </v-flex>
+                                        </v-layout>
                                     </v-flex>
                                     <v-flex xs12 md6>
                                         <v-layout row wrap class="mt-4">
@@ -150,54 +164,6 @@
                                                 ></v-text-field>
                                             </v-flex>
                                         </v-layout>
-                                        <v-layout row wrap class="mt-4">
-                                            <v-flex xs12 md3 class="valign-wrapper">
-                                                <span class="title">Responsive</span><br>
-                                                <p class="caption ma-0">Is this creative responsive?</p>
-                                            </v-flex>
-                                            <v-flex xs12 md6>
-                                                <v-switch 
-                                                :false-value="0" 
-                                                :true-value="1" 
-                                                v-model="new_creative.responsive" 
-                                                label="Responsive" 
-                                                @change="checkFile()"
-                                                ></v-switch>
-                                            </v-flex>
-                                        </v-layout>
-                                    </v-flex>
-                                </v-layout>
-                                <v-divider></v-divider>
-                                <v-layout row wrap>
-                                    <v-flex xs12 class="valign-wrapper mt-4">
-                                        <span class="subheading">ADVANCED (Optional)</span>
-                                    </v-flex>
-                                </v-layout>
-                                <v-layout row wrap class="mt-4">
-                                    <v-flex xs12 md3 lg2 class="valign-wrapper">
-                                        <span class="title">Click-Through URL</span><br>
-                                        <span class="caption ma-0">Click-through url per creative</span>
-                                    </v-flex>    
-                                    <v-flex xs12 md9>
-                                        <v-text-field 
-                                        prepend-icon="language" 
-                                        v-model="new_creative.url" 
-                                        placeholder="URL" 
-                                        @keyup="checkFile()"
-                                        ></v-text-field>
-                                    </v-flex>
-                                </v-layout>
-                                <v-layout row wrap class="mt-4">
-                                    <v-flex xs12 md3 lg2 class="valign-wrapper">
-                                        <span class="title">Ad Markup</span><br>
-                                        <p class="caption ma-0">Set iframe or HTML markup</p>
-                                    </v-flex>
-                                    <v-flex xs12 md9>
-                                        <v-text-field 
-                                        prepend-icon="language" 
-                                        placeholder="Ad Markup" 
-                                        @keyup="checkFile()"
-                                        ></v-text-field>
                                     </v-flex>
                                 </v-layout>
                             </v-card-text>
@@ -634,7 +600,7 @@
                                 <v-layout row wrap>
                                     <v-flex xs12>
                                         <div class="preview">
-                                            <img width="128" :src="creative_preview.thumbnail" />
+                                            <img width="128" :src="creative_preview != 'html5' ? creative_preview.thumbnail : creative_preview.iurl" />
                                         </div>
                                     </v-flex>
                                 </v-layout>
