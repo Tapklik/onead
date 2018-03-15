@@ -258,7 +258,7 @@
                 <v-btn v-show="!$root.editMode" 
                 primary large
                 :disabled="!validCampaign()"
-                @click="loading = true, createCampaign()"
+                @click="loading = true, createNotification('New campaign ' + campaign.name + ' (id: ' + campaign.id + ') has been created.', 'create')"
                 :loading="loading"
                 ><v-icon left class="white--text">cloud_upload</v-icon>Start Campaign
                 </v-btn>
@@ -305,6 +305,27 @@
         },
 
         methods: {
+            createNotification(notification_message, action) {
+                var today = new Date();
+                var created_at = today.getTime() / 1000;
+                var payload = {
+                    service: ['onead'],
+                    message: notification_message,
+                    users: [this.$root.user.id],
+                    created_at: created_at.toString()
+                }
+                axios.post(
+                    this.$root.uri + '/core/notifications',
+                    {config: payload},
+                    this.$root.config
+                ).then(response => {
+                    if(action == 'update') this.updateMessage();
+                    else this.createCampaign();
+                }, error => {
+
+                });
+            },
+
             loadCategories() {
                 axios.get('/data/categories.json').then(response => {
                     this.categoriesList = response.data;
@@ -345,8 +366,7 @@
                     { status: 'not started' }, 
                     this.$root.config
                 ).then(response => {
-                        this.$root.alertpopup.alertMessage = 'Successfully created a new campaign.';
-                        this.$root.createNotification('New campaign ' + this.campaign.name + ' (id: ' + this.campaign.id + ') has been created.');                        
+                        this.$root.alertpopup.alertMessage = 'Successfully created a new campaign.';                     
                         window.location = '/admin/campaigns?m=' + this.$root.alertpopup.alertMessage;
                     }, error => {
                         this.loading = false;
@@ -357,7 +377,6 @@
 
             updateMessage() {
                 this.$root.alertpopup.alertMessage = 'Successfully updated ' + this.campaign.name + '.';
-                this.$root.createNotification('Campaign ' + this.campaign.name + ' (id: ' + this.campaign.id + ') has been updated.');
                 window.location = '/admin/campaigns?m=' + this.$root.alertpopup.alertMessage;
             },
 
@@ -580,7 +599,7 @@
                 }
             },
             checkCounter(value) {
-                if (value == 9) this.updateMessage();
+                if (value == 9) this.createNotification('Campaign ' + this.campaign.name + ' (id: ' + this.campaign.id + ') has been updated.', 'update');
             },
 
             errorCounter(value) {

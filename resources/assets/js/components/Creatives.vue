@@ -89,7 +89,7 @@
                                         <v-layout row wrap class="mt-4">
                                             <v-flex xs12 md4 lg3 class="valign-wrapper">
                                                 <span class="title">Ad Group</span><br>
-                                                <p class="caption ma-0">
+                                                <p class="caption ma-0 mr-1">
                                                     The Ad group where your creative will be uploaded
                                                 </p>
                                             </v-flex>
@@ -114,6 +114,7 @@
                                             <v-flex xs12 md5>
                                                 <v-text-field 
                                                 prepend-icon="language" 
+                                                :rules="urlRules()"
                                                 v-model="new_creative.url" 
                                                 placeholder="URL" 
                                                 @keyup="checkFile()"
@@ -669,7 +670,8 @@
                     w: false,
                     folder: false,
                     class: false,
-                    file: false
+                    file: false,
+                    ctrurl: false
                 },
                 new_creative: {
                     name: '',
@@ -757,6 +759,18 @@
             },
 
             //NEW CREATIVE
+            urlRules() {
+                var url = ['not a valid url'];
+                var regexp = new RegExp('^(https?:\\/\\/)?'+ 
+                    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|'+ 
+                    '((\\d{1,3}\\.){3}\\d{1,3}))' + 
+                    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+
+                    '(\\?[;&a-z\\d%_.~+=-]*)?'+
+                    '(\\#[-a-z\\d_]*)?$','i'); 
+                this.valid_new_creative.ctrurl = this.new_creative.url == '' || regexp.test(this.new_creative.url);
+                if(!this.valid_new_creative.ctrurl) return url;
+            },
+
             showNoFoldersError() {
                 axios.get(
                     this.$root.uri + '/creatives/folders', 
@@ -928,7 +942,7 @@
                 var url = creative.adm_url == null ? creative.ctrurl : creative.adm_url;
                 if(html5) {
                     validate = creative.adm_iframe;
-                    var adm_url_replacement = 'ct=' + encodeURIComponent(url) + '?preview=1';
+                    var adm_url_replacement = 'preview=1' + '&ct=' + encodeURIComponent(url);
                     var result = validate.replace('{{ADM_URL}}', adm_url_replacement);
                     return result;
                 } else {
@@ -1004,6 +1018,9 @@
 
             current_folder(value) {
                 this.new_creative.folder = value.key == undefined ? this.folders[0].key : value.key;
+            },
+            show_new_folder_modal(value) {
+                if(value == false) this.new_folder.name = '';
             }
         }
     }

@@ -125,13 +125,12 @@ const app = new Vue({
                 users: [this.user.id],
                 created_at: created_at.toString()
             }
-
             axios.post(
                 this.$root.uri + '/core/notifications',
                 {config: payload},
                 this.$root.config
             ).then(response => {
-
+                
             }, error => {
 
             });

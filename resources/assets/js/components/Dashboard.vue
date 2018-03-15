@@ -383,6 +383,7 @@
                         "position": "right",
                         "labelsEnabled": true,
                         "ignoreAxisWidth":true,
+                        "maximum": 1,
                         labelFunction: function(number, label, axis) {
                             return number * 100 + '%'
                         }
@@ -510,6 +511,7 @@
                         "position": "right",
                         "labelsEnabled": true,
                         "ignoreAxisWidth":true,
+                        "maximum": 1,
                         labelFunction: function(number, label, axis) {
                             return number * 100 + '%'
                         }

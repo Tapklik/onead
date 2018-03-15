@@ -113,8 +113,8 @@
             </v-btn>
             <v-list>
                 <v-list-tile 
-                style="border-bottom: 1px solid #EAEAEA; padding-bottom: 5px" 
-                :style="notification.status == 0 ? 'background: #FCF9F5' : ''"  
+                style="border-bottom: 1px solid #EAEAEA; padding-top: 5px" 
+                :style="notification.status == 0 ? 'background: #FCF9F5; padding-bottom: 5px' : ''"
                 avatar 
                 v-for="notification in notifications" 
                 :key="notification.schedule"
@@ -130,7 +130,7 @@
                         <v-spacer></v-spacer>
                         <v-list-tile-sub-title>
                             <v-spacer></v-spacer>
-                            <a href="#" @click="toggleNotificationStatus(notification.id, true)">Mark as read</a>
+                            <a href="#" v-show="notification.status == 0" @click="toggleNotificationStatus(notification.id, true)">Mark as read</a>
                         </v-list-tile-sub-title>
                     </v-list-tile-content>
                     <v-list-tile-action>
@@ -246,7 +246,6 @@
             changeCreatedAtNotifications(notification) {
                 var creation = new Date(notification.created_at);
                 var now = new Date();
-                console.log(creation.getTime() + ' ' + now.getTime());
                 if(creation.getDate() < now.getDate()) {
                     return (now.getDate() - creation.getDate()) + 'dy';
                 }
