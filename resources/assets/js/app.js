@@ -78,7 +78,7 @@ const app = new Vue({
     },
     
     data: {
-        version: 'v0.6.8',
+        version: 'v0.7.0',
         uri: envUri,
         reportUri: '//104.225.218.101:10002/api/query',
         user: {
