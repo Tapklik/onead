@@ -35,10 +35,10 @@
                         <v-flex xs12 md5 lg4>
                             <v-layout>
                                 <v-flex xs12 md8>
-                                    <vue-rangedate-picker 
+                                    <tk-datepicker 
                                     i18n="EN" 
                                     @selected="selectDates"
-                                    ></vue-rangedate-picker>
+                                    ></tk-datepicker>
                                 </v-flex>
                             </v-layout>
                         </v-flex>
@@ -568,14 +568,14 @@ import VueRangedatePicker from 'vue-rangedate-picker'
                         "axisAlpha": 0,
                         "gridAlpha": 0,
                         "position": "left",
-                        "title": column
+                        "title": column.charAt(0).toUpperCase() + column.slice(1)
                     },
                     {
                         "id": "v2",
                         "axisAlpha": 0,
                         "gridAlpha": 0,
                         "position": "right",
-                        "title": line
+                        "title": line.charAt(0).toUpperCase() + line.slice(1)
                     }
                     ],
                     "graphs": [{
@@ -587,7 +587,7 @@ import VueRangedatePicker from 'vue-rangedate-picker'
                         "fillColors":"#78909c",
                         "lineThickness": 0,
                         "balloonText": "[[date]] <br> <br>"+column+" :[["+column+"]]<br>"+line+": [["+line+"]]",
-                        "title": column,
+                        "title": column.charAt(0).toUpperCase() + column.slice(1),
                         "valueField": column
                     },
                     {   
@@ -603,7 +603,7 @@ import VueRangedatePicker from 'vue-rangedate-picker'
                         "useLineColorForBulletBorder": true,
                         "bulletColor": "#FFFFFF",
                         "lineThickness": 2,
-                        "title": line,
+                        "title": line.charAt(0).toUpperCase() + line.slice(1),
                         "valueField": line
                         
                     }],

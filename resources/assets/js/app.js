@@ -49,6 +49,7 @@ Vue.component('campaign-review', require('./components/CampaignReview.vue'));
 
 //Tapklik elements
 Vue.component('tk-select-list', require('./components/elements/tk-select-list.vue'));
+Vue.component('tk-datepicker', require('./components/elements/tk-datepicker.vue'));
 Vue.component('tk-confirm', require('./components/elements/tk-confirm.vue'));
 Vue.component('tk-tutorial', require('./components/elements/tk-tutorial.vue'));
 Vue.component('tk-tutorial-tab', require('./components/elements/tk-tutorial-tab.vue'));
@@ -124,13 +125,12 @@ const app = new Vue({
                 users: [this.user.id],
                 created_at: created_at.toString()
             }
-
             axios.post(
                 this.$root.uri + '/core/notifications',
                 {config: payload},
                 this.$root.config
             ).then(response => {
-
+                
             }, error => {
 
             });

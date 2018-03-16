@@ -275,13 +275,13 @@
             toggleCampaignStatus(campaign) {
                 var new_status = campaign.status == 'active' ? 'paused' : 'active';
                 campaign.toggle_button_loading = true;
-
+                var additional_message = new_status == 'active' ? ' Go get \'em!' : '';
                 axios.put(
                     this.$root.uri + '/campaigns/' + campaign.id, 
                     { status: new_status }, 
                     this.$root.config
                 ).then(response => {
-                        this.$root.createNotification(this.$root.user.name + ' has changed ' + campaign.name + '\'s status.');
+                        this.$root.createNotification('Campaign ' + campaign.name + ' (id: ' + campaign.id + ') is ' + new_status + '.' + additional_message);
                         this.getCampaigns();
                     }, error => {
                         this.$root.showAlertPopUp('error', 'Can not toggle campaign status.');
@@ -341,7 +341,6 @@
                     this.$root.uri + '/campaigns/' + campaign.id, 
                     this.$root.config
                 ).then(response => {
-                        this.$root.createNotification(this.$root.user.name + ' has successfully deleted campaign ' + campaign_name + '.');
                         this.getCampaigns();
                     }, error => {
                         this.$root.showAlertPopUp('error', 'Can not delete campaign.');

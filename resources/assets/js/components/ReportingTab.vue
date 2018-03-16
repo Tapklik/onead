@@ -82,7 +82,6 @@
                     :headers="headers"
                     :items="tableData"
                     :loading="tableLoading"
-                    class="elevation-1"
                     :disable-initial-sort="true"
                     >
                         <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>

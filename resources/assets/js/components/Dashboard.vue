@@ -7,7 +7,7 @@
                 <v-card height="300px" class="elevation-2">
                     <v-card-title>
                         <span class="subheading orange--text text--darken-4">
-                            REAL-TIME CHART FOR 5 MINUTES
+                            REAL-TIME CHART FOR 5 MINUTES ({{real_time_line | capitalize}} and {{real_time_line_two | capitalize}})
                         </span>
                     </v-card-title>
                     <v-card-media id="chart_real_time" class="tapklik-chart" height="250px"> 
@@ -28,7 +28,7 @@
                 <v-card height="300px" class="elevation-2">
                     <v-card-title>
                         <span class="subheading orange--text text--darken-4">
-                            REAL-TIME CHART FOR 5 MINUTES
+                            REAL-TIME CHART FOR 5 MINUTES ({{real_time_line_three | capitalize}})
                         </span>
                     </v-card-title>
                     <v-card-media id="chart_real_time_spend" class="tapklik-chart" height="250px"> 
@@ -45,7 +45,7 @@
             <!-- REAL-TIME CHART END -->
 
         </v-layout>
-        <v-layout row wrap>
+        <v-layout row wrap class="mt-2">
 
             <!-- WEEK CHART START -->
             <v-flex d-flex md12 lg6>
@@ -383,6 +383,7 @@
                         "position": "right",
                         "labelsEnabled": true,
                         "ignoreAxisWidth":true,
+                        "maximum": 1,
                         labelFunction: function(number, label, axis) {
                             return number * 100 + '%'
                         }
@@ -392,6 +393,7 @@
                         "id": "g1",
                         "type" : "line",
                         "fillAlphas": 1,
+                        "lineColor": line == 'imps' ? "#78909c" : "",
                         "fillColors":"#78909c",
                         "bullet": "round",
                         "bulletBorderAlpha": 1,
@@ -509,6 +511,7 @@
                         "position": "right",
                         "labelsEnabled": true,
                         "ignoreAxisWidth":true,
+                        "maximum": 1,
                         labelFunction: function(number, label, axis) {
                             return number * 100 + '%'
                         }
@@ -672,6 +675,12 @@
             }
         },
 
+        filters: {
+            capitalize(value) {
+                return value.charAt(0).toUpperCase() + value.slice(1);
+            }
+        },
+        
         watch: {
             user(value) {
                 this.getCampaigns();

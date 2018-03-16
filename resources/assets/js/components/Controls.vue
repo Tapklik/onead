@@ -96,7 +96,7 @@
         <span class="ml-2 mr-1 grey--text text--lighten1">
             $ {{ $currency.formatNumber($currency.fromMicroDollars(balance + flight)) }}
         </span>
-        <v-menu offset-y left>
+        <v-menu offset-y left :close-on-content-click="false">
             <v-btn 
             icon 
             class="grey--text text--lighten2"
@@ -105,30 +105,41 @@
                 <v-icon>
                     {{ number_of_notifications > 0 ? 'notifications_active' : 'notifications' }}
                 </v-icon>
-                <div v-show="number_of_notifications > 0" style="background-color: #ef6c00; color: white; border-radius:5px; margin-left: -8px; margin-bottom: -15px; padding-left: 5px; padding-right: 5px;">
+                <div 
+                v-show="number_of_notifications > 0" 
+                style="background-color: #ef6c00; color: white; border-radius:5px; margin-left: -8px; margin-bottom: -15px; padding-left: 5px; padding-right: 5px;">
                     {{ number_of_notifications }}
                 </div>
             </v-btn>
             <v-list>
-                <v-list-tile ripple avatar v-for="notification in notifications" :key="notification.schedule" @click="toggleNotificationStatus(notification.id)">
+                <v-list-tile 
+                style="border-bottom: 1px solid #EAEAEA; padding-top: 5px" 
+                :style="notification.status == 0 ? 'background: #FCF9F5; padding-bottom: 5px' : ''"
+                avatar 
+                v-for="notification in notifications" 
+                :key="notification.schedule"
+                >
                     <v-list-tile-avatar>
                         <v-avatar>
                             <v-icon primary>{{insertNotificationIcon(notification.message)}}</v-icon>
                         </v-avatar>
                     </v-list-tile-avatar>
-                    <v-list-tile-content>                    
-                        <v-list-tile-title>{{ notification.message }}</v-list-tile-title>
+                    <v-list-tile-content>
                         <v-list-tile-sub-title> {{ insertSubtitleText(notification.message) }} </v-list-tile-sub-title>
+                        <v-list-tile-title v-html="notification.message"></v-list-tile-title>
+                        <v-spacer></v-spacer>
+                        <v-list-tile-sub-title>
+                            <v-spacer></v-spacer>
+                            <a href="#" v-show="notification.status == 0" @click="toggleNotificationStatus(notification.id, true)">Mark as read</a>
+                        </v-list-tile-sub-title>
                     </v-list-tile-content>
                     <v-list-tile-action>
                         <v-list-tile-action-text v-html="changeCreatedAtNotifications(notification)"></v-list-tile-action-text>
                         <v-icon primary>{{notification.status == 1 ? 'star_border' : 'star'}}</v-icon>
                     </v-list-tile-action>
                 </v-list-tile>
-                <v-divider></v-divider>
-                <v-divider></v-divider>
                 <v-list-tile>
-                    <a href="#" @click="toggleStatusAllNotifications()">Mark all as read</a>
+                    <a href="#" @click="toggleAllNotificationsStatuses()">Mark all as read</a>
                 </v-list-tile>
             </v-list>
         </v-menu>
@@ -189,18 +200,14 @@
             insertNotificationIcon(message) {
                 if(message.includes('campaign')) return 'add_to_queue';
                 else if(message.includes('creative')) return 'crop_original';
-                else if(message.includes('user')) return 'person';
                 else if(message.includes('bill')) return 'attach_money';
-                else if(message.includes('folder')) return 'create_new_folder';
                 else if(message.includes('account')) return 'account_balance';
             },
 
             insertSubtitleText(message) {
                 if(message.includes('campaign')) return 'Campaign';
                 else if(message.includes('creative')) return 'Creative';
-                else if(message.includes('user')) return 'User';
                 else if(message.includes('bill')) return 'Bill';
-                else if(message.includes('ad group')) return 'Ad Group';
                 else if(message.includes('account')) return 'Account';
             },
 
@@ -216,22 +223,23 @@
                 );
             },
 
-            toggleNotificationStatus(notification_id) {
+            toggleNotificationStatus(notification_id, get_request) {
                 axios.put(
                     this.$root.uri + '/core/notifications/' + notification_id,
                     {status: 1},
                     this.$root.config
                 ).then(response => {
-                        
+                        if(get_request) this.getNotifications();
                     },error => {
                         this.$root.showAlertPopUp('error', 'Can not mark notifications as read.');
                     }
                 );
             },
 
-            toggleStatusAllNotifications() {
+            toggleAllNotificationsStatuses() {
                 for (var i = 0; i < this.notifications.length; i++) {
-                    this.toggleNotificationStatus(this.notifications[i].id);
+                    this.toggleNotificationStatus(this.notifications[i].id, false);
+                    if(i == this.notifications.length - 1) this.getNotifications();
                 }
             },
 
@@ -331,11 +339,11 @@
             },
 
             notifications(value) {
-                this.number_of_notifications = value.length;
-            },
-
-            number_of_notifications(value) {
-                if(value > 0) this.snackbar = true;
+                var unseen_notifications = 0;
+                for(var i = 0; i < this.notifications.length; i++) {
+                    if(this.notifications[i].status == 0) unseen_notifications++;
+                }
+                this.number_of_notifications = unseen_notifications;
             }
         }
     }

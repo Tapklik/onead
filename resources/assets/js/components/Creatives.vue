@@ -21,7 +21,7 @@
                         </v-btn>
                         <v-card>
                             <v-card-title>
-                                <h4>Upload Creatives Here</h4>
+                                <h4>Upload Creatives</h4>
                             </v-card-title>
                             <v-divider></v-divider>
                             <v-card-text class="pr-5 pl-5">
@@ -89,7 +89,7 @@
                                         <v-layout row wrap class="mt-4">
                                             <v-flex xs12 md4 lg3 class="valign-wrapper">
                                                 <span class="title">Ad Group</span><br>
-                                                <p class="caption ma-0">
+                                                <p class="caption ma-0 mr-1">
                                                     The Ad group where your creative will be uploaded
                                                 </p>
                                             </v-flex>
@@ -104,6 +104,21 @@
                                                 placeholder="Ad Group" 
                                                 @change="checkFile()"
                                                 ></v-select>
+                                            </v-flex>
+                                        </v-layout>
+                                        <v-layout row wrap class="mt-4">
+                                            <v-flex xs12 md4 lg3 class="valign-wrapper">
+                                                <span class="title">Click-Through URL</span><br>
+                                                <span class="caption ma-0">Click-through url per creative</span>
+                                            </v-flex>    
+                                            <v-flex xs12 md5>
+                                                <v-text-field 
+                                                prepend-icon="language" 
+                                                :rules="urlRules()"
+                                                v-model="new_creative.url" 
+                                                placeholder="URL" 
+                                                @keyup="checkFile()"
+                                                ></v-text-field>
                                             </v-flex>
                                         </v-layout>
                                     </v-flex>
@@ -150,54 +165,6 @@
                                                 ></v-text-field>
                                             </v-flex>
                                         </v-layout>
-                                        <v-layout row wrap class="mt-4">
-                                            <v-flex xs12 md3 class="valign-wrapper">
-                                                <span class="title">Responsive</span><br>
-                                                <p class="caption ma-0">Is this creative responsive?</p>
-                                            </v-flex>
-                                            <v-flex xs12 md6>
-                                                <v-switch 
-                                                :false-value="0" 
-                                                :true-value="1" 
-                                                v-model="new_creative.responsive" 
-                                                label="Responsive" 
-                                                @change="checkFile()"
-                                                ></v-switch>
-                                            </v-flex>
-                                        </v-layout>
-                                    </v-flex>
-                                </v-layout>
-                                <v-divider></v-divider>
-                                <v-layout row wrap>
-                                    <v-flex xs12 class="valign-wrapper mt-4">
-                                        <span class="subheading">ADVANCED (Optional)</span>
-                                    </v-flex>
-                                </v-layout>
-                                <v-layout row wrap class="mt-4">
-                                    <v-flex xs12 md3 lg2 class="valign-wrapper">
-                                        <span class="title">Click-Through URL</span><br>
-                                        <span class="caption ma-0">Click-through url per creative</span>
-                                    </v-flex>    
-                                    <v-flex xs12 md9>
-                                        <v-text-field 
-                                        prepend-icon="language" 
-                                        v-model="new_creative.url" 
-                                        placeholder="URL" 
-                                        @keyup="checkFile()"
-                                        ></v-text-field>
-                                    </v-flex>
-                                </v-layout>
-                                <v-layout row wrap class="mt-4">
-                                    <v-flex xs12 md3 lg2 class="valign-wrapper">
-                                        <span class="title">Ad Markup</span><br>
-                                        <p class="caption ma-0">Set iframe or HTML markup</p>
-                                    </v-flex>
-                                    <v-flex xs12 md9>
-                                        <v-text-field 
-                                        prepend-icon="language" 
-                                        placeholder="Ad Markup" 
-                                        @keyup="checkFile()"
-                                        ></v-text-field>
                                     </v-flex>
                                 </v-layout>
                             </v-card-text>
@@ -634,7 +601,7 @@
                                 <v-layout row wrap>
                                     <v-flex xs12>
                                         <div class="preview">
-                                            <img width="128" :src="creative_preview.thumbnail" />
+                                            <img width="128" :src="creative_preview != 'html5' ? creative_preview.thumbnail : creative_preview.iurl" />
                                         </div>
                                     </v-flex>
                                 </v-layout>
@@ -703,7 +670,8 @@
                     w: false,
                     folder: false,
                     class: false,
-                    file: false
+                    file: false,
+                    ctrurl: false
                 },
                 new_creative: {
                     name: '',
@@ -791,6 +759,18 @@
             },
 
             //NEW CREATIVE
+            urlRules() {
+                var url = ['not a valid url'];
+                var regexp = new RegExp('^(https?:\\/\\/)?'+ 
+                    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|'+ 
+                    '((\\d{1,3}\\.){3}\\d{1,3}))' + 
+                    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+
+                    '(\\?[;&a-z\\d%_.~+=-]*)?'+
+                    '(\\#[-a-z\\d_]*)?$','i'); 
+                this.valid_new_creative.ctrurl = this.new_creative.url == '' || regexp.test(this.new_creative.url);
+                if(!this.valid_new_creative.ctrurl) return url;
+            },
+
             showNoFoldersError() {
                 axios.get(
                     this.$root.uri + '/creatives/folders', 
@@ -826,7 +806,6 @@
                         this.new_creative_button_loading = false;
 
                         if(file.status != 'success') {
-                            this.$root.createNotification(this.$root.user.name + ' has uploaded creative ' + this.new_creative.name + '.');
                             this.$root.showAlertPopUp('error', 'Can not upload new creative.');
                         }
                         else {
@@ -894,7 +873,6 @@
                 ).then(response => {
                         this.getFolders();
                         this.current_folder = {};
-                        this.$root.createNotification(this.$root.user.name + ' has created a new ad group ' + folder_name + '.');
                         this.$root.showAlertPopUp('success', 'You have successfully created a new folder.');
                     }, error => {
                         this.$root.showAlertPopUp('error', 'Can not create new folder.');
@@ -947,7 +925,6 @@
                     this.$root.config
                 ).then(response => {
                         this.folders_table_loading = false;
-                        this.$root.createNotification(this.$root.user.name + ' has deleted ad group ' + folder_name + '.');
                         this.$root.showAlertPopUp('success', 'You have successfully deleted ' + folder_name + '.');
                         this.getFolders();
                     }, error => {
@@ -965,7 +942,7 @@
                 var url = creative.adm_url == null ? creative.ctrurl : creative.adm_url;
                 if(html5) {
                     validate = creative.adm_iframe;
-                    var adm_url_replacement = 'ct=' + encodeURIComponent(url) + '?preview=1';
+                    var adm_url_replacement = 'preview=1' + '&ct=' + encodeURIComponent(url);
                     var result = validate.replace('{{ADM_URL}}', adm_url_replacement);
                     return result;
                 } else {
@@ -999,7 +976,6 @@
                     this.$root.config
                 ).then(response => {
                         this.$root.showAlertPopUp('success', 'You have successfully deleted ' + creative_name + '.');
-                        this.$root.createNotification(this.$root.user.name + ' has deleted creative ' + creative_name + '.');
                         this.getFolderCreatives(this.current_folder.id);
                     }, error => {
                         this.$root.showAlertPopUp('error', 'Can not access creatives.');
@@ -1042,6 +1018,9 @@
 
             current_folder(value) {
                 this.new_creative.folder = value.key == undefined ? this.folders[0].key : value.key;
+            },
+            show_new_folder_modal(value) {
+                if(value == false) this.new_folder.name = '';
             }
         }
     }
