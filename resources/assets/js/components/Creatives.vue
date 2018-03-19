@@ -824,8 +824,7 @@
                 this.new_creative.w = 0;
                 this.new_creative.h = 0;
                 this.new_creative.responsive = 0;
-                this.new_creative.class = 'banner'; 
-                this.new_creative.folder = '';            
+                this.new_creative.class = 'banner';            
             },
 
             validCreative() {
@@ -942,7 +941,7 @@
                 var url = creative.adm_url == null ? creative.ctrurl : creative.adm_url;
                 if(html5) {
                     validate = creative.adm_iframe;
-                    var adm_url_replacement = 'preview=1' + '&ct=' + encodeURIComponent(url);
+                    var adm_url_replacement = 'preview=1&ct=' + encodeURIComponent(url);
                     var result = validate.replace('{{ADM_URL}}', adm_url_replacement);
                     return result;
                 } else {
