@@ -240,7 +240,9 @@
 
             toggleAllNotificationsStatuses() {
                 for (var i = 0; i < this.notifications.length; i++) {
-                    this.toggleNotificationStatus(this.notifications[i].id, false);
+                    if(this.notifications[i].status == 0) {
+                        this.toggleNotificationStatus(this.notifications[i].id, false);
+                    }
                     if(i == this.notifications.length - 1) this.getNotifications();
                 }
             },
