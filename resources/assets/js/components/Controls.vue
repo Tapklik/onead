@@ -198,17 +198,19 @@
         methods: {
             //NOTIFICATIONS
             insertNotificationIcon(message) {
-                if(message.includes('campaign')) return 'add_to_queue';
-                else if(message.includes('creative')) return 'crop_original';
-                else if(message.includes('bill')) return 'attach_money';
-                else if(message.includes('account')) return 'account_balance';
+                var lower_message = message.toLowerCase();
+                if(lower_message.includes('campaign')) return 'add_to_queue';
+                else if(lower_message.includes('creative')) return 'crop_original';
+                else if(lower_message.includes('bill') || lower_message.includes('topped')) return 'attach_money';
+                else if(lower_message.includes('account')) return 'account_balance';
             },
 
             insertSubtitleText(message) {
-                if(message.includes('campaign')) return 'Campaign';
-                else if(message.includes('creative')) return 'Creative';
-                else if(message.includes('bill')) return 'Bill';
-                else if(message.includes('account')) return 'Account';
+                var lower_message = message.toLowerCase();
+                if(lower_message.includes('campaign')) return 'Campaign';
+                else if(lower_message.includes('creative')) return 'Creative';
+                else if(lower_message.includes('bill') || lower_message.includes('topped')) return 'Bill';
+                else if(lower_message.includes('account')) return 'Account';
             },
 
             getNotifications() {
@@ -238,7 +240,9 @@
 
             toggleAllNotificationsStatuses() {
                 for (var i = 0; i < this.notifications.length; i++) {
-                    this.toggleNotificationStatus(this.notifications[i].id, false);
+                    if(this.notifications[i].status == 0) {
+                        this.toggleNotificationStatus(this.notifications[i].id, false);
+                    }
                     if(i == this.notifications.length - 1) this.getNotifications();
                 }
             },
