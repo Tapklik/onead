@@ -3,7 +3,7 @@
         <v-layout row wrap>
 
             <!-- REAL-TIME CHART START -->
-            <v-flex d-flex md12 lg4>
+            <v-flex d-flex md12 lg4 style="display: none">
                 <v-card height="300px" class="elevation-2">
                     <v-card-title>
                         <span class="subheading orange--text text--darken-4">
@@ -24,7 +24,7 @@
             <!-- REAL-TIME CHART END -->
 
             <!-- REAL-TIME CHART START -->
-            <v-flex d-flex md12 lg4>
+            <v-flex d-flex md12 lg4  style="display: none">
                 <v-card height="300px" class="elevation-2">
                     <v-card-title>
                         <span class="subheading orange--text text--darken-4">
@@ -460,7 +460,7 @@
                 if(!second_line) {
                     chart.graphs.splice(1, 1);
                     chart.valueAxes.splice(1, 1);
-                    chart.validateData()
+                    if(self.loaded == false) chart.validateData();
                 }
 
                 setInterval(function addNewPoint() {
@@ -511,7 +511,6 @@
                         "position": "right",
                         "labelsEnabled": true,
                         "ignoreAxisWidth":true,
-                        "maximum": 1,
                         labelFunction: function(number, label, axis) {
                             return number * 100 + '%'
                         }

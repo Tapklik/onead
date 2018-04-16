@@ -460,14 +460,16 @@ import VueRangedatePicker from 'vue-rangedate-picker'
                 let start_day = toTwoDigits(dates.start.getDate()); 
                 this.date_from = `${start_year}-${start_month}-${start_day}`;
 
-                dates.end.setDate(dates.end.getDate() - 1);
-                let end_year = dates.end.getFullYear();
-                let end_month = toTwoDigits(dates.end.getMonth() + 1);
-                let end_day = toTwoDigits(dates.end.getDate()); 
-                this.date_to = `${end_year}-${end_month}-${end_day}`;
-
+                if(dates.end == null) this.date_to = this.date_from;
+                else {
+                    dates.end.setDate(dates.end.getDate() - 1);
+                    let end_year = dates.end.getFullYear();
+                    let end_month = toTwoDigits(dates.end.getMonth() + 1);
+                    let end_day = toTwoDigits(dates.end.getDate()); 
+                    this.date_to = `${end_year}-${end_month}-${end_day}`;
+                }
                 dates.start.setDate(dates.start.getDate() + 1);
-                dates.end.setDate(dates.end.getDate() + 1);
+                if(dates.end != null) dates.end.setDate(dates.end.getDate() + 1);
                 this.styleInputDiv(true);
                 
             },

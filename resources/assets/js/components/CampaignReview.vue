@@ -322,7 +322,7 @@
                     if(action == 'update') this.updateMessage();
                     else this.createCampaign();
                 }, error => {
-
+                    if(action == 'update') this.updateMessage();
                 });
             },
 
