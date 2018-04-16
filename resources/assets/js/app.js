@@ -81,7 +81,7 @@ const app = new Vue({
     data: {
         version: 'v0.7.1',
         uri: envUri,
-        reportUri: '//104.225.218.101:10002/api/query',
+        reportUri: 'https://reports.tapklik.com/api/query',
         user: {
             accountId: null,
             accountUuId: null,
