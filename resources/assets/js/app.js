@@ -79,7 +79,7 @@ const app = new Vue({
     },
     
     data: {
-        version: 'v0.7.0-ALPHA',
+        version: 'v0.7.1',
         uri: envUri,
         reportUri: '//104.225.218.101:10002/api/query',
         user: {
@@ -108,6 +108,18 @@ const app = new Vue({
     },
 
     methods: {
+        getAccountTimezone() {
+            axios.get(
+                this.uri + '/accounts/' + this.user.accountUuId,
+                this.config
+            ).then(response => {
+                    this.account_timezone = response.data.data.localization.timezone;
+                }, error => {
+                    
+                }
+            );
+        },
+
         getApiToken() {
             axios.get('/core/token').then(response => {
                 this.token = response.data.token;
@@ -157,6 +169,10 @@ const app = new Vue({
 
     },
     watch: {
+        user(value) {
+            this.getAccountTimezone();
+        },
+
         token(value) {
             if(value == null) return;
             this.$children[0].token = value;

@@ -491,7 +491,7 @@
                 var chart = AmCharts.makeChart(target, {
                     "type": "serial",
                     "theme": "light",
-                    "marginRight": 40,
+                    "marginRight": 50,
                     "marginLeft": 70,
                     "marginTop": 20,
                     "autoMarginOffset": 20,
@@ -512,7 +512,7 @@
                         "labelsEnabled": true,
                         "ignoreAxisWidth":true,
                         labelFunction: function(number, label, axis) {
-                            return number * 100 + '%'
+                            return number > 1 ? number * 10 + '%' : number * 100 + '%'
                         }
                     }],
                     "graphs": [{
@@ -529,7 +529,7 @@
                     {   
                         "valueAxis": "v2",
                         "id": "g2",
-                        "type" : "smoothedLine",
+                        "type" : "line",
                         "lineColor":"#f76c06",
                         "fillAlphas": 0.0,
                         "fillColors":"#f76c06",
