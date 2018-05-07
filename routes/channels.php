@@ -14,3 +14,11 @@
 Broadcast::channel('App.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
+
+
+
+Route::get('/v1/health', [
+    'as' => 'health',
+    'uses' => 'HealthCheckController@index'
+]);
+

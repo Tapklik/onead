@@ -1,4 +1,3 @@
-
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -44,6 +43,7 @@ Vue.component('campaign', require('./components/Campaign.vue'));
 Vue.component('campaign-details', require('./components/CampaignDetails.vue'));
 Vue.component('campaign-categories', require('./components/CampaignCategories.vue'));
 Vue.component('campaign-targeting', require('./components/CampaignTargeting.vue'));
+Vue.component('campaign-smart', require('./components/CampaignSmart.vue'));
 Vue.component('campaign-creatives', require('./components/CampaignCreatives.vue'));
 Vue.component('campaign-review', require('./components/CampaignReview.vue'));
 
@@ -65,11 +65,25 @@ var utils = require('../../../modules/Tapklik/helpers/utils');
 Vue.use(currency);
 Vue.use(utils);
 
-var envUri = 'https://api.tapklik.com/v1';
 
-if(window.location.hostname.search('local') > -1 || window.location.hostname.search('127')  > -1) envUri = '//local.api.tapklik.com/v1';
-if(window.location.hostname.search('alpha') > -1) envUri = '//104.225.218.101:10006/v1';
-if(window.location.hostname.search('local.material.tapklik.com') > -1) envUri = '//104.225.218.101:10006/v1';
+// ** PRODUCTION
+var envUri = 'https://api.tapklik.com/v1'; 
+var reportUri = 'https://reports.tapklik.com/api/query';
+
+// ** LOCAL
+if(window.location.hostname.search('local') > -1 || window.location.hostname.search('127')  > -1) {
+    envUri = '//local.api.tapklik.com/v1';
+    reportUri: '//104.225.218.101:10002/api/query';
+}
+
+// ** DEVELOPMENT
+if(window.location.hostname.search('alpha') > -1) {
+    envUri = '//104.225.218.101:10006/v1';
+    reportUri: '//104.225.218.101:10002/api/query';
+}
+if(window.location.hostname.search('local.onead.tapklik.com') > -1) envUri = '//104.225.218.101:10006/v1';
+
+
 
 const app = new Vue({
     el: '#app',
@@ -79,9 +93,9 @@ const app = new Vue({
     },
     
     data: {
-        version: 'v0.7.1',
+        version: 'v0.7.2',
         uri: envUri,
-        reportUri: '//104.225.218.101:10002/api/query',
+        reportUri: reportUri,
         user: {
             accountId: null,
             accountUuId: null,
