@@ -43,7 +43,6 @@ Vue.component('campaign', require('./components/Campaign.vue'));
 Vue.component('campaign-details', require('./components/CampaignDetails.vue'));
 Vue.component('campaign-categories', require('./components/CampaignCategories.vue'));
 Vue.component('campaign-targeting', require('./components/CampaignTargeting.vue'));
-Vue.component('campaign-smart', require('./components/CampaignSmart.vue'));
 Vue.component('campaign-creatives', require('./components/CampaignCreatives.vue'));
 Vue.component('campaign-review', require('./components/CampaignReview.vue'));
 
