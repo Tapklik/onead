@@ -943,13 +943,15 @@
                     render = creative.adm_iframe;
                     var imp_path = creative.html;
                     var link = url + '?test=1&ct=' + encodeURIComponent(link);
-                    var result = render.replace('{{ADM_URL}}', link).replace('{{IMP_PATH}}', imp_path);
+                    var result = render.replace('{{ADM_URL}}', link);
+                    result = result.replace('{{IMP_PATH}}', imp_path);
                     return result;
                 } else {
                     render = creative.adm;
                     var path = creative.iurl;
                     var link = url + '?test=1',
-                    var result = render.replace('{{ADM_URL}}', link).replace('{{IMP_PATH}}', imp_path);
+                    var result = render.replace('{{ADM_URL}}', link);
+                    result = result.replace('{{IMP_PATH}}', imp_path);
                     return result;
                 }
             },
