@@ -941,7 +941,7 @@
                 if(html5) {
                     render = creative.adm_iframe;
                     var imp_path = creative.html;
-                    var iframe_src = creative.ctrurl == null ? imp_path : imp_path + '?ct=' + encodeURIComponent(creative.ctrurl);
+                    var iframe_src = creative.ctrurl == null ? imp_path + '?ct=' : imp_path + '?ct=' + encodeURIComponent(creative.ctrurl);
                     var result = render.replace('{{IMP_PATH}}&{{ADM_URL}}', iframe_src);
                     return result;
                 } else {
