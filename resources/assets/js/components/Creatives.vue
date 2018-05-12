@@ -949,7 +949,7 @@
                 } else {
                     render = creative.adm;
                     var path = creative.iurl;
-                    var link = url + '?test=1',
+                    var link = url + '?test=1';
                     var result = render.replace('{{ADM_URL}}', link);
                     result = result.replace('{{IMP_PATH}}', imp_path);
                     return result;
