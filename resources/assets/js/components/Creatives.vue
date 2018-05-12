@@ -938,18 +938,17 @@
             getPreview(creative) {
                 var html5 = creative.class != 'html5' ? false : true;
                 var render = '';
-                var url = creative.adm_url == null ? creative.ctrurl : creative.adm_url;
                 if(html5) {
                     render = creative.adm_iframe;
                     var imp_path = creative.html;
-                    var link = url + '?test=1&ct=' + encodeURIComponent(link);
+                    var link = creative.ctrurl == null ? '#' : creative.ctrurl + '?ct=' + encodeURIComponent(link);
                     var result = render.replace('{{ADM_URL}}', link);
                     result = result.replace('{{IMP_PATH}}', imp_path);
                     return result;
                 } else {
                     render = creative.adm;
                     var path = creative.iurl;
-                    var link = url + '?test=1';
+                    var link = creative.ctrurl == null ? '#' : creative.ctrurl;
                     var result = render.replace('{{ADM_URL}}', link);
                     result = result.replace('{{IMP_PATH}}', imp_path);
                     return result;
