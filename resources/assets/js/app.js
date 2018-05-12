@@ -77,10 +77,10 @@ if(window.location.hostname.search('local') > -1 || window.location.hostname.sea
 
 // ** DEVELOPMENT
 if(window.location.hostname.search('alpha') > -1) {
-    envUri = '//104.225.218.101:10006/v1';
+    envUri = '//api.alpha.tapklik.com/v1';
     reportUri: '//104.225.218.101:10002/api/query';
 }
-if(window.location.hostname.search('local.onead.tapklik.com') > -1) envUri = '//104.225.218.101:10006/v1';
+if(window.location.hostname.search('local.onead.tapklik.com') > -1) envUri = '//api.alpha.tapklik.com/v1';
 
 
 
