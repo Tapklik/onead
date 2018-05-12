@@ -941,16 +941,15 @@
                 if(html5) {
                     render = creative.adm_iframe;
                     var imp_path = creative.html;
-                    var link = creative.ctrurl == null ? '#' : creative.ctrurl + '?ct=' + encodeURIComponent(link);
-                    var result = render.replace('{{ADM_URL}}', link);
-                    result = result.replace('{{IMP_PATH}}', imp_path);
+                    var iframe_src = creative.ctrurl == null ? imp_path : imp_path + '?ct=' + encodeURIComponent(creative.ctrurl);
+                    var result = render.replace('{{IMP_PATH}}&{{ADM_URL}}', iframe_src);
                     return result;
                 } else {
                     render = creative.adm;
-                    var path = creative.iurl;
-                    var link = creative.ctrurl == null ? '#' : creative.ctrurl;
+                    var imp_path = creative.iurl;
+                    var link = creative.ctrurl == null ? '' : creative.ctrurl;
                     var result = render.replace('{{ADM_URL}}', link);
-                    result = result.replace('{{IMP_PATH}}', imp_path);
+                    result = result.replace('{{IMP_PATH}}', '');
                     return result;
                 }
             },
