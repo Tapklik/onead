@@ -937,16 +937,19 @@
             //CREATIVES
             getPreview(creative) {
                 var html5 = creative.class != 'html5' ? false : true;
-                var validate = '';
+                var render = '';
                 var url = creative.adm_url == null ? creative.ctrurl : creative.adm_url;
                 if(html5) {
-                    validate = creative.adm_iframe;
-                    var adm_url_replacement = 'preview=1&ct=' + encodeURIComponent(url);
-                    var result = validate.replace('{{ADM_URL}}', adm_url_replacement);
+                    render = creative.adm_iframe;
+                    var imp_path = creative.html;
+                    var link = url + '?test=1&ct=' + encodeURIComponent(link);
+                    var result = render.replace('{{ADM_URL}}', link).replace('{{IMP_PATH}}', imp_path);
                     return result;
                 } else {
-                    validate = creative.adm;
-                    var result = validate.replace('{{ADM_URL}}', url + '?preview=1');
+                    render = creative.adm;
+                    var path = creative.iurl;
+                    var link = url + '?test=1',
+                    var result = render.replace('{{ADM_URL}}', link).replace('{{IMP_PATH}}', imp_path);
                     return result;
                 }
             },
