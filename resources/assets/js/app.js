@@ -72,13 +72,13 @@ var reportUri = 'https://reports.tapklik.com/api/query';
 // ** LOCAL
 if(window.location.hostname.search('local') > -1 || window.location.hostname.search('127')  > -1) {
     envUri = '//local.api.tapklik.com/v1';
-    reportUri: '//104.225.218.101:10002/api/query';
+    reportUri = 'http://api.alpha.tapklik.com/v1/reports';
 }
 
 // ** DEVELOPMENT
 if(window.location.hostname.search('alpha') > -1) {
     envUri = '//api.alpha.tapklik.com/v1';
-    reportUri: '//104.225.218.101:10002/api/query';
+    reportUri = 'http://api.alpha.tapklik.com/v1/reports';
 }
 if(window.location.hostname.search('local.onead.tapklik.com') > -1) envUri = '//api.alpha.tapklik.com/v1';
 

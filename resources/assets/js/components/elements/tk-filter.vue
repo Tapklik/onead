@@ -21,7 +21,7 @@
                 <v-list-tile v-for="item in filtered_items" :key="item[keyValue]">
                     <v-list-tile-action>
                         <v-checkbox 
-                        :value="item[value]"
+                        :value="value == 'object' ? item : item[value]"
                         v-model="storage"
                         ></v-checkbox>
                     </v-list-tile-action>

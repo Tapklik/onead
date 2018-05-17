@@ -282,7 +282,7 @@
                 date_from: '',
                 date_to: '',
                 column: 'imps',
-                line: 'ctr',
+                line: 'spend',
                 
                 //SUMMARY
                 overall_summary: {
@@ -348,10 +348,10 @@
 
             getRealTimeData() {
                 axios.get(
-                    this.$root.reportUri + '?table=wins&acc=' + this.user.accountUuId + '&field=ctr,imps,spend&op=sum&from=' + this.real_time_start + '&to=' + this.real_time_end + '&scale=5m', 
+                    this.$root.reportUri + '/overall?op=sum&acc=' + this.user.accountUuId + '&fields=imps,spend&from=' + this.real_time_start + '&to=' + this.real_time_end, 
                     this.$root.config
                 ).then(response => {
-                        this.real_time_data = response.data.data;
+                        this.real_time_data = response.data;
                     }, error => {
                         this.$root.showAlertPopUp('error', 'Something went wrong.');
                     }
@@ -476,10 +476,10 @@
             //WEEK CHART
             getOverallData() {
                 axios.get(
-                    this.$root.reportUri + '?table=wins&acc=' + this.user.accountUuId + '&field=ctr,imps,spend&op=sum&from=' + this.date_from + ' 00:00:00&to=' + this.date_to + ' 23:59:59&scale=1d', 
+                    this.$root.reportUri + '/overall?op=sum&acc=' + this.user.accountUuId + '&fields=imps,spend&from='+this.date_from+'&to=' + this.date_to,
                     this.$root.config
                 ).then(response => {
-                        this.overall_data = response.data.data;
+                        this.overall_data = response.data;
                         this.createChart('chart_main', this.overall_data, this.column, this.line);
                     }, error => {
                         this.$root.showAlertPopUp('error', 'Can not access overall static graph data.');
@@ -585,11 +585,11 @@
             //SUMMARY
             getOverallSummary() {
                 axios.get(
-                    this.$root.reportUri + '?table=wins&acc=' + this.user.accountUuId + '&field=clicks,imps,spend&op=summary&from=' + this.date_from + ' 00:00:00&to=' + this.date_to + ' 23:59:59', 
+                    this.$root.reportUri + '/overall?op=sum&acc=' + this.user.accountUuId + '&fields=imps,spend&from='+this.date_from+'&to=' + this.date_to,
                     this.$root.config
                 ).then(response => {
                         if(response.data.data != undefined) {
-                            this.overall_summary = response.data.data;
+                            this.overall_summary = response.data;
                         }
                     }, error => {
                         this.$root.showAlertPopUp('error', 'Can not access overall data.');
