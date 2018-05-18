@@ -66,20 +66,18 @@ Vue.use(utils);
 
 
 // ** PRODUCTION
-var envUri = 'https://api.tapklik.com/v1'; 
-var reportUri = 'https://reports.tapklik.com/api/query';
+var envUri = 'https://api.tapklik.com/v1';
 
 // ** LOCAL
 if(window.location.hostname.search('local') > -1 || window.location.hostname.search('127')  > -1) {
     envUri = '//local.api.tapklik.com/v1';
-    reportUri = 'http://api.alpha.tapklik.com/v1/reports';
 }
 
 // ** DEVELOPMENT
 if(window.location.hostname.search('alpha') > -1) {
     envUri = '//api.alpha.tapklik.com/v1';
-    reportUri = 'http://api.alpha.tapklik.com/v1/reports';
 }
+
 if(window.location.hostname.search('local.onead.tapklik.com') > -1) envUri = '//api.alpha.tapklik.com/v1';
 
 
@@ -94,7 +92,6 @@ const app = new Vue({
     data: {
         version: 'v0.7.2',
         uri: envUri,
-        reportUri: reportUri,
         user: {
             accountId: null,
             accountUuId: null,

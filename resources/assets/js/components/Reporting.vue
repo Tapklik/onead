@@ -148,6 +148,7 @@
                                     @changeSelection="selection.models = $event"
                                     ></tk-filter>
                                     <tk-filter
+                                    style="display: none"
                                     leftIcon="filter_list"
                                     buttonText="Device UA"
                                     :items="list.browsers"
@@ -158,6 +159,7 @@
                                     @changeSelection="selection.browsers = $event"
                                     ></tk-filter>
                                     <tk-filter
+                                    style="display: none"
                                     leftIcon="filter_list"
                                     buttonText="Device OS"
                                     :items="list.os"
@@ -209,7 +211,7 @@
                                 <tk-widget
                                     icon="photo"
                                     title="IMPRESSIONS"
-                                    :value="0"
+                                    :value="summary_data.imps"
                                     defaultValue="0.00"
                                     size="sm"
                                 ></tk-widget>
@@ -218,7 +220,7 @@
                                 <tk-widget
                                     icon="monetization_on"
                                     title="CLICKS"
-                                    :value="0"
+                                    :value="summary_data.clicks"
                                     defaultValue="0.00"
                                     size="sm"
                                 ></tk-widget>
@@ -227,7 +229,7 @@
                                 <tk-widget
                                     icon="mouse"
                                     title="CTR"
-                                    :value="0"
+                                    :value="summary_data.ctr"
                                     unit="%"
                                     defaultValue="0.00"
                                     size="sm"
@@ -237,7 +239,7 @@
                                 <tk-widget
                                     icon="monetization_on"
                                     title="eCPM"
-                                    :value="0"
+                                    :value="summary_data.ecpm"
                                     unit="$"
                                     defaultValue="0.00"
                                     size="sm"
@@ -247,7 +249,7 @@
                                 <tk-widget
                                     icon="star_half"
                                     title="eCPC"
-                                    :value="0"
+                                    :value="summary_data.ecpc"
                                     unit="$"
                                     defaultValue="0.00"
                                     size="sm"
@@ -257,7 +259,7 @@
                                 <tk-widget
                                     icon="monetization_on"
                                     title="SPEND"
-                                    :value="0"
+                                    :value="summary_data.spend"
                                     unit="$"
                                     defaultValue="0.00"
                                     size="sm"
@@ -331,32 +333,53 @@
                 },
                 table_loading: false,
                 chart_data: [],
-                summary_data: {},
+                summary_data: {}
             }
         },
         
         computed: {
             dataQuery() {
-                var table = '/' + this.selection.tab;
-                var acc = 'acc=' + this.user.accountUuId + '&';
+                var table = '/reports/' + this.selection.tab;
+                var query = 'acc=' + this.user.accountUuId + '&';
                 if(this.selection.campaigns.length > 0) {
-                    acc += 'cmp=' + this.selection.campaigns.map(cmp=>cmp.id).join() + '&';
+                    query += 'cmp=' + this.selection.campaigns.map(cmp=>cmp.id).join() + '&';
                     if(this.selection.creatives.length > 0) {
-                        acc += 'crid=' + this.selection.creatives.map(cr=>cr.id).join() + '&';      
+                        query += 'crid=' + this.selection.creatives.map(cr=>cr.id).join() + '&';      
                     }
-                } 
-                var from = 'from=' + this.selection.date_from + '&';
-                var to = 'to=' + this.selection.date_to + '&';
-                var fields = 'fields=' + this.selection.column + ',' + this.selection.line + '&';
-                return table + '?' + acc + from + to + fields;
+                }
+                if(this.selection.tab == 'device_type' && this.selection.models.length > 0) {
+                    query += 'device_type=' + this.selection.models.map(dev => dev.device_id).join(',') + '&';
+                }
+                if(this.selection.tab == 'geo' && this.selection.countries.length > 0) {
+                    query += 'countries=' + this.selection.countries.map(country => country.country).join(',') + '&';
+                }
+                var from = 'from=' + this.selection.date_from + ' 00:00:00&';
+                var to = 'to=' + this.selection.date_to + ' 23:59:59&';
+                var fields = 'fields=imps,clicks,spend&';
+                return table + '?' + query + from + to + fields;
             },
 
             fullDate() {
                 return 'From: ' + this.selection.date_from + '     To: ' + this.selection.date_to;
+            },
+
+            columnAndLine() {
+                return 'Line: ' + this.selection.line + ', Column: ' + this.selection.column;
             }
         },
 
         methods: {
+            calculateFields(data) {
+                for(let i = 0; i < data.length; i++) {
+                    var point = data[i]; 
+                    point.spend = this.$currency.fromMicroDollars(point.spend);
+                    point.ctr = point.imps != 0 ? (point.clicks / point.imps * 100).toFixed(2) : 0;
+                    point.ecpm = point.imps != 0 ? (point.spend * 1000 / point.imps).toFixed(2) : 0;
+                    point.ecpc =  point.clicks != 0 ? (point.spend / point.clicks).toFixed(2) : 0;
+                    point.spend = point.spend.toFixed(2);
+                }
+            },
+
             getLists() {
                 this.getCampaigns();
                 this.getPublishers();
@@ -427,10 +450,11 @@
 
             getChartData() {
                 axios.get(
-                    this.$root.reportUri + this.dataQuery + 'op=sum',
+                    this.$root.uri + this.dataQuery + 'op=sum',
                     this.$root.config
                 ).then(response => {
                         this.chart_data = response.data;
+                        this.calculateFields(this.chart_data);
                         this.createChart('graph', this.chart_data, this.selection.column, this.selection.line);
                     }, error => {
                         this.$root.showAlertPopUp('error', 'Can not access graph data.');
@@ -440,10 +464,12 @@
 
             getSummaryData() {
                 axios.get(
-                    this.$root.reportUri + this.dataQuery + 'op=summary',
+                    this.$root.uri + this.dataQuery + 'op=summary',
                     this.$root.config
                 ).then(response => {
                         this.summary_data = response.data;
+                        this.calculateFields(this.summary_data);
+                        this.summary_data = this.summary_data[0];
                     }, error => {
                         this.$root.showAlertPopUp('error', 'Can not access graph data.');
                     }
@@ -480,13 +506,13 @@
                         "valueAxis": "v1",
                         "id": "g1",
                         "type" : "column",
-                        "fixedColumnWidth": 40,
                         "fillAlphas": 1,
                         "fillColors":"#78909c",
                         "lineThickness": 0,
-                        "balloonText": "[[date]] <br> <br>"+column+" :[["+column+"]]<br>"+line+": [["+line+"]]",
+                        "balloonText": "[[timestamp]] <br> <br>"+column+" :[["+column+"]]<br>"+line+": [["+line+"]]",
                         "title": column,
-                        "valueField": column
+                        "valueField": column,
+                        "connect": false
                     },
                     {   
                         "valueAxis": "v2",
@@ -495,15 +521,15 @@
                         "lineColor":"#f76c06",
                         "fillColors":"#f76c06",
                         "fillAlphas": 0,
-                        "balloonText": "[[date]] <br> <br>"+column+" :[["+column+"]]<br>"+line+": [["+line+"]]",
+                        "balloonText": "[[timestamp]] <br> <br>"+column+" :[["+column+"]]<br>"+line+": [["+line+"]]",
                         "bullet": "round",
                         "bulletBorderAlpha": 1,
                         "useLineColorForBulletBorder": true,
                         "bulletColor": "#FFFFFF",
                         "lineThickness": 2,
                         "title": line,
-                        "valueField": line
-                        
+                        "valueField": line,
+                        "connect": false
                     }],
                     "categoryField": "timestamp",
                     "categoryAxis": {
@@ -592,6 +618,9 @@
             dataQuery(value) {
                 this.getChartData();
                 this.getSummaryData();
+            },
+            columnAndLine(value) {
+                this.createChart('graph', this.chart_data, this.selection.column, this.selection.line);
             }
         }
     }

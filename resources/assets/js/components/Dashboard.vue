@@ -86,7 +86,7 @@
                         icon="monetization_on"
                         title="SPEND"
                         subtitle="TOTAL LAST 10 DAYS"
-                        :value="$currency.formatNumber($currency.fromMicroDollars(overall_summary.spend))"
+                        :value="overall_summary.spend"
                         unit="$"
                         defaultValue="0.00"
                         size="lg"
@@ -111,7 +111,7 @@
                         icon="monetization_on"
                         title="eCPM"
                         subtitle="TOTAL LAST 10 DAYS"
-                        :value="$currency.formatNumber(overall_summary.ecpm)"
+                        :value="overall_summary.ecpm"
                         unit="$"
                         defaultValue="0.00"
                         size="lg"
@@ -126,7 +126,7 @@
                         icon="star_half"
                         title="CTR"
                         subtitle="TOTAL LAST 10 DAYS"
-                        :value="$currency.formatNumber(overall_summary.ctr * 100)"
+                        :value="overall_summary.ctr"
                         unit="%"
                         defaultValue="0.00"
                         size="lg"
@@ -137,7 +137,7 @@
                         icon="monetization_on"
                         title="eCPC"
                         subtitle="TOTAL LAST 10 DAYS"
-                        :value="$currency.formatNumber(overall_summary.ecpc)"
+                        :value="overall_summary.ecpc"
                         unit="$"
                         defaultValue="0.00"
                         size="lg"
@@ -311,6 +311,17 @@
         methods: {
 
             //OVERALL
+            calculateFields(data) {
+                for(let i = 0; i < data.length; i++) {
+                    var point = data[i]; 
+                    point.spend = this.$currency.fromMicroDollars(point.spend);
+                    point.ctr = point.imps != 0 ? (point.clicks / point.imps * 100).toFixed(2) : 0;
+                    point.ecpm = point.imps != 0 ? (point.spend * 1000 / point.imps).toFixed(2) : 0;
+                    point.ecpc =  point.clicks != 0 ? (point.spend / point.clicks).toFixed(2) : 0;
+                    point.spend = point.spend.toFixed(2);
+                }
+            },
+
             filterDataSize(number_of_items, dataset, reverse) {
                 if(reverse) dataset.reverse(); //put in chronological order
                 var excess = dataset.length - number_of_items; //look for number of items that are more than required
@@ -348,7 +359,7 @@
 
             getRealTimeData() {
                 axios.get(
-                    this.$root.reportUri + '/overall?op=sum&acc=' + this.user.accountUuId + '&fields=imps,spend&from=' + this.real_time_start + '&to=' + this.real_time_end, 
+                    this.$root.uri + '/reports/overall?op=sum&acc=' + this.user.accountUuId + '&fields=imps,spend&from=' + this.real_time_start + '&to=' + this.real_time_end, 
                     this.$root.config
                 ).then(response => {
                         this.real_time_data = response.data;
@@ -476,10 +487,11 @@
             //WEEK CHART
             getOverallData() {
                 axios.get(
-                    this.$root.reportUri + '/overall?op=sum&acc=' + this.user.accountUuId + '&fields=imps,spend&from='+this.date_from+'&to=' + this.date_to,
+                    this.$root.uri + '/reports/overall?op=sum&acc=' + this.user.accountUuId + '&fields=imps,spend&from='+this.date_from+'&to=' + this.date_to,
                     this.$root.config
                 ).then(response => {
                         this.overall_data = response.data;
+                        this.calculateFields(this.overall_data);
                         this.createChart('chart_main', this.overall_data, this.column, this.line);
                     }, error => {
                         this.$root.showAlertPopUp('error', 'Can not access overall static graph data.');
@@ -488,8 +500,116 @@
             },
 
             createChart(target, dataset, column, line) {
+                AmCharts.makeChart(target, {
+                    type: "stock",
+                    pathToImages: "amcharts/images/",
+                    dataDateFormat: "YYYY-MM-DD",
+                    dataSets: [{
+                        dataProvider: [{
+                            date: "2011-06-01",
+                            val: 10
+                        }, {
+                            date: "2011-06-02",
+                            val: 11
+                        }, {
+                            date: "2011-06-03",
+                            val: 12
+                        }, {
+                            date: "2011-06-04",
+                            val: 11
+                        }, {
+                            date: "2011-06-05",
+                            val: 10
+                        }, {
+                            date: "2011-06-06",
+                            val: 11
+                        }, {
+                            date: "2011-06-07",
+                            val: 13
+                        }, {
+                            date: "2011-06-08",
+                            val: 14
+                        }, {
+                            date: "2011-06-09",
+                            val: 17
+                        }, {
+                            date: "2011-06-10",
+                            val: 13
+                        }],
+                        fieldMappings: [{
+                            fromField: "val",
+                            toField: "value"
+                        }],
+                        categoryField: "date"
+                    }],
+
+                    panels: [{
+
+                        legend: {},
+
+                        stockGraphs: [{
+                            id: "graph1",
+                            valueField: "value",
+                            type: "column",
+                            title: "MyGraph",
+                            fillAlphas: 1
+                        }]
+                    }],
+
+                    panelsSettings: {
+                        startDuration: 1
+                    },
+
+                    categoryAxesSettings: {
+                        dashLength: 5
+                    },
+
+                    valueAxesSettings: {
+                        dashLength: 5
+                    },
+
+                    chartScrollbarSettings: {
+                        graph: "graph1",
+                        graphType: "line"
+                    },
+
+                    chartCursorSettings: {
+                        valueBalloonsEnabled: true
+                    },
+
+                    periodSelector: {
+                        periods: [{
+                            period: "DD",
+                            count: 1,
+                            label: "1 day"
+                        }, {
+                            period: "DD",
+                            selected: true,
+                            count: 5,
+                            label: "5 days"
+                        }, {
+                            period: "MM",
+                            count: 1,
+                            label: "1 month"
+                        }, {
+                            period: "YYYY",
+                            count: 1,
+                            label: "1 year"
+                        }, {
+                            period: "YTD",
+                            label: "YTD"
+                        }, {
+                            period: "MAX",
+                            label: "MAX"
+                        }]
+                    }
+                });
+
+            },
+
+            createChart2(target, dataset, column, line) {
                 var chart = AmCharts.makeChart(target, {
-                    "type": "serial",
+                    "type": "stock",
                     "theme": "light",
                     "marginRight": 50,
                     "marginLeft": 70,
@@ -522,7 +642,7 @@
                         "fillAlphas": 1,
                         "fillColors":"#78909c",
                         "lineThickness": 0,
-                        "balloonText": "[[date]] <br><br>CTR: [[ctr]]<br>Imps: [[imps]]",
+                        "balloonText": "[[timestamp]] <br><br>Spend: [[spend]]<br>Imps: [[imps]]",
                         "title": "Imps",
                         "valueField": column,
                     },
@@ -539,11 +659,11 @@
                         "bulletColor": "#FFFFFF",
                         "showBalloon": false,
                         "lineThickness": 2,
-                        "title": "CTR",
+                        "title": "Spend",
                         "valueField": line,
                         
                     }],
-                    "categoryField": "date",
+                    "categoryField": "timestamp",
                     "categoryAxis": {
                         "parseDates": true,
                         "dashLength": 0,
@@ -551,7 +671,8 @@
                         "axisThickness": 2,
                         "gridAlpha": 0,
                         "minPeriod": "DD",
-                        "minorGridEnabled": false
+                        "minorGridEnabled": false,
+                        "maxSeries": 10
                     },
                     "balloon": {
                         "borderColor": "#222",
@@ -585,11 +706,13 @@
             //SUMMARY
             getOverallSummary() {
                 axios.get(
-                    this.$root.reportUri + '/overall?op=sum&acc=' + this.user.accountUuId + '&fields=imps,spend&from='+this.date_from+'&to=' + this.date_to,
+                    this.$root.uri + '/reports/overall?op=summary&acc=' + this.user.accountUuId + '&fields=imps,spend, clicks&from='+this.date_from+'&to=' + this.date_to,
                     this.$root.config
                 ).then(response => {
-                        if(response.data.data != undefined) {
+                        if(response.data[0] != undefined) {
                             this.overall_summary = response.data;
+                            this.calculateFields(this.overall_summary);
+                            this.overall_summary = response.data[0];
                         }
                     }, error => {
                         this.$root.showAlertPopUp('error', 'Can not access overall data.');
