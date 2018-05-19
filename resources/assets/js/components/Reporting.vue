@@ -356,7 +356,8 @@
                 var from = 'from=' + this.selection.date_from + ' 00:00:00&';
                 var to = 'to=' + this.selection.date_to + ' 23:59:59&';
                 var fields = 'fields=imps,clicks,spend&';
-                return table + '?' + query + from + to + fields;
+                var scale = 'scale=dd&';
+                return table + '?' + query + from + to + fields + scale;
             },
 
             fullDate() {
@@ -373,7 +374,7 @@
                 for(let i = 0; i < data.length; i++) {
                     var point = data[i]; 
                     point.spend = this.$currency.fromMicroDollars(point.spend);
-                    point.ctr = point.imps != 0 ? (point.clicks / point.imps * 100).toFixed(2) : 0;
+                    point.ctr = point.imps != 0 ? (point.clicks / point.imps).toFixed(2) : 0;
                     point.ecpm = point.imps != 0 ? (point.spend * 1000 / point.imps).toFixed(2) : 0;
                     point.ecpc =  point.clicks != 0 ? (point.spend / point.clicks).toFixed(2) : 0;
                     point.spend = point.spend.toFixed(2);
@@ -509,7 +510,7 @@
                         "fillAlphas": 1,
                         "fillColors":"#78909c",
                         "lineThickness": 0,
-                        "balloonText": "[[timestamp]] <br> <br>"+column+" :[["+column+"]]<br>"+line+": [["+line+"]]",
+                        "balloonText": "[[time]] <br> <br>"+column+" :[["+column+"]]<br>"+line+": [["+line+"]]",
                         "title": column,
                         "valueField": column,
                         "connect": false
@@ -521,7 +522,7 @@
                         "lineColor":"#f76c06",
                         "fillColors":"#f76c06",
                         "fillAlphas": 0,
-                        "balloonText": "[[timestamp]] <br> <br>"+column+" :[["+column+"]]<br>"+line+": [["+line+"]]",
+                        "balloonText": "[[time]] <br> <br>"+column+" :[["+column+"]]<br>"+line+": [["+line+"]]",
                         "bullet": "round",
                         "bulletBorderAlpha": 1,
                         "useLineColorForBulletBorder": true,
@@ -531,13 +532,12 @@
                         "valueField": line,
                         "connect": false
                     }],
-                    "categoryField": "timestamp",
+                    "categoryField": "time",
                     "categoryAxis": {
                         "parseDates": true,
                         "dashLength": 0,
                         "axisAlpha": 0.1,
                         "gridAlpha": 0,
-                        "minPeriod": "hh",
                         "minorGridEnabled": false
                     },
                     "balloon": {

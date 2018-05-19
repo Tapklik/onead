@@ -90,7 +90,7 @@ const app = new Vue({
     },
     
     data: {
-        version: 'v0.7.2',
+        version: 'v0.7.3',
         uri: envUri,
         user: {
             accountId: null,

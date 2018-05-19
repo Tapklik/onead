@@ -258,8 +258,8 @@
         },
 
         mounted() {
-            this.date_from = this.$utils.getDate(-10);
-            this.date_to = this.$utils.getDate(0);
+            this.date_from = this.$utils.getDate(-10) + ' 00:00:00';
+            this.date_to = this.$utils.getDate(0) + ' 23:59:59';
             this.$root.isLoading = false;
         },
         
@@ -282,7 +282,7 @@
                 date_from: '',
                 date_to: '',
                 column: 'imps',
-                line: 'spend',
+                line: 'ctr',
                 
                 //SUMMARY
                 overall_summary: {
@@ -315,7 +315,7 @@
                 for(let i = 0; i < data.length; i++) {
                     var point = data[i]; 
                     point.spend = this.$currency.fromMicroDollars(point.spend);
-                    point.ctr = point.imps != 0 ? (point.clicks / point.imps * 100).toFixed(2) : 0;
+                    point.ctr = point.imps != 0 ? (point.clicks / point.imps).toFixed(2) : 0;
                     point.ecpm = point.imps != 0 ? (point.spend * 1000 / point.imps).toFixed(2) : 0;
                     point.ecpc =  point.clicks != 0 ? (point.spend / point.clicks).toFixed(2) : 0;
                     point.spend = point.spend.toFixed(2);
@@ -487,7 +487,7 @@
             //WEEK CHART
             getOverallData() {
                 axios.get(
-                    this.$root.uri + '/reports/overall?op=sum&acc=' + this.user.accountUuId + '&fields=imps,spend&from='+this.date_from+'&to=' + this.date_to,
+                    this.$root.uri + '/reports/overall?op=sum&scale=dd&acc=' + this.user.accountUuId + '&fields=imps,clicks&from='+this.date_from+'&to=' + this.date_to,
                     this.$root.config
                 ).then(response => {
                         this.overall_data = response.data;
@@ -500,116 +500,8 @@
             },
 
             createChart(target, dataset, column, line) {
-                AmCharts.makeChart(target, {
-                    type: "stock",
-                    pathToImages: "amcharts/images/",
-                    dataDateFormat: "YYYY-MM-DD",
-                    dataSets: [{
-                        dataProvider: [{
-                            date: "2011-06-01",
-                            val: 10
-                        }, {
-                            date: "2011-06-02",
-                            val: 11
-                        }, {
-                            date: "2011-06-03",
-                            val: 12
-                        }, {
-                            date: "2011-06-04",
-                            val: 11
-                        }, {
-                            date: "2011-06-05",
-                            val: 10
-                        }, {
-                            date: "2011-06-06",
-                            val: 11
-                        }, {
-                            date: "2011-06-07",
-                            val: 13
-                        }, {
-                            date: "2011-06-08",
-                            val: 14
-                        }, {
-                            date: "2011-06-09",
-                            val: 17
-                        }, {
-                            date: "2011-06-10",
-                            val: 13
-                        }],
-                        fieldMappings: [{
-                            fromField: "val",
-                            toField: "value"
-                        }],
-                        categoryField: "date"
-                    }],
-
-                    panels: [{
-
-                        legend: {},
-
-                        stockGraphs: [{
-                            id: "graph1",
-                            valueField: "value",
-                            type: "column",
-                            title: "MyGraph",
-                            fillAlphas: 1
-                        }]
-                    }],
-
-                    panelsSettings: {
-                        startDuration: 1
-                    },
-
-                    categoryAxesSettings: {
-                        dashLength: 5
-                    },
-
-                    valueAxesSettings: {
-                        dashLength: 5
-                    },
-
-                    chartScrollbarSettings: {
-                        graph: "graph1",
-                        graphType: "line"
-                    },
-
-                    chartCursorSettings: {
-                        valueBalloonsEnabled: true
-                    },
-
-                    periodSelector: {
-                        periods: [{
-                            period: "DD",
-                            count: 1,
-                            label: "1 day"
-                        }, {
-                            period: "DD",
-                            selected: true,
-                            count: 5,
-                            label: "5 days"
-                        }, {
-                            period: "MM",
-                            count: 1,
-                            label: "1 month"
-                        }, {
-                            period: "YYYY",
-                            count: 1,
-                            label: "1 year"
-                        }, {
-                            period: "YTD",
-                            label: "YTD"
-                        }, {
-                            period: "MAX",
-                            label: "MAX"
-                        }]
-                    }
-                });
-
-            },
-
-            createChart2(target, dataset, column, line) {
                 var chart = AmCharts.makeChart(target, {
-                    "type": "stock",
+                    "type": "serial",
                     "theme": "light",
                     "marginRight": 50,
                     "marginLeft": 70,
@@ -642,7 +534,7 @@
                         "fillAlphas": 1,
                         "fillColors":"#78909c",
                         "lineThickness": 0,
-                        "balloonText": "[[timestamp]] <br><br>Spend: [[spend]]<br>Imps: [[imps]]",
+                        "balloonText": "[[time]] <br><br>CTR: [[ctr]]<br>Imps: [[imps]]",
                         "title": "Imps",
                         "valueField": column,
                     },
@@ -663,7 +555,7 @@
                         "valueField": line,
                         
                     }],
-                    "categoryField": "timestamp",
+                    "categoryField": "time",
                     "categoryAxis": {
                         "parseDates": true,
                         "dashLength": 0,
@@ -672,6 +564,8 @@
                         "gridAlpha": 0,
                         "minPeriod": "DD",
                         "minorGridEnabled": false,
+                        "autoGridCount": false,
+                        "gridCount": 11,
                         "maxSeries": 10
                     },
                     "balloon": {
@@ -706,7 +600,7 @@
             //SUMMARY
             getOverallSummary() {
                 axios.get(
-                    this.$root.uri + '/reports/overall?op=summary&acc=' + this.user.accountUuId + '&fields=imps,spend, clicks&from='+this.date_from+'&to=' + this.date_to,
+                    this.$root.uri + '/reports/overall?op=summary&acc=' + this.user.accountUuId + '&fields=imps,spend,clicks&from='+this.date_from+'&to=' + this.date_to,
                     this.$root.config
                 ).then(response => {
                         if(response.data[0] != undefined) {
@@ -808,7 +702,7 @@
                 this.getCampaigns();
                 this.getOverallData();
                 this.getOverallSummary();
-                this.getRealTimeDates();
+                //this.getRealTimeDates();
             },
 
             token(value) {
